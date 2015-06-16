@@ -40,6 +40,6 @@
 #
 ################################################################################
 
-\Felinesoft.UmbracoCodeFirst.Docs\Help
-\Demo\App_Data
-\packages
+Felinesoft.UmbracoCodeFirst.Docs\Help
+Demo\App_Data
+packages
