@@ -1,0 +1,55 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Felinesoft.UmbracoCodeFirst" #>
+
+using Felinesoft.UmbracoCodeFirst;
+using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Felinesoft.UmbracoCodeFirst.Attributes;
+using Felinesoft.UmbracoCodeFirst.Extensions;
+using System.Linq;
+using System.Text;
+using System.Collections.Generic;
+using System;
+using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+
+namespace <#= Namespace #>
+{
+    [DocumentType(null, "<#= Model.Name #>", "<#= Model.Alias #>", <#= Model.AllowedChildren #>, "<#= Model.Icon #>", <#= Model.AllowAtRoot #>, <#= Model.EnableListView #>, false, "<#= Model.Description #>")]
+    public class <#= Model.ClassName #> : DocumentTypeBase
+    {
+<#foreach(TabDescription tab in Model.Tabs)
+        {#>
+        public class <#= tab.TabClassName #> : TabBase
+        {
+<#foreach(PropertyDescription prop in tab.Properties)
+            {
+#>
+            [DocumentProperty("<#= prop.Name #>", "<#= prop.Alias #>", "<#= prop.PropertyEditorAlias #>", "<#= prop.DataTypeInstanceName #>", null, <#= prop.Mandatory #>, "<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+            public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
+
+<#          }
+    #>
+        }
+<#
+	    }
+	    foreach(TabDescription tab in Model.Tabs)
+        {#>
+
+        [DocumentTab("<#= tab.TabName #>", <#= tab.SortOrder #>)]
+        public <#= tab.TabClassName #> <#= tab.TabPropertyName #> { get; set; }
+<#
+        }#>
+<#foreach(PropertyDescription prop in Model.Properties)
+        {
+        #>
+
+        [DocumentProperty("<#= prop.Name #>", "<#= prop.Alias #>", "<#= prop.PropertyEditorAlias #>", "<#= prop.DataTypeInstanceName #>", null, <#= prop.Mandatory #>, "<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+        public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
+<#      }
+        #>
+    }
+}

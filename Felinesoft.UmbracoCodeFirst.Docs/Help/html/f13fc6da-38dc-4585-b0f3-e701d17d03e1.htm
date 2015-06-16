@@ -1,0 +1,125 @@
+﻿<html><head><meta http-equiv="X-UA-Compatible" content="IE=edge" /><link rel="shortcut icon" href="../icons/favicon.ico" /><link rel="stylesheet" type="text/css" href="../styles/branding.css" /><link rel="stylesheet" type="text/css" href="../styles/branding-en-US.css" /><script type="text/javascript" src="../scripts/branding.js"> </script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Working With Pre-Values</title><meta name="Language" content="en-us" /><meta name="Microsoft.Help.Id" content="f13fc6da-38dc-4585-b0f3-e701d17d03e1" /><meta name="Description" content="Pre-values are predefined data used to configure the appearance and behaviour of a data type's property editor." /><meta name="Microsoft.Help.ContentType" content="Concepts" /><meta name="BrandingAware" content="true" /><link type="text/css" rel="stylesheet" href="../styles/highlight.css" /><script type="text/javascript" src="../scripts/highlight.js"> </script><link rel="stylesheet" type="text/css" href="../styles/branding-Website.css" /><script type="text/javascript" src="../scripts/jquery-1.11.0.min.js"></script><script type="text/javascript" src="../scripts/branding-Website.js"></script></head><body onload="OnLoad('cs')"><input type="hidden" id="userDataCache" class="userDataStyle" /><div class="pageHeader" id="PageHeader">Felinesoft Code-First for Umbraco<form id="SearchForm" method="get" action="#" onsubmit="javascript:TransferToSearchPage(); return false;"><input id="SearchTextBox" type="text" maxlength="200" /><button id="SearchButton" type="submit"></button></form></div><div class="pageBody"><div class="leftNav" id="leftNav"><div id="tocNav"><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Felinesoft Code-First for Umbraco" tocid="roottoc">Felinesoft Code-First for Umbraco</a></div><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Getting Started" tocid="04441c6f-baf5-4f66-a724-d0107a13af66">Getting Started</a></div><div class="toclevel1" data-toclevel="1" data-childrenloaded="true"><a class="tocExpanded" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="ea9b7789-8c43-48af-9c5e-7860e55cabe1.htm" title="Working With Data Types" tocid="ea9b7789-8c43-48af-9c5e-7860e55cabe1">Working With Data Types</a></div><div class="toclevel2" data-toclevel="2"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0.htm" title="Creating Custom Data Types" tocid="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0">Creating Custom Data Types</a></div><div class="toclevel2 current" data-toclevel="2"><a data-tochassubtree="false" href="f13fc6da-38dc-4585-b0f3-e701d17d03e1.htm" title="Working With Pre-Values" tocid="f13fc6da-38dc-4585-b0f3-e701d17d03e1">Working With Pre-Values</a></div></div><div id="tocResizableEW" onmousedown="OnMouseDown(event);"></div><div id="TocResize" class="tocResize"><img id="ResizeImageIncrease" src="../icons/TocOpen.gif" onclick="OnIncreaseToc()" alt="Click or drag to resize" title="Click or drag to resize"><img id="ResizeImageReset" src="../icons/TocClose.gif" style="display:none" onclick="OnResetToc()" alt="Click or drag to resize" title="Click or drag to resize"></div></div><div class="topicContent" id="TopicContent"><table class="titleTable"><tr><td class="logoColumn"><img src="../icons/Help.png" /></td><td class="titleColumn">Working With Pre-Values</td></tr></table><span class="introStyle"></span><div class="introduction"><p>
+        Pre-values are predefined data used to configure the appearance and behaviour
+        of a data type's property editor. They can provide simple key-value pairs, such
+        as the options presented in a drop-down box, or more complex configuration such as
+        a json settings object which can be understood by the property editor.
+      </p><p>
+        Pre-values can be specified in a variety of ways in code-first, each of which
+        is geared towards certain scenarios. The sections below detail each approach and it's uses.
+      </p><p>
+        Each time that code-first is initialised the pre-values in the database are replaced by those found
+        in the scanned type lists and/or assemblies. Pre-values which exist in the database but not in code
+        will be removed, unless there are no code-first pre-values for a given data type. If no pre-values are
+        specified for a data type then the default Umbraco behaviour for pre-values is honoured for that data type.
+      </p><p>This topic contains the following sections.</p><ul class="autoOutline"><li class="outlineSectionEntry"><a href="#attributes">Specifying pre-values with pre-value attributes</a></li><li class="outlineSectionEntry"><a href="#factory">Specifying pre-values with a pre-value factory</a></li><li class="outlineSectionEntry"><a href="#files">Specifying pre-values in a file</a></li></ul></div><div class="collapsibleAreaRegion" id="attributes"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID1RB')" onkeypress="SectionExpandCollapse_CheckKey('ID1RB', event)" tabindex="0"><img id="ID1RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Specifying pre-values with pre-value attributes</span></div><div id="ID1RBSection" class="collapsibleSection"><p>
+          The <a href="f5e6f70d-9ca8-943c-7ea2-d0bba8a1135b.htm">PreValueAttribute</a>
+          is useful for specifying simple, fixed lists of configuration items. The attribute allows an alias (key), value and optionally sort
+          order to be specified for each pre-value. Multiple attributes can be applied to each data type class.
+        </p><p>
+          The example below creates a data type named "How You Heard About Us". The property is a dropdown list with 5 items.
+          The items are specified using <a href="f5e6f70d-9ca8-943c-7ea2-d0bba8a1135b.htm">PreValueAttribute</a>s
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EAAADAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAAADAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAAADAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAAADAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType]
+[PreValue(alias: <span class="highlight-literal">"option1"</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"Search Engine"</span>)]
+[PreValue(alias: <span class="highlight-literal">"option2"</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"TV Advert"</span>)]
+[PreValue(alias: <span class="highlight-literal">"option3"</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"Radio Advert"</span>)]
+[PreValue(alias: <span class="highlight-literal">"option4"</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"Word of Mouth"</span>)]
+[PreValue(alias: <span class="highlight-literal">"option5"</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"Other"</span>)]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> HowYouHeardAboutUs : DropdownList { }</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAADAAA");</script></div><div class="collapsibleAreaRegion" id="factory"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID3RB')" onkeypress="SectionExpandCollapse_CheckKey('ID3RB', event)" tabindex="0"><img id="ID3RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Specifying pre-values with a pre-value factory</span></div><div id="ID3RBSection" class="collapsibleSection"><p>
+          The <a href="b6f3759b-173a-6c11-c688-046ee9ca8ff1.htm">IPreValueFactory</a> interface
+          is useful for specifying more complex pre-values, such as json objects, or when some runtime logic is needed to create the pre-values.
+        </p><p>
+          The interface can be implemented directly on the data type class, in which case it is found and used automatically. The interface can
+          also be implemented on a separate factory class, which can then be associated with the data type using a 
+          <a href="daab2f77-a02a-ae91-0d9d-0f9607596e6e.htm">PreValueFactoryAttribute</a>.
+          Only one pre-value factory can be specified for each data type.
+        </p><p>
+          The example below creates a data type named "How You Heard About Us". The property is a dropdown list with 5 items.
+          The items are specified by a <a href="b6f3759b-173a-6c11-c688-046ee9ca8ff1.htm">IPreValueFactory</a> implemented
+          on a second class.
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EAABCAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAABCAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAABCAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAABCAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType]
+[PreValueFactory(<span class="highlight-keyword">typeof</span>(DropdownFactory))]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> HowYouHeardAboutUs : DropdownList { }
+
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> DropdownFactory : IPreValueFactory
+{
+    <span class="highlight-keyword">public</span> IDictionary&lt;<span class="highlight-keyword">string</span>, PreValue&gt; IPreValueFactory.GetPreValues()
+    {
+        <span class="highlight-keyword">var</span> result = <span class="highlight-keyword">new</span> Dictionary&lt;<span class="highlight-keyword">string</span>, PreValue&gt;();
+
+        result.Add(<span class="highlight-literal">"option1"</span>, <span class="highlight-keyword">new</span> PreValue(<span class="highlight-literal">"Search Engine"</span>));
+        result.Add(<span class="highlight-literal">"option2"</span>, <span class="highlight-keyword">new</span> PreValue(<span class="highlight-literal">"TV Advert"</span>));
+        result.Add(<span class="highlight-literal">"option3"</span>, <span class="highlight-keyword">new</span> PreValue(<span class="highlight-literal">"Radio Advert"</span>));
+        result.Add(<span class="highlight-literal">"option4"</span>, <span class="highlight-keyword">new</span> PreValue(<span class="highlight-literal">"Word of Mouth"</span>));
+        result.Add(<span class="highlight-literal">"option5"</span>, <span class="highlight-keyword">new</span> PreValue(<span class="highlight-literal">"Other"</span>));
+
+        <span class="highlight-keyword">return</span> result;
+    }
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAABCAAA");</script><div class="collapsibleAreaRegion"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID2RB')" onkeypress="SectionExpandCollapse_CheckKey('ID2RB', event)" tabindex="0"><img id="ID2RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Separate vs Inline Factories</span></div><div id="ID2RBSection" class="collapsibleSection"><p>
+              The factory pattern with a separate class as the factory is particularly useful if you want to re-use the same pre-values for multiple data types.
+            </p><p>
+              Allowing a data type class to be it's own pre-value factory is useful if you want the pre-values to be deduced based on knowledge of the data type
+              itself. This is most useful when you want to use the generic type parameters of some instance of a generic data type to deduce the pre-values.
+            </p><p>
+              The example below shows the <a href="a70ec552-72c9-cafc-3df1-8554358511bd.htm">TypedContentPicker<span id="LSTFA466A36_0"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTFA466A36_0?cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'");</script>T<span id="LSTFA466A36_1"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTFA466A36_1?cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;");</script></a> implementation.
+              This data type uses it's generic type parameter to infer a pre-value which defines what type of content node can be picked by the content picker. This ensures that the selected node
+              will always be an instance of the document type specified in the generic type parameter, or null. This can only be accomplished in a truly generic manner if the factory interface
+              is implemented on the generic type itself.
+            </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EACAAACAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EACAAACAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EACAAACAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EACAAACAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> TypedContentPicker&lt;T&gt; : ContentPicker, IPreValueFactory <span class="highlight-keyword">where</span> T : DocumentTypeBase
+{
+    ...
+
+    <span class="highlight-keyword">public</span> IDictionary&lt;<span class="highlight-keyword">string</span>, PreValue&gt; IPreValueFactory.GetPreValues()
+    {
+        Dictionary&lt;<span class="highlight-keyword">string</span>, PreValue&gt; result = <span class="highlight-keyword">new</span> Dictionary&lt;<span class="highlight-keyword">string</span>, PreValue&gt;();
+        <span class="highlight-keyword">string</span> typeAlias;
+
+        <span class="highlight-keyword">try</span>
+        {
+            <span class="highlight-comment">//Find out the document type alias of the specified allowed type</span>
+            typeAlias = <span class="highlight-keyword">this</span>.GetType().GetGenericArguments().First().GetCodeFirstAttribute&lt;DocumentTypeAttribute&gt;().DocumentTypeAlias;
+        }
+        <span class="highlight-keyword">catch</span> (Exception e)
+        {
+            <span class="highlight-keyword">throw</span> <span class="highlight-keyword">new</span> CodeFirstException(<span class="highlight-literal">"The type "</span> + <span class="highlight-keyword">this</span>.GetType().FullName + <span class="highlight-literal">" does not specify a valid document type as its generic parameter"</span>, e);
+        }
+
+        result.Add(<span class="highlight-literal">"startNode"</span>, <span class="highlight-keyword">new</span> PreValue(id: <span class="highlight-number">0</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"{\"type\": \"content\"}"</span>, sortOrder: <span class="highlight-number">1</span>));
+        result.Add(<span class="highlight-literal">"filter"</span>, <span class="highlight-keyword">new</span> PreValue(id: <span class="highlight-number">0</span>, <span class="highlight-keyword">value</span>: typeAlias, sortOrder: <span class="highlight-number">2</span>)); <span class="highlight-comment">//Set the discovered doc type alias as the only allowed alias in the filter</span>
+        result.Add(<span class="highlight-literal">"minNumber"</span>, <span class="highlight-keyword">new</span> PreValue(id: <span class="highlight-number">0</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">""</span>, sortOrder: <span class="highlight-number">3</span>));
+        result.Add(<span class="highlight-literal">"maxNumber"</span>, <span class="highlight-keyword">new</span> PreValue(id: <span class="highlight-number">0</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"1"</span>, sortOrder: <span class="highlight-number">4</span>));
+        result.Add(<span class="highlight-literal">"showEditButton"</span>, <span class="highlight-keyword">new</span> PreValue(id: <span class="highlight-number">0</span>, <span class="highlight-keyword">value</span>: <span class="highlight-literal">"0"</span>, sortOrder: <span class="highlight-number">5</span>));
+
+        <span class="highlight-keyword">return</span> result;
+    }
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EACAAACAAA");</script><p>
+              Generic data types are added to Umbraco whenever a concrete instance is encountered on a document type. A separate data type is created
+              for each different generic parameter used with a given generic data type. For instance the example below would result in 2 data types being created in Umbraco;
+              one with the name "Typed Content Picker (Code First Example Document)" and another with the name "Typed Content Picker (Second Content Type)". Each data type would
+              have a different document type alias specified in it's filter pre-value.
+            </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EAAAAACAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAAAAACAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAAAAACAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAAAAACAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DocumentType]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> DocumentWithContentPicker : DocumentTypeBase
+{
+    [DataType]
+    <span class="highlight-keyword">public</span> TypedContentPicker&lt;CodeFirstExampleDocument&gt; ExampleDocument { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+
+    [DataType]
+    <span class="highlight-keyword">public</span> TypedContentPicker&lt;SecondContentType&gt; AnotherDocument { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAAAACAAA");</script></div></div><div class="collapsibleAreaRegion" id="files"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID4RB')" onkeypress="SectionExpandCollapse_CheckKey('ID4RB', event)" tabindex="0"><img id="ID4RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Specifying pre-values in a file</span></div><div id="ID4RBSection" class="collapsibleSection"><p>
+          The <a href="c8ff98b6-0bc6-b34c-1040-62dbda54f189.htm">PreValueFileAttribute</a>
+          allows a file path to be specified. An XML file containing the pre-value definitions can be placed at the specified path. The pre-values 
+          will be loaded from the file and applied whenever Code-First is initialised.
+        </p><p>
+          The example below creates a data type named "How You Heard About Us". The property is a dropdown list with 5 items.
+          The items are specified in an XML file, shown in the second example.
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EACABAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EACABAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EACABAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EACABAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType]
+[PreValueFile(<span class="highlight-literal">"~/App_Data/PreValues/HowYouHeardAboutUs.xml"</span>)]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> HowYouHeardAboutUs : DropdownList { }</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EACABAAA");</script><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EABABAAA_tab1" class="codeSnippetContainerTabSingle">Pre-Values XML File</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EABABAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EABABAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EABABAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve"><span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValues</span><span class="highlight-xml-bracket">&gt;</span>
+    <span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValue</span> <span class="highlight-xml-attribute-name">alias</span><span class="highlight-xml-attribute-equal">=</span><span class="highlight-xml-attribute-value">"option1"</span><span class="highlight-xml-bracket">&gt;</span>Search Engine<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValue</span><span class="highlight-xml-bracket">&gt;</span>
+    <span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValue</span> <span class="highlight-xml-attribute-name">alias</span><span class="highlight-xml-attribute-equal">=</span><span class="highlight-xml-attribute-value">"option2"</span><span class="highlight-xml-bracket">&gt;</span>TV Advert<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValue</span><span class="highlight-xml-bracket">&gt;</span>
+    <span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValue</span> <span class="highlight-xml-attribute-name">alias</span><span class="highlight-xml-attribute-equal">=</span><span class="highlight-xml-attribute-value">"option3"</span><span class="highlight-xml-bracket">&gt;</span>Radio Advert<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValue</span><span class="highlight-xml-bracket">&gt;</span>
+    <span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValue</span> <span class="highlight-xml-attribute-name">alias</span><span class="highlight-xml-attribute-equal">=</span><span class="highlight-xml-attribute-value">"option4"</span><span class="highlight-xml-bracket">&gt;</span>Word of Mouth<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValue</span><span class="highlight-xml-bracket">&gt;</span>
+    <span class="highlight-xml-bracket">&lt;</span><span class="highlight-xml-tag">PreValue</span> <span class="highlight-xml-attribute-name">alias</span><span class="highlight-xml-attribute-equal">=</span><span class="highlight-xml-attribute-value">"option5"</span><span class="highlight-xml-bracket">&gt;</span>Other<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValue</span><span class="highlight-xml-bracket">&gt;</span>
+<span class="highlight-xml-bracket">&lt;/</span><span class="highlight-xml-tag">PreValues</span><span class="highlight-xml-bracket">&gt;</span></pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EABABAAA");</script><p>
+          The file-based approach allows pre-values to be easily modified after deployment without recompiling the code.
+        </p></div></div></div><div id="pageFooter" class="pageFooter" /></body></html>

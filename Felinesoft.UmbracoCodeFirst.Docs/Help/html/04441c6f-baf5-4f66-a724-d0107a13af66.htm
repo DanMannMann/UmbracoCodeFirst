@@ -1,0 +1,75 @@
+﻿<html><head><meta http-equiv="X-UA-Compatible" content="IE=edge" /><link rel="shortcut icon" href="../icons/favicon.ico" /><link rel="stylesheet" type="text/css" href="../styles/branding.css" /><link rel="stylesheet" type="text/css" href="../styles/branding-en-US.css" /><script type="text/javascript" src="../scripts/branding.js"> </script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Getting Started</title><meta name="Language" content="en-us" /><meta name="System.Keywords" content="Welcome" /><meta name="Microsoft.Help.Id" content="04441c6f-baf5-4f66-a724-d0107a13af66" /><meta name="Description" content="Code-First for Umbraco is a lightweight framework for creating and managing Umbraco document types, data types, media types and content using an attribute-based, code-driven approach." /><meta name="Microsoft.Help.ContentType" content="Concepts" /><meta name="BrandingAware" content="true" /><link type="text/css" rel="stylesheet" href="../styles/highlight.css" /><script type="text/javascript" src="../scripts/highlight.js"> </script><link rel="stylesheet" type="text/css" href="../styles/branding-Website.css" /><script type="text/javascript" src="../scripts/jquery-1.11.0.min.js"></script><script type="text/javascript" src="../scripts/branding-Website.js"></script></head><body onload="OnLoad('cs')"><input type="hidden" id="userDataCache" class="userDataStyle" /><div class="pageHeader" id="PageHeader">Felinesoft Code-First for Umbraco<form id="SearchForm" method="get" action="#" onsubmit="javascript:TransferToSearchPage(); return false;"><input id="SearchTextBox" type="text" maxlength="200" /><button id="SearchButton" type="submit"></button></form></div><div class="pageBody"><div class="leftNav" id="leftNav"><div id="tocNav"><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Felinesoft Code-First for Umbraco" tocid="roottoc">Felinesoft Code-First for Umbraco</a></div><div class="toclevel1 current" data-toclevel="1" data-childrenloaded="true"><a class="tocExpanded" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Getting Started" tocid="04441c6f-baf5-4f66-a724-d0107a13af66">Getting Started</a></div><div class="toclevel2" data-toclevel="2"><a data-tochassubtree="false" href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82.htm" title="Creating a Document Type" tocid="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82">Creating a Document Type</a></div><div class="toclevel2" data-toclevel="2"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="ea9b7789-8c43-48af-9c5e-7860e55cabe1.htm" title="Working With Data Types" tocid="ea9b7789-8c43-48af-9c5e-7860e55cabe1">Working With Data Types</a></div></div><div id="tocResizableEW" onmousedown="OnMouseDown(event);"></div><div id="TocResize" class="tocResize"><img id="ResizeImageIncrease" src="../icons/TocOpen.gif" onclick="OnIncreaseToc()" alt="Click or drag to resize" title="Click or drag to resize"><img id="ResizeImageReset" src="../icons/TocClose.gif" style="display:none" onclick="OnResetToc()" alt="Click or drag to resize" title="Click or drag to resize"></div></div><div class="topicContent" id="TopicContent"><table class="titleTable"><tr><td class="logoColumn"><img src="../icons/Help.png" /></td><td class="titleColumn">Getting Started</td></tr></table><span class="introStyle"></span><div class="introduction"><p>
+        Code-First for Umbraco is a lightweight framework for creating and managing Umbraco document types,
+        data types, media types and content using an attribute-based, code-driven approach.
+      </p><p>
+        The demo project included in the Visual Studio solution gives examples of creating document types, data
+        types and content instances.
+      </p><p>This topic contains the following sections.</p><ul class="autoOutline"><li class="outlineSectionEntry"><a href="#config">Configuring your site to use Code-First</a></li><li class="outlineSectionEntry"><a href="#types">Creating Code-First Entities</a></li><li class="outlineSectionEntry"><a href="#generate">Converting existing sites to code-first</a></li><li class="outlineSectionEntry"><a href="#further">Further Reading</a></li><li class="outlineSectionEntry"><a href="#remarks">Remarks</a></li></ul></div><div class="collapsibleAreaRegion" id="config"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID1RB')" onkeypress="SectionExpandCollapse_CheckKey('ID1RB', event)" tabindex="0"><img id="ID1RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Configuring your site to use Code-First</span></div><div id="ID1RBSection" class="collapsibleSection"><p>
+          Code-First generally requires only a single call to one of the <a href="b1377019-ec5f-026b-38e0-41eb3d96bd31.htm">CodeFirstManager</a>
+          Initialise overloads to get things up and running. You'll need to pass in all of your <a href="#types">code-first entities</a> in a single call, either by passing
+          in a collection of the types or by passing in all of the assemblies where your types are contained.
+        </p><p>
+          The example below shows code which will work in the vast majority of circumstances. It assumes that the Startup event handler class is inside your main
+          MVC assembly, which also contains all of your code-first entity types. Code-first initialisation will take place each time your site starts up.
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAAAFAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAAAFAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAAAFAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve"><span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> Startup : ApplicationEventHandler
+{
+    <span class="highlight-keyword">protected</span> <span class="highlight-keyword">override</span> <span class="highlight-keyword">void</span> ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+    {
+        <span class="highlight-keyword">base</span>.ApplicationStarted(umbracoApplication, applicationContext);
+
+        <span class="highlight-comment">//Initialise code-first using the types in the current assembly</span>
+        CodeFirstManager.Current.Initialise(<span class="highlight-keyword">this</span>.GetType().Assembly);
+    }
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAAFAAA");</script></div><div class="collapsibleAreaRegion" id="types"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID2RB')" onkeypress="SectionExpandCollapse_CheckKey('ID2RB', event)" tabindex="0"><img id="ID2RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Creating Code-First Entities</span></div><div id="ID2RBSection" class="collapsibleSection"><p>
+          Code-First allows management of document, data &amp; media entities, pre-values and default templates. In the future support for all other entity types will be added
+          (members, users, relations, extra templates etc).
+        </p><p>
+          Documentation on creating the already-supported entities can be found in the topics listed below:
+        </p><ul><li><p><a href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82.htm">Creating a Document Type</a></p></li><li><p><a href="ea9b7789-8c43-48af-9c5e-7860e55cabe1.htm">Working With Data Types</a></p></li><li><p><a href="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0.htm">Creating Custom Data Types</a></p></li><li><p><a href="f13fc6da-38dc-4585-b0f3-e701d17d03e1.htm">Working With Pre-Values</a></p></li><li><p>
+              Media Type docs coming soon!
+            </p></li></ul></div><div class="collapsibleAreaRegion" id="generate"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID3RB')" onkeypress="SectionExpandCollapse_CheckKey('ID3RB', event)" tabindex="0"><img id="ID3RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Converting existing sites to code-first</span></div><div id="ID3RBSection" class="collapsibleSection"><p>
+          There are code-generation tools which can be used to generate class files for existing data &amp; document types in a site. They are useful for converting an
+          existing site to use code-first, and were in fact used to generate most of the classes in the
+          <a href="9558e6f9-e80a-8c78-4333-f06cd398ddb6.htm">Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</a> namespace.
+        </p><p>
+          These tools are not yet documented or fully stable. Check out the Felinesoft.UmbracoCodeFirst.T4Generators namespace in the source for info on how they work.
+          The tools are triggered by the following code, located in the <a href="b1377019-ec5f-026b-38e0-41eb3d96bd31.htm">CodeFirstManager</a>
+          initialise method, depending on a given config value being set.
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAAADAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAAADAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAAADAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve"><span class="highlight-keyword">if</span> (ConfigurationManager.AppSettings.AllKeys.Contains(<span class="highlight-literal">"GenerateCodeFirstTypes"</span>) &amp;&amp; <span class="highlight-keyword">bool</span>.Parse(ConfigurationManager.AppSettings[<span class="highlight-literal">"GenerateCodeFirstTypes"</span>]))
+{
+    DataTypeClassGenerator.GenerateDataTypes();
+    DocumentTypeClassGenerator.GenerateDocTypes();
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAADAAA");</script></div><div class="collapsibleAreaRegion" id="further"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID4RB')" onkeypress="SectionExpandCollapse_CheckKey('ID4RB', event)" tabindex="0"><img id="ID4RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Further Reading</span></div><div id="ID4RBSection" class="collapsibleSection"><p>These classes are the main things you'll want to know about to get up and running. Their docs are worth reading.</p><ul><li><p><a href="5ef0f1d0-c561-6a9a-8572-35c341c8bfdc.htm">DocumentTypeAttribute</a> can be applied to a
+              class to indicate that it is an Umbraco document type. Any class this attribute is applied to should inherit <a href="9e5ecd40-b241-e97f-9e7e-b2e01467ec55.htm">DocumentTypeBase</a></p></li><li><p><a href="1ba0e63d-5860-eceb-08eb-85576d25e557.htm">DocumentTabAttribute</a> can be applied to a property
+              on a Document Type class to indicate that the property represents an Umbraco tab. The type of the property should be a class which inherits
+              <a href="8dcde347-3377-8e91-9d27-cebc7fee0690.htm">TabBase</a>. That class can
+              contain properties decorated with <a href="f5f534a5-edd6-340e-89c9-a7d2abe2324d.htm">DocumentPropertyAttribute</a>
+              which represent the properties on the tab.
+            </p></li><li><p><a href="f5f534a5-edd6-340e-89c9-a7d2abe2324d.htm">DocumentPropertyAttribute</a> can be applied to a property
+              on a Document Type or Tab class to indicate that the property represents an Umbraco property.
+            </p></li><li><p><a href="0223039d-6947-a625-0536-e33a21af573a.htm">DataTypeAttribute</a> can be applied to a class
+              to indicate that the class represents a custom Umbraco data type. Any class this attribute is applied to should implement one of the 
+              <a href="cb1301cc-cf88-4b2a-a662-3611bd2634e1.htm">Data Type Interfaces</a></p></li><li><p><a href="b1377019-ec5f-026b-38e0-41eb3d96bd31.htm">CodeFirstManager</a> contains initialisation
+              and registration methods for setting up and kicking off the code-first framework. For the vast majority of circumstances a simple call
+              to Initialise in an ApplicationStarted event handler, passing in this.GetType().Assembly, will do everything you need.
+            </p></li></ul></div><div class="collapsibleAreaRegion" id="remarks"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID5RB')" onkeypress="SectionExpandCollapse_CheckKey('ID5RB', event)" tabindex="0"><img id="ID5RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Remarks</span></div><div id="ID5RBSection" class="collapsibleSection"><p>
+          If you're using code-first only to allow code-driven entity management then there is no requirement to run the initialisation every time the site starts.
+          So if you don't plan to use the strongly typed models &amp; views you could choose to run initialisation on demand or depending on a boolean config switch.
+        </p><p>
+          If you're going to use strongly typed models &amp; views based on the code-first types then initialisation needs to be run every time the site starts. The
+          information gathered during initialisation is used to make the model building possible in an efficient way; without calling Initialise properly the
+          strongly-typed models &amp; views won't work, even if all of the entities already exist in the database.
+        </p><p>
+          Making changes to the entities (document types, data types etc) via the usual back-office methods can be unreliable when using code-first. For entities for
+          which no code-first definition exists the default Umbraco behaviour will be honoured. Wherever a code-first definition exists any changes made 
+          to that entity via the back-office will be overwritten next time code-first is initialised. It is a better approach to do all entity definition and
+          modification in code, perhaps even restricting users from accessing the entity management parts of the back-office completely.
+        </p></div></div></div><div id="pageFooter" class="pageFooter" /></body><script type="text/javascript">
+<!--
+    var tocNav = document.getElementById("tocNav");
+    var anchor = tocNav.children[0].children[0];
+    Toggle(anchor);
+    tocNav.children[0].className += " current";
+-->
+</script>
+</html>

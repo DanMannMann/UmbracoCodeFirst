@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82" revisionNumber="1">
+  <developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <autoOutline />
+      <para>
+        Most interaction with Code-First is done via attributes. Document types, properties, tabs, data types and media types are all denoted by attributes,
+        where the various configuration options for the entity can be specified as constructor parameters.
+      </para>
+      <para>
+        All of the attributes support inference of certain properties.
+        For instance the name and alias of a document type will be inferred from the name of the class the attribute is applied to, unless values are explicitly specified in the
+        attribute constructor. Attribute properties which can be inferred should be inferred, rather than explicitly declared, wherever possible. This leads
+        to much more coherent, readable, maintainable code.
+      </para>
+      <para>
+        Explicitly specifying certain values can be useful in some circumstances. For instance when renaming a document type or property 
+        where there is a need to keep its alias the same, such as in a system which is already live or already
+        has content data that you don't want to lose.
+      </para>
+    </introduction>
+
+    <section address="documenttype">
+      <title>Creating a document type class</title>
+      <content>
+        <para>
+          To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.DocumentTypeBase</codeEntityReference>
+          and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. The document type
+          name, alias, default template, allowed children, icon, list view and allow at root properties can be specified in the attribute. The name and alias will be inferred from the name of the class
+          if none are specified in the attribute. All attribute arguments are optional.
+        </para>
+        <para>
+          The following class declares a document type in Umbraco which is allowed at the root of the content tree, with alias codeFirstExampleDocument and
+          name "Code First Example Document".
+        </para>
+        <code language="c#">
+          [DocumentType(AllowedAtRoot = true)]
+          public class CodeFirstExampleDocument : DocumentTypeBase
+          {
+              //Add tabs and properties here
+          }
+        </code>
+      </content>
+    </section>
+
+    <section address="properties">
+      <title>Adding properties to a document type</title>
+      <content>
+        <para>
+          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentPropertyAttribute</codeEntityReference> declares a property on
+          the document type. The alias, name, property editor/data type, sort order and description can be set via the attribute. The alias and name will be inferred from the
+          property name if none are specified. The data type will be inferred from the property type if none is specified, provided that the type is either a type from the
+          <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace, a valid 
+          <link xlink:href="ea9b7789-8c43-48af-9c5e-7860e55cabe1">custom data type</link> or one of the supported value types (string, int, DateTime, bool).
+        </para>
+        <code language="c#">
+          [DocumentType(AllowedAtRoot = true)]
+          public class CodeFirstExampleDocument : DocumentTypeBase
+          {
+              //By default string properties declare a property with the built-in single-line textbox data type.
+              [DocumentProperty(Description = "A string property.")]
+              public string String { get; set; }
+
+              //By default DateTime properties declare a property with the built-in 'date with time' data type.
+              [DocumentProperty(Description = "A DateTime property.")]
+              public DateTime DateTime { get; set; }
+
+              //The ColorPicker type from the DataTypes.BuiltIn namespace is one of many such types
+              //in that namespace which correspond to Umbraco's built-in data types. Using a built-in
+              //data type for a property is as simple as adding a property of that type to your document type class.
+              [DocumentProperty(Description = "A property using the built-in 'Approved Color' data type.")]
+              public ColorPicker ColorPicker { get; set; }
+
+              //This property uses the custom generic content picker type from the DataTypes namespace.
+              //The selected content is converted to the corresponding strongly-typed model when the property is loaded.
+              //This property is based on the Umbraco multi-node picker property editor, and automatically restricts the
+              //editor to picking a maximum of one item of the relevant document type (in this case ContentPickerExampleDocument)
+              [DocumentProperty]
+              public TypedContentPicker&lt;ContentPickerExampleDocument&gt; SelectedContent { get; set; }
+          }
+        </code>
+        <para>
+          Some attributes from <codeEntityReference qualifyHint="false">N:System.ComponentModel.DataAnnotations</codeEntityReference> namespace can be applied to the document properties.
+          Not all of the attributes are supported; only attributes which influence the output of a HtmlHelper can be used. For instance the Display attribute can be used define
+          how a HtmlHelper renders a display or edit control for a document type property in a Razor view.
+        </para>
+        <code language="c#">
+          [DocumentProperty(Description = "A string property.")]
+          [Display(Name = "A Custom Display Name")]
+          public string String { get; set; }
+        </code>
+        <para>There are plans in the future to allow validation attributes (e.g. MaxLengthAttribute) to be used to generate regex rules for Umbraco property validation.
+        This will enable code-first to support regex validation and enable Umbraco back-office validation &amp; MVC's built-in validation to be unified, 
+        allowing document types to be used as editable models in the standard MVC workflow.</para>
+      </content>
+    </section>
+
+    <section address="tab">
+      <title>Grouping Document Properties with Tabs</title>
+      <content>
+        <para>
+          Tabs can be defined by creating a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.TabBase</codeEntityReference>.
+          The tab class can contain properties declared using the same approach as <link xlink:href="#properties">adding properties to document types</link>.
+        </para>
+        <code language="c#">
+          public class CodeFirstExampleTab : TabBase
+          {
+              [DocumentProperty(Description = "A string property.")]
+              public string String { get; set; }
+          }
+        </code>
+        <para>
+          To use the tab on a document type add a property to the document type class whose type is your tab class. Decorate the property with a 
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTabAttribute</codeEntityReference>. The
+          following example creates a document type containing a single tab named "My Tab".
+        </para>
+        <code language="c#">
+          [DocumentType(AllowedAtRoot = true)]
+          public class CodeFirstExampleDocument : DocumentTypeBase
+          {
+              [DocumentTab]
+              public CodeFirstExampleTab MyTab { get; set; }
+          }
+        </code>
+        <para>
+          The same tab class can be used in multiple document types and can be used more than once in a given document type. This offers richer composition options
+          than are possible using the Umbraco back-office composition mechanism, which is not supported in code-first.
+        </para>
+        <para>
+          Tip: When a tab class is intended to be used only on a single document type then it can be neater to declare the tab as a nested class of the document type class.
+        </para>
+      </content>
+    </section>
+
+    <!-- <codeExample>Optional code example</codeExample> -->
+
+    <!-- <buildInstructions>Optional instructions for building a
+         code example.</buildInstructions> -->
+
+    <!-- <robustProgramming>Optional discussion of error handling and other
+         issues related to writing solid code.</robustProgramming> -->
+
+    <!-- <security>Optional discussion of security issues.</security> -->
+
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID">Link text</link>
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

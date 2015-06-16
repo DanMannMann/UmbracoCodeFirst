@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Felinesoft.UmbracoCodeFirst</RootNamespace>
+    <AssemblyName>Felinesoft.UmbracoCodeFirst</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Felinesoft.UmbracoCodeFirst.XML</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <CodeAnalysisAdditionalOptions>/assemblyCompareMode:StrongNameIgnoringVersion</CodeAnalysisAdditionalOptions>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="businesslogic">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\businesslogic.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core">
+      <HintPath>..\packages\ClientDependency.1.8.0.0\lib\net45\ClientDependency.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ClientDependency.Core.Mvc">
+      <HintPath>..\packages\ClientDependency-Mvc.1.8.0.0\lib\net45\ClientDependency.Core.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="cms">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\cms.dll</HintPath>
+    </Reference>
+    <Reference Include="controls">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\controls.dll</HintPath>
+    </Reference>
+    <Reference Include="CookComputing.XmlRpcV2">
+      <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
+    </Reference>
+    <Reference Include="Examine">
+      <HintPath>..\packages\Examine.0.1.57.2941\lib\Examine.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageProcessor">
+      <HintPath>..\packages\ImageProcessor.1.9.5.0\lib\ImageProcessor.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageProcessor.Web">
+      <HintPath>..\packages\ImageProcessor.Web.3.3.1.0\lib\net45\ImageProcessor.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="interfaces">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net">
+      <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.1\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler">
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.6.5\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLCE4Umbraco">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\SQLCE4Umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SqlServerCe.Entity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\System.Data.SqlServerCe.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.40804.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TidyNet">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\TidyNet.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\umbraco.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Core">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\Umbraco.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.DataLayer">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\umbraco.DataLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.editorControls">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\umbraco.editorControls.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.MacroEngines">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\umbraco.MacroEngines.dll</HintPath>
+    </Reference>
+    <Reference Include="umbraco.providers">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\umbraco.providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Umbraco.Web.UI">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\Umbraco.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UmbracoExamine">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\UmbracoExamine.dll</HintPath>
+    </Reference>
+    <Reference Include="UrlRewritingNet.UrlRewriter">
+      <HintPath>..\packages\UmbracoCms.Core.7.2.1\lib\UrlRewritingNet.UrlRewriter.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\AutoContentAttribute.cs" />
+    <Compile Include="Attributes\BuiltInDataTypeAttribute.cs" />
+    <Compile Include="Attributes\DataTypeAttribute.cs" />
+    <Compile Include="Attributes\DocumentPropertyAttribute.cs" />
+    <Compile Include="Attributes\DocumentTypeAttribute.cs" />
+    <Compile Include="Attributes\DocumentTypeWithDescendantsAsChildrenAttribute.cs" />
+    <Compile Include="Attributes\EnumDataTypeAttribute.cs" />
+    <Compile Include="Attributes\MediaTypeAttribute.cs" />
+    <Compile Include="Attributes\MultipleCodeFirstAttribute.cs" />
+    <Compile Include="Attributes\PreValueAttribute.cs" />
+    <Compile Include="Attributes\DocumentTabAttribute.cs" />
+    <Compile Include="Attributes\PreValueFactoryAttribute.cs" />
+    <Compile Include="Content\Factories\DefaultContentManager.cs" />
+    <Compile Include="Content\Interfaces\IDefaultContentManager.cs" />
+    <Compile Include="Converters\BooleanConverter.cs" />
+    <Compile Include="Converters\DataTypeConverterBase.cs" />
+    <Compile Include="Core\CodeFirstAttributeCache.cs" />
+    <Compile Include="Core\DocumentTypeRegister.cs" />
+    <Compile Include="Core\EnumDataTypeRegistration.cs" />
+    <Compile Include="Core\PreValueCache.cs" />
+    <Compile Include="Content\Factories\ChildContentFactory[TparentDocType].cs" />
+    <Compile Include="Controllers\CodeFirstController[Tdocument].cs" />
+    <Compile Include="Controllers\CodeFirstController[Tdocument`TviewModel].cs" />
+    <Compile Include="Converters\AutoDataTypeConverter.cs" />
+    <Compile Include="Converters\EnumDataTypeConverter.cs" />
+    <Compile Include="DataTypes\BuiltInDataTypes.cs" />
+    <Compile Include="DataTypes\BuiltInPropertyEditorAliases.cs" />
+    <Compile Include="DataTypes\BuiltIn\DatePicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\DatePickerWithTime.cs" />
+    <Compile Include="DataTypes\BuiltIn\DropdownList.cs" />
+    <Compile Include="DataTypes\BuiltIn\FolderBrowser.cs" />
+    <Compile Include="DataTypes\BuiltIn\GridBase.cs" />
+    <Compile Include="DataTypes\BuiltIn\ImageCropper.cs" />
+    <Compile Include="DataTypes\BuiltIn\IMediaItem.cs" />
+    <Compile Include="DataTypes\BuiltIn\Label.cs" />
+    <Compile Include="DataTypes\BuiltIn\MediaItem.cs" />
+    <Compile Include="DataTypes\BuiltIn\MediaPicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\MediaType.cs" />
+    <Compile Include="DataTypes\BuiltIn\MemberItem.cs" />
+    <Compile Include="DataTypes\BuiltIn\MemberPicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\MultipleMediaPicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\Numeric.cs" />
+    <Compile Include="DataTypes\BuiltIn\RadioButtonList.cs" />
+    <Compile Include="DataTypes\BuiltIn\DropdownMultiple.cs" />
+    <Compile Include="DataTypes\BuiltIn\RelatedLinks.cs" />
+    <Compile Include="DataTypes\BuiltIn\RichtextEditor.cs" />
+    <Compile Include="DataTypes\BuiltIn\SingleSelectDataType.cs" />
+    <Compile Include="DataTypes\BuiltIn\CheckboxList.cs" />
+    <Compile Include="DataTypes\BuiltIn\Item.cs" />
+    <Compile Include="DataTypes\BuiltIn\MultiselectDataType.cs" />
+    <Compile Include="DataTypes\BuiltIn\SelectListDataType.cs" />
+    <Compile Include="DataTypes\BuiltIn\Tags.cs" />
+    <Compile Include="DataTypes\BuiltIn\TextboxMultiple.cs" />
+    <Compile Include="DataTypes\BuiltIn\Textstring.cs" />
+    <Compile Include="DataTypes\BuiltIn\Truefalse.cs" />
+    <Compile Include="DataTypes\BuiltIn\Upload.cs" />
+    <Compile Include="DataTypes\FilePreValueFactory.cs" />
+    <Compile Include="DataTypes\IPreValueFactory.cs" />
+    <Compile Include="DocumentTypes\BuiltInIcons.cs" />
+    <Compile Include="DocumentTypes\ListViewDocumentType.cs" />
+    <Compile Include="DocumentTypes\DocumentTypeBase.cs" />
+    <Compile Include="DataTypes\IUmbracoDataType.cs" />
+    <Compile Include="DocumentTypes\TabBase.cs" />
+    <Compile Include="Core\DataTypeRegistration.cs" />
+    <Compile Include="Core\DataTypeRegister.cs" />
+    <Compile Include="Content\Factories\ChildContentFactory.cs" />
+    <Compile Include="Core\CodeFirstManager.cs" />
+    <Compile Include="DocumentTypes\UmbracoNodeDetails.cs" />
+    <Compile Include="Exceptions\ContentCircularDependencyException.cs" />
+    <Compile Include="Exceptions\ContentDependencyException.cs" />
+    <Compile Include="Attributes\ContentFactoryAttribute.cs" />
+    <Compile Include="Content\Factories\ContentFactoryBase.cs" />
+    <Compile Include="Attributes\ContentSiblingDependencyAttribute.cs" />
+    <Compile Include="Content\Interfaces\IAutoContent.cs" />
+    <Compile Include="Content\Interfaces\IContentFactory.cs" />
+    <Compile Include="Controllers\CodeFirstController.cs" />
+    <Compile Include="Converters\ConverterHelper.cs" />
+    <Compile Include="Converters\IDataTypeConverter.cs" />
+    <Compile Include="DataTypes\BuiltIn\ContentPicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\ColorPicker.cs" />
+    <Compile Include="DataTypes\BuiltIn\TypedContentPicker.cs" />
+    <Compile Include="Extensions\CasingExtensions.cs" />
+    <Compile Include="Attributes\CodeFirstAttribute.cs" />
+    <Compile Include="Extensions\CodeFirstExtensions.cs" />
+    <Compile Include="Extensions\ContentExtensions.cs" />
+    <Compile Include="Extensions\AttributeHelperExtensions.cs" />
+    <Compile Include="Extensions\StringHelperExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Content\Factories\RootContentFactory.cs" />
+    <Compile Include="Exceptions\CodeFirstException.cs" />
+    <Compile Include="DataTypes\UmbracoJsonDataType.cs" />
+    <Compile Include="T4Generators\T4Generators.cs" />
+    <Compile Include="T4Generators\T4Models.cs" />
+    <Compile Include="T4Generators\UmbracoCodeFirstDataType.partial.cs" />
+    <Compile Include="T4Generators\UmbracoCodeFirstDocType.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UmbracoCodeFirstDocType.tt</DependentUpon>
+    </Compile>
+    <Compile Include="T4Generators\UmbracoCodeFirstDocType.partial.cs" />
+    <Compile Include="T4Generators\UmbracoCodeFirstDataType.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UmbracoCodeFirstDataType.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UmbracoDocumentViewPage.cs" />
+    <Compile Include="ViewHelpers\CodeFirstDocumentHelper.cs" />
+    <Compile Include="ViewHelpers\CodeFirstViewHelper.cs" />
+    <Compile Include="Views\CodeFirstDocumentView.cs" />
+    <Compile Include="Models\DocumentViewModel.cs" />
+    <Compile Include="ViewHelpers\ICodeFirstViewHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+    <None Include="T4Generators\UmbracoCodeFirstDocType.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>UmbracoCodeFirstDocType.cs</LastGenOutput>
+    </None>
+    <None Include="T4Generators\UmbracoCodeFirstDataType.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>UmbracoCodeFirstDataType.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Felinesoft.InitialisableAttributes\Felinesoft.InitialisableAttributes.csproj">
+      <Project>{35ef1bfc-fc40-46d2-a203-9f0af5888b3f}</Project>
+      <Name>Felinesoft.InitialisableAttributes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MediaTypes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

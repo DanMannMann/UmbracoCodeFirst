@@ -1,0 +1,17 @@
+﻿@inherits UmbracoDocumentViewPage<Umbhomepage>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Demo.GeneratedUmbracoTypes
+
+@if (Document.Banner.HideBanner == false)
+{
+    <!-- Banner -->
+	<section id="banner">
+		<header>
+			<h2>@Document.Banner.BannerHeader</h2>
+		</header>
+		@Document.Banner.BannerText.Html
+		<footer>
+			<a href="#first" class="button style2 scrolly">@Document.Banner.BannerLinkText</a>
+		</footer>
+	</section>
+}

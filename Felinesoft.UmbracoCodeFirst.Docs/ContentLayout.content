@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Topics>
+  <Topic id="04441c6f-baf5-4f66-a724-d0107a13af66" visible="True" title="Getting Started">
+    <HelpKeywords>
+      <HelpKeyword index="K" term="Welcome" />
+    </HelpKeywords>
+    <Topic id="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82" visible="True" title="Creating a Document Type" />
+    <Topic id="ea9b7789-8c43-48af-9c5e-7860e55cabe1" visible="True" title="Working With Data Types">
+      <Topic id="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0" visible="True" title="Creating Custom Data Types">
+        <Topic id="cb1301cc-cf88-4b2a-a662-3611bd2634e1" visible="True" title="Data Type Interfaces" />
+      </Topic>
+      <Topic id="f13fc6da-38dc-4585-b0f3-e701d17d03e1" visible="True" title="Working With Pre-Values" />
+    </Topic>
+  </Topic>
+  <Topic id="833e617d-a1d0-4854-aa45-fad5184f354e" visible="True" isSelected="true" title="Development Roadmap" />
+  <Topic id="ce58197e-999a-4748-876f-5f9b1223133a" visible="True" noFile="true" apiParentMode="InsertAsChild" title="API Reference" />
+</Topics>

@@ -1,0 +1,73 @@
+﻿<html><head><meta http-equiv="X-UA-Compatible" content="IE=edge" /><link rel="shortcut icon" href="../icons/favicon.ico" /><link rel="stylesheet" type="text/css" href="../styles/branding.css" /><link rel="stylesheet" type="text/css" href="../styles/branding-en-US.css" /><script type="text/javascript" src="../scripts/branding.js"> </script><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Creating Custom Data Types</title><meta name="Language" content="en-us" /><meta name="Microsoft.Help.Id" content="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0" /><meta name="Description" content="In Code-First data types are represented by classes which implement certain interfaces and are decorated with a T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute." /><meta name="Microsoft.Help.ContentType" content="Concepts" /><meta name="BrandingAware" content="true" /><link type="text/css" rel="stylesheet" href="../styles/highlight.css" /><script type="text/javascript" src="../scripts/highlight.js"> </script><link rel="stylesheet" type="text/css" href="../styles/branding-Website.css" /><script type="text/javascript" src="../scripts/jquery-1.11.0.min.js"></script><script type="text/javascript" src="../scripts/branding-Website.js"></script></head><body onload="OnLoad('cs')"><input type="hidden" id="userDataCache" class="userDataStyle" /><div class="pageHeader" id="PageHeader">Felinesoft Code-First for Umbraco<form id="SearchForm" method="get" action="#" onsubmit="javascript:TransferToSearchPage(); return false;"><input id="SearchTextBox" type="text" maxlength="200" /><button id="SearchButton" type="submit"></button></form></div><div class="pageBody"><div class="leftNav" id="leftNav"><div id="tocNav"><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Felinesoft Code-First for Umbraco" tocid="roottoc">Felinesoft Code-First for Umbraco</a></div><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="04441c6f-baf5-4f66-a724-d0107a13af66.htm" title="Getting Started" tocid="04441c6f-baf5-4f66-a724-d0107a13af66">Getting Started</a></div><div class="toclevel0" data-toclevel="0"><a class="tocCollapsed" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="ea9b7789-8c43-48af-9c5e-7860e55cabe1.htm" title="Working With Data Types" tocid="ea9b7789-8c43-48af-9c5e-7860e55cabe1">Working With Data Types</a></div><div class="toclevel1 current" data-toclevel="1" data-childrenloaded="true"><a class="tocExpanded" onclick="javascript: Toggle(this);" href="#!"></a><a data-tochassubtree="true" href="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0.htm" title="Creating Custom Data Types" tocid="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0">Creating Custom Data Types</a></div><div class="toclevel2" data-toclevel="2"><a data-tochassubtree="false" href="cb1301cc-cf88-4b2a-a662-3611bd2634e1.htm" title="Data Type Interfaces" tocid="cb1301cc-cf88-4b2a-a662-3611bd2634e1">Data Type Interfaces</a></div></div><div id="tocResizableEW" onmousedown="OnMouseDown(event);"></div><div id="TocResize" class="tocResize"><img id="ResizeImageIncrease" src="../icons/TocOpen.gif" onclick="OnIncreaseToc()" alt="Click or drag to resize" title="Click or drag to resize"><img id="ResizeImageReset" src="../icons/TocClose.gif" style="display:none" onclick="OnResetToc()" alt="Click or drag to resize" title="Click or drag to resize"></div></div><div class="topicContent" id="TopicContent"><table class="titleTable"><tr><td class="logoColumn"><img src="../icons/Help.png" /></td><td class="titleColumn">Creating Custom Data Types</td></tr></table><span class="introStyle"></span><div class="introduction"><p>This topic contains the following sections.</p><ul class="autoOutline"><li class="outlineSectionEntry"><a href="#datatype">Creating a data type</a></li><li class="outlineSectionEntry"><a href="#implementing">Implementing the data type</a></li></ul><p>
+        In Code-First data types are represented by classes which <a href="cb1301cc-cf88-4b2a-a662-3611bd2634e1.htm">implement certain interfaces</a> and are decorated with
+        a <a href="0223039d-6947-a625-0536-e33a21af573a.htm">DataTypeAttribute</a>.
+      </p></div><div class="collapsibleAreaRegion" id="datatype"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID1RB')" onkeypress="SectionExpandCollapse_CheckKey('ID1RB', event)" tabindex="0"><img id="ID1RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Creating a data type</span></div><div id="ID1RBSection" class="collapsibleSection"><p>
+          The interface used determines the database storage type used for the property value. The generic parameter of the interface specifies
+          the type of the property value on the underlying IPublishedContent. For example the Umbraco Grid property editor
+          uses a property editor value converter to return a JObject instance. The <a href="bdda5619-a092-13da-0236-07b1242223fa.htm">GridBase</a>
+          data type implements <a href="a69b7464-838c-1ec1-7f65-5eb52cf72140.htm">IUmbracoNtextDataType<span id="LST7D20DB10_0"></span><script type="text/javascript">AddLanguageSpecificTextSet("LST7D20DB10_0?cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'");</script>T<span id="LST7D20DB10_1"></span><script type="text/javascript">AddLanguageSpecificTextSet("LST7D20DB10_1?cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;");</script></a> with a type parameter
+          of JObject, indicating that the database storage type is Ntext and the property value converter's output type is JObject.
+        </p><p>
+          The <a href="0223039d-6947-a625-0536-e33a21af573a.htm">DataTypeAttribute</a> is used to specify the name, property editor alias
+          and database storage type for the data type. All of these properties can be inferred from the class name and the implemented interface. Inference is the preferred approach.
+          However is it usually not possible to correctly infer the property editor alias, so this will generally be specified explicitly.
+        </p><p>
+          The example below creates a data type with name "Address Data Type", stored to the database as Ntext and represented in IPublishedContent instances as a string. The data type
+          uses a custom property editor which has alias "CodeFirst.JsonAddressEditor".
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EAABCAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAABCAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAABCAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAABCAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType(propertyEditorAlias: <span class="highlight-literal">"CodeFirst.JsonAddressEditor"</span>)]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> AddressDataType : IUmbracoNtextDataType&lt;<span class="highlight-keyword">string</span>&gt;
+{
+    <span class="highlight-comment">//insert custom modelling and logic for the data type</span>
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAABCAAA");</script></div><div class="collapsibleAreaRegion" id="implementing"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID2RB')" onkeypress="SectionExpandCollapse_CheckKey('ID2RB', event)" tabindex="0"><img id="ID2RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Implementing the data type</span></div><div id="ID2RBSection" class="collapsibleSection"><p>
+          The data type interfaces specify two methods, Serialize and Initialize. Implementing these allows instances of the data type to be used to provide strongly-typed
+          modelling of document properties, such that your document types and data types can be used in Razor views and C# code with full intellisense and compile-time type safety.
+        </p><p>
+          Initialize is called when the data type is being constructed during rendering. It takes a single argument of the same type as the underlying object
+          (i.e. it matches the generic type parameter of the data type interface). This method should set the values of the data type instance's properties according
+          to the value of the underlying object.
+        </p><p>
+          Serialize is called whenever an instance is persisted to the database by calling
+          <a href="36edad02-0b79-4f09-90f6-8908dc39f500.htm">Persist</a> on
+          a document type instance which uses the data type.
+        </p><p>
+          The example below shows the implementation of the AddressDataType. It has properties for the constituent parts of the address. These properties are populated
+          by the Initialise method. The Initialise method assumes its input string contains a valid Json representation of aforementioned properties, as this is the format
+          used by the property editor when it saves the value.
+        </p><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EAAABAAA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EAAABAAA_copyCode" href="#" onclick="javascript:CopyToClipboard('ID0EAAABAAA');return false;" title="Copy">Copy</a></div></div><div id="ID0EAAABAAA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve">[DataType(propertyEditorAlias: <span class="highlight-literal">"CodeFirst.JsonAddressEditor"</span>)]
+<span class="highlight-keyword">public</span> <span class="highlight-keyword">class</span> AddressDataType : IUmbracoNtextDataType&lt;<span class="highlight-keyword">string</span>&gt;
+{
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">int</span> PropertyNumber { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> AddressLine1 { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> AddressLine2 { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> City { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> PostalCode { <span class="highlight-keyword">get</span>; <span class="highlight-keyword">set</span>; }
+
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">void</span> Initialise(<span class="highlight-keyword">string</span> dbValue)
+    {
+        JsonConvert.PopulateObject(dbValue, <span class="highlight-keyword">this</span>);
+    }
+
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> Serialise()
+    {
+        <span class="highlight-keyword">return</span> JsonConvert.SerializeObject(<span class="highlight-keyword">this</span>, Formatting.Indented);
+    }
+
+    <span class="highlight-comment">//Properties can be explicitly ignored by the Json serialiser using this attribute</span>
+    [JsonIgnore]
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">string</span> Region
+    {
+        <span class="highlight-keyword">get</span>
+        {
+            <span class="highlight-keyword">return</span> <span class="highlight-keyword">string</span>.Format(<span class="highlight-literal">"{0}, {1}"</span>, City, PostalCode);
+        }
+    }
+
+    <span class="highlight-comment">//Overriding the ToString method is a convenient way to set up consistent</span>
+    <span class="highlight-comment">//formatting for use in views. Using @Document.AddressProperty in a Razor view</span>
+    <span class="highlight-comment">//will automatically call ToString on the object and output the resultant string</span>
+    <span class="highlight-comment">//to the page.</span>
+    <span class="highlight-keyword">public</span> <span class="highlight-keyword">override</span> <span class="highlight-keyword">string</span> ToString()
+    {
+        <span class="highlight-keyword">return</span> <span class="highlight-keyword">string</span>.Format(<span class="highlight-literal">"{0} {1}\r\n{2}\r\n{3}\r\n\r\n{4}"</span>, PropertyNumber, AddressLine1, AddressLine2, City, PostalCode);
+    }
+}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAABAAA");</script></div></div></div><div id="pageFooter" class="pageFooter" /></body></html>

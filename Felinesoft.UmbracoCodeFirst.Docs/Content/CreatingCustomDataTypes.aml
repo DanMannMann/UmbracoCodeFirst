@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <autoOutline />
+
+      <para>
+        In Code-First data types are represented by classes which <link xlink:href="cb1301cc-cf88-4b2a-a662-3611bd2634e1">implement certain interfaces</link> and are decorated with
+        a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
+      </para>
+    </introduction>
+
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="datatype">
+      <title>Creating a data type</title>
+      <content>
+        <para>
+          The interface used determines the database storage type used for the property value. The generic parameter of the interface specifies
+          the type of the property value on the underlying IPublishedContent. For example the Umbraco Grid property editor
+          uses a property editor value converter to return a JObject instance. The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.GridBase</codeEntityReference>
+          data type implements <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType`1</codeEntityReference> with a type parameter
+          of JObject, indicating that the database storage type is Ntext and the property value converter's output type is JObject.
+        </para>
+        <para>
+          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> is used to specify the name, property editor alias
+          and database storage type for the data type. All of these properties can be inferred from the class name and the implemented interface. Inference is the preferred approach.
+          However is it usually not possible to correctly infer the property editor alias, so this will generally be specified explicitly.
+        </para>
+        <para>
+          The example below creates a data type with name "Address Data Type", stored to the database as Ntext and represented in IPublishedContent instances as a string. The data type
+          uses a custom property editor which has alias "CodeFirst.JsonAddressEditor".
+        </para>
+        <code language="c#">
+          [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor")]
+          public class AddressDataType : IUmbracoNtextDataType&lt;string&gt;
+          {
+              //insert custom modelling and logic for the data type
+          }
+        </code>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
+    <section address="implementing">
+      <title>Implementing the data type</title>
+      <content>
+        <para>
+          The data type interfaces specify two methods, Serialize and Initialize. Implementing these allows instances of the data type to be used to provide strongly-typed
+          modelling of document properties, such that your document types and data types can be used in Razor views and C# code with full intellisense and compile-time type safety.
+        </para>
+        <para>
+          Initialize is called when the data type is being constructed during rendering. It takes a single argument of the same type as the underlying object
+          (i.e. it matches the generic type parameter of the data type interface). This method should set the values of the data type instance's properties according
+          to the value of the underlying object.
+        </para>
+        <para>
+          Serialize is called whenever an instance is persisted to the database by calling
+          <codeEntityReference qualifyHint="false">M:Felinesoft.UmbracoCodeFirst.DocumentTypes.DocumentTypeBase.Persist(System.Int32,System.Int32,System.Boolean)</codeEntityReference> on
+          a document type instance which uses the data type.
+        </para>
+        <para>
+          The example below shows the implementation of the AddressDataType. It has properties for the constituent parts of the address. These properties are populated
+          by the Initialise method. The Initialise method assumes its input string contains a valid Json representation of aforementioned properties, as this is the format
+          used by the property editor when it saves the value.
+        </para>
+        <code language="c#">
+          [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor")]
+          public class AddressDataType : IUmbracoNtextDataType&lt;string&gt;
+          {
+              public int PropertyNumber { get; set; }
+              public string AddressLine1 { get; set; }
+              public string AddressLine2 { get; set; }
+              public string City { get; set; }
+              public string PostalCode { get; set; }
+
+              public void Initialise(string dbValue)
+              {
+                  JsonConvert.PopulateObject(dbValue, this);
+              }
+
+              public string Serialise()
+              {
+                  return JsonConvert.SerializeObject(this, Formatting.Indented);
+              }
+
+              //Properties can be explicitly ignored by the Json serialiser using this attribute
+              [JsonIgnore]
+              public string Region
+              {
+                  get
+                  {
+                      return string.Format("{0}, {1}", City, PostalCode);
+                  }
+              }
+
+              //Overriding the ToString method is a convenient way to set up consistent
+              //formatting for use in views. Using @Document.AddressProperty in a Razor view
+              //will automatically call ToString on the object and output the resultant string
+              //to the page.
+              public override string ToString()
+              {
+                  return string.Format("{0} {1}\r\n{2}\r\n{3}\r\n\r\n{4}", PropertyNumber, AddressLine1, AddressLine2, City, PostalCode);
+              }
+          }
+        </code>
+      </content>
+    </section>
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID"/>
+      <link xlink:href="Other Topic's ID">Link inner text</link>
+
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8270" />
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>
