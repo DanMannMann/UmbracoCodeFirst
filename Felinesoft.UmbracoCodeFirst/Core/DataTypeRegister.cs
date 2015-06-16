@@ -71,18 +71,15 @@ namespace Felinesoft.UmbracoCodeFirst
                 });
                 _current.Register(typeof(bool), new DataTypeRegistration()
                 {
-                    DataTypeInstanceName = BuiltInDataTypes.TrueFalse,
-                    ConverterType = typeof(Felinesoft.UmbracoCodeFirst.Converters.BooleanConverter)
+                    DataTypeInstanceName = BuiltInDataTypes.TrueFalse
                 });
                 _current.Register(typeof(DateTime), new DataTypeRegistration()
                 {
                     DataTypeInstanceName = BuiltInDataTypes.DatePickerWithTime
-                    //ConverterType = typeof(Felinesoft.UmbracoCodeFirst.Converters.UDateTimeConverter)
                 });
                 _current.Register(typeof(int), new DataTypeRegistration()
                 {
                     DataTypeInstanceName = BuiltInDataTypes.Numeric
-                    //ConverterType = typeof(Felinesoft.UmbracoCodeFirst.Converters.UIntegerConverter)
                 });
             }
         }
