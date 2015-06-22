@@ -613,24 +613,47 @@ namespace Felinesoft.UmbracoCodeFirst
                 dataTypeDefinition.PropertyEditorAlias = dataTypeRegistration.PropertyEditorAlias;
                 dataTypeDefinition.DatabaseType = dataTypeRegistration.DbType;
 
-                IDictionary<string, PreValue> preValues;
+                IDictionary<string, PreValue> codeFirstPreValues;
                 var factoryAttr = type.GetCodeFirstAttribute<PreValueFactoryAttribute>();
 
-                
                 if (factoryAttr != null)
                 {
-                    preValues = ((IPreValueFactory)factoryAttr.GetFactory()).GetPreValues();
+                    codeFirstPreValues = ((IPreValueFactory)factoryAttr.GetFactory()).GetPreValues();
                 }
                 else if (type.Implements<IPreValueFactory>())
                 {
-                    preValues = ((IPreValueFactory)Activator.CreateInstance(type)).GetPreValues();
+                    codeFirstPreValues = ((IPreValueFactory)Activator.CreateInstance(type)).GetPreValues();
                 }
                 else
                 {
-                    preValues = type.GetCodeFirstAttributes<PreValueAttribute>().ToDictionary(x => x.Alias, x => x.PreValue);
+                    codeFirstPreValues = type.GetCodeFirstAttributes<PreValueAttribute>().ToDictionary(x => x.Alias, x => x.PreValue);
                 }
 
-                dataTypeService.SaveDataTypeAndPreValues(dataTypeDefinition, preValues); //Umbraco deals internally with updating/merging changes to the PreValue list and removing missing entries.
+                IDictionary<string, PreValue> finalPreValues = new Dictionary<string,PreValue>();
+                //Ensure that pre-value IDs stay the same (correlate by alias)
+                if (dataTypeDefinition.Id != -1)
+                {
+                    var existingValues = dataTypeService.GetPreValuesCollectionByDataTypeId(dataTypeDefinition.Id);
+                    if (existingValues.IsDictionaryBased)
+                    {
+                        var dict = existingValues.PreValuesAsDictionary;
+                        foreach (var value in codeFirstPreValues)
+                        {
+                            var match = dict.Where(x => x.Key == value.Key);
+                            if (match.Count() == 0)
+                            {
+                                finalPreValues.Add(value);
+                            }
+                            else
+                            {
+                                var existing = match.First();
+                                finalPreValues.Add(existing.Key, new PreValue(existing.Value.Id, value.Value.Value, value.Value.SortOrder));
+                            }
+                        }
+                    }
+                }
+
+                dataTypeService.SaveDataTypeAndPreValues(dataTypeDefinition, finalPreValues); //Umbraco deals internally with updating/merging changes to the PreValue list and removing missing entries.
             }
 
             dataTypeRegistration.Definition = dataTypeDefinition;
