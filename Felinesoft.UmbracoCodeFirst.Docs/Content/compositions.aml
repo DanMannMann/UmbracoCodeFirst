@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="3a202165-ef09-4764-8c0e-07b7633501a6" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <!-- <autoOutline /> -->
+
+      <para>
+        Umbraco 7 supports document type compositions. Compositions allow for document types to be included within other document types, creating a much richer
+        palette of options for extending existing types, sharing partial views between types and so on.
+      </para>
+    </introduction>
+
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="Section1">
+      <title>Creating Document Type Compositions</title>
+      <content>
+        <para>
+          Code-first supports compositions, which can be created by adding a property
+          to a document type class whose property type is another document type, and then decorating that property with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentCompositionAttribute</codeEntityReference>.
+        </para>
+        <code language="c#">
+          [DocumentType]
+          public class MyDocumentType : DocumentTypeBase
+          {
+              [ContentProperty]
+              public Textstring ExistingProperty1 { get; set; }
+
+              [ContentProperty]
+              public Textstring ExistingProperty2 { get; set; }
+
+              [ContentComposition]
+              public MyNewDocumentType NewProperties { get; set; }
+          }
+
+          [DocumentType]
+          public class MyNewDocumentType : DocumentTypeBase
+          {
+              [ContentProperty]
+              public Textstring NewProperty1 { get; set; }
+
+              [ContentProperty]
+              public Textstring NewProperty2 { get; set; }
+          }
+        </code>
+        <para>
+          The document type being composed, and the document type you're composing onto it, must be valid
+          according to the usual rules in Umbraco. There is one notable extra rule in code-first; document types with common
+          ancestors can't be composed, in order to avoid duplicate property aliases. In most circumstances such a composition would
+          be caught out by the usual Umbraco rules anyway, but in code-first they are completely invalid and will always cause an exception
+          on initialisation.
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>If a document type is a parent to other types or is used in an existing composition then it cannot have compositions added to it.</para>
+          </listItem>
+          <listItem>
+            <para>A document type cannot be composed with itself.</para>
+          </listItem>
+          <listItem>
+            <para>A document type cannot be composed with an ancestor or descendant of itself.</para>
+          </listItem>
+          <listItem>
+            <para>A document type cannot be composed with an document type with which it shares common ancestors.</para>
+          </listItem>
+        </list>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID"/>
+      <link xlink:href="Other Topic's ID">Link inner text</link>
+
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8270" />
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

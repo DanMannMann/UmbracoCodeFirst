@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,11 +10,13 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.FolderBrowser", "Folder Browser", null, DataTypeDatabaseType.Nvarchar)]
-    public class FolderBrowser : IUmbracoStringDataType
+    [DataType("Umbraco.FolderBrowser", "Folder Browser", null, DatabaseType.Nvarchar)]
+    [BuiltInDataType][DoNotSyncDataType]
+    public class FolderBrowser : IUmbracoNvarcharDataType
     {
         //TODO implement the properties and serialisation logic for the Umbraco.FolderBrowser property editor's values
 
@@ -23,7 +25,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         /// </summary>
         public void Initialise(string dbValue)
         {
-            throw new NotImplementedException();
+            
         }
 
         /// <summary>
@@ -31,7 +33,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         /// </summary>
         public string Serialise()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 }

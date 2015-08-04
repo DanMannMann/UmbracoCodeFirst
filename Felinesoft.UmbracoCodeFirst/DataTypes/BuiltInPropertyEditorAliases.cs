@@ -17,6 +17,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         public const string TinyMce = "Umbraco.TinyMCEv3";
         public const string Textbox = "Umbraco.Textbox";
         public const string TextboxMultiple = "Umbraco.TextboxMultiple";
+        public const string MultipleTextstring = "Umbraco.MultipleTextstring";
         public const string UploadField = "Umbraco.UploadField";
         public const string NoEdit = "Umbraco.NoEdit";
         public const string DateTime = "Umbraco.DateTime";

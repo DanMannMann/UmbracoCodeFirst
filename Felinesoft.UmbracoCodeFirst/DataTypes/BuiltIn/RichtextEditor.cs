@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,36 +10,48 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 using System.Web.Mvc;
 using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.TinyMCEv3", "Richtext editor", null, DataTypeDatabaseType.Ntext)]
-    [BuiltInDataType]
-    public class RichtextEditor : IUmbracoNtextDataType<HtmlString>
+    [DataType("Umbraco.TinyMCEv3", "Richtext editor")]
+    [DoNotSyncDataType][BuiltInDataType]
+    public class RichtextEditor : IHtmlString, IUmbracoNtextDataType
     {
-        private HtmlString _html;
+        private string _raw;
 
-        public HtmlString Html
+        public string Value
         {
-            get { return _html; }
-            set { _html = value; }
+            get
+            {
+                return _raw;
+            }
+            set
+            {
+                _raw = value;
+            }
         }
 
-        public void Initialise(HtmlString dbValue)
+        public void Initialise(string dbValue)
         {
-            _html = dbValue;
+            _raw = dbValue;
         }
 
-        public HtmlString Serialise()
+        public string Serialise()
         {
-            return _html;
+            return _raw;
         }
 
         public override string ToString()
         {
-            return _html.ToString();
+            return _raw;
+        }
+
+        public string ToHtmlString()
+        {
+            return _raw;
         }
     }
 }

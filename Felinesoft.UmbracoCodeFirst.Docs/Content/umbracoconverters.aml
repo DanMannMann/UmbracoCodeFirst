@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="787d469d-06cb-4ba1-8b13-d889e1b88c72" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <para>Code-First can be used together with Umbraco's property editor value converters to create document types composed of
+      the Umbraco types instead of "full" Code-First data types.</para>
+      <alert class="caution">
+        <para>
+          Property Editor Value Converters (PEVCs) are currently only compatible with IPublishedContent, not with IContent. Properties using
+          PEVCs will cause exceptions if you try to persist them to the database by calling DocumentTypeBase.Persist(), or try to convert an IContent
+          to a model by calling the IContent.ConvertToModel() extension method. All other operations
+          (e.g. IPublishedContent.ConvertToModel(), strongly-typed views, the document helper etc) are based on IPublishedContent and are therefore supported.</para>
+      </alert>
+    </introduction>
+
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="Section1">
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+          PEVC data types can be used in the same way as "full" code-first data types, but the data type name must be specified in the 
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>.
+        </para>
+        <code language="c#">
+          [DocumentType]
+          public class ExampleDocType : DocumentTypeBase
+          {
+              //The value converter for the checkbox property editor returns a boolean value. The underlying storage type for the value is integer.
+              [ContentProperty(dataType: BuiltInDataTypes.TrueFalse)]
+              public bool Enabled { get; set; }
+
+              //The value converter for the grid property editor returns a JObject containing the grid's json value. The underlying storage type for the value is string (Ntext).
+              [ContentProperty(dataType: "My Existing Grid Data Type")]
+              public JObject Content { get; set; }
+          }
+        </code>
+        <para>
+          <link xlink:href="ea9b7789-8c43-48af-9c5e-7860e55cabe1#inline">Data type instances</link> can still be used with PEVC properties so that unique pre-values
+          can be specified. To create an instance you must specify a valid property editor alias, a globally unique data type name and the correct database storage type
+          for the chosen property editor.
+        </para>
+        <para>
+          The following example would create 2 data types in Umbraco, each using the multiple textstring property editor but with different names
+          and pre-values. The PEVC for the multiple textstring editor returns an IEnumerable&lt;string&gt; containing the contents of the textboxes.
+        </para>
+        <code language="c#">
+          [ContentProperty]
+          [DataTypeInstance(BuiltInPropertyEditorAliases.MultipleTextstring, name: "3 Textboxes", dbType: DatabaseType.Ntext)]
+          [InstancePreValue("0", "{\"Minimum\":3,\"Maximum\":3}")]
+          public IEnumerable&lt;string&gt; TextLines { get; set; }
+
+          [ContentProperty]
+          [DataTypeInstance(BuiltInPropertyEditorAliases.MultipleTextstring, name: "2 Textboxes", dbType: DatabaseType.Ntext)]
+          [InstancePreValue("0", "{\"Minimum\":2,\"Maximum\":2}")]
+          public IEnumerable&lt;string&gt; TextLines2 { get; set; }
+        </code>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID"/>
+      <link xlink:href="Other Topic's ID">Link inner text</link>
+
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8270" />
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

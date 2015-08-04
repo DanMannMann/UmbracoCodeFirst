@@ -8,7 +8,7 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
 {
     public sealed class BooleanConverter : DataTypeConverterBase<string,bool>
     {
-        public override bool Create(string input)
+        public override bool Create(string input, DataTypeRegistration registration)
         {
             return bool.Parse(input.ToString());
         }

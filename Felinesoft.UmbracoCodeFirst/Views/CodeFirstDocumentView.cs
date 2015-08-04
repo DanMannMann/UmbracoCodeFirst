@@ -9,6 +9,7 @@ using Felinesoft.UmbracoCodeFirst.ViewHelpers;
 using Felinesoft.UmbracoCodeFirst.Models;
 using Felinesoft.UmbracoCodeFirst.Views;
 using Felinesoft.UmbracoCodeFirst.Controllers;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -17,16 +18,16 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     /// A custom view which provides a strongly-typed document model and a custom view model with specialised HTML helpers for each model.
     /// </para>
     /// <para>
-    /// This view expects an input model of type <see cref="DocumentViewModel{Tdocument, Tviewmodel}"/>.
-    /// The controller <see cref="CodeFirstController{Tdocument}"/> provides a convenience 
-    /// method <c>DocumentView{T}(T viewModel, RenderModel renderModel)</c> to generate this model
+    /// This view expects an input model of type <see cref="DocumentViewModel&lt;Tdocument,Tviewmodel&gt;"/>.
+    /// The controller <see cref="CodeFirstController&lt;Tdocument&gt;"/> provides a convenience 
+    /// method <c>DocumentView&lt;T&gt;(T viewModel, RenderModel renderModel)</c> to generate this model
     /// The view has an @Model property containing the original Umbraco RenderModel and also has @Document and @ViewModel properties of types Tdocument and Tviewmodel respectively,
     /// as well as @DocumentHelper and @ViewModelHelper HTML helper properties.
     /// </para>
     /// </summary>
     /// <typeparam name="Tdocument">the document type</typeparam>
     /// <typeparam name="Tviewmodel">the view model type</typeparam>
-    public abstract class CodeFirstDocumentView<Tdocument, Tviewmodel> : Umbraco.Web.Mvc.UmbracoViewPage<RenderModel>, ICodeFirstViewHelper<Tdocument, Tviewmodel>
+    public abstract class CodeFirstDocumentView<Tdocument, Tviewmodel> : Umbraco.Web.Mvc.UmbracoViewPage<RenderModel>, ICodeFirstViewHelper<Tdocument, Tviewmodel> where Tdocument : DocumentTypeBase
     {
         private DocumentViewModel<Tdocument, Tviewmodel> _innerModel;
 
@@ -70,7 +71,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
             }
             else
             {
-                //TODO throw exception for wrong type of view
+                throw new Exception("Wrong type of view");
             }
         }
     }

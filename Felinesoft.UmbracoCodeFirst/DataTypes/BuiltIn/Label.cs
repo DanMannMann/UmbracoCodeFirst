@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,12 +10,13 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.NoEdit", "Label", null, DataTypeDatabaseType.Nvarchar)]
-    [BuiltInDataType]
-    public class Label : IUmbracoStringDataType
+    [DataType("Umbraco.NoEdit", "Label")]
+    [DoNotSyncDataType][BuiltInDataType]
+    public class Label : IUmbracoNvarcharDataType
     {
         public string Value { get; set; }
 

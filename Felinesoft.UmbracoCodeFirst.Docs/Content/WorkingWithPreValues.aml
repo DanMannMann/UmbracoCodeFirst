@@ -211,6 +211,36 @@
       </content>
     </section>
 
+    <section address="instance">
+      <title>Instance pre-values</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+          All of the attributes described in this topic have equivalents which can be applied to document type properties to specify
+          pre-values for property-specific <link xlink:href ="ea9b7789-8c43-48af-9c5e-7860e55cabe1#inline">data type instances</link>.
+          The attribute usage is the same as described above. The attribute names are the same, except beginning with "Instance".
+        </para>
+        <list class ="bullet">
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueFactoryAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueFileAttribute</codeEntityReference>
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
     <relatedTopics>
       <!-- One or more of the following:
            - A local link

@@ -8,12 +8,11 @@ using System.Reflection;
 using System.ComponentModel;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using Felinesoft.InitialisableAttributes;
+
 using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Content;
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions
 {

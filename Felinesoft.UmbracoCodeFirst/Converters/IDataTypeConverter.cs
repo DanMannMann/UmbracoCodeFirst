@@ -4,11 +4,12 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using System.Reflection;
+using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.Converters
 {
@@ -23,7 +24,7 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
         /// <summary>
         /// Creates an instance of Tentity by deserialising or converting the input
         /// </summary>
-         Tentity Create(Tdb input);
+        Tentity Create(Tdb input, Action<object> registerContext = null);
 
         /// <summary>
         /// Creates an instance of Tdb by serialising or converting the input
@@ -33,7 +34,7 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
 
     public interface IDataTypeConverter
     {
-        object Create(object input);
+        object Create(object input, Action<object> registerContext = null);
         object Serialise(object input);
     }
 }

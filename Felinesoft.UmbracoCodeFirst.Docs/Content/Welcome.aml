@@ -4,11 +4,11 @@
 		<introduction>
 			<para>
         Code-First for Umbraco is a lightweight framework for creating and managing Umbraco document types,
-        data types, media types and content using an attribute-based, code-driven approach.
+        data types, media types and other entity types using an attribute-driven, code-first approach. The
+        defined code-first classes can also be used as strongly-typed, compile-time-checked models in views.
       </para>
       <para>
-        The demo project included in the Visual Studio solution gives examples of creating document types, data
-        types and content instances.
+        The demo project included in the Visual Studio solution has examples of all that stuff.
       </para>
       <autoOutline />
 		</introduction>
@@ -37,6 +37,15 @@
               }
           }
         </code>
+        <para>
+          If you're going to use strongly typed models &amp; views based on the code-first types then initialisation needs to be run every time the site starts. The
+          information gathered during initialisation is used to make the model building possible in an efficient way; without calling Initialise properly the
+          strongly-typed models &amp; views won't work, even if all of the entities already exist in the database.
+        </para>
+        <para>
+          If you're using code-first only to allow code-driven entity management then there is no requirement to run the initialisation every time the site starts.
+          So if you don't plan to use the strongly typed models &amp; views you could choose to run initialisation on demand or depending on a boolean config switch.
+        </para>
       </content>
     </section>
 
@@ -90,44 +99,58 @@
         </para>
         <para>
           These tools are not yet documented or fully stable. Check out the Felinesoft.UmbracoCodeFirst.T4Generators namespace in the source for info on how they work.
-          The tools are triggered by the following code, located in the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.CodeFirstManager</codeEntityReference>
-          initialise method, depending on a given config value being set.
+          The tools are triggered by adding the following line of code, typically in a startup event handler. The files will be placed in ~app_data/UmbracoCodeFirstTypes.
         </para>
         <code>
-          if (ConfigurationManager.AppSettings.AllKeys.Contains("GenerateCodeFirstTypes") &amp;&amp; bool.Parse(ConfigurationManager.AppSettings["GenerateCodeFirstTypes"]))
-          {
-              DataTypeClassGenerator.GenerateDataTypes();
-              DocumentTypeClassGenerator.GenerateDocTypes();
-          }
+          CodeFirstManager.Current.GenerateTypeFilesFromDatabase("My.Project.Namespace");
+        </code>
+      </content>
+    </section>
+
+    <section address="remarks">
+      <title>Code-First Entities &amp; the Back-Office</title>
+      <content>
+        <para>
+          Making changes to the entities (document types, data types etc) via the usual back-office methods can be unreliable when using code-first. For entities for
+          which no code-first definition exists the default Umbraco behaviour will be honoured. Wherever a code-first definition exists any changes made
+          to that entity via the back-office will be overwritten next time code-first is initialised. It is a better approach to do all entity definition and
+          modification in code.
+        </para>
+        <para>
+          You can automatically hide all "code-first managed" entities from the trees in the backoffice by adding the following line of code, usually
+          in a startup event handler.
+        </para>
+        <code>
+          CodeFirstManager.Current.HideCodeFirstEntitiesInTrees();
         </code>
       </content>
     </section>
 
     <section address="further">
-      <title>Further Reading</title>
+      <title>Key Attributes &amp; Classes</title>
       <content>
         <para>These classes are the main things you'll want to know about to get up and running. Their docs are worth reading.</para>
         <list class="bullet">
           <listItem>
             <para>
               <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference> can be applied to a
-              class to indicate that it is an Umbraco document type. Any class this attribute is applied to should inherit <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.DocumentTypeBase</codeEntityReference>
+              class to indicate that it is an Umbraco document type. Any class this attribute is applied to should inherit <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
             </para>
           </listItem>
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTabAttribute</codeEntityReference> can be applied to a property
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference> can be applied to a property
               on a Document Type class to indicate that the property represents an Umbraco tab. The type of the property should be a class which inherits
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.TabBase</codeEntityReference>. That class can
-              contain properties decorated with <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>. That class can
+              contain properties decorated with <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>
               which represent the properties on the tab.
             </para>
           </listItem>
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentPropertyAttribute</codeEntityReference> can be applied to a property
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> can be applied to a property
               on a Document Type or Tab class to indicate that the property represents an Umbraco property.
             </para>
           </listItem>
@@ -148,27 +171,6 @@
             </para>
           </listItem>
         </list>
-      </content>
-    </section>
-    
-    <section address="remarks">
-      <title>Remarks</title>
-      <content>
-        <para>
-          If you're using code-first only to allow code-driven entity management then there is no requirement to run the initialisation every time the site starts.
-          So if you don't plan to use the strongly typed models &amp; views you could choose to run initialisation on demand or depending on a boolean config switch.
-        </para>
-        <para>
-          If you're going to use strongly typed models &amp; views based on the code-first types then initialisation needs to be run every time the site starts. The
-          information gathered during initialisation is used to make the model building possible in an efficient way; without calling Initialise properly the
-          strongly-typed models &amp; views won't work, even if all of the entities already exist in the database.
-        </para>
-        <para>
-          Making changes to the entities (document types, data types etc) via the usual back-office methods can be unreliable when using code-first. For entities for
-          which no code-first definition exists the default Umbraco behaviour will be honoured. Wherever a code-first definition exists any changes made 
-          to that entity via the back-office will be overwritten next time code-first is initialised. It is a better approach to do all entity definition and
-          modification in code, perhaps even restricting users from accessing the entity management parts of the back-office completely.
-        </para>
       </content>
     </section>
     <relatedTopics>

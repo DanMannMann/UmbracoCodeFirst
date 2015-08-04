@@ -1,0 +1,123 @@
+﻿@inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage<Felinesoft.UmbracoCodeFirst.Demo.DocTypes.TestPage>
+
+@using Felinesoft.UmbracoCodeFirst.Demo.DocTypes;
+@using Felinesoft.UmbracoCodeFirst.Linq;
+@using Felinesoft.UmbracoCodeFirst.Extensions;
+@using Felinesoft.UmbracoCodeFirst.DataTypes;
+
+@{
+    Layout = "Layout.cshtml";
+    var model = Model.Content.ConvertToModel();
+}
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="/">@(Document.SiteName)</a></h1>
+						@{ Html.RenderPartial("umbNavigation", Document.NavigationItems); }
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>@Document.NodeDetails.Name</h2>
+							<p>@Document.RichtextEditor</p>
+                            <p style="background-color:green; color:pink">@Document.FirstTabNewName.DayteThyme</p>
+                            @if (Document.FirstTabNewName.TextLinesAGAIN != null)
+                            {
+                                foreach (var l in Document.FirstTabNewName.TextLinesAGAIN)
+                                {
+                                    <p style="background-color:blanchedalmond; color:blue">@l</p>
+                                }
+                            }
+                              
+						</header>
+
+                        <section class="wrapper style2">
+							<div class="inner">
+                                <img src="@Document.Images.One" alt="@Document.Images.One.NodeDetails.Name" />
+                                @Document.Images.One
+                                @Document.Images.Two
+                                @Document.Images.Three
+                                @Document.Images.Four
+                            </div>
+						</section>
+
+						<section class="wrapper style5">
+							<div class="inner">
+                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.Effects.RoundedCorners(500)" />
+                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.BigThumb.Effects.Filter(FilterType.Lomograph)" />
+                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.SmallThumb.Effects.Flip(FlipType.Both)" />
+                                @Document.TextboxMultiple
+								@Document.Tags
+							</div>
+						</section>
+                        <section class="wrapper style4">
+							<div class="inner">
+                                @Document.Textstring
+								@DocumentHelper.LabelFor(x => x.TrueFalse)
+                                @Document.TrueFalse
+                                <a href="@Document.TypedContentPicker">@Document.TypedContentPicker.Name</a>
+							</div>
+						</section>
+
+                        @try
+                        {
+                         <section class="wrapper style2">
+							<div class="inner">
+                                @{ var genericpage = Document.SiblingsOfType<Genericpage>().First(); }
+                                <p>Navigation!</p>
+                                <p>@genericpage.Content.Subheader</p>
+							</div>
+						</section>
+
+                        <section class="wrapper style1">
+							<div class="inner">
+                                <p>@Document.Comp.CompositeTextstring</p>
+							</div>
+						</section>
+                        }
+                        catch { }
+
+                        <section class="wrapper style3">
+							<div class="inner">
+                                <p>@Document.SEO.MetaDescription</p>
+                                <p>@Document.SEO.MetaKeywords</p>
+                                <p>@Document.SEO.ExtraSeoProperty</p>
+							</div>
+						</section>
+
+                        <section class="wrapper style5">
+							<div class="inner">
+                                <a href="@Document.Upload">@Document.Upload</a>
+								@Document.FirstTabNewName.CheckboxList
+                                @Document.FirstTabNewName.ColorPicker
+                                @Document.FirstTabNewName.ContentPicker
+                                @Document.FirstTabNewName.DatePicker
+                                @Document.FirstTabNewName.DatePickerWithTime
+                                @Document.FirstTabNewName.DropdownList
+                                @Document.FirstTabNewName.DropdownMultiple
+                                @Document.FirstTabNewName.Label
+                                
+							</div>
+						</section>
+                        <section class="wrapper style4">
+							<div class="inner">
+                                @Document.SecondTab.Numeric
+                                @Document.SecondTab.RadioButtonList
+                                @foreach (var link in Document.SecondTab.RelatedLinks)
+                                {
+                                    <div>
+                                        @link
+                                    </div>
+                                }
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+						@{ Html.RenderPartial("umbFooter"); }
+
+			</div>

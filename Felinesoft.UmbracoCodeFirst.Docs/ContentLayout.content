@@ -1,17 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics>
-  <Topic id="04441c6f-baf5-4f66-a724-d0107a13af66" visible="True" title="Getting Started">
+  <Topic id="04441c6f-baf5-4f66-a724-d0107a13af66" visible="True" isExpanded="true" isSelected="true" title="Getting Started">
     <HelpKeywords>
       <HelpKeyword index="K" term="Welcome" />
     </HelpKeywords>
-    <Topic id="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82" visible="True" title="Creating a Document Type" />
-    <Topic id="ea9b7789-8c43-48af-9c5e-7860e55cabe1" visible="True" title="Working With Data Types">
+    <Topic id="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82" visible="True" isExpanded="true" title="Working With Document Types">
+      <Topic id="20fe66a1-809d-4422-b3a6-301da9ff84a1" visible="True" title="Using Tabs on Document Types" />
+      <Topic id="3a202165-ef09-4764-8c0e-07b7633501a6" visible="True" title="Using Document Type Compositions" />
+    </Topic>
+    <Topic id="ea9b7789-8c43-48af-9c5e-7860e55cabe1" visible="True" isExpanded="true" title="Working With Data Types">
       <Topic id="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0" visible="True" title="Creating Custom Data Types">
         <Topic id="cb1301cc-cf88-4b2a-a662-3611bd2634e1" visible="True" title="Data Type Interfaces" />
       </Topic>
       <Topic id="f13fc6da-38dc-4585-b0f3-e701d17d03e1" visible="True" title="Working With Pre-Values" />
+      <Topic id="787d469d-06cb-4ba1-8b13-d889e1b88c72" visible="True" title="Using Code-First with Umbraco Property Editor Value Converters" />
     </Topic>
+    <Topic id="844edfcf-ec79-489e-85fb-e07b441af825" visible="True" title="Working With Strongly-Typed Views" />
   </Topic>
-  <Topic id="833e617d-a1d0-4854-aa45-fad5184f354e" visible="True" isSelected="true" title="Development Roadmap" />
   <Topic id="ce58197e-999a-4748-876f-5f9b1223133a" visible="True" noFile="true" apiParentMode="InsertAsChild" title="API Reference" />
 </Topics>

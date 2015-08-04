@@ -247,11 +247,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataTypes\TextpageGrid.cs" />
-    <Compile Include="DocumentTypes\Umbcontact.cs" />
-    <Compile Include="DocumentTypes\Umbfeature.cs" />
-    <Compile Include="DocumentTypes\Umbhomepage.cs" />
-    <Compile Include="DocumentTypes\Umbtextpage.cs" />
+    <Compile Include="DataTypes\DemoColor.cs" />
+    <Compile Include="DataTypes\GpsCoordinates.cs" />
+    <Compile Include="DocumentTypes\LocationConfig.cs" />
+    <Compile Include="DocumentTypes\LocationInfo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -368,10 +367,6 @@
     <Content Include="config\404handlers.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Felinesoft.InitialisableAttributes\Felinesoft.InitialisableAttributes.csproj">
-      <Project>{35ef1bfc-fc40-46d2-a203-9f0af5888b3f}</Project>
-      <Name>Felinesoft.InitialisableAttributes</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj">
       <Project>{cd8cbbc5-9ebf-4b90-8a4e-7c8cd2789793}</Project>
       <Name>Felinesoft.UmbracoCodeFirst</Name>

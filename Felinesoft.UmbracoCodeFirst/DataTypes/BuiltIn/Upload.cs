@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,21 +10,23 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
+using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType(name: "Umbraco.UploadField", propertyEditorAlias: "Upload", dbType: DataTypeDatabaseType.Nvarchar)]
-    [BuiltInDataType]
-    public class Upload : IUmbracoStringDataType
+    [DataType(propertyEditorAlias: "Umbraco.UploadField", name: "Upload")]
+    [DoNotSyncDataType][BuiltInDataType]
+    public class Upload : IUmbracoNtextDataType
     {
-        public string UploadedFileUrl { get; set; }
+        public string Url { get; set; }
 
         /// <summary>
         /// Initialises the instance from the db value
         /// </summary>
         public void Initialise(string dbValue)
         {
-            UploadedFileUrl = dbValue;
+            Url = dbValue;
         }
 
         /// <summary>
@@ -32,12 +34,12 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         /// </summary>
         public string Serialise()
         {
-            return UploadedFileUrl;
+            return Url;
         }
 
         public override string ToString()
         {
-            return UploadedFileUrl;
+            return Url;
         }
     }
 }

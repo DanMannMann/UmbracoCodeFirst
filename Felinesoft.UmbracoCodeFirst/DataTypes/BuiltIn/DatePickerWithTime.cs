@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,11 +10,12 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.DateTime", "Date Picker with time", null, DataTypeDatabaseType.Date)]
-    [BuiltInDataType]
+    [DataType("Umbraco.DateTime", "Date Picker with time")]
+    [DoNotSyncDataType][BuiltInDataType]
     public class DatePickerWithTime : DatePicker
     {
 

@@ -1,0 +1,91 @@
+﻿@inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage<Felinesoft.UmbracoCodeFirst.Demo.DocTypes.Home>
+@using Felinesoft.UmbracoCodeFirst.Demo.DocTypes
+@{
+    Layout = "Layout.cshtml";
+}	
+	
+	<body class="landing">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="/">@(Document.SiteName)</a></h1>
+						@{ Html.RenderPartial("umbNavigation", Document.NavigationItems); }
+					</header>
+
+				<!-- Banner -->
+					<section id="banner">
+						<div class="inner">
+							<h2>@Document.Banner.SiteName</h2>
+							<p>@Document.Banner.Line1<br />
+							@Document.Banner.Line2<br />
+							@Document.Banner.Line3</p>
+							<ul class="actions">								
+								<li><a href="@Document.Banner.ButtonURL" class="button special">@Document.Banner.ButtonText</a></li>
+							</ul>
+						</div>
+						<a href="#one" class="more scrolly">@Document.Banner.LearnMore</a>
+					</section>
+
+				<!-- One -->
+					<section id="one" class="wrapper style1 special">
+						<div class="inner">
+							<header class="major">
+								<h2>@Document.Row1.Title1</h2>
+								<p>@Document.Row1.Description1</p>
+							</header>
+						</div>
+					</section>
+
+				<!-- Two -->
+					<section id="two" class="wrapper alt style2">
+						<section class="spotlight">
+							<div class="image"><img src="@Document.Row2.Image" alt="" /></div><div class="content">
+								<h2>@Document.Row2.Title2</h2>
+								<p>@Document.Row2.Description2</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="@Document.Row3.Image1" alt="" /></div><div class="content">
+								<h2>@Document.Row3.Title3</h2>
+								<p>@Document.Row3.Description3</p>
+							</div>
+						</section>
+						<section class="spotlight">
+							<div class="image"><img src="@Document.Row4.Image2" alt="" /></div><div class="content">
+								<h2>@Document.Row4.Title4</h2>
+								<p>@Document.Row4.Description4</p>
+							</div>
+						</section>
+					</section>
+
+				<!-- Three -->
+					<section id="three" class="wrapper style3 special">
+						<div class="inner">
+							<header class="major">
+								<h2>@Document.Row5.Title5</h2>
+								<p>@Document.Row5.Description5</p>
+							</header>							
+						</div>
+					</section>
+
+				<!-- CTA -->
+					<section id="cta" class="wrapper style4">
+						<div class="inner">
+							<header>
+								<h2>@Document.Row5.Title5</h2>
+								<p>@Document.Row5.Description5</p>
+							</header>
+							<ul class="actions vertical">
+								<li><a href="@Document.CallToAction.ButtonURL1" class="button fit special">@Document.CallToAction.ButtonText1</a></li>
+								<li><a href="@Document.CallToAction.ButtonURL2" class="button fit">@Document.CallToAction.ButtonText2</a></li>
+							</ul>
+						</div>
+					</section>
+
+				<!-- Footer -->
+
+					@{ Html.RenderPartial("umbFooter"); }
+			</div>	

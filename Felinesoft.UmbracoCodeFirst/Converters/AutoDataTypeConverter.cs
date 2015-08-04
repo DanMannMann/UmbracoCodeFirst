@@ -1,4 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.DataTypes;
+﻿using Felinesoft.UmbracoCodeFirst.Core;
+using Felinesoft.UmbracoCodeFirst.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,10 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
         /// Deserialises a Tdb value by calling IUmbracoDataType[Tdb].Initialise on
         /// an instance of Tentity, passing in the input
         /// </summary>
-        public override Tentity Create(Tdb input)
+        public override Tentity Create(Tdb input, Action<object> registerContext = null)
         {
             var result = ((Tentity)Activator.CreateInstance<Tentity>());
+            registerContext.Invoke(result);
             result.Initialise((Tdb)input);
             return result;
         }

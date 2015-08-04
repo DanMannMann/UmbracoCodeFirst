@@ -37,6 +37,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         public const string Tags = "Tags";
         public const string ImageCropper = "Image Cropper";
         public const string MultipleMediaPicker = "Multiple Media Picker";
+        public const string MultipleTextstring = "Code-First Multiple Textstring";
+        public const string MultipleTypedMediaPicker = "Code-First Multiple Media Picker";
         public const string GridBlogPost = "Grid Blogpost";
         public const string GridFrontPage = "Grid FrontPage";
         public const string GridTextPage = "Grid TextPage";

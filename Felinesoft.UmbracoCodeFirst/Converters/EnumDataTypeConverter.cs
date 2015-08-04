@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Felinesoft.UmbracoCodeFirst.Extensions;
+using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.Converters
 {
@@ -37,7 +38,7 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
         /// and parsing it. This works for comma-separated lists of values if the specified
         /// enum is a bit-field with a [Flags] attribute.
         /// </summary>
-        public override Tenum Create(string input)
+        public override Tenum Create(string input, Action<object> registerContext = null)
         {
             Tenum result;
             if (Enum.TryParse<Tenum>(input.ToPascalCase(), true, out result))

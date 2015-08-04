@@ -31,25 +31,7 @@
         <list class="bullet">
           <listItem>
             <para>
-              Change data type TypeConverters and interfaces to use a proper factory pattern. Modify same-class interface accordingly.
-            </para>
-          </listItem>
-          <listItem>
-            <para>
-              Decouple data types from document properties. Remove data type related properties from DocumentPropertyAttribute and modify core to get
-              the values from the property type directly (move some code from DocumentPropertyAttribute.Initialise into core)
-            </para>
-          </listItem>
-          <listItem>
-            <para>
               Refactor core to separate the various creation and update logic for the various entity types. Aim to increase extensibility and testability.
-            </para>
-          </listItem>
-          <listItem>
-            <para>
-              Add a [DataTypeInstance("Instance name")] property attribute to allow an instance of a data type to be created in-line on a document class, by
-              applying the attribute to a property. [InstancePreValue], [InstancePreValueFile] and [InstancePreValueFactory] property attributes to be created
-              allowing pre-values to be specified for an in-line data type instance in the same way as for a data type class.
             </para>
           </listItem>
           <listItem>

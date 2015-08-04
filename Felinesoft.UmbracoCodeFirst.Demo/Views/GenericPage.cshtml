@@ -1,0 +1,41 @@
+﻿@inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage<Felinesoft.UmbracoCodeFirst.Demo.DocTypes.Genericpage>
+@using Felinesoft.UmbracoCodeFirst.Demo.DocTypes;
+@using Felinesoft.UmbracoCodeFirst.Demo;
+@using Felinesoft.UmbracoCodeFirst;
+@{
+    Layout = "Layout.cshtml";
+}
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<h1><a href="/">@(Document.SiteName)</a></h1>
+						@{ Html.RenderPartial("umbNavigation", Document.NavigationItems); }
+					</header>
+
+				<!-- Main -->
+					<article id="main">
+						<header>
+							<h2>@Document.NodeDetails.Name</h2>
+							<p>@Document.Content.Subheader</p>
+						</header>
+						<section class="wrapper style5">
+							<div class="inner">
+
+								@Document.Content.Content
+							</div>
+						</section>
+                        <section class="wrapper style4">
+							<div class="inner">
+                                <img src="@Document.Image.RoyCropper.Effects.RoundedCorners(200)" />
+							</div>
+						</section>
+					</article>
+
+				<!-- Footer -->
+						@{ Html.RenderPartial("umbFooter"); }
+
+			</div>

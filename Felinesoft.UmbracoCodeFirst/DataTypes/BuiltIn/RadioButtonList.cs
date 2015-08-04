@@ -1,11 +1,12 @@
 ﻿using Felinesoft.UmbracoCodeFirst;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
 using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Umbraco.Web;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using System.Drawing;
@@ -18,8 +19,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     /// Represents Umbraco's built-in radio button group data type
     /// </summary>
     [DataType(name: BuiltInDataTypes.Radiobox, propertyEditorAlias: BuiltInPropertyEditorAliases.RadioButtonList)]
-    [BuiltInDataType]
-    public class RadioButtonList : SingleSelectDataType, IUmbracoIntDataType
+    [DoNotSyncDataType][BuiltInDataType]
+    public class RadioButtonList : SingleSelectDataType, IUmbracoIntegerDataType
     {
         /// <summary>
         /// Initialises the instance from the Umbraco prevalue ID
@@ -27,23 +28,32 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         /// <param name="dbValue">the Umbraco prevalue ID</param>
         public void Initialise(int dbValue)
         {
-            if (PreValues.FirstOrDefault(x => x.Id == dbValue) == null)
+            var pval = PreValues.FirstOrDefault(x => x.Id == dbValue);
+            if (pval == null)
             {
-                throw new CodeFirstException("Invalid prevalue ID");
+                base.Initialise(string.Empty);
             }
-            base.Initialise(PreValues.First(x => x.Id == dbValue).Value);
+            else
+            {
+                base.Initialise(pval.Value);
+            }
         }
 
         /// <summary>
         /// Returns the Umbraco PreValue ID of the selected item, or -1 if an invalid selection is made
         /// </summary>
         /// <returns>the Umbraco prevalue ID</returns>
-        public new int Serialise()
+        public int Serialise()
         {
+            if (SelectedIndex == -1)
+            {
+                return 0;
+            }
+
             var preVal = PreValues.FirstOrDefault(x => x.Value == Options[SelectedIndex]);
             if (preVal == null)
             {
-                return -1;
+                return 0;
             }
             else
             {

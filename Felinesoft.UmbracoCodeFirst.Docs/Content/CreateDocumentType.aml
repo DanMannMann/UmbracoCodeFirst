@@ -31,7 +31,7 @@
       <title>Creating a document type class</title>
       <content>
         <para>
-          To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.DocumentTypeBase</codeEntityReference>
+          To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
           and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. The document type
           name, alias, default template, allowed children, icon, list view and allow at root properties can be specified in the attribute. The name and alias will be inferred from the name of the class
           if none are specified in the attribute. All attribute arguments are optional.
@@ -54,7 +54,7 @@
       <title>Adding properties to a document type</title>
       <content>
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentPropertyAttribute</codeEntityReference> declares a property on
+          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> declares a property on
           the document type. The alias, name, property editor/data type, sort order and description can be set via the attribute. The alias and name will be inferred from the
           property name if none are specified. The data type will be inferred from the property type if none is specified, provided that the type is either a type from the
           <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace, a valid 
@@ -65,24 +65,24 @@
           public class CodeFirstExampleDocument : DocumentTypeBase
           {
               //By default string properties declare a property with the built-in single-line textbox data type.
-              [DocumentProperty(Description = "A string property.")]
+              [ContentProperty(Description = "A string property.")]
               public string String { get; set; }
 
               //By default DateTime properties declare a property with the built-in 'date with time' data type.
-              [DocumentProperty(Description = "A DateTime property.")]
+              [ContentProperty(Description = "A DateTime property.")]
               public DateTime DateTime { get; set; }
 
               //The ColorPicker type from the DataTypes.BuiltIn namespace is one of many such types
               //in that namespace which correspond to Umbraco's built-in data types. Using a built-in
               //data type for a property is as simple as adding a property of that type to your document type class.
-              [DocumentProperty(Description = "A property using the built-in 'Approved Color' data type.")]
+              [ContentProperty(Description = "A property using the built-in 'Approved Color' data type.")]
               public ColorPicker ColorPicker { get; set; }
 
               //This property uses the custom generic content picker type from the DataTypes namespace.
               //The selected content is converted to the corresponding strongly-typed model when the property is loaded.
               //This property is based on the Umbraco multi-node picker property editor, and automatically restricts the
               //editor to picking a maximum of one item of the relevant document type (in this case ContentPickerExampleDocument)
-              [DocumentProperty]
+              [ContentProperty]
               public TypedContentPicker&lt;ContentPickerExampleDocument&gt; SelectedContent { get; set; }
           }
         </code>
@@ -92,7 +92,7 @@
           how a HtmlHelper renders a display or edit control for a document type property in a Razor view.
         </para>
         <code language="c#">
-          [DocumentProperty(Description = "A string property.")]
+          [ContentProperty(Description = "A string property.")]
           [Display(Name = "A Custom Display Name")]
           public string String { get; set; }
         </code>
@@ -101,44 +101,7 @@
         allowing document types to be used as editable models in the standard MVC workflow.</para>
       </content>
     </section>
-
-    <section address="tab">
-      <title>Grouping Document Properties with Tabs</title>
-      <content>
-        <para>
-          Tabs can be defined by creating a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DocumentTypes.TabBase</codeEntityReference>.
-          The tab class can contain properties declared using the same approach as <link xlink:href="#properties">adding properties to document types</link>.
-        </para>
-        <code language="c#">
-          public class CodeFirstExampleTab : TabBase
-          {
-              [DocumentProperty(Description = "A string property.")]
-              public string String { get; set; }
-          }
-        </code>
-        <para>
-          To use the tab on a document type add a property to the document type class whose type is your tab class. Decorate the property with a 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTabAttribute</codeEntityReference>. The
-          following example creates a document type containing a single tab named "My Tab".
-        </para>
-        <code language="c#">
-          [DocumentType(AllowedAtRoot = true)]
-          public class CodeFirstExampleDocument : DocumentTypeBase
-          {
-              [DocumentTab]
-              public CodeFirstExampleTab MyTab { get; set; }
-          }
-        </code>
-        <para>
-          The same tab class can be used in multiple document types and can be used more than once in a given document type. This offers richer composition options
-          than are possible using the Umbraco back-office composition mechanism, which is not supported in code-first.
-        </para>
-        <para>
-          Tip: When a tab class is intended to be used only on a single document type then it can be neater to declare the tab as a nested class of the document type class.
-        </para>
-      </content>
-    </section>
-
+    
     <!-- <codeExample>Optional code example</codeExample> -->
 
     <!-- <buildInstructions>Optional instructions for building a
@@ -150,6 +113,8 @@
     <!-- <security>Optional discussion of security issues.</security> -->
 
     <relatedTopics>
+      <link xlink:href="20fe66a1-809d-4422-b3a6-301da9ff84a1" />
+      <link xlink:href="3a202165-ef09-4764-8c0e-07b7633501a6" />
       <!-- One or more of the following:
            - A local link
            - An external link

@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="20fe66a1-809d-4422-b3a6-301da9ff84a1" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <para>In Umbraco tabs are used to group document properties in the backoffice. In code-first tabs can also
+      be used across multiple unrelated document types, allowing sets of properties to be shared between document types and managed
+      in one place.</para>
+      <autoOutline />
+    </introduction>
+
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="create">
+      <title>Grouping Document Properties with Tabs</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+          Tabs can be defined by creating a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
+          The tab class can contain properties declared using the same approach as <link xlink:href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82#properties">adding properties to document types</link>.
+        </para>
+        <code language="c#">
+          public class CodeFirstExampleTab : TabBase
+          {
+              [ContentProperty(Description = "A string property.")]
+              public string String { get; set; }
+          }
+        </code>
+        <para>
+          To use the tab on a document type add a property to the document type class whose type is your tab class. Decorate the property with a
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>. The
+          following example creates a document type containing a single tab named "My Tab".
+        </para>
+        <code language="c#">
+          [DocumentType(AllowedAtRoot = true)]
+          public class CodeFirstExampleDocument : DocumentTypeBase
+          {
+              [ContentTab]
+              public CodeFirstExampleTab MyTab { get; set; }
+          }
+        </code>
+        <para>
+          The same tab class can be used in multiple document types and can be used more than once in a given document type. This increases the variety
+          of composition options available and can provide useful ways to achieve post-release changes to sites which would be more difficult without code-first.
+        </para>
+        <alert class="tip">
+          <para>When a tab class is intended to be used only on a single document type then it can be neater to declare the tab as a nested class of the document type class.</para>
+        </alert>
+      </content>
+    </section>
+
+    <section address="Section1">
+      <title>Adding Properties to an Inherited Tab</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+      <autoOutline /> -->
+        <para>
+          In Umbraco it is possible to create a tab in a parent document type then add some properties to that tab in a descendant document type.
+          This is supported in code-first, and can be done by extending the underlying tab class then hiding the underlying tab property.
+          The syntax is a little clumsy but is required to allow the Umbraco behaviour to work without
+          breaking the strongly-typed modelling provided by code-first.
+        </para>
+        <code language="c#">
+          [DocumentType]
+          public class ParentDocType : DocumentTypeBase
+          {
+              //The underlying tab and properties
+              public class SEOTab : TabBase
+              {
+                  [ContentProperty]
+                  public Textstring MetaKeywords { get; set; }
+
+                  [ContentProperty]
+                  public Textstring MetaDescription { get; set; }
+              }
+
+              [ContentTab]
+              public SEOTab SEO { get; set; }
+          }
+
+          [DocumentType]
+          public class ChildDocType : ParentDocType
+          {
+              //The extended tab type with the additional property
+              public new class SEOTab : ParentDocType.SEOTab
+              {
+                  [ContentProperty]
+                  public Textstring MetaTitle { get; set; }
+              }
+
+              //Hiding the underlying tab property with a new one so that the new
+              //tab type, with all 3 properties, is used for this document type.
+              [ContentTab]
+              public new SEOTab SEO { get; set; }
+          }
+        </code>
+      </content>
+      <!-- If a section contains a sections element, its content creates
+           sub-sections.  These are not collapsible.
+      <sections>
+          <section address="SubSection1">
+              <title>Sub-section 1</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+          <section address="SubSection2">
+              <title>Sub-section 2</title>
+              <content>
+                  <para>Sub-section content.</para>
+              </content>
+          </section>
+      </sections> -->
+    </section>
+
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID"/>
+      <link xlink:href="Other Topic's ID">Link inner text</link>
+
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8270" />
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on CodePlex</linkText>
+          <linkAlternateText>Go to CodePlex</linkAlternateText>
+          <linkUri>http://shfb.codeplex.com</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

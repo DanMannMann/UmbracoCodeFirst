@@ -6,15 +6,16 @@ using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using Felinesoft.UmbracoCodeFirst.Views;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.Models
 {
     /// <summary>
-    /// A model which combines a strongly-typed document with a custom view model, suitable for use with a view which inherits <see cref="CodeFirstDocumentView{Tdocument, Tviewmodel}"/>
+    /// A model which combines a strongly-typed document with a custom view model, suitable for use with a view which inherits <see cref="CodeFirstDocumentView`2"/>
     /// </summary>
     /// <typeparam name="Tdocument"></typeparam>
     /// <typeparam name="Tviewmodel"></typeparam>
-    public class DocumentViewModel<Tdocument, Tviewmodel>
+    public class DocumentViewModel<Tdocument, Tviewmodel> where Tdocument : DocumentTypeBase
     {
         /// <summary>
         /// Constructs a new instance

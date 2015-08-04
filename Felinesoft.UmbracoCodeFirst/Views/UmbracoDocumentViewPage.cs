@@ -4,6 +4,7 @@ using Felinesoft.UmbracoCodeFirst.Extensions;
 using Umbraco.Web.Models;
 using Felinesoft.UmbracoCodeFirst.ViewHelpers;
 using System;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -13,13 +14,17 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     /// An exception will be thrown during construction if the current page is not of the correct document type. 
     /// </summary>
     /// <typeparam name="Tdocument">The document type</typeparam>
-    public abstract class UmbracoDocumentViewPage<Tdocument> : Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.Models.RenderModel>
+    public abstract class UmbracoDocumentViewPage<Tdocument> : Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.Models.RenderModel>  where Tdocument : DocumentTypeBase
     {
         protected UmbracoDocumentViewPage() : base() { _helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, GetDocument())); }
 
         private Tdocument GetDocument()
         {
-            return base.Umbraco.AssignedContentItem.ConvertToModel<Tdocument>();
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+            var converted = base.Umbraco.AssignedContentItem.ConvertToModel<Tdocument>();
+            sw.Stop();
+            return converted;
         }
 
         private Lazy<CodeFirstDocumentHelper<Tdocument>> _helper;

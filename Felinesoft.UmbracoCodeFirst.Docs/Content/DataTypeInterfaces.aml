@@ -15,15 +15,12 @@
            titles.  Specify a numeric value as the inner text to limit it to
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
-      <autoOutline />
+  
 
       <para>
-        The following interfaces can be used to specify the storage and underlying type of a custom data type. The underlying type is specified
-        by the generic type parameter. The storage type depends on the interface used.
-      </para>
-      <para>
-        There are also a few convenience interfaces which specify data types using the standard mapping (i.e. where no property editor value type
-        converter is used).
+        Code-First data types always use the underlying storage type (DateTime, int or string) for serialisation and deserialisation. Umbraco's default behaviour
+        of returning a converted object or converting all values into strings is bypassed and the underlying data type is passed in and out of the data type converter.
+        Therefore there are only 4 interfaces for implementing a data type.
       </para>
     </introduction>
 
@@ -36,29 +33,50 @@
         <list class="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoDateTimeDataType`1</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoDateDataType</codeEntityReference>
             </para>
-            <para>Specifies that the data value should be stored as a DateTime2 type</para>
+            <para>Specifies that the data value should be stored as a DateTime2 type. Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.DateTime</codeEntityReference>
+          </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoIntegerDataType`1</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoIntegerDataType</codeEntityReference>
             </para>
-            <para>Specifies that the data value should be stored as a 32-bit integer type</para>
+            <para>
+              Specifies that the data value should be stored as a 32-bit integer type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.Int32</codeEntityReference>
+            </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType`1</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType</codeEntityReference>
             </para>
-            <para>Specifies that the data value should be stored as an Ntext type</para>
+            <para>
+              Specifies that the data value should be stored as an Ntext type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.String</codeEntityReference>
+            </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNvarcharDataType`1</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNvarcharDataType</codeEntityReference>
             </para>
-            <para>Specifies that the data value should be stored as an Nvarchar(MAX) type</para>
+            <para>
+              Specifies that the data value should be stored as an Nvarchar(MAX) type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.String</codeEntityReference>
+            </para>
           </listItem>
         </list>
+        <para>
+          There are generic interfaces, inherited by the 4 above, which allow the converter input type to be specified. These may be used in the future to tighten integration 
+          with Umbraco's property editor value converters. However, for now, only the constructed generic types specified by the interfaces above 
+          (IUmbracoDataType&lt;DateTime&gt;, IUmbracoDataType&lt;string&gt; &amp; IUmbracoDataType&lt;int&gt;) are supported, as the code-first core only ever accesses the unconverted
+          data value. 
+        </para>
+        <alert class="warning">
+          <para> If you match up the wrong interface to a data type it is likely to cause runtime exceptions when rendering the document using strongly-typed models. </para>
+          <para>
+            Almost all property editors use a string, where any which store a lot of data (e.g. Grid) tend to store Ntext and those with shorter values (e.g. textstring) tend to 
+            store Nvarchar. Information on the exact type for each editor is best obtained by combining a debugger with a cup of tea (or reviewing the built-in 
+            data type implementations in code-first).
+          </para>
+        </alert>
       </content>
       <!-- If a section contains a sections element, its content creates
            sub-sections.  These are not collapsible.
@@ -78,56 +96,7 @@
       </sections> -->
     </section>
 
-    <section address="convenience">
-      <title>Convenience Interfaces</title>
-      <content>
-        <list class="bullet">
-          <listItem>
-            <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoDateDataType</codeEntityReference>
-            </para>
-            <para>
-              Specifies that the data value should be stored as a DateTime2 type and will be returned as a <codeEntityReference qualifyHint="false">T:System.DateTime</codeEntityReference>
-              struct.
-            </para>
-          </listItem>
-          <listItem>
-            <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoIntDataType</codeEntityReference>
-            </para>
-            <para>
-              Specifies that the data value should be stored as a 32-bit integer type and will be returned as a <codeEntityReference qualifyHint="false">T:System.Int32</codeEntityReference>
-              value.
-            </para>
-          </listItem>
-          <listItem>
-            <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoStringDataType</codeEntityReference>
-            </para>
-            <para>
-              Specifies that the data value should be stored as an Ntext type and will be returned as a <codeEntityReference qualifyHint="false">T:System.String</codeEntityReference>
-              value.
-            </para>
-          </listItem>
-        </list>
-      </content>
-      <!-- If a section contains a sections element, its content creates
-           sub-sections.  These are not collapsible.
-      <sections>
-          <section address="SubSection1">
-              <title>Sub-section 1</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-          <section address="SubSection2">
-              <title>Sub-section 2</title>
-              <content>
-                  <para>Sub-section content.</para>
-              </content>
-          </section>
-      </sections> -->
-    </section>
+    
     <relatedTopics>
       <!-- One or more of the following:
            - A local link

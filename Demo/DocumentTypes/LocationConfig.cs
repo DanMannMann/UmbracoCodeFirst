@@ -1,6 +1,5 @@
 ﻿using Demo.DataTypes;
 using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Content;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Web;
 using Felinesoft.UmbracoCodeFirst.DocumentTypes;
 using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Content.Interfaces;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
@@ -48,6 +46,16 @@ namespace Demo.DocumentTypes
             [DocumentProperty(Description = "DropdownList")]
             public DropdownList DropdownList { get; set; }
 
+            [DocumentProperty(Description = "My Dropdown")]
+            public MyDropDown DD1 { get; set; }
+
+            [DocumentProperty(Description = "My Dropdown Instance")]
+            [DataTypeInstance]
+            [InstancePreValue("0", "option 0B")]
+            [InstancePreValue("1", "option 1B")]
+            [InstancePreValue("2", "option 2B")]
+            public MyDropDown DD2 { get; set; }
+
             [DocumentProperty(Description = "DropdownListMultiple")]
             public DropdownMultiple DropdownListMultiple { get; set; }
 
@@ -81,6 +89,12 @@ namespace Demo.DocumentTypes
             [DocumentProperty(Description = "Links")]
             public RelatedLinks Links { get; set; }
         }
+
+        [Felinesoft.UmbracoCodeFirst.Attributes.DataType]
+        [PreValue("0", "option 0A")]
+        [PreValue("1", "option 1A")]
+        [PreValue("2", "option 2A")]
+        public class MyDropDown : DropdownList { }
 
         public enum Choices
         {

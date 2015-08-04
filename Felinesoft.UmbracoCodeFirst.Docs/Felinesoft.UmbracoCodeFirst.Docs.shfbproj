@@ -92,10 +92,14 @@
     <Folder Include="Media" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\compositions.aml" />
     <None Include="Content\CreateDocumentType.aml" />
     <None Include="Content\CreatingCustomDataTypes.aml" />
     <None Include="Content\DataTypeInterfaces.aml" />
     <None Include="Content\roadmap.aml" />
+    <None Include="Content\tabs.aml" />
+    <None Include="Content\typedviews.aml" />
+    <None Include="Content\umbracoconverters.aml" />
     <None Include="Content\VersionHistory\v1.0.0.0.aml" />
     <None Include="Content\VersionHistory\VersionHistory.aml" />
     <None Include="Content\Welcome.aml" />

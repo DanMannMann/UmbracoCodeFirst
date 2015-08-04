@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Felinesoft.UmbracoCodeFirst.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -67,7 +68,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
     /// <summary>
     /// Interface specifying an integer database storage type
     /// </summary>
-    public interface IUmbracoIntDataType : IUmbracoIntegerDataType<int>
+    public interface IUmbracoIntegerDataType : IUmbracoIntegerDataType<int>
     {
 
     }
@@ -76,7 +77,16 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
     /// Interface specifying a string database storage type. This interface uses
     /// the ntext database storage type.
     /// </summary>
-    public interface IUmbracoStringDataType : IUmbracoNtextDataType<string>
+    public interface IUmbracoNtextDataType : IUmbracoNtextDataType<string>
+    {
+
+    }
+
+    /// <summary>
+    /// Interface specifying a string database storage type. This interface uses
+    /// the ntext database storage type.
+    /// </summary>
+    public interface IUmbracoNvarcharDataType : IUmbracoNvarcharDataType<string>
     {
 
     }

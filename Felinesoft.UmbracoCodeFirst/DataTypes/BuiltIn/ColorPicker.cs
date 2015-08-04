@@ -1,11 +1,12 @@
 ﻿using Felinesoft.UmbracoCodeFirst;
 using System;
+using Felinesoft.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
 using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Umbraco.Web;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using System.Drawing;
@@ -16,8 +17,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     /// Represents Umbraco's built-in color picker data type
     /// </summary>
     [DataType(name: BuiltInDataTypes.ApprovedColor, propertyEditorAlias: BuiltInPropertyEditorAliases.ColorPicker)]
-    [BuiltInDataType]
-    public class ColorPicker : IUmbracoStringDataType
+    [DoNotSyncDataType][BuiltInDataType]
+    public class ColorPicker : IUmbracoNtextDataType
     {
         private Color _color = Color.Black;
 

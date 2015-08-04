@@ -1,6 +1,6 @@
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -10,33 +10,65 @@ using System.Text;
 using System.Collections.Generic;
 using Umbraco.Core.Models;
 using System;
-using Umbraco.Web;
-using Umbraco.Core;
-using System.Xml.XPath;
+using Felinesoft.UmbracoCodeFirst.Core;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
+using System.Web;
+using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.MediaPicker", "Media Picker", null, DataTypeDatabaseType.Nvarchar)]
-    [BuiltInDataType]
-    public class MediaPicker : MediaItem, IUmbracoIntDataType
+    [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
+    public class MediaPicker<T> : NodePicker<T, MediaNodeDetails> where T : MediaTypeBase, new()
     {
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(int dbValue)
+        public MediaPicker() : base(NodeType.media) { }
+
+        private Lazy<UmbracoHelper> _helper = new Lazy<UmbracoHelper>(() => new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current));
+
+        public override string ToHtmlString()
         {
-            MediaNodeId = dbValue;
+            if (Items.Count == 1)
+            {
+                var item = Items.First();
+                if (item is IHtmlString)
+                {
+                    return (item as IHtmlString).ToHtmlString();
+                }
+                else
+                {
+                    return HttpUtility.HtmlEncode(item.ToString());
+                }
+            }
+            else if (Items.Count > 1)
+            {
+                return Items.Count + " media items selected";
+            }
+            else
+            {
+                return "No media items selected";
+            }
         }
 
-        /// <summary>
-        /// Serialises the instance to the db value
-        /// </summary>
-        public int Serialise()
+        public override string ToString()
         {
-            return MediaNodeId;
+            if (Items.Count == 1)
+            {
+                var item = Items.First();
+                return item.ToString();
+            }
+            else if (Items.Count > 1)
+            {
+                return Items.Count + " media items selected";
+            }
+            else
+            {
+                return "No media items selected";
+            }
         }
 
-        
+        protected override T GetModelFromId(int id)
+        {
+            var node = _helper.Value.TypedMedia(id);
+            return node.ConvertMediaToModel<T>(CodeFirstModelContext.GetContext(this));
+        }
     }
 }

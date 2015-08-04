@@ -60,7 +60,7 @@ namespace Felinesoft.UmbracoCodeFirst.Controllers
         /// <returns>A strongly-typed code-first view.</returns>
         protected ActionResult DocumentView<T>(T viewModel, RenderModel renderModel)
         {
-            return CurrentTemplate(GetDocumentViewModel(renderModel, viewModel));
+            return CodeFirstTemplate(GetDocumentViewModel(renderModel, viewModel));
         }
 
         /// <summary>

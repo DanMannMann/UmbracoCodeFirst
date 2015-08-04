@@ -9,7 +9,8 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
     /// <summary>
     /// Base class for code-first attributes which can be applied multiply (see <see cref="CodeFirstAttribute"/> for singly-applied attributes)
     /// </summary>
-    public class MultipleCodeFirstAttribute : Attribute
+    public abstract class MultipleCodeFirstAttribute : CodeFirstAttributeBase
     {
+        
     }
 }

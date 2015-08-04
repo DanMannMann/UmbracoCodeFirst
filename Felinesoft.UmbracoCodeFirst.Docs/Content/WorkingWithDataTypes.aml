@@ -15,12 +15,13 @@
            titles.  Specify a numeric value as the inner text to limit it to
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
-      <autoOutline />
+
 
       <para>
         Data types in code-first are represented by data type classes. Properties whose types are such a class can
         be added to document type classes in order to add properties of those data types to that document type.
       </para>
+      <autoOutline />
     </introduction>
 
     <!-- Add one or more top-level section elements.  These are collapsible.
@@ -42,8 +43,8 @@
               //The ColorPicker type from the DataTypes.BuiltIn namespace is one of many such types
               //in that namespace which correspond to Umbraco's built-in data types. Using a built-in
               //data type for a property is as simple as adding a property of that type to your document type class
-              //and decorating that property with a DocumentProperty attribute.
-              [DocumentProperty]
+              //and decorating that property with a ContentProperty attribute.
+              [ContentProperty]
               public ColorPicker ColorPicker { get; set; }
           }
         </code>
@@ -74,6 +75,53 @@
         </code>
       </content>
     </section>
+
+    <section address="inline">
+      <title>Creating data type instances directly on document types</title>
+      <content>
+        <!-- Uncomment this to create a sub-section outline
+        <autoOutline /> -->
+        <para>
+          An instance of a data type can be created specifically for a certain property on a document type, by applying a 
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeInstanceAttribute</codeEntityReference>
+          to the property. <link xlink:href ="f13fc6da-38dc-4585-b0f3-e701d17d03e1#instance">Instance Pre-Value Attributes</link> can be applied to the property
+          to specify pre-values for the unique instance.
+        </para>
+        <para>
+          The example below defines a property named "Approved Background Color". A unique data type instance is created which uses the same editor, storage and converters as the
+          ColorPicker type and is named "ColorPicker (CodeFirstExampleDocument.ApprovedBackgroundColor)". Pre-values can then be specified which are unique to this property.
+          The example specifies a new list of allowed colors via <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s.
+          See <link xlink:href ="f13fc6da-38dc-4585-b0f3-e701d17d03e1">Working with Pre-Values</link> for more information.
+        </para>
+        <code language="c#">
+          [DocumentType]
+          public class CodeFirstExampleDocument : DocumentTypeBase
+          {
+              [ContentProperty]
+              [DataTypeInstance]
+              [InstancePreValue("1", "111111")]
+              [InstancePreValue("2", "222222")]
+              [InstancePreValue("3", "333333")]
+              public ColorPicker ApprovedBackgroundColor { get; set; }
+          }
+        </code>
+      </content>
+    </section>
+
+    <section address="pevc">
+      <title>Using Umbraco's Property Converters</title>
+      <content>
+        <para>
+          Code-first also supports using Umbraco's property editor value converters via <link xlink:href="787d469d-06cb-4ba1-8b13-d889e1b88c72">subtly different syntax</link>. 
+          This can remove the need for creating custom code-first data types to wrap 3rd party property editors you are using.
+          Support for value converters is limited to published content and does not allow working with IContent. This prevents modifying and persisting
+          content from code using the code-first models but it gives control over the value serialisation to the editor's author, which is probably the best place for it.
+          I find Code-first data type implementations generally richer and more flexible, but the cleanliness and separation afforded by using Umbraco's own types
+          may appeal just as much in many circumstances.
+        </para>
+      </content>
+    </section>
+
 
     <relatedTopics>
       <!-- One or more of the following:

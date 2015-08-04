@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.InitialisableAttributes", "Felinesoft.InitialisableAttributes\Felinesoft.InitialisableAttributes.csproj", "{35EF1BFC-FC40-46D2-A203-9F0AF5888B3F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{3F3C5156-719A-44CD-835C-3711E10DAE91}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Restore", "DB Restore", "{5F966450-5AFD-4F13-A87C-5CFDD0AF5FE9}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,6 +15,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE9A47BE-F8A9-4454-A14D-449C380FC27C}"
 	ProjectSection(SolutionItems) = preProject
 		.tfignore = .tfignore
+		Performance5.psess = Performance5.psess
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A99-CD6D-499D-B208-322BED2FD320}"
@@ -24,24 +23,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Demo", "Felinesoft.UmbracoCodeFirst.Demo\Felinesoft.UmbracoCodeFirst.Demo.csproj", "{3F332CA7-393C-40E2-8492-4237479EDE2C}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
+		SccNumberOfProjects = 4
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://tfs.felinesoft.com:8080/tfs/defaultcollection
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = Demo\\Demo.csproj
-		SccProjectName1 = Demo
-		SccLocalPath1 = Demo
-		SccProjectUniqueName2 = Felinesoft.InitialisableAttributes\\Felinesoft.InitialisableAttributes.csproj
-		SccProjectName2 = Felinesoft.InitialisableAttributes
-		SccLocalPath2 = Felinesoft.InitialisableAttributes
-		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst\\Felinesoft.UmbracoCodeFirst.csproj
-		SccProjectName3 = Felinesoft.UmbracoCodeFirst
-		SccLocalPath3 = Felinesoft.UmbracoCodeFirst
-		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.Docs\\Felinesoft.UmbracoCodeFirst.Docs.shfbproj
-		SccProjectName4 = Felinesoft.UmbracoCodeFirst.Docs
-		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.Docs
+		SccProjectUniqueName1 = Felinesoft.UmbracoCodeFirst\\Felinesoft.UmbracoCodeFirst.csproj
+		SccProjectName1 = Felinesoft.UmbracoCodeFirst
+		SccLocalPath1 = Felinesoft.UmbracoCodeFirst
+		SccProjectUniqueName2 = Felinesoft.UmbracoCodeFirst.Docs\\Felinesoft.UmbracoCodeFirst.Docs.shfbproj
+		SccProjectName2 = Felinesoft.UmbracoCodeFirst.Docs
+		SccLocalPath2 = Felinesoft.UmbracoCodeFirst.Docs
+		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.Demo\\Felinesoft.UmbracoCodeFirst.Demo.csproj
+		SccProjectName3 = Felinesoft.UmbracoCodeFirst.Demo
+		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.Demo
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,18 +50,14 @@ Global
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Release|Any CPU.Build.0 = Release|Any CPU
-		{35EF1BFC-FC40-46D2-A203-9F0AF5888B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{35EF1BFC-FC40-46D2-A203-9F0AF5888B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{35EF1BFC-FC40-46D2-A203-9F0AF5888B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{35EF1BFC-FC40-46D2-A203-9F0AF5888B3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F3C5156-719A-44CD-835C-3711E10DAE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F3C5156-719A-44CD-835C-3711E10DAE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F3C5156-719A-44CD-835C-3711E10DAE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F3C5156-719A-44CD-835C-3711E10DAE91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

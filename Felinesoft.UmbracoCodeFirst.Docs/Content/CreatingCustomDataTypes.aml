@@ -30,24 +30,17 @@
       <title>Creating a data type</title>
       <content>
         <para>
-          The interface used determines the database storage type used for the property value. The generic parameter of the interface specifies
-          the type of the property value on the underlying IPublishedContent. For example the Umbraco Grid property editor
-          uses a property editor value converter to return a JObject instance. The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.GridBase</codeEntityReference>
-          data type implements <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType`1</codeEntityReference> with a type parameter
-          of JObject, indicating that the database storage type is Ntext and the property value converter's output type is JObject.
+          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> can be used to specify the name, property editor alias
+          and database storage type for the data type. The name and data storage type can be inferred from the class name and the implemented interface and so usually needn't be specified.
+          However it is not possible to correctly infer the property editor alias, so this has to be specified explicitly.
         </para>
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> is used to specify the name, property editor alias
-          and database storage type for the data type. All of these properties can be inferred from the class name and the implemented interface. Inference is the preferred approach.
-          However is it usually not possible to correctly infer the property editor alias, so this will generally be specified explicitly.
-        </para>
-        <para>
-          The example below creates a data type with name "Address Data Type", stored to the database as Ntext and represented in IPublishedContent instances as a string. The data type
+          The example below creates a data type with name "Address Data Type", stored to the database as Ntext and passed to/from the converter methods as a string. The data type
           uses a custom property editor which has alias "CodeFirst.JsonAddressEditor".
         </para>
         <code language="c#">
           [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor")]
-          public class AddressDataType : IUmbracoNtextDataType&lt;string&gt;
+          public class AddressDataType : IUmbracoNtextDataType
           {
               //insert custom modelling and logic for the data type
           }
@@ -75,18 +68,18 @@
       <title>Implementing the data type</title>
       <content>
         <para>
-          The data type interfaces specify two methods, Serialize and Initialize. Implementing these allows instances of the data type to be used to provide strongly-typed
-          modelling of document properties, such that your document types and data types can be used in Razor views and C# code with full intellisense and compile-time type safety.
+          The data type interfaces specify two methods, Serialize and Initialize. Implementing these allows instances of the data type to be persisted and
+          retrieved from the Umbraco database. This allows strongly-typed views using the code-first document &amp; data types, and allows content to be
+          created, updated and persisted programmatically using the code-first models.
         </para>
         <para>
-          Initialize is called when the data type is being constructed during rendering. It takes a single argument of the same type as the underlying object
-          (i.e. it matches the generic type parameter of the data type interface). This method should set the values of the data type instance's properties according
-          to the value of the underlying object.
+          Initialize is called when the data type is being constructed during rendering. It takes a single argument of type T. 
+          This method should set the values of the data type instance's properties according
+          to the value passed in.
         </para>
         <para>
-          Serialize is called whenever an instance is persisted to the database by calling
-          <codeEntityReference qualifyHint="false">M:Felinesoft.UmbracoCodeFirst.DocumentTypes.DocumentTypeBase.Persist(System.Int32,System.Int32,System.Boolean)</codeEntityReference> on
-          a document type instance which uses the data type.
+          Serialize is called whenever an instance is to be persisted to the database by the code-first core. It should return the data type instance
+          serialised to type T.
         </para>
         <para>
           The example below shows the implementation of the AddressDataType. It has properties for the constituent parts of the address. These properties are populated
@@ -95,7 +88,7 @@
         </para>
         <code language="c#">
           [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor")]
-          public class AddressDataType : IUmbracoNtextDataType&lt;string&gt;
+          public class AddressDataType : IUmbracoNtextDataType, IHtmlString
           {
               public int PropertyNumber { get; set; }
               public string AddressLine1 { get; set; }
@@ -123,18 +116,84 @@
                   }
               }
 
-              //Overriding the ToString method is a convenient way to set up consistent
+              //Implementing IHtmlString is a convenient way to set up consistent
               //formatting for use in views. Using @Document.AddressProperty in a Razor view
-              //will automatically call ToString on the object and output the resultant string
-              //to the page.
-              public override string ToString()
+              //will automatically call ToHtmlString on the object and output the resultant raw string
+              //to the page. Remember to sanitize your inputs!
+              public string ToHtmlString()
               {
-                  return string.Format("{0} {1}\r\n{2}\r\n{3}\r\n\r\n{4}", PropertyNumber, AddressLine1, AddressLine2, City, PostalCode);
+                  return string.Format("&lt;p&gt;{0} {1}&lt;br /&gt;{2}&lt;br /&gt;{3}&lt;br /&gt;&lt;br /&gt;{4}&lt;/p&gt;",
+                                  PropertyNumber,
+                                  HttpUtility.HtmlEncode(AddressLine1),
+                                  HttpUtility.HtmlEncode(AddressLine2),
+                                  HttpUtility.HtmlEncode(City),
+                                  HttpUtility.HtmlEncode(PostalCode));
               }
           }
         </code>
       </content>
     </section>
+
+    <section address="nologic">
+      <title>Data types without conversion logic</title>
+      <content>
+        <para>
+          It is possible to create a data type without implementing the data type interface. This is useful for keeping your code cleaner if you don't intend to use
+          strongly-typed views or create/update content programmatically. In this case the database storage type can be specified using the
+          <codeEntityReference qualifyHint="false">P:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute.DbType</codeEntityReference> property of the
+          DataTypeAttribute applied to the class. You must also set useConverter to false in the attribute constructor - setting the converter to null is not
+          sufficient, the code-first manager will attempt to construct a default converter unless explicitly told not to.
+        </para>
+        <code language="c#">
+          [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor", dbType: DataTypeDatabaseType.Ntext, useConverter: false)]
+          public class AddressDataType
+          {
+              ...
+          }
+        </code>
+      </content>
+    </section>
+
+    <section address="factory">
+      <title>Data types using a separate class for conversion</title>
+      <content>
+        <para>
+          It is possible to implement your conversion logic on a separate class to your data type model. This can be done by creating a class which implements
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Converters.IDataTypeConverter</codeEntityReference>. Be aware that more runtime
+          type resolution is needed for this approach so it isn't as safe at compile-time as implementing the converion logic on the data type itself.
+        </para>
+        <para>
+          The best approach to implementing the conversion factory is to inherit the abstract 
+          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Converters.DataTypeConverterBase`2</codeEntityReference> class, specifying 
+          the output type of the property editor as Tdb and the target data type as Tentity.
+        </para>
+        <code>
+          public class AddressDataTypeConverter : DataTypeConverterBase&lt;string,AddressDataType&gt;
+          {
+              public override AddressDataType Create(string input)
+              {
+                  return JsonConvert.DeserializeObject&lt;AddressDataType&gt;(input);
+              }
+
+              public override string Serialise(AddressDataType input)
+              {
+                  return JsonConvert.SerializeObject(input, Formatting.Indented);
+              }
+          }
+        </code>
+        <para>
+          The converter type can be specified in the DataTypeAttribute in order to associate it with the data type.
+        </para>
+        <code language="c#">
+          [DataType(propertyEditorAlias: "CodeFirst.JsonAddressEditor", DbType: DataTypeDatabaseType.Ntext, ConverterType: typeof(AddressDataTypeConverter))]
+          public class AddressDataType
+          {
+              ...
+          }
+        </code>
+      </content>
+    </section>
+    
     <relatedTopics>
       <!-- One or more of the following:
            - A local link
