@@ -17,7 +17,8 @@ namespace Felinesoft.UmbracoCodeFirst.Demo.DocTypes
         [ContentProperty]
         public virtual RadioButtonList RadioButtonList { get; set; }
 
-        [ContentProperty(cssClasses: "related-link")]
+        [ContentProperty]
+        [CssClass("related-link")]
         public virtual RelatedLinks RelatedLinks { get; set; }
 
         [ContentProperty]
@@ -25,11 +26,11 @@ namespace Felinesoft.UmbracoCodeFirst.Demo.DocTypes
 
         [ContentProperty]
         [NodePickerConfig(maximumItems: 1)]
-        public virtual MediaPicker<MediaImage> SingleImage { get; set; }
+        public virtual MediaPicker<Image> SingleImage { get; set; }
 
         [ContentProperty]
         [DataTypeInstance]
-        public virtual MediaPicker<MediaImage> MultipleImage { get; set; }
+        public virtual MediaPicker<Image> MultipleImage { get; set; }
 
         [ContentProperty]
         [NodePickerConfig(maximumItems: 1)]

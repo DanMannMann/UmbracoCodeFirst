@@ -1,5 +1,6 @@
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using System;
@@ -135,14 +136,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
                     startNodeString = ", \"id\": " + configAttribute.StartNodeId.ToString();
 
                 }
-                if (configAttribute.MinimumItems > 0)
+                if (configAttribute.MinimumItems > -1)
                 {
                     minNumberString = configAttribute.MinimumItems.ToString();
                 }
-                if (configAttribute.MaximumItems > 0)
+                if (configAttribute.MaximumItems > -1)
                 {
                     maxNumberString = configAttribute.MaximumItems.ToString();
                 }
+                typeAlias += "," + configAttribute.AllowedDescendantString;
             }
 
             if (maxNumberOverride != -1)
@@ -179,7 +181,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             }
             else if (Items.Count > 1)
             {
-                return Items.Count + " content items selected";
+                return Items.Count() + " content items selected";
             }
             else
             {
@@ -196,7 +198,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             }
             else if (Items.Count > 1)
             {
-                return Items.Count + " content items selected";
+                return Items.Count() + " content items selected";
             }
             else
             {

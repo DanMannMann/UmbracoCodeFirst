@@ -14,7 +14,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             Alias = alias;
             DataType = dataType;
             Metadata = metadata;
-            CssClasses = cssClasses;
         }
 
         public ContentPropertyAttribute PropertyAttribute { get; internal set; }
@@ -22,6 +21,5 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         public string Alias { get; internal set; }
         public DataTypeRegistration DataType { get; internal set; }
         public PropertyInfo Metadata { get; internal set; }
-        public string CssClasses { get; internal set; }
     }
 }

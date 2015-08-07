@@ -3,9 +3,9 @@
 	<developerConceptualDocument xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5" xmlns:xlink="http://www.w3.org/1999/xlink">
 		<introduction>
 			<para>
-        Code-First for Umbraco is a lightweight framework for creating and managing Umbraco document types,
+        Code-First for Umbraco is a framework for creating and managing Umbraco document types,
         data types, media types and other entity types using an attribute-driven, code-first approach. The
-        defined code-first classes can also be used as strongly-typed, compile-time-checked models in views.
+        defined content type classes can also be used as strongly-typed, compile-time-checked models in views.
       </para>
       <para>
         The demo project included in the Visual Studio solution has examples of all that stuff.
@@ -13,6 +13,69 @@
       <autoOutline />
 		</introduction>
 
+    <section address="features">
+      <title>Features</title>
+      <content>
+        <list class ="bullet">
+          <listItem>
+            <para>
+              Document Type, Media Type, Member Type &amp; Data Type creation and management
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Content type tabs - including sharing tab definitions between document types &amp; inheritance in tabs
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Content type composition
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Built-in implementations of the Umbraco default data &amp; media types
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Parallel initialisation &amp; intelligent updating to minimise bootstrapping time
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Efficient lazy loading of virtual properties when constructing models for strongly-typed views
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Optional hiding of "code-first managed" types from the settings &amp; developer trees in the Umbraco back-office
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Strongly-typed content pickers
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Specialised Razor view base with a convenience property &amp; HTML helper for accessing and manipulating the strongly-typed document data
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Generate C# class files for types already in the Umbraco database - easily convert existing sites to a code-first workflow
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              Linq-like extensions for navigating the content tree by CLR type - e.g. x.NearestAncestor&lt;MyType&gt;()
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+    
     <section address="config">
       <title>Configuring your site to use Code-First</title>
       <content>
@@ -38,13 +101,9 @@
           }
         </code>
         <para>
-          If you're going to use strongly typed models &amp; views based on the code-first types then initialisation needs to be run every time the site starts. The
+          In order to enable strongly typed models &amp; views based on the code-first types initialisation needs to be run every time the site starts. The
           information gathered during initialisation is used to make the model building possible in an efficient way; without calling Initialise properly the
           strongly-typed models &amp; views won't work, even if all of the entities already exist in the database.
-        </para>
-        <para>
-          If you're using code-first only to allow code-driven entity management then there is no requirement to run the initialisation every time the site starts.
-          So if you don't plan to use the strongly typed models &amp; views you could choose to run initialisation on demand or depending on a boolean config switch.
         </para>
       </content>
     </section>
@@ -53,11 +112,11 @@
       <title>Creating Code-First Entities</title>
       <content>
         <para>
-          Code-First allows management of document, data &amp; media entities, pre-values and default templates. In the future support for all other entity types will be added
-          (members, users, relations, extra templates etc).
+          Code-First allows management of document, media, member &amp; data types, pre-values and templates. In the future support for all other entity types will be added
+          (users, relations, etc).
         </para>
         <para>
-          Documentation on creating the already-supported entities can be found in the topics listed below:
+          Documentation on creating the supported entities can be found in the topics listed below:
         </para>
         <list class="bullet">
           <listItem>
@@ -82,7 +141,7 @@
           </listItem>
           <listItem>
             <para>
-              Media Type docs coming soon!
+              <link xlink:href="79ea8886-41e6-4691-9d55-4c3fc3be5310" />
             </para>
           </listItem>
         </list>
@@ -93,40 +152,51 @@
       <title>Converting existing sites to code-first</title>
       <content>
         <para>
-          There are code-generation tools which can be used to generate class files for existing data &amp; document types in a site. They are useful for converting an
+          There are code-generation tools which can be used to generate class files for existing data, media &amp; document types in a site. They are useful for converting an
           existing site to use code-first, and were in fact used to generate most of the classes in the
           <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace.
         </para>
         <para>
-          These tools are not yet documented or fully stable. Check out the Felinesoft.UmbracoCodeFirst.T4Generators namespace in the source for info on how they work.
-          The tools are triggered by adding the following line of code, typically in a startup event handler. The files will be placed in ~app_data/UmbracoCodeFirstTypes.
+          These tools are not yet documented or guaranteed stable, but do work fairly well.The tools are triggered by adding the following line of
+          code, typically in a startup event handler, after initialising code-first.
         </para>
         <code>
-          CodeFirstManager.Current.GenerateTypeFilesFromDatabase("My.Project.Namespace");
+          CodeFirstManager.Current.Initialise(this.GetType().Assembly);
+          CodeFirstManager.Current.GenerateTypeFilesFromDatabase(@"E:\MyFolder", "My.Namespace");
+        </code>
+        <para>
+          If you need to run the tool without initialising code-first you
+          must manually populate the module resolver with the relevant modules and freeze the resolver before attempting to generate the types.
+        </para>
+        <code>
+          //extension method AddDefaultModules in namespace Felinesoft.UmbracoCodeFirst.Extensions
+          CodeFirstManager.Current.Modules.AddDefaultModules();
+          CodeFirstManager.Current.Modules.FreezeResolver();
+          CodeFirstManager.Current.GenerateTypeFilesFromDatabase(@"E:\MyFolder", "My.Namespace");
         </code>
       </content>
     </section>
 
     <section address="remarks">
-      <title>Code-First Entities &amp; the Back-Office</title>
+      <title>Code-First Entity Types &amp; the Back-Office</title>
       <content>
         <para>
-          Making changes to the entities (document types, data types etc) via the usual back-office methods can be unreliable when using code-first. For entities for
+          Making changes to the entity types (document types, data types etc) via the usual back-office methods can be unreliable when using code-first. For entity types for
           which no code-first definition exists the default Umbraco behaviour will be honoured. Wherever a code-first definition exists any changes made
-          to that entity via the back-office will be overwritten next time code-first is initialised. It is a better approach to do all entity definition and
-          modification in code.
+          to that entity type via the back-office developer and/or settings applications will be overwritten next time code-first is initialised. 
+          It is a better approach to do all entity type definition and modification in code.
         </para>
         <para>
-          You can automatically hide all "code-first managed" entities from the trees in the backoffice by adding the following line of code, usually
-          in a startup event handler.
+          You can automatically hide all "code-first managed" entity types from the trees in the developer &amp; settings back-office
+          applications by adding the following line of code, usually in a startup event handler.
         </para>
         <code>
-          CodeFirstManager.Current.HideCodeFirstEntitiesInTrees();
+          CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
         </code>
       </content>
     </section>
 
-    <section address="further">
+    <!--<section address="further">
       <title>Key Attributes &amp; Classes</title>
       <content>
         <para>These classes are the main things you'll want to know about to get up and running. Their docs are worth reading.</para>
@@ -172,7 +242,7 @@
           </listItem>
         </list>
       </content>
-    </section>
+    </section>-->
     <relatedTopics>
 		</relatedTopics>
 	</developerConceptualDocument>

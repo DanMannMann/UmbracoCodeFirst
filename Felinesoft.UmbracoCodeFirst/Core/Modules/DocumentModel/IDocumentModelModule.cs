@@ -26,6 +26,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         bool TryConvertToContent<T>(T model, out IContent content, int parentId = -1) where T : DocumentTypeBase;
 
         IContent ConvertToContent(DocumentTypeBase model, int parentId = -1);
+
+        void ProjectModelToContent(DocumentTypeBase model, IContent content);
     }
 
 }

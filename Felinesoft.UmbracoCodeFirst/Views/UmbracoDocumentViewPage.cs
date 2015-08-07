@@ -38,5 +38,29 @@ namespace Felinesoft.UmbracoCodeFirst.Views
         /// The document model
         /// </summary>
         public Tdocument Document { get { return _helper.Value.Document; } }
+
+        public MvcHtmlString IgnoreNullRaw(Func<Tdocument, IHtmlString> selector, string defaultValue = "")
+        {
+            try
+            {
+                return new MvcHtmlString(selector.Invoke(Document).ToHtmlString());
+            }
+            catch (NullReferenceException ex)
+            {
+                return new MvcHtmlString(defaultValue);
+            }
+        }
+
+        public string IgnoreNull(Func<Tdocument, object> selector, string defaultValue = "")
+        {
+            try
+            {
+                return selector.Invoke(Document).ToString();
+            }
+            catch (NullReferenceException ex)
+            {
+                return defaultValue;
+            }
+        }
     }
 }

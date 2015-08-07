@@ -1,3 +1,4 @@
+using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.Core.Resolver;
 using System;
 
@@ -7,7 +8,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     {
         public override System.Collections.Generic.IEnumerable<Type> GetAttributeTypesToFilterOn()
         {
-            return new Type[] { };
+            return new Type[] { typeof(DocumentTypeAttribute) };
         }
 
         public override IDocumentModelModule CreateInstance(IDataTypeModule dataTypeModule, IDocumentTypeModule documentTypeModule)

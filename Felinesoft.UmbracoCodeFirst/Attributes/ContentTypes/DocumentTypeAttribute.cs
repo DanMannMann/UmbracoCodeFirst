@@ -17,7 +17,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         public DocumentTypeAttribute(string name = null, string alias = null,
             Type[] allowedChildren = null, string icon = BuiltInIcons.IconDocument,
             bool allowAtRoot = false, bool enableListView = false,
-            string description = "", string cssClasses = "")
+            string description = "", UmbracoIconColor iconColor = UmbracoIconColor.Black)
         {
             Name = name;
             Alias = alias;
@@ -26,7 +26,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             AllowedChildren = allowedChildren;
             Icon = icon;
             Description = description;
-            CssClasses = cssClasses;
+            IconColor = iconColor;
         }
 
         /// <summary>

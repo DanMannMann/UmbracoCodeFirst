@@ -39,7 +39,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// <summary>
         /// 
         /// </summary>
-        internal DataTypeRegistration() { CssClasses = ""; }
+        internal DataTypeRegistration() { }
 
         /// <summary>
         /// Represents the information needed to map an Umbraco data type to a .NET property type
@@ -47,12 +47,11 @@ namespace Felinesoft.UmbracoCodeFirst
         /// <param name="dataTypeInstanceName">The data type instance name</param>
         /// <param name="propertyEditorAlias">The property editor alias</param>
         /// <param name="converterType">The type converter to use to transform the Umbraco value into its .NET counterpart</param>
-        public DataTypeRegistration(string dataTypeInstanceName, string propertyEditorAlias, Type converterType, DatabaseType dbType, IDataTypeDefinition definition, bool codeFirstControlled, string cssClasses)
+        public DataTypeRegistration(string dataTypeInstanceName, string propertyEditorAlias, Type converterType, DatabaseType dbType, IDataTypeDefinition definition, bool codeFirstControlled)
         {
             DataTypeInstanceName = dataTypeInstanceName;
             PropertyEditorAlias = propertyEditorAlias;
             ConverterType = converterType;
-            CssClasses = cssClasses;
             DbType = dbType;
             Definition = definition;
             CodeFirstControlled = codeFirstControlled;
@@ -97,6 +96,6 @@ namespace Felinesoft.UmbracoCodeFirst
 
         public bool CodeFirstControlled { get; internal set; }
 
-        public string CssClasses { get; internal set; }
+        public Type ClrType { get; internal set; }
     }
 }

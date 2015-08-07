@@ -105,8 +105,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                                                         mediaTypeAttribute.Alias,
                                                         mediaTypeAttribute.Name,
                                                         type,
-                                                        mediaTypeAttribute,
-                                                        mediaTypeAttribute.CssClasses);
+                                                        mediaTypeAttribute);
                 return registration;
             }
             else
@@ -173,14 +172,24 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             _service.Save((IMediaType)contentType);
         }
 
+        protected override void DeleteContentType(IContentTypeBase contentType)
+        {
+            _service.Delete((IMediaType)contentType);
+        }
+
         protected override IContentTypeComposition GetContentTypeByAlias(string alias)
         {
             return _service.GetMediaType(alias);
         }
 
-        protected override IContentTypeComposition CreateContentType(int parentId)
+        protected override IContentTypeComposition CreateContentType(IContentTypeBase parent)
         {
-            return new MediaType(parentId);
+            return parent == null ? new MediaType(-1) : new MediaType((IMediaType)parent);
+        }
+
+        protected override IEnumerable<IContentTypeBase> GetChildren(IContentTypeBase contentType)
+        {
+            return _service.GetMediaTypeChildren(contentType.Id);
         }
         #endregion
     }

@@ -36,7 +36,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             _service = service;
             controller = _controller = new DataTypeRegisterController(this);
-            Initialise();
         }
 
         public IReadOnlyList<DataTypeRegistration> Registrations
@@ -44,34 +43,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             get
             {
                 return _register.Values.Union(_instanceRegister.Values).Distinct().ToList().AsReadOnly();
-            }
-        }
-
-        private void Initialise()
-        {
-            if (CodeFirstManager.Current.Features.UseBuiltInPrimitiveDataTypes)
-            {
-                //Initialise the built-in types
-                _controller.Register(typeof(string), new DataTypeRegistration()
-                {
-                    DataTypeInstanceName = BuiltInDataTypes.Textbox,
-                    Definition = _service.GetDataTypeDefinitionByName(BuiltInDataTypes.Textbox)
-                });
-                _controller.Register(typeof(bool), new DataTypeRegistration()
-                {
-                    DataTypeInstanceName = BuiltInDataTypes.TrueFalse,
-                    Definition = _service.GetDataTypeDefinitionByName(BuiltInDataTypes.TrueFalse)
-                });
-                _controller.Register(typeof(DateTime), new DataTypeRegistration()
-                {
-                    DataTypeInstanceName = BuiltInDataTypes.DatePickerWithTime,
-                    Definition = _service.GetDataTypeDefinitionByName(BuiltInDataTypes.DatePickerWithTime)
-                });
-                _controller.Register(typeof(int), new DataTypeRegistration()
-                {
-                    DataTypeInstanceName = BuiltInDataTypes.Numeric,
-                    Definition = _service.GetDataTypeDefinitionByName(BuiltInDataTypes.Numeric)
-                });
             }
         }
 

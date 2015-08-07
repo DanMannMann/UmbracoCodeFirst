@@ -4,6 +4,8 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     public abstract class ContentTypeAttribute : CodeFirstAttribute
     {
+        private string _icon = string.Empty;
+
         /// <summary>
         /// The name of the content type
         /// </summary>
@@ -33,13 +35,36 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// The icon to display in the content tree (see UmbracoCodeFirst.BuiltInIcons for constants
         /// representing Umbraco's default icon set)
         /// </summary>
-        public string Icon { get; set; }
+        public string Icon
+        {
+            get
+            {
+                return _icon + (IconColor == UmbracoIconColor.Black ? string.Empty : (" color-" + IconColor.ToString().ToLower()));
+            }
+            set
+            {
+                _icon = value;
+            }
+        }
+
+        /// <summary>
+        /// The colour to use for the icon in the content tree (defaults to black)
+        /// </summary>
+        public UmbracoIconColor IconColor { get; set; }
 
         /// <summary>
         /// The Description of the document type
         /// </summary>
         public string Description { get; set; }
+    }
 
-        public string CssClasses { get; set; }
+    public enum UmbracoIconColor
+    {
+        Black = 0,
+        Green = 1,
+        Yellow = 2,
+        Orange = 3,
+        Blue = 4,
+        Red = 5
     }
 }

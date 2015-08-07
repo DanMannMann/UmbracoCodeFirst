@@ -38,23 +38,23 @@
           public class MyDocumentType : DocumentTypeBase
           {
               [ContentProperty]
-              public Textstring ExistingProperty1 { get; set; }
+              public virtual Textstring ExistingProperty1 { get; set; }
 
               [ContentProperty]
-              public Textstring ExistingProperty2 { get; set; }
+              public virtual Textstring ExistingProperty2 { get; set; }
 
               [ContentComposition]
-              public MyNewDocumentType NewProperties { get; set; }
+              public virtual MyNewDocumentType NewProperties { get; set; }
           }
 
           [DocumentType]
           public class MyNewDocumentType : DocumentTypeBase
           {
               [ContentProperty]
-              public Textstring NewProperty1 { get; set; }
+              public virtual Textstring NewProperty1 { get; set; }
 
               [ContentProperty]
-              public Textstring NewProperty2 { get; set; }
+              public virtual Textstring NewProperty2 { get; set; }
           }
         </code>
         <para>

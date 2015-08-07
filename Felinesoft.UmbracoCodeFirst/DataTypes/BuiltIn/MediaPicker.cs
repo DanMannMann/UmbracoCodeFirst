@@ -18,7 +18,7 @@ using Umbraco.Web;
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
-    public class MediaPicker<T> : NodePicker<T, MediaNodeDetails> where T : MediaTypeBase, new()
+    public class MediaPicker<T> : NodePicker<T, MediaNodeDetails>, IMediaPicker where T : MediaTypeBase, new()
     {
         public MediaPicker() : base(NodeType.media) { }
 
@@ -71,4 +71,6 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
             return node.ConvertMediaToModel<T>(CodeFirstModelContext.GetContext(this));
         }
     }
+
+    internal interface IMediaPicker { }
 }

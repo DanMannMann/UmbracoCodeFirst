@@ -33,7 +33,7 @@
         <para>
           To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
           and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. The document type
-          name, alias, default template, allowed children, icon, list view and allow at root properties can be specified in the attribute. The name and alias will be inferred from the name of the class
+          name, alias, allowed children, icon, list view and allow at root properties can be specified in the attribute. The name and alias will be inferred from the name of the class
           if none are specified in the attribute. All attribute arguments are optional.
         </para>
         <para>
@@ -55,10 +55,9 @@
       <content>
         <para>
           The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> declares a property on
-          the document type. The alias, name, property editor/data type, sort order and description can be set via the attribute. The alias and name will be inferred from the
-          property name if none are specified. The data type will be inferred from the property type if none is specified, provided that the type is either a type from the
-          <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace, a valid 
-          <link xlink:href="ea9b7789-8c43-48af-9c5e-7860e55cabe1">custom data type</link> or one of the supported value types (string, int, DateTime, bool).
+          the document type. The alias, name, sort order, mandatory flag and description can be set via the attribute. The alias and name will be inferred from the
+          property name if none are specified. The data type will be inferred from the property type, provided that the type is registered in the code-first core.
+          The dataType argument is only used with <link xlink:href="787d469d-06cb-4ba1-8b13-d889e1b88c72">Umbraco built-in converter syntax</link> and is otherwise ignored.
         </para>
         <code language="c#">
           [DocumentType(AllowedAtRoot = true)]
@@ -66,24 +65,24 @@
           {
               //By default string properties declare a property with the built-in single-line textbox data type.
               [ContentProperty(Description = "A string property.")]
-              public string String { get; set; }
+              public virtual string String { get; set; }
 
               //By default DateTime properties declare a property with the built-in 'date with time' data type.
               [ContentProperty(Description = "A DateTime property.")]
-              public DateTime DateTime { get; set; }
+              public virtual DateTime DateTime { get; set; }
 
               //The ColorPicker type from the DataTypes.BuiltIn namespace is one of many such types
               //in that namespace which correspond to Umbraco's built-in data types. Using a built-in
               //data type for a property is as simple as adding a property of that type to your document type class.
               [ContentProperty(Description = "A property using the built-in 'Approved Color' data type.")]
-              public ColorPicker ColorPicker { get; set; }
+              public virtual ColorPicker ColorPicker { get; set; }
 
               //This property uses the custom generic content picker type from the DataTypes namespace.
               //The selected content is converted to the corresponding strongly-typed model when the property is loaded.
               //This property is based on the Umbraco multi-node picker property editor, and automatically restricts the
               //editor to picking a maximum of one item of the relevant document type (in this case ContentPickerExampleDocument)
               [ContentProperty]
-              public TypedContentPicker&lt;ContentPickerExampleDocument&gt; SelectedContent { get; set; }
+              public virtual TypedContentPicker&lt;ContentPickerExampleDocument&gt; SelectedContent { get; set; }
           }
         </code>
         <para>
@@ -101,7 +100,37 @@
         allowing document types to be used as editable models in the standard MVC workflow.</para>
       </content>
     </section>
-    
+
+    <section address="lazy">
+      <title>Lazy Loading</title>
+      <content>
+        <para>
+            The code-first model builder uses Castle DynamicProxy to facilitate lazy loading of properties &amp; compositions on document types
+            &amp; tabs. If you declare your [ContentProperty] and [ContentComposition] properties as virtual they will automatically be lazy-loaded.
+            With lazy loading unused properties are not loaded, which can present a significant performance advantage by lowering the number of
+            model conversions required to service a request. This is particularly true for content picker &amp; composition properties.
+        </para>
+        <para>
+          Note that you can't lazy load an entire tab by making the [ContentTab] property virtual. You must make the individual properties
+          on the tab virtual to get best performance.
+        </para>
+        <code>
+          //Not lazy-loaded. Will be converted to a strongly-typed model even if it is not used.
+          [ContentProperty]
+          public SingleMediaPicker&lt;MyMediaType&gt; MediaItem { get; set; }
+
+          //Lazy-loaded. Will not be converted unless it is accessed, reducing unnecessary overhead.
+          [ContentProperty]
+          public virtual SingleMediaPicker&lt;MyMediaType&gt; MediaItem { get; set; }
+        </code>
+        <para>
+          Lazy loading is a toggleable feature which is enabled by default. To toggle lazy loading off globally you can set:
+        </para>
+        <code>
+          CodeFirstManager.Current.Features.UseLazyLoadingProxies = false;
+        </code>
+      </content>
+    </section>
     <!-- <codeExample>Optional code example</codeExample> -->
 
     <!-- <buildInstructions>Optional instructions for building a

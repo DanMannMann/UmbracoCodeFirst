@@ -66,6 +66,11 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
                 throw new CodeFirstException("Failed to convert model to content.");
             }
         }
+
+        public void Project(IContent target)
+        {
+            _modelModule.Value.ProjectModelToContent(this, target);
+        }
         #endregion
     }
 }

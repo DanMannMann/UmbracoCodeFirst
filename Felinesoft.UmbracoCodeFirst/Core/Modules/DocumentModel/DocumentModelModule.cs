@@ -16,6 +16,8 @@ using System.Web.Mvc;
 using System.Collections.Generic;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using System.Web;
+using Umbraco.Core.Services;
+using Umbraco.Core.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -23,7 +25,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     {
         private IDataTypeModule _dataTypeModule;
         private IDocumentTypeModule _documentTypeModule;
-        
+        private Dictionary<string, DocumentTypeRegistration> _onCreate = new Dictionary<string, DocumentTypeRegistration>();
+
         public DocumentModelModule(IDataTypeModule dataTypeModule, IDocumentTypeModule documentTypeModule)
             : base(dataTypeModule, documentTypeModule)
         {
@@ -33,7 +36,35 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public void Initialise(IEnumerable<Type> classes)
         {
+            foreach (var type in classes)
+            {
+                if (type.Implements<IOnCreate>())
+                {
+                    DocumentTypeRegistration reg;
+                    if (_documentTypeModule.TryGetDocumentType(type, out reg))
+                    {
+                        _onCreate.Add(reg.Alias, reg);
+                    }
+                }
+            }
+            Umbraco.Core.Services.ContentService.Created += ContentService_Created;
+        }
 
+        private void ContentService_Created(IContentService sender, NewEventArgs<IContent> e)
+        {
+            if (CodeFirstManager.Current.Features.EnableContentCreatedEvents)
+            {
+                lock (_onCreate)
+                {
+                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias))
+                    {
+                        var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
+                        (instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(e.Entity);
+                        (instance as IOnCreate).OnCreate();
+                        ProjectModelToContent((instance as DocumentTypeBase), e.Entity);
+                    }
+                }
+            }
         }
 
         #region Convert Model to Content
@@ -170,6 +201,21 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return base.ConvertToModelInternal<T>(content, parentContext);
         }
         #endregion
+
+        public void ProjectModelToContent(DocumentTypeBase model, IContent content)
+        {
+            var type = model.GetType();
+            DocumentTypeRegistration reg;
+            if (_documentTypeModule.TryGetDocumentType(type, out reg) && (reg.ClrType == type || reg.ClrType.Inherits(type)))
+            {
+                MapModelToContent(content, model, reg);
+            }
+        }
+    }
+
+    public interface IOnCreate
+    {
+        void OnCreate();
     }
 }
 

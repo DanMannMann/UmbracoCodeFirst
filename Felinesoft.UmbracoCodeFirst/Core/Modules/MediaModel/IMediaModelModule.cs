@@ -17,5 +17,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         bool TryConvertToContent<T>(T model, out IMedia content, int parentId = -1) where T : MediaTypeBase;
 
         IMedia ConvertToContent(MediaTypeBase model, int parentId = -1);
+
+        void ProjectModelToContent(MediaTypeBase model, IMedia content);
     }
 }

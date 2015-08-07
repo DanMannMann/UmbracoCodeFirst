@@ -70,8 +70,6 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// </summary>
         public string DataType { get; set; }
 
-        public string CssClasses { get; set; }
-
         /// <summary>
         /// Specifies that a property should be used as a document property on a document type.
         /// Any properties which are not set will be inferred from the property metadata and the
@@ -93,7 +91,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// The specified data type must already exist in Umbraco, it will not be created or updated when
         /// specified using this value.</para>
         /// </param>
-        public ContentPropertyAttribute(string name = null, string alias = null, bool mandatory = false, string description = "", int sortOrder = 0, bool addTabAliasToPropertyAlias = true, string dataType = null, string cssClasses = "")
+        public ContentPropertyAttribute(string name = null, string alias = null, bool mandatory = false, string description = "", int sortOrder = 0, bool addTabAliasToPropertyAlias = true, string dataType = null)
         {
             Name = name;
             Alias = alias;
@@ -102,7 +100,6 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             SortOrder = sortOrder;
             AddTabAliasToPropertyAlias = addTabAliasToPropertyAlias;
             DataType = dataType;
-            CssClasses = cssClasses;
         }
 
         /// <summary>

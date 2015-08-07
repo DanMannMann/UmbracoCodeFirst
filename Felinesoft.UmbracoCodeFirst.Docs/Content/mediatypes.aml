@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="79ea8886-41e6-4691-9d55-4c3fc3be5310" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <para>
+        Working with media types is almost identical to <link xlink:href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82"  />. The familiar [ContentProperty], [ContentTab] and 
+        [ContentComposition] attributes are used and the same rules apply for inheritance &amp; composition. The main difference is the use of the [MediaType] class attribute,
+        the use of the MediaTypeBase base class, the fact that media types don't support [Template] attributes &amp; the inclusion of a handful of specialised helper attributes which can be
+        used to create "magic" media properties more fluently.
+      </para>
+      <autoOutline />
+    </introduction>
+
+    <section address="builtin">
+      <title>The Built-In Media Types</title>
+      <content>
+        <para>
+          Out-of-the box Umbraco contains three media types; file, image &amp; folder. There are built-in code-first implementations of these types, which
+          reflect the unmodified default state of those items. You can use the built-in versions if you don't need to modify or control the default media types
+          beyond their default settings. The built-in implementations are:
+      </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaFolder</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaFile</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaImage</codeEntityReference>
+            </para>
+          </listItem>
+        </list>
+        <para>
+          By default all extant media types will be allowed as children of the built-in Folder type, automatically including any new media types
+          you define with code-first. This behaviour can be toggled off using:
+        </para>
+        <code>
+          CodeFirstManager.Current.Features.AllowAllMediaTypesInDefaultFolder = false;
+        </code>
+        <para>You can also toggle off the built-in media types completely using:</para>
+        <code>
+          CodeFirstManager.Current.Features.UseBuiltInMediaTypes = false;
+        </code>
+      </content>
+    </section>
+
+    <section address="disableBuiltIn">
+      <title>Overriding the Built-In Media Types</title>
+      <content>
+        <para>
+          One can toggle the built-in media types off when one needs direct control over Umbraco's default media types (addition of tabs/properties, more control
+          over allowed children, change icons etc), which is not possible when the code for them is inside a third-party package. Code-first
+          includes some base types to quickly facilitate mapping custom code-first types onto the default media types. From there the media
+          types can be extended and customised just like any other code-first type. In the following example the three default media types are mapped in user code and
+          have their icons changed to the circus icon.
+        </para>
+        <code>
+          [MediaType(icon: BuiltInIcons.IconCircus)]
+          public class Image : MediaImageBase { }
+
+          [MediaType(mediaTypeAlias: "file", icon: BuiltInIcons.IconCircus)]
+          public class FileUpload : MediaFileBase { }
+
+          [MediaType(icon: BuiltInIcons.IconCircus)]
+          public class Folder : MediaFolderBase { }
+        </code>
+        <alert class ="tip">
+          <para>
+            The mapping of the classes to the Umbraco types is dependent on alias. The code above only works because the aliases match those
+            of the default Umbraco types. The FileUpload declaration in the example shows how the attribute can be used to override the alias value
+            if you'd like the class name to differ from Umbraco's default naming whilst still maintaining the mapping.
+          </para>
+        </alert>
+      </content>
+    </section>
+
+    <section address="create">
+      <title>Creating a Media Type</title>
+      <content>
+        <para>The following code creates a media type named Example Media Type with alias exampleMediaType containing a file upload property, a file
+        size property and a description property. All properties are on a tab named Attachment.</para>
+        <code>
+              [MediaType]
+              public class ExampleMediaType : MediaTypeBase
+              {
+                  public class AttachmentTab : TabBase
+                  {
+                      [ContentProperty(alias: SpecialAliases.FileUpload)]
+                      public virtual Upload File { get; set; }
+
+                      [ContentProperty(alias: SpecialAliases.FileSize)]
+                      public virtual Label Size { get; set; }
+
+                      [ContentProperty]
+                      public virtual Textstring Description { get; set; }
+                  }
+
+                  [ContentTab]
+                  public AttachmentTab Attachment { get; set; }
+              }
+        </code>
+      </content>
+    </section>
+
+    <section address="helperAttrs">
+      <title>Media Type Helper Attributes</title>
+      <content>
+        <para>
+          The SpecialAliases strings used above are special aliases defined by Umbraco which illicit particular responses from the Umbraco back-end (triggering a file upload,
+          auto-populating a property with the file's size etc). There are some helper attributes which automatically apply the correct alias to a property, which can
+          result in slightly neater code.
+        </para>
+        <code>
+              [MediaType]
+              public class ExampleMediaType : MediaTypeBase
+              {
+                  public class AttachmentTab : TabBase
+                  {
+                      [FileUploadProperty]
+                      public virtual Upload File { get; set; }
+
+                      [FileSizeProperty]
+                      public virtual Label Size { get; set; }
+
+                      [ContentProperty]
+                      public virtual Textstring Description { get; set; }
+                  }
+
+                  [ContentTab]
+                  public AttachmentTab Attachment { get; set; }
+              }
+        </code>
+        <para>
+          The available attributes are:
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileExtensionPropertyAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileSizePropertyAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileUploadPropertyAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageHeightPropertyAttribute</codeEntityReference>
+            </para>
+          </listItem>
+          <listItem>
+            <para>
+              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageWidthPropertyAttribute</codeEntityReference>
+            </para>
+          </listItem>
+        </list>
+      </content>
+    </section>
+
+    <relatedTopics>
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

@@ -97,6 +97,46 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
         }
 
         /// <summary>
+        /// Gets a collection of attributes of type T which are applied to the input type
+        /// </summary>
+        /// <typeparam name="T">The type of attribute to look for</typeparam>
+        /// <param name="type">The type to look for attributes on</param>
+        /// <param name="initialise">True to use GetInitialisedAttribute when first loading the attribute, false to use GetCustomAttribute</param>
+        /// <returns>a collection of attributes of type T which are applied to the input type, or an empty collection if none is found</returns>
+        internal static IEnumerable<T> GetManyWithInheritance<T>(Type type, bool initialise = true) where T : MultipleCodeFirstAttribute
+        {
+            ConcurrentDictionary<Type, object> innerCache;
+
+            Type attributeType = typeof(T);
+            object temp;
+            IEnumerable<T> attrs = null;
+            _multipleCache.TryGetValue(attributeType, out innerCache);
+            if (innerCache == null)
+            {
+                innerCache = new ConcurrentDictionary<Type, object>();
+                innerCache = _multipleCache.GetOrAdd(type, innerCache);
+            }
+            innerCache.TryGetValue(attributeType, out temp);
+            if (temp == null)
+            {
+                if (initialise)
+                {
+                    attrs = type.GetInitialisedAttributesWithInheritance<T>();
+                }
+                else
+                {
+                    attrs = type.GetCustomAttributes<T>(true);
+                }
+            }
+            else
+            {
+                attrs = (IEnumerable<T>)temp;
+            }
+
+            return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
+        }
+
+        /// <summary>
         /// Gets an attribute of type T which is applied to the input type
         /// </summary>
         /// <typeparam name="T">The type of attribute to look for</typeparam>
@@ -158,6 +198,44 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
                 else
                 {
                     attrs = property.GetCustomAttributes<T>();
+                }
+            }
+            else
+            {
+                attrs = (IEnumerable<T>)temp;
+            }
+            return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
+        }
+
+        /// <summary>
+        /// Gets a collection of attributes of type T which are applied to the input type
+        /// </summary>
+        /// <typeparam name="T">The type of attribute to look for</typeparam>
+        /// <param name="property">The type to look for attributes on</param>
+        /// <param name="initialise">True to use GetInitialisedAttribute when first loading the attribute, false to use GetCustomAttribute</param>
+        /// <returns>a collection of attributes of type T which are applied to the input type, or an empty collection if none is found</returns>
+        internal static IEnumerable<T> GetManyWithInheritance<T>(PropertyInfo property, bool initialise = true) where T : MultipleCodeFirstAttribute
+        {
+            ConcurrentDictionary<Type, object> innerCache;
+            Type attributeType = typeof(T);
+            IEnumerable<T> attrs = null;
+            object temp;
+            _multipleCache.TryGetValue(attributeType, out innerCache);
+            if (innerCache == null)
+            {
+                innerCache = new ConcurrentDictionary<Type, object>();
+                innerCache = _multiplePropertyCache.GetOrAdd(property, innerCache);
+            }
+            innerCache.TryGetValue(attributeType, out temp);
+            if (temp == null)
+            {
+                if (initialise)
+                {
+                    attrs = property.GetInitialisedAttributesWithInheritance<T>();
+                }
+                else
+                {
+                    attrs = property.GetCustomAttributes<T>(true);
                 }
             }
             else

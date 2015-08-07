@@ -20,7 +20,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
-    public class DocumentPicker<T> : NodePicker<T, DocumentNodeDetails>, IPreValueFactory where T : DocumentTypeBase, new()
+    public class DocumentPicker<T> : NodePicker<T, DocumentNodeDetails>, IDocumentPicker, IPreValueFactory where T : DocumentTypeBase, new()
     {
         public DocumentPicker() : base(NodeType.content) { }
 
@@ -74,4 +74,5 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         }
     }
 
+    internal interface IDocumentPicker { }
 }

@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="ad6f1d90-a21d-4b5b-829f-a70b16539b4f" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <para>Code-First has extensive support for Umbraco's powerful built-in image cropper. Crop sizes can be defined using helper attributes
+      or by adding special crop properties to your custom image cropper data type. The built-in 
+      <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
+      data type wraps Umbraco's image cropper to provide fluent, strongly-typed access to the original image &amp; each crop, as well as
+      to a variety of built-in effects which can be applied to the images.
+    </para>
+      <autoOutline />
+    </introduction>
+
+    <section address="using">
+      <title>Adding the Built-in ImageCropper to a Media Type</title>
+      <content>
+        <para>
+          The default <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
+          type can be used to add an image cropper to a media type (note: you can add it to any content type but it makes most sense on a media type).
+          The crop sizes can be defined using the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropAttribute</codeEntityReference>
+          on the property. This will cause a data type instance to be created specifically for that property, with a unique set of crop sizes. To use the same
+          data type with the same crop configuration in multiple places <link xlink:href="#create">create a custom ImageCropper data type</link>.
+        </para>
+        <para>The example below creates an image cropper property with three crop sizes, named "small", "med" &amp; "large", on a media type named "Example Image Media"</para>
+        <code>
+              [MediaType]
+              public class ExampleImageMedia : MediaTypeBase
+              {
+                  [ContentProperty]
+                  [ImageCrop("small", 50, 50)]
+                  [ImageCrop("med", 150, 150)]
+                  [ImageCrop("large", 300, 300)]
+                  public virtual ImageCropper Image { get; set; }
+              }
+        </code>
+      </content>
+    </section>
+
+    <section address="create">
+      <title>Creating a Custom ImageCropper Type</title>
+      <content>
+        <para>
+          Often it is preferable to create a custom cropping configuration once then re-use it in many places. This can be achieved
+          by extending the built-in ImageCropper to create a custom ImageCropper data type.
+        </para>
+        <para>
+          The example below creates an image cropper data type named "Example Cropper" with three crop sizes named "Small", "Med" &amp; "Large".
+          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
+          &amp; <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> type are used together
+          to specify the alias &amp; size of the crop. When the underlying ImageCropper is initialised during modelling it populates these properties
+          with the relevant crops so they can be used directly in strongly-typed views.
+        </para>
+        <code>
+              [DataType]
+              public class ExampleCropper : ImageCropper
+              {
+                  [ImageCropProperty(50, 50)]
+                  public ImageCrop Small { get; set; }
+
+                  [ImageCropProperty(150, 150)]
+                  public ImageCrop Med { get; set; }
+
+                  [ImageCropProperty(300, 300)]
+                  public ImageCrop Large { get; set; }
+              }
+        </code>
+      </content>
+    </section>
+
+    <section address="use">
+      <title>Using the ImageCropper in a View</title>
+      <content>
+        <para>
+          The following examples are based on a document type with a media item property (Document.ImageMediaItem), where that media item
+          contains an ImageCropper property (ImageMediaItem.ImageCropper).
+        </para>
+        <para>
+          The built-in ImageCropper type implements IHtmlString to produce raw HTML output if it is used within an HTML element body. It also overrides ToString
+          to return the image URL if it is used inside an HTML tag (e.g. as an attribute value). The two lines in the example below thus produce
+          identical output
+        </para>
+        <code language="xml" title="razor">
+          &lt;img src="@Document.ImageMediaItem.ImageCropper" /&gt;
+          @Document.ImageMediaItem.ImageCropper
+        </code>
+        <para>
+          The crops can be accessed via the Crops collection. The ImageCrop type also implements IHtmlString to produce an img tag when
+          referenced in the body of an HTML element.
+        </para>
+        <code language="csharp" title="razor">
+          @foreach(ImageCrop crop in Document.ImageMediaItem.ImageCropper.Crops)
+          {
+              &lt;div&gt;
+                  @crop
+              &lt;/div&gt;
+          )
+        </code>
+        <para>
+          If you've created a custom ImageCropper type with ImageCrop properties you can also access those crops via the ImageCrop property
+        </para>
+        <code language="xml" title="razor">
+          &lt;div&gt;@Document.ImageMediaItem.ImageCropper.Small&lt;/div&gt;
+          &lt;div&gt;@Document.ImageMediaItem.ImageCropper.Med&lt;/div&gt;
+          &lt;div&gt;@Document.ImageMediaItem.ImageCropper.Large&lt;/div&gt;
+        </code>
+        <para>
+          You can also access effects on any crop, or on the original image, via the Effects property. A variety of the 
+          built-in effects are supported. The effect methods' return values implement IHtmlString and produce HTML similar
+          to that of an ordinary crop, except including the query string parameters required for the effect.
+        </para>
+        <code language="csharp" title="razor">
+          @Document.ImageMediaItem.ImageCropper.Large.Effects.Filter(FilterType.Sepia)
+          @Document.ImageMediaItem.ImageCropper.Effects.Filter(FilterType.BlackWhite)
+          @Document.ImageMediaItem.ImageCropper.Med.Effects.Flip(FlipType.Vertical)
+        </code>
+      </content>
+    </section>
+    <relatedTopics>
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

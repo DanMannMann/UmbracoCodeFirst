@@ -33,14 +33,13 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// <param name="dbType">The storage type used to store the data type value in the database</param>
         /// <param name="useConverter">False to use no converter if converterType is null, true to attempt to use an automatic converter.
         /// Using an automatic converter requires the data type class to implement IUmbracoDataType[`Tdb]</param>
-        public DataTypeAttribute(string propertyEditorAlias = null, string name = null, Type converterType = null, DatabaseType dbType = DatabaseType.None, bool useConverter = true, string cssClasses = null)
+        public DataTypeAttribute(string propertyEditorAlias = null, string name = null, Type converterType = null, DatabaseType dbType = DatabaseType.None, bool useConverter = true)
         {
             Name = name;
             PropertyEditorAlias = propertyEditorAlias;
             _converterType = converterType;
             _dbType = dbType;
             _useConverter = useConverter;
-            CssClasses = cssClasses;
         }
 
         /// <summary>
@@ -97,18 +96,6 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
                         var typeName = args[i - 1].GetCodeFirstAttribute<ContentTypeAttribute>().Name;
                         Name = Name.Replace("` " + i.ToString(), " - " + typeName);
                     }
-                }
-            }
-
-            if (CssClasses == null)
-            {
-                if (nearestAncestor != null && nearestAncestor.CssClasses != null)
-                {
-                    CssClasses = nearestAncestor.CssClasses;
-                }
-                else
-                {
-                    CssClasses = "";
                 }
             }
 
@@ -287,8 +274,6 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
                 _decoratedType = value;
             }
         }
-
-        public string CssClasses { get; protected set; }
     }
 
 }

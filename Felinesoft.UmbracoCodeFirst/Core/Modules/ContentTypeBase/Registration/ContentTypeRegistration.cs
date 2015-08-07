@@ -34,7 +34,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         protected ContentTypeRegistration() { }
 
-        public ContentTypeRegistration(IEnumerable<PropertyRegistration> properties, IEnumerable<TabRegistration> tabs, IEnumerable<ContentTypeCompositionRegistration> compositions, string alias, string name, Type clrType, ContentTypeAttribute contentTypeAttribute, string cssClasses)
+        public ContentTypeRegistration(IEnumerable<PropertyRegistration> properties, IEnumerable<TabRegistration> tabs, IEnumerable<ContentTypeCompositionRegistration> compositions, string alias, string name, Type clrType, ContentTypeAttribute contentTypeAttribute)
         {
             _properties = properties.ToList();
             _tabs = tabs.ToList();
@@ -43,7 +43,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             _name = name;
             _clrType = clrType;
             _contentTypeAttribute = contentTypeAttribute;
-            CssClasses = cssClasses;
         }
 
         public virtual IReadOnlyList<PropertyRegistration> Properties { get { return _properties.ToList().AsReadOnly(); } }
@@ -73,7 +72,5 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             get { return _contentTypeAttribute; }
             protected set { _contentTypeAttribute = value; }
         }
-
-        public string CssClasses { get; protected set; }
     }
 }

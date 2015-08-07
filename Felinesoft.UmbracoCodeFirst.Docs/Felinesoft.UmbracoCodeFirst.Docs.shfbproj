@@ -18,13 +18,14 @@
     <HtmlHelpName>Felinesoft.UmbracoCodeFirst.Docs</HtmlHelpName>
     <Language>en-US</Language>
     <TransformComponentArguments>
-      <Argument Key="logoFile" Value="Help.png" xmlns="" />
-      <Argument Key="logoHeight" Value="" xmlns="" />
-      <Argument Key="logoWidth" Value="" xmlns="" />
-      <Argument Key="logoAltText" Value="" xmlns="" />
-      <Argument Key="logoPlacement" Value="left" xmlns="" />
-      <Argument Key="logoAlignment" Value="left" xmlns="" />
-      <Argument Key="maxVersionParts" Value="" xmlns="" />
+      <Argument Key="logoFile" Value="feline.png" />
+      <Argument Key="logoHeight" Value="" />
+      <Argument Key="logoWidth" Value="" />
+      <Argument Key="logoAltText" Value="" />
+      <Argument Key="logoPlacement" Value="left" />
+      <Argument Key="logoAlignment" Value="left" />
+      <Argument Key="maxVersionParts" Value="" />
+      <Argument Key="defaultLanguage" Value="cs" />
     </TransformComponentArguments>
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
@@ -96,8 +97,12 @@
     <None Include="Content\CreateDocumentType.aml" />
     <None Include="Content\CreatingCustomDataTypes.aml" />
     <None Include="Content\DataTypeInterfaces.aml" />
+    <None Include="Content\mediatypes.aml" />
+    <None Include="Content\nodepickers.aml" />
+    <None Include="Content\registeringDataTypes.aml" />
     <None Include="Content\roadmap.aml" />
     <None Include="Content\tabs.aml" />
+    <None Include="Content\imagecropper.aml" />
     <None Include="Content\typedviews.aml" />
     <None Include="Content\umbracoconverters.aml" />
     <None Include="Content\VersionHistory\v1.0.0.0.aml" />
@@ -111,6 +116,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\Help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\Feline.png">
+      <ImageId>Feline</ImageId>
+      <AlternateText>Feline</AlternateText>
+      <ExcludeFromToc>True</ExcludeFromToc>
+    </Content>
   </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />

@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="47c8c745-bef7-41c6-bd7a-d3424c627e78" revisionNumber="1">
+  <developerConceptualDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+    <!--
+    <summary>
+      <para>Optional summary abstract</para>
+    </summary>
+    -->
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <!-- <autoOutline /> -->
+
+      <para>Code-first maintains a mapping of CLR types to data type converters. Generally this mapping
+      will consist mainly of code-first data classes, both built-in &amp; custom, but it is in fact
+      possible to register a converter for any CLR type. Each type may only be registered once with a single
+      data type instance &amp; converter.</para>
+      <autoOutline />
+    </introduction>
+
+    <!-- Add one or more top-level section elements.  These are collapsible.
+         If using <autoOutline />, add an address attribute to identify it
+         and specify a title so that it can be jumped to with a hyperlink. -->
+    <section address="registering">
+      <title>Registering a Type</title>
+      <content>
+        <para>
+          In the following example the bool primitive type is associated with Umbraco's "true/false" data type, using
+          a converter which can convert between the database type (integer) and the entity type (bool). The converter
+          is based on DataTypeConverterBase&lt;Tdb,Tentity&gt;. This is almost always the best approach to creating
+          a custom converter.
+        </para>
+        <code title="Defining the Converter">
+          public sealed class BoolTrueFalseConverter : DataTypeConverterBase&lt;int, bool&gt;
+            {
+                public override bool Create(int input, Action&lt;object&gt; contextAction = null)
+                {
+                    //you can safely ignore the context action, there's no need to register this
+                    //value in the model context as it is not a "full" code-first-managed data type
+                    return input == 1;
+                }
+
+                public override int Serialise(bool input)
+                {
+                    return input ? 1 : 0;
+                }
+            }
+        </code>
+        <code title="Registering the Type">
+          CodeFirstManager.Current.Initialise(this.GetType().Assembly);
+          RegisterIntegerType&lt;bool, BoolTrueFalseConverter&gt;(BuiltInDataTypes.TrueFalse);
+        </code>
+        <alert class="caution">
+          <para>Custom registrations should always be made after initialisation.</para>
+        </alert>
+      </content>
+    </section>
+
+    <section address="builtin">
+      <title>The Built-In Primitives</title>
+      <content>
+        <para>
+          Code-first includes registrations for 4 primitive types by default
+        </para>
+        <list class="bullet">
+          <listItem>
+            <para>bool - registered to Umbraco's "true/false" data type</para>
+          </listItem>
+          <listItem>
+            <para>string - registered to Umbraco's Textstring data type</para>
+          </listItem>
+          <listItem>
+            <para>int - registered to Umbraco's Numeric data type</para>
+          </listItem>
+          <listItem>
+            <para>DateTime - registered to Umbraco's "Date with Time" data type</para>
+          </listItem>
+        </list>
+        <para>
+          This means you can use these 4 primitives in the same way you'd use a code-first data type
+          when defining a content type, and they will map to the listed Umbraco data type. If you need to associate
+          different data types with these primitives then you can turn off the built-in registrations
+          as follows:
+        </para>
+        <code>
+          CodeFirstManager.Current.Features.UseBuiltInPrimitiveDataTypes = false;
+          CodeFirstManager.Current.Initialise(this.GetType().Assembly);
+        </code>
+      </content>
+    </section>
+
+    <relatedTopics>
+     
+    </relatedTopics>
+  </developerConceptualDocument>
+</topic>

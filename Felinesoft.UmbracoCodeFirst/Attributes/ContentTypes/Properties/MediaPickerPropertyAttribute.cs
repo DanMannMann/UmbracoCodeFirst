@@ -4,14 +4,19 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using Marsman.Reflekt;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Umbraco.Core;
+using System.Linq;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class MediaPickerPropertyAttribute : ContentPropertyAttribute, IDataTypeRedirect, IInitialisablePropertyAttribute
     {
+        private Type _redirect;
+        private bool _isMultiple;
+
         /// <summary>
         /// Specifies that a property should be used as a document property on a document type and that the SingleMediaPicker should be
         /// used in Umbraco to choose the value for this property.
@@ -34,19 +39,29 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// The specified data type must already exist in Umbraco, it will not be created or updated when
         /// specified using this value.</para>
         /// </param>
-        public MediaPickerPropertyAttribute(string name = null, string alias = null, bool mandatory = false, string description = "", int sortOrder = 0, bool addTabAliasToPropertyAlias = true, string dataType = null, string cssClasses = "")
-            : base(name, alias, mandatory, description, sortOrder, addTabAliasToPropertyAlias, dataType, cssClasses) { }
-
-        public Type MediaType { get; private set; }
+        public MediaPickerPropertyAttribute(string name = null, string alias = null, bool mandatory = false, string description = "", int sortOrder = 0, bool addTabAliasToPropertyAlias = true, string dataType = null)
+            : base(name, alias, mandatory, description, sortOrder, addTabAliasToPropertyAlias, dataType) { }
 
         public override void Initialise(PropertyInfo propertyTarget)
         {
             base.Initialise(propertyTarget);
-            if (!propertyTarget.PropertyType.Inherits<MediaTypeBase>())
+            if (propertyTarget.PropertyType.Inherits<MediaTypeBase>())
             {
-                throw new AttributeInitialisationException("[MediaPickerProperty] can only be applied to properties who's type inherits MediaTypeBase. Affected property: " + propertyTarget.DeclaringType.Name + "." + propertyTarget.Name);
+                _redirect = typeof(SingleMediaPicker<>).MakeGenericType(propertyTarget.PropertyType);
+                _isMultiple = false;
             }
-            MediaType = propertyTarget.PropertyType;
+            else if (propertyTarget.PropertyType.IsGenericType && 
+                     propertyTarget.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>) &&
+                     propertyTarget.PropertyType.GetGenericArguments().First().Inherits<MediaTypeBase>())
+            {
+                _redirect = typeof(MediaPicker<>).MakeGenericType(propertyTarget.PropertyType.GetGenericArguments().First());
+                _isMultiple = true;
+            }
+            else
+            {
+                throw new AttributeInitialisationException("[MediaPickerProperty] can only be applied to properties who's type inherits MediaTypeBase or who's type is IEnumerable<T> where T inherits MediaTypeBase. Affected property: " + propertyTarget.DeclaringType.Name + "." + propertyTarget.Name);
+            }
+
             Initialised = true;
         }
 
@@ -58,7 +73,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 
         public Type Redirect(PropertyInfo property)
         {
-            return typeof(SingleMediaPicker<>).MakeGenericType(property.PropertyType);
+            return _redirect;
         }
 
         public object GetValue(object data)
@@ -68,8 +83,16 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
                 return null;
             }
             Type t = data.GetType();
-            var prop = t.GetProperty(Reflekt<IPickedItem<MediaTypeBase>>.PropertyName(x => x.PickedItem));
-            return prop.GetValue(data);
+
+            if (_isMultiple)
+            {
+                return data; //the type itself implements IEnumerable<> so we can assign it to the property directly.
+            }
+            else
+            {
+                var prop = t.GetProperty(Reflekt<IPickedItem<MediaTypeBase>>.PropertyName(x => x.PickedItem));
+                return prop.GetValue(data);
+            }
         }
     }
 }

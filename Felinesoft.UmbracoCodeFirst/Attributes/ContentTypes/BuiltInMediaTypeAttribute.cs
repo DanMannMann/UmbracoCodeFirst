@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
-    internal class BuiltInMediaTypeAttribute : Attribute
+    internal class BuiltInMediaTypeAttribute : BuiltInTypeAttribute
     {
+        public override string BuiltInTypeName
+        {
+            get { return "Media Type"; }
+        }
     }
+
 }

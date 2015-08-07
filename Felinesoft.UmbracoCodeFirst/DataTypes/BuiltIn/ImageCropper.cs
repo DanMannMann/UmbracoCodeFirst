@@ -22,7 +22,7 @@ using System.Web.Mvc;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.ImageCropper", "Image Cropper", cssClasses: "codefirst codefirst-image codefirst-cropper")]
+    [DataType("Umbraco.ImageCropper", "Image Cropper")]
     [BuiltInDataType][DoNotSyncDataType]
     public class ImageCropper : IUmbracoNtextDataType, IPreValueFactory, IHtmlString
     {
@@ -103,9 +103,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         public string ToHtmlString()
         {
-            //TODO It is not finding classes for ImageCropper, maybe because the data type is media picker and the generic type arg is Helicropter and ImageCropper is the data-type of a property on helicropter. Maybe this shit aint worth it.
-            var css = DataTypeUtils.GetHtmlClassAttribute(this);
-            return "<img" + css + " src='" + OriginalImageUrl + "' alt='" + CodeFirstModelContext.GetContext(this).ContentType.Name + "' />";
+            var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
+            return "<img" + toAdd + " src='" + OriginalImageUrl + "' />";
         }
 
         public override string ToString()

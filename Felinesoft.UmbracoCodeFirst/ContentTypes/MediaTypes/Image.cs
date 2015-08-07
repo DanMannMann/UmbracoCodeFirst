@@ -13,7 +13,7 @@ using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
-    [MediaType("Image", "Image", null, "icon-picture", false, false, "", "codefirst codefirst-image")]
+    [MediaType("Image", "Image", null, "icon-picture", false, false, "")]
     [BuiltInMediaType]
     public class MediaImage : MediaImageBase
     {
@@ -45,8 +45,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 
         public string ToHtmlString()
         {
-            var css = DataTypeUtils.GetHtmlClassAttribute(this);
-            return Image == null || Image.UploadImage == null ? string.Empty : "<img" + css + " src='" + Image.UploadImage.Url + "' alt='" + NodeDetails.Name + "' />";
+            var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
+            return Image == null || Image.UploadImage == null ? string.Empty : "<img" + toAdd + " src='" + Image.UploadImage.Url + "' />";
         }
 
         public override string ToString()

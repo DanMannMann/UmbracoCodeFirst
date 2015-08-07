@@ -17,8 +17,11 @@ using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web.Models.Trees;
 using System.Threading;
+using Umbraco.Web;
 using Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Felinesoft.UmbracoCodeFirst.Converters;
+using Umbraco.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -45,6 +48,15 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         public void Initialise(IEnumerable<Type> classes)
         {
             _register = new DataTypeRegister(out _registerController, _service);
+
+            if (CodeFirstManager.Current.Features.UseBuiltInPrimitiveDataTypes)
+            {
+                RegisterNvarcharType<string, PassThroughConverter<string>>(BuiltInDataTypes.Textbox);
+                RegisterIntegerType<bool, BoolTrueFalseConverter>(BuiltInDataTypes.TrueFalse);
+                RegisterIntegerType<int, PassThroughConverter<int>>(BuiltInDataTypes.Numeric);
+                RegisterDateTimeType<DateTime, PassThroughConverter<DateTime>>(BuiltInDataTypes.DatePickerWithTime);
+            }
+
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
             foreach (var t in classes)
             {
@@ -85,7 +97,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         }
 
         /// <summary>
-        /// Creates or update a dataType
+        /// Create or update a dataType
         /// </summary>
         public DataTypeRegistration GetDataType(Type type, bool updateDataTypeDefinition = true)
         {
@@ -110,10 +122,62 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return dataTypeRegistration;
         }
 
-        public void RegisterType(Type clrType, DataTypeRegistration registration)
+        public void RegisterNtextType<T, Tconverter>(string dataTypeName) where Tconverter : IDataTypeConverter<string, T>
         {
-            _registerController.Register(clrType, registration);
+            DataTypeRegistration reg = new DataTypeRegistration();
+            reg.ClrType = typeof(T);
+            reg.CodeFirstControlled = false; //no real definition so don't sync
+            reg.DataTypeInstanceName = dataTypeName;
+            reg.ConverterType = typeof(Tconverter);
+            reg.DbType = DatabaseType.Ntext;
+            reg.UmbracoDatabaseType = DataTypeDatabaseType.Ntext;
+            reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
+            reg.PropertyEditorAlias = reg.Definition.PropertyEditorAlias;
+            _registerController.Register(typeof(T), reg);
         }
+
+        public void RegisterNvarcharType<T, Tconverter>(string dataTypeName) where Tconverter : IDataTypeConverter<string, T>
+        {
+            DataTypeRegistration reg = new DataTypeRegistration();
+            reg.ClrType = typeof(T);
+            reg.CodeFirstControlled = false; //no real definition so don't sync
+            reg.DataTypeInstanceName = dataTypeName;
+            reg.ConverterType = typeof(Tconverter);
+            reg.DbType = DatabaseType.Nvarchar;
+            reg.UmbracoDatabaseType = DataTypeDatabaseType.Nvarchar;
+            reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
+            reg.PropertyEditorAlias = reg.Definition.PropertyEditorAlias;
+            _registerController.Register(typeof(T), reg);
+        }
+
+        public void RegisterIntegerType<T, Tconverter>(string dataTypeName) where Tconverter : IDataTypeConverter<int, T>
+        {
+            DataTypeRegistration reg = new DataTypeRegistration();
+            reg.ClrType = typeof(T);
+            reg.CodeFirstControlled = false; //no real definition so don't sync
+            reg.DataTypeInstanceName = dataTypeName;
+            reg.ConverterType = typeof(Tconverter);
+            reg.DbType = DatabaseType.Integer;
+            reg.UmbracoDatabaseType = DataTypeDatabaseType.Integer;
+            reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
+            reg.PropertyEditorAlias = reg.Definition.PropertyEditorAlias;
+            _registerController.Register(typeof(T), reg);
+        }
+
+        public void RegisterDateTimeType<T, Tconverter>(string dataTypeName) where Tconverter : IDataTypeConverter<DateTime, T>
+        {
+            DataTypeRegistration reg = new DataTypeRegistration();
+            reg.ClrType = typeof(T);
+            reg.CodeFirstControlled = false; //no real definition so don't sync
+            reg.DataTypeInstanceName = dataTypeName;
+            reg.ConverterType = typeof(Tconverter);
+            reg.DbType = DatabaseType.Date;
+            reg.UmbracoDatabaseType = DataTypeDatabaseType.Date;
+            reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
+            reg.PropertyEditorAlias = reg.Definition.PropertyEditorAlias;
+            _registerController.Register(typeof(T), reg);
+        }
+
         #region Private
         private IDictionary<string, PreValue> MergePreValuesWithExisting(DataTypeRegistration dataTypeRegistration, IDictionary<string, PreValue> codeFirstPreValues, ref bool modified)
         {
@@ -152,9 +216,15 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             IDictionary<string, PreValue> preValues;
             var factoryAttr = instance.GetCodeFirstAttribute<InstancePreValueFactoryAttribute>();
             var instanceAttributes = instance.GetCodeFirstAttributes<InstancePreValueAttribute>();
+            var redirect = instance.GetCustomAttributes().FirstOrDefault(x => x.GetType().Implements<IDataTypeRedirect>()) as IDataTypeRedirect;
+
             PreValueContext context = new PreValueContext(instance);
 
-            if (instanceAttributes.Count() > 0)
+            if (factoryAttr != null)
+            {
+                preValues = factoryAttr.GetFactory().GetPreValues(context);
+            }
+            else if (instanceAttributes.Count() > 0)
             {
                 try
                 {
@@ -164,6 +234,14 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 {
                     throw new CodeFirstException("Duplicate pre-value alias on data type instance " + instance.DeclaringType.Name + "." + instance.Name, ex);
                 }
+            }
+            else if (redirect != null)
+            {
+                if (redirect is IInitialisablePropertyAttribute)
+                {
+                    (redirect as IInitialisablePropertyAttribute).Initialise(instance);
+                }
+                preValues = GetPreValuesFromDataType(redirect.Redirect(instance), context);
             }
             else
             {
@@ -213,12 +291,12 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             dataTypeRegistration = new DataTypeRegistration()
             {
+                ClrType = type,
                 ConverterType = dataTypeAttribute.ConverterType,
                 DataTypeInstanceName = dataTypeAttribute.Name,
                 PropertyEditorAlias = dataTypeAttribute.PropertyEditorAlias,
                 UmbracoDatabaseType = dataTypeAttribute.DbType,
-                CodeFirstControlled = controlled,
-                CssClasses = dataTypeAttribute.CssClasses
+                CodeFirstControlled = controlled
             };
             _registerController.Register(type, dataTypeRegistration);
 
@@ -228,33 +306,39 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private DataTypeRegistration BuildDataTypeRegistration(PropertyInfo instance, out bool typeExisted)
         {
             DataTypeInstanceAttribute dataTypeInstanceAttribute = instance.GetCodeFirstAttribute<DataTypeInstanceAttribute>();
-            DataTypeRegistration genericRegistration = null;
+            if (dataTypeInstanceAttribute == null && instance.GetCustomAttributes(false).Any(x => x.GetType().Implements<IDataTypeInstance>()))
+            {
+                dataTypeInstanceAttribute = new DataTypeInstanceAttribute();
+            }
+
             var dataType = instance.GetCodeFirstAttribute<ContentPropertyAttribute>().DataType;
             typeExisted = true;
 
-            if (instance.PropertyType.Inherits<CodeFirstContentBase>())
+            var redirect = instance.GetCustomAttributes().FirstOrDefault(x => x.GetType().Implements<IDataTypeRedirect>()) as IDataTypeRedirect;
+            Type targetType;
+            if (redirect != null)
             {
-                var attr = instance.GetCodeFirstAttribute<ContentPropertyAttribute>();
-                if (attr != null && attr is IDataTypeRedirect)
+                if (redirect is IInitialisablePropertyAttribute)
                 {
-                    var newType = (attr as IDataTypeRedirect).Redirect(instance);
-                    var reg = EnsureGenericTypeRegistration(newType, ref typeExisted);
-                    typeExisted = false;
-                    _registerController.Register(instance, reg);
-                    return reg;
+                    (redirect as IInitialisablePropertyAttribute).Initialise(instance);
                 }
+                targetType = redirect.Redirect(instance);
+            }
+            else
+            {
+                targetType = instance.PropertyType;
             }
 
-            if (instance.PropertyType.IsConstructedGenericType)
+            if (targetType.IsConstructedGenericType)
             {
-                EnsureGenericTypeRegistration(instance.PropertyType, ref typeExisted);
+                EnsureGenericTypeRegistration(targetType, ref typeExisted);
             }
 
             if (dataTypeInstanceAttribute == null && string.IsNullOrWhiteSpace(dataType)) //no data type override specified
             {
-                return CheckTypeRegistrationForProperty(instance);
+                return CheckTypeRegistrationForProperty(instance, targetType);
             }
-            else if (dataTypeInstanceAttribute == null) //data type override specified in property attribute
+            else if (!string.IsNullOrWhiteSpace(dataType)) //data type override specified in property attribute
             {
                 typeExisted = true; //never modify any data type when using PEVCs - we only support back-office managed data types with PEVCs
                 return CreateUmbracoConverterDataType(instance, dataType);
@@ -262,12 +346,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             
             if (dataTypeInstanceAttribute.HasNullProperties) //data type override specified in instance attribute
             {
-                InferInstanceRegistrationProperties(instance, dataTypeInstanceAttribute);
+                InferInstanceRegistrationProperties(instance, targetType, dataTypeInstanceAttribute);
             }
 
             typeExisted = false;
             DataTypeRegistration dataTypeRegistration = new DataTypeRegistration()
             {
+                ClrType = targetType,
                 ConverterType = dataTypeInstanceAttribute.ConverterType,
                 DataTypeInstanceName = dataTypeInstanceAttribute.Name,
                 PropertyEditorAlias = dataTypeInstanceAttribute.PropertyEditorAlias,
@@ -282,6 +367,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             DataTypeRegistration existingTypeRegistration = new DataTypeRegistration()
             {
+                ClrType = instance.PropertyType,
                 ConverterType = null,
                 DataTypeInstanceName = dataType,
                 PropertyEditorAlias = null,
@@ -306,11 +392,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return result;
         }
 
-        private void InferInstanceRegistrationProperties(PropertyInfo instance, DataTypeInstanceAttribute dataTypeInstanceAttribute)
+        private void InferInstanceRegistrationProperties(PropertyInfo instance, Type type, DataTypeInstanceAttribute dataTypeInstanceAttribute)
         {
             //Try to get properties from underlying data type if any essential properties are null
             DataTypeRegistration underlyingType;
-            if (DataTypeRegister.TryGetRegistration(instance.PropertyType, out underlyingType))
+            if (DataTypeRegister.TryGetRegistration(type, out underlyingType))
             {
                 MergeDataTypeInstanceWithAncestor(dataTypeInstanceAttribute, instance, underlyingType);
             }
@@ -320,10 +406,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
         }
 
-        private DataTypeRegistration CheckTypeRegistrationForProperty(PropertyInfo instance)
+        private DataTypeRegistration CheckTypeRegistrationForProperty(PropertyInfo instance, Type type)
         {
             DataTypeRegistration underlyingType;
-            if (DataTypeRegister.TryGetRegistration(instance.PropertyType, out underlyingType))
+            if (DataTypeRegister.TryGetRegistration(type, out underlyingType))
             {
                 _registerController.Register(instance, underlyingType);
                 return underlyingType;
@@ -389,7 +475,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
             else
             {
-                dataTypeRegistration = new DataTypeRegistration() { ConverterType = attr.ConverterType, PropertyEditorAlias = attr.PropertyEditorAlias, DataTypeInstanceName = attr.Name, CssClasses = attr.CssClasses };
+                dataTypeRegistration = new DataTypeRegistration() { ClrType = type, ConverterType = attr.ConverterType, PropertyEditorAlias = attr.PropertyEditorAlias, DataTypeInstanceName = attr.Name };
             }
             dataTypeRegistration.CodeFirstControlled = true;
             _registerController.Register(type, dataTypeRegistration);

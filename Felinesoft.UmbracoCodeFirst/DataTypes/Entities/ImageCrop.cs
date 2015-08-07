@@ -40,9 +40,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
 
         public string ToHtmlString()
         {
-            var css = DataTypeUtils.GetHtmlClassAttribute(_parent);
-            css = css.Replace("codefirst-cropper", "codefirst-cropper codefirst-cropper-" + Alias);
-            return "<img" + css + " src='" + Url + "' alt='" + CodeFirstModelContext.GetContext(this).ContentType.Name + " - " + Alias + "' />";
+            var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
+            return "<img" + toAdd + " src='" + Url + "' />";
         }
 
         public override string ToString()

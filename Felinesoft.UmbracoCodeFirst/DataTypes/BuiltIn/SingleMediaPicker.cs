@@ -69,12 +69,17 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         public override IDictionary<string, PreValue> GetPreValues(PreValueContext context)
         {
-            return base.GetPreValuesInternal(context, 1, 0);
+            return base.GetPreValuesInternal(context, 1);
         }
     }
 
     public interface IPickedItem<T>
     {
         T PickedItem { get; }
+    }
+
+    public interface IPickedItems<T>
+    {
+        IEnumerable<T> Items { get; }
     }
 }

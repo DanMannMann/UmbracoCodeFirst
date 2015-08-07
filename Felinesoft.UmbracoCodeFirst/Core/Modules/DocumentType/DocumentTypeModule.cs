@@ -124,14 +124,19 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             _service.Save((IContentType)contentType);
         }
 
+        protected override void DeleteContentType(IContentTypeBase contentType)
+        {
+            _service.Delete((IContentType)contentType);
+        }
+
         protected override IContentTypeComposition GetContentTypeByAlias(string alias)
         {
             return _service.GetContentType(alias);
         }
 
-        protected override IContentTypeComposition CreateContentType(int parentId)
+        protected override IContentTypeComposition CreateContentType(IContentTypeBase parent)
         {
-            return new ContentType(parentId);
+            return parent == null ? new ContentType(-1) : new ContentType((IContentType)parent);
         }
 
         protected override ContentTypeRegistration CreateRegistration(Type type)
@@ -149,8 +154,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                                                                                 documentTypeAttribute.Alias,
                                                                                 documentTypeAttribute.Name,
                                                                                 type,
-                                                                                documentTypeAttribute,
-                                                                                documentTypeAttribute.CssClasses);
+                                                                                documentTypeAttribute);
 
                 return registration;
             }
@@ -159,7 +163,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 throw new CodeFirstException("The specified type does not have a DocumentTypeAttribute. Type: " + type.Name);
             }
         }
+
+        protected override IEnumerable<IContentTypeBase> GetChildren(IContentTypeBase contentType)
+        {
+            return _service.GetContentTypeChildren(contentType.Id);
+        }
         #endregion
+
     }
 }
 

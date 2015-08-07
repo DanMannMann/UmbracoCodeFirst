@@ -8,6 +8,13 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
+
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+    public class CommonTabBaseAttribute : CodeFirstAttribute
+    {
+
+    }
+
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class TemplateAttribute : MultipleCodeFirstAttribute, IInitialisableAttribute
     {

@@ -67,8 +67,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
 
         public string ToHtmlString()
         {
-            var css = _parent == null ? string.Empty : DataTypeUtils.GetHtmlClassAttribute(_parent);
-            return string.Format("<a{0} target='{1}' href='{2}'>{3}</a>", css, NewWindow ? "_blank" : "_self", Url, Caption);
+            var toAdd = _parent == null ? string.Empty : DataTypeUtils.GetHtmlTagContentFromContextualAttributes(_parent);
+            return string.Format("<a{0} target='{1}' href='{2}'>{3}</a>", toAdd, NewWindow ? "_blank" : "_self", Url, Caption);
         }
     }
 }

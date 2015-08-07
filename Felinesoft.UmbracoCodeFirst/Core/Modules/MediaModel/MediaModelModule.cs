@@ -5,7 +5,9 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using Umbraco.Core;
+using Umbraco.Core.Events;
 using Umbraco.Core.Models;
+using Umbraco.Core.Services;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -13,6 +15,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     {
         private IDataTypeModule _dataTypeModule;
         private IMediaTypeModule _mediaTypeModule;
+        private Dictionary<string, MediaTypeRegistration> _onCreate = new Dictionary<string, MediaTypeRegistration>();
 
         public MediaModelModule(IDataTypeModule dataTypeModule, IMediaTypeModule mediaTypeModule)
             : base(dataTypeModule, mediaTypeModule)
@@ -23,7 +26,35 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public void Initialise(IEnumerable<Type> classes)
         {
+            foreach (var type in classes)
+            {
+                if (type.Implements<IOnCreate>())
+                {
+                    MediaTypeRegistration reg;
+                    if (_mediaTypeModule.TryGetMediaType(type, out reg))
+                    {
+                        _onCreate.Add(reg.Alias, reg);
+                    }
+                }
+            }
+            Umbraco.Core.Services.MediaService.Created += ContentService_Created;
+        }
 
+        private void ContentService_Created(IMediaService sender, NewEventArgs<IMedia> e)
+        {
+            if (CodeFirstManager.Current.Features.EnableContentCreatedEvents)
+            {
+                lock (_onCreate)
+                {
+                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias))
+                    {
+                        var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
+                        (instance as MediaTypeBase).NodeDetails = new MediaNodeDetails(e.Entity);
+                        (instance as IOnCreate).OnCreate();
+                        ProjectModelToContent((instance as MediaTypeBase), e.Entity);
+                    }
+                }
+            }
         }
 
         #region Convert Model to Content
@@ -160,6 +191,16 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return base.ConvertToModelInternal<T>(content, parentContext);
         }
         #endregion
+
+        public void ProjectModelToContent(MediaTypeBase model, IMedia content)
+        {
+            var type = model.GetType();
+            MediaTypeRegistration reg;
+            if (_mediaTypeModule.TryGetMediaType(type, out reg) && (reg.ClrType == type || reg.ClrType.Inherits(type)))
+            {
+                MapModelToContent(content, model, reg);
+            }
+        }
     }
 }
 

@@ -241,6 +241,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Umbraco.sdf" />
+    <Content Include="js\init.js" />
+    <Content Include="js\jquery.min.js" />
+    <Content Include="js\jquery.scrollex.min.js" />
+    <Content Include="js\jquery.scrolly.min.js" />
+    <Content Include="js\skel.min.js" />
+    <Content Include="media\1001\1101.jpg" />
+    <Content Include="media\1001\1101_thumb.jpg" />
+    <Content Include="media\1002\_84270464_p_lorri_fullframe_color.png" />
+    <Content Include="media\1002\_84270464_p_lorri_fullframe_color_big-thumb.jpg" />
+    <Content Include="media\1002\_84270464_p_lorri_fullframe_color_thumb.jpg" />
+    <Content Include="media\1003\1388345766311.png" />
+    <Content Include="media\1003\1388345766311_thumb.jpg" />
+    <Content Include="media\1004\11181282_10152852994391503_5539338811446871131_n.jpg" />
+    <Content Include="media\1004\11181282_10152852994391503_5539338811446871131_n_big-thumb.jpg" />
+    <Content Include="media\1004\11181282_10152852994391503_5539338811446871131_n_thumb.jpg" />
+    <Content Include="media\1005\beating_a_dead_horse.jpg" />
+    <Content Include="media\1005\beating_a_dead_horse_thumb.jpg" />
+    <Content Include="media\1006\dmmcreb.jpg" />
+    <Content Include="media\1006\dmmcreb_big-thumb.jpg" />
+    <Content Include="media\1006\dmmcreb_thumb.jpg" />
+    <Content Include="media\1007\nwrpns2.png" />
+    <Content Include="media\1008\thundercats.png" />
     <Content Include="packages.config" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Partials\Grid\Editors\Textstring.cshtml" />
@@ -300,6 +322,7 @@
     <Content Include="App_Data\Umbraco.sdf.empty" />
     <Content Include="App_Data\Umbraco.sdf.bak" />
     <Content Include="Views\LazyPage.cshtml" />
+    <Content Include="media\1009\heptagoncapitalbl.zip" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -320,22 +343,15 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocTypes\Copy of Copy of TestPage.cs" />
-    <Compile Include="DocTypes\Copy of TestPage.cs" />
-    <Compile Include="DocTypes\FirstTab.cs" />
-    <Compile Include="DocTypes\Genericpage.cs" />
-    <Compile Include="DocTypes\Home.cs" />
-    <Compile Include="DocTypes\LazyPage.cs" />
-    <Compile Include="DocTypes\Master.cs" />
-    <Compile Include="DocTypes\SecondTab.cs" />
-    <Compile Include="DocTypes\TestPage.cs" />
     <Compile Include="MediaTypes\TestMediaType.cs" />
+    <Compile Include="NewDocTypes\master.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\NuGetBackup\20150711-151023\bin\" />
     <Folder Include="App_Data\packages\created\" />
+    <Folder Include="css\" />
     <Folder Include="Views\MacroPartials\" />
   </ItemGroup>
   <ItemGroup>

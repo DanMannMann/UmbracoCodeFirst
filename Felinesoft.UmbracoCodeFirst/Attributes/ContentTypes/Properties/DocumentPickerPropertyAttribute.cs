@@ -1,15 +1,20 @@
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.Reflekt;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using Umbraco.Core;
+using System.Linq;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class DocumentPickerPropertyAttribute : ContentPropertyAttribute, IDataTypeRedirect, IInitialisablePropertyAttribute
     {
+        private Type _redirect;
+        private bool _isMultiple;
         /// <summary>
         /// Specifies that a property should be used as a document property on a document type and that the SingleDocumentPicker should be
         /// used in Umbraco to choose the value for this property.
@@ -35,16 +40,25 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         public DocumentPickerPropertyAttribute(string name = null, string alias = null, bool mandatory = false, string description = "", int sortOrder = 0, bool addTabAliasToPropertyAlias = true, string dataType = null)
             : base(name, alias, mandatory, description, sortOrder, addTabAliasToPropertyAlias, dataType) { }
 
-        public Type DocumentType { get; private set; }
-
         public override void Initialise(PropertyInfo propertyTarget)
         {
             base.Initialise(propertyTarget);
-            if (!propertyTarget.PropertyType.Inherits<DocumentTypeBase>())
+            if (propertyTarget.PropertyType.Inherits<DocumentTypeBase>())
             {
-                throw new AttributeInitialisationException("[DocumentPickerProperty] can only be applied to properties who's type inherits DocumentTypeBase. Affected property: " + propertyTarget.DeclaringType.Name + "." + propertyTarget.Name);
+                _redirect = typeof(SingleDocumentPicker<>).MakeGenericType(propertyTarget.PropertyType);
+                _isMultiple = false;
             }
-            DocumentType = propertyTarget.PropertyType;
+            else if (propertyTarget.PropertyType.IsGenericType &&
+                     propertyTarget.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>) &&
+                     propertyTarget.PropertyType.GetGenericArguments().First().Inherits<DocumentTypeBase>())
+            {
+                _redirect = typeof(DocumentPicker<>).MakeGenericType(propertyTarget.PropertyType.GetGenericArguments().First());
+                _isMultiple = true;
+            }
+            else
+            {
+                throw new AttributeInitialisationException("[DocumentPickerProperty] can only be applied to properties who's type inherits DocumentTypeBase or who's type is IEnumerable<T> where T inherits DocumentTypeBase. Affected property: " + propertyTarget.DeclaringType.Name + "." + propertyTarget.Name);
+            }
             Initialised = true;
         }
 
@@ -56,7 +70,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 
         public Type Redirect(PropertyInfo property)
         {
-            return typeof(SingleDocumentPicker<>).MakeGenericType(property.PropertyType);
+            return _redirect;
         }
 
         public object GetValue(object data)
@@ -65,7 +79,21 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             {
                 return null;
             }
-            return data.GetType().GetProperty("PickedItem").GetValue(data);
+            if (data == null)
+            {
+                return null;
+            }
+            Type t = data.GetType();
+
+            if (_isMultiple)
+            {
+                return data; //the data type itself implements IEnumerable<> so we can assign it to the IEnumerable<> property directly.
+            }
+            else
+            {
+                var prop = t.GetProperty(Reflekt<IPickedItem<DocumentTypeBase>>.PropertyName(x => x.PickedItem));
+                return prop.GetValue(data);
+            }
         }
     }
 }

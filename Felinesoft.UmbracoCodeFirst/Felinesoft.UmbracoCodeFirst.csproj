@@ -225,8 +225,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AltTextAttribute.cs" />
+    <Compile Include="Attributes\CodeFirstAttributeBase.cs" />
+    <Compile Include="Attributes\CodeFirstContextualAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\BuiltInMediaTypeAttribute.cs" />
+    <Compile Include="Attributes\ContentTypes\BuiltInTypeAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\DocumentPickerPropertyAttribute.cs" />
+    <Compile Include="Attributes\CssClassAttribute.cs" />
+    <Compile Include="Attributes\DataTypes\PreValues\ImageCropPropertyAttribute.cs" />
+    <Compile Include="Attributes\DataTypes\PreValues\InstancePreValueAttribute.cs" />
+    <Compile Include="Attributes\HtmlDataAttribute.cs" />
     <Compile Include="Attributes\IDataTypeRedirect.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\MediaPickerPropertyAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\NodePickerConfigAttribute.cs" />
@@ -246,7 +254,6 @@
     <Compile Include="Attributes\ContentTypes\Properties\FileSizePropertyAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\FileUploadPropertyAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\ImageCropAttribute.cs" />
-    <Compile Include="Attributes\DataTypes\PreValues\InstanceThumbnailSizesAttribute.cs" />
     <Compile Include="Attributes\IInitialisableAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\ImageHeightPropertyAttribute.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\ImageWidthPropertyAttribute.cs" />
@@ -259,7 +266,6 @@
     <Compile Include="Attributes\ContentTypes\ContentTabAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\PreValueFactoryAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\PreValueFileAttribute.cs" />
-    <Compile Include="Attributes\DataTypes\PreValues\ThumbnailSizesAttribute.cs" />
     <Compile Include="ContentTypes\CodeFirstContentBase.cs" />
     <Compile Include="ContentTypes\MediaTypes\File.cs" />
     <Compile Include="ContentTypes\MediaTypes\Folder.cs" />
@@ -267,10 +273,13 @@
     <Compile Include="ContentTypes\MediaTypes\MediaNodeDetails.cs" />
     <Compile Include="ContentTypes\MediaTypes\MediaTypeBase.cs" />
     <Compile Include="ContentTypes\SpecialAliases.cs" />
+    <Compile Include="Converters\BoolTrueFalseConverter.cs" />
     <Compile Include="Converters\DataTypeConverterBase.cs" />
+    <Compile Include="Converters\PassThroughConverter.cs" />
     <Compile Include="Core\CodeFirstAttributeCache.cs" />
     <Compile Include="Core\CodeFirstLazyInitialiser.cs" />
     <Compile Include="Core\CodeFirstModelContext.cs" />
+    <Compile Include="Core\CodeFirstProxyInterceptor.cs" />
     <Compile Include="Core\CodeFirstRegistration.cs" />
     <Compile Include="Core\Features.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\T4\TemplateDescription.cs" />
@@ -327,7 +336,6 @@
     <Compile Include="DataTypes\BuiltIn\SingleMediaPicker.cs" />
     <Compile Include="DataTypes\Entities\RelatedLink.cs" />
     <Compile Include="DataTypes\Bases\UmbracoJsonCollectionDataType.cs" />
-    <Compile Include="DataTypes\PreValueFactories\ThumbnailSizesPreValueFactory.cs" />
     <Compile Include="Diagnostics\Timing.cs" />
     <Compile Include="ContentTypes\ContentNodeDetails.cs" />
     <Compile Include="Diagnostics\DiagnosticUtils.cs" />

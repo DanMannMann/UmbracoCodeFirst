@@ -1,4 +1,5 @@
 ﻿using Felinesoft.UmbracoCodeFirst.Attributes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Felinesoft.UmbracoCodeFirst.Core.Resolver;
 using Felinesoft.UmbracoCodeFirst.Extensions;
@@ -44,26 +45,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             var tabPostfix = tab == null || !attribute.AddTabAliasToPropertyAlias ? null : tab.OriginalName == null ? tab.Name : tab.OriginalName;
             var dataType = _dataTypeModule.GetDataType(item);
             var property = new PropertyRegistration();
-            property.CssClasses = attribute.CssClasses;
             property.Name = attribute.Name;
             property.Alias = tabPostfix == null ? attribute.Alias : StringHelperExtensions.HyphenToUnderscore(StringHelperExtensions.ParseUrl(attribute.Alias + "_" + tabPostfix, false));
             property.DataType = dataType;
             property.PropertyAttribute = attribute;
             property.Metadata = item;
-
-            if (property.Metadata.DeclaringType.GetCodeFirstAttribute<ContentTypeAttribute>(false) != null) //If the declaring type is also an Umbraco content type
-            {
-                if (property.Metadata.DeclaringType != documentClrType) //If the declaring type is not the current type
-                {
-                    if (tab == null || tab.PropertyOfParent.DeclaringType != documentClrType || property.Metadata.DeclaringType != tab.ClrType) //If no current tab is directly declared on the current type
-                    {
-                        //Inherited property. Don't persist at this level.
-                        //TODO find out if this can be reconciled with common bases for tabs that are *not* inherited 
-                        //from an Umbraco parent document type (currently these are not supported and would be completely ignored)
-                        return property;
-                    }
-                }
-            }
 
             PropertyType propertyType = new PropertyType(dataType.Definition);
             propertyType.Name = property.Name;
@@ -73,15 +59,34 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             propertyType.SortOrder = attribute.SortOrder;
             propertyType.ValidationRegExp = attribute.ValidationRegularExpression;
 
+
+            var propertyDeclaredOnThisDocType = property.Metadata.DeclaringType == documentClrType;
+            var propertyDeclaredOnThisTab = tab == null ? false : property.Metadata.DeclaringType == tab.ClrType;
+            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType || tab.PropertyOfParent.DeclaringType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+            var declaringTypeIsDocType = property.Metadata.DeclaringType.GetCodeFirstAttribute<ContentTypeAttribute>(false) != null;
+            var propertyIsFromCommonBase = tab == null ? false : tab.ClrType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+
             if (tab == null)
             {
-                CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + newContentType.Name, this);
-                newContentType.AddPropertyType(propertyType);
+                if (propertyDeclaredOnThisDocType || !declaringTypeIsDocType) //only if property declared at this level (or inherited from a non-doctype class)
+                {
+                    if (!newContentType.PropertyTypeExists(propertyType.Alias)) //check if non-doctype properties already exist
+                    {
+                        CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + newContentType.Name, this);
+                        newContentType.AddPropertyType(propertyType);
+                    }
+                }
             }
-            else
+            else if (tabDeclaredOnThisDocType || propertyIsFromCommonBase) //only if tab declared at this level
             {
-                CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + newContentType.Name, this);
-                newContentType.AddPropertyType(propertyType, tab.Name);
+                if (propertyDeclaredOnThisTab || propertyIsFromCommonBase) //only if property declared at this level
+                {
+                    if (!newContentType.PropertyTypeExists(propertyType.Alias)) //check if common base properties already exist
+                    {
+                        CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + newContentType.Name, this);
+                        newContentType.AddPropertyType(propertyType, tab.Name);
+                    }
+                }
             }
 
             return property;
@@ -101,13 +106,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             property.Name = attribute.Name;
             property.PropertyAttribute = attribute;
             property.Metadata = item;
-            property.CssClasses = attribute.CssClasses;
-
-            if (IsInheritedProperty(tab, documentClrType, property))
-            {
-                //Inherited property. Don't persist at this level.
-                return property;
-            }
 
             if (tab == null)
             {
@@ -119,13 +117,19 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             bool alreadyExisted = contentType.PropertyTypeExists(alias);
-            PropertyType umbracoProperty = null;
+            PropertyType umbracoProperty = contentType.PropertyTypes.FirstOrDefault(x => x.Alias == alias);
+
+            if (umbracoProperty == null && alreadyExisted)
+            {
+                //This is a property from an underlying tab. Leave it alone. Log a warning in case this is an orphaned property.
+                CodeFirstManager.Current.Warn("Property ignored as it appears to exist on an ancestor type. Warning: could be orphaned. Property alias: " + alias + ", type alias: " + contentType.Alias, this);
+                return property;
+            }
 
             if(alreadyExisted)
             {
-                umbracoProperty = contentType.PropertyTypes.FirstOrDefault(x => x.Alias == alias);
-                modified = modified || 
-                               umbracoProperty.Name != attribute.Name || 
+                modified = modified ||
+                               !umbracoProperty.Name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase) || 
                                umbracoProperty.Mandatory != attribute.Mandatory ||
                                (umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0) || //don't count sort order changes if no sort order is specified, as Umbraco will have assigned an automatic one
                                umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression;
@@ -157,10 +161,16 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             umbracoProperty.Mandatory = attribute.Mandatory;
             umbracoProperty.SortOrder = attribute.SortOrder;
             umbracoProperty.ValidationRegExp = attribute.ValidationRegularExpression;
-           
+
+            var propertyDeclaredOnThisDocType = property.Metadata.DeclaringType == documentClrType;
+            var propertyDeclaredOnThisTab = tab == null ? false : property.Metadata.DeclaringType == tab.ClrType;
+            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType;
+            var declaringTypeIsDocType = property.Metadata.DeclaringType.GetCodeFirstAttribute<ContentTypeAttribute>(false) != null;
+            var propertyIsFromCommonBase =  tab == null ? false : tab.ClrType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+
             if (alreadyExisted)
             {
-                if (tab != null)
+                if (propertyIsFromCommonBase || (tabDeclaredOnThisDocType && propertyDeclaredOnThisTab))
                 {
                     var currentTab = contentType.PropertyGroups.Where(x => x.PropertyTypes.Any(y => y.Alias == alias)).FirstOrDefault();
                     if (currentTab == null || !currentTab.Name.Equals(tab.Name, StringComparison.InvariantCultureIgnoreCase))
@@ -174,13 +184,25 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 if (tab == null)
                 {
-                    modified = true;
-                    contentType.AddPropertyType(umbracoProperty);
+                    if (propertyDeclaredOnThisDocType || !declaringTypeIsDocType) //only if property declared at this level (or inherited from common base)
+                    {
+                        if (!contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if non-doctype properties already exist
+                        {
+                            CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + contentType.Name, this);
+                            contentType.AddPropertyType(umbracoProperty);
+                        }
+                    }
                 }
-                else
+                else if (tabDeclaredOnThisDocType || propertyIsFromCommonBase) //only if tab declared at this level
                 {
-                    modified = true;
-                    contentType.AddPropertyType(umbracoProperty, tab.Name);
+                    if (propertyDeclaredOnThisTab || propertyIsFromCommonBase) //only if property declared at this level
+                    {
+                        if (!contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
+                        {
+                            CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + contentType.Name, this);
+                            contentType.AddPropertyType(umbracoProperty, tab.Name);
+                        }
+                    }
                 }
             }
 

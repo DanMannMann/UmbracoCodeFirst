@@ -1,5 +1,13 @@
 
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Web;
+using Umbraco.Core.Events;
+using Umbraco.Core.Models;
+using Umbraco.Core.Services;
+using System.Linq;
+
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
     public abstract class CodeFirstContentBase 
@@ -16,7 +24,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 
         public override string ToString()
         {
-            return NodeDetails.Url;
+            return NodeDetails == null || NodeDetails.Url == null ? string.Empty : NodeDetails.Url;
         }
+
     }
 }

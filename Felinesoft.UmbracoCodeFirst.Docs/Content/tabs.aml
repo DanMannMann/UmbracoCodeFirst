@@ -37,7 +37,7 @@
           public class CodeFirstExampleTab : TabBase
           {
               [ContentProperty(Description = "A string property.")]
-              public string String { get; set; }
+              public virtual string String { get; set; }
           }
         </code>
         <para>
@@ -99,7 +99,7 @@
               public new class SEOTab : ParentDocType.SEOTab
               {
                   [ContentProperty]
-                  public Textstring MetaTitle { get; set; }
+                  public virtual Textstring MetaTitle { get; set; }
               }
 
               //Hiding the underlying tab property with a new one so that the new

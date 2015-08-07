@@ -3,7 +3,7 @@ using System;
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class DataTypeInstanceAttribute : CodeFirstAttribute
+    public class DataTypeInstanceAttribute : CodeFirstAttribute, IDataTypeInstance
     {
         public DataTypeInstanceAttribute(string propertyEditorAlias = null, string name = null, Type converterType = null, DatabaseType dbType = DatabaseType.None)
         {

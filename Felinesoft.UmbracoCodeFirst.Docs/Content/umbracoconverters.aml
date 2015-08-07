@@ -50,26 +50,12 @@
               public JObject Content { get; set; }
           }
         </code>
-        <para>
-          <link xlink:href="ea9b7789-8c43-48af-9c5e-7860e55cabe1#inline">Data type instances</link> can still be used with PEVC properties so that unique pre-values
-          can be specified. To create an instance you must specify a valid property editor alias, a globally unique data type name and the correct database storage type
-          for the chosen property editor.
-        </para>
-        <para>
-          The following example would create 2 data types in Umbraco, each using the multiple textstring property editor but with different names
-          and pre-values. The PEVC for the multiple textstring editor returns an IEnumerable&lt;string&gt; containing the contents of the textboxes.
-        </para>
-        <code language="c#">
-          [ContentProperty]
-          [DataTypeInstance(BuiltInPropertyEditorAliases.MultipleTextstring, name: "3 Textboxes", dbType: DatabaseType.Ntext)]
-          [InstancePreValue("0", "{\"Minimum\":3,\"Maximum\":3}")]
-          public IEnumerable&lt;string&gt; TextLines { get; set; }
-
-          [ContentProperty]
-          [DataTypeInstance(BuiltInPropertyEditorAliases.MultipleTextstring, name: "2 Textboxes", dbType: DatabaseType.Ntext)]
-          [InstancePreValue("0", "{\"Minimum\":2,\"Maximum\":2}")]
-          public IEnumerable&lt;string&gt; TextLines2 { get; set; }
-        </code>
+        <alert class="caution">
+          <para>
+            <link xlink:href="ea9b7789-8c43-48af-9c5e-7860e55cabe1#inline">Data type instance pre-value attributes</link> cannot be used with PEVC properties. Pre-values for
+            types used in PEVC properties need to be managed in the back-office or via a code-first data type class with the correct alias.
+          </para>
+        </alert>
       </content>
       <!-- If a section contains a sections element, its content creates
            sub-sections.  These are not collapsible.

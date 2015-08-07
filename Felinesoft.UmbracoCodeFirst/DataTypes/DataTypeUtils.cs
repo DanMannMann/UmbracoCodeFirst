@@ -11,47 +11,32 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
 {
     public static class DataTypeUtils
     {
-        public static string GetHtmlClassAttribute(object contextKey)
+        public static string GetHtmlTagContentFromContextualAttributes(object key)
         {
-            var context = CodeFirstModelContext.GetContext(contextKey);
-            var csses = new List<string>();
+            var allAttrs = key.GetAttributesFromContextTree<HtmlTagContextualAttribute>();
+            var sortedAttrs = new Dictionary<Type, List<HtmlTagContextualAttribute>>();
+            List<string> result = new List<string>();
 
-            GetClasses(context, csses);
-
-            var current = context.ParentContext;
-            while (current != null)
+            foreach (var attr in allAttrs)
             {
-                GetClasses(current, csses);
-                current = current.ParentContext;
+                var type = attr.GetType();
+                if (!sortedAttrs.ContainsKey(type))
+                {
+                    sortedAttrs.Add(type, new List<HtmlTagContextualAttribute>());
+                }
+                sortedAttrs[type].Add(attr);
             }
 
-            var result = string.Join(" ", csses.Where(x => !string.IsNullOrWhiteSpace(x)));
-            if (!string.IsNullOrWhiteSpace(result))
+            foreach (var attrType in sortedAttrs)
             {
-                result = " class='" + result + "'";
-            }
-            return result;
-        }
-
-        private static void GetClasses(CodeFirstModelContext context, List<string> csses)
-        {
-            if (context.CurrentDataType != null)
-            {
-                //Add classes from the current data type
-                csses.Add(context.CurrentDataType.CssClasses);
+                if (attrType.Value.Count() > 0)
+                {
+                    result.Add(attrType.Value.First().CombineToOutputString(attrType.Value));
+                }
             }
 
-            if (context.CurrentProperty != null)
-            {
-                //Add classes from property
-                csses.Add(context.CurrentProperty.CssClasses);
-            }
-
-            if (context.ContentType != null)
-            {
-                //Add classes from current content type
-                csses.Add(context.ContentType.CssClasses);
-            }
+            var resultString = string.Join(" ", result);
+            return string.IsNullOrWhiteSpace(resultString) ? string.Empty : " " + resultString;
         }
     }
 }

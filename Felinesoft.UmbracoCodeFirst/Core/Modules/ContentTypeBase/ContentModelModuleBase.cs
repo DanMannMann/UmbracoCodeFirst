@@ -112,7 +112,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             //properties on Generic Tab
             foreach (var property in registration.Properties)
             {
-                if(property.Metadata.GetGetMethod().IsVirtual)
+                if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && property.Metadata.GetGetMethod().IsVirtual)
                 {
                     dict.Add(property.Metadata, new CodeFirstLazyInitialiser(() => CopyPropertyValueToModel(content, instance, property)));
                 }
@@ -129,7 +129,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 var tabInstance = CodeFirstModelContext.CreateContextualInstance(tab.ClrType, tab, out tabDict);
                 foreach (var property in tab.Properties)
                 {
-                    if (property.Metadata.GetGetMethod().IsVirtual)
+                    if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && property.Metadata.GetGetMethod().IsVirtual)
                     {
                         tabDict.Add(property.Metadata, new CodeFirstLazyInitialiser(() => CopyPropertyValueToModel(content, tabInstance, property)));
                     }
@@ -144,7 +144,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             foreach (var composition in registration.Compositions)
             {
                 CodeFirstModelContext.NextContext(instance, composition);
-                if (composition.PropertyOfContainer.GetGetMethod().IsVirtual)
+                if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && composition.PropertyOfContainer.GetGetMethod().IsVirtual)
                 {
                     dict.Add(composition.PropertyOfContainer, new CodeFirstLazyInitialiser(() => composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromPublishedContent(content, composition, CodeFirstModelContext.GetContext(instance)))));
                 }
@@ -161,19 +161,12 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         protected object CreateInstanceFromContent(IContentBase content, ContentTypeRegistration registration, CodeFirstModelContext parentContext = null)
         {
             Dictionary<PropertyInfo, CodeFirstLazyInitialiser> dict;
-            var instance = CodeFirstModelContext.CreateContextualInstance(registration.ClrType, registration, out dict, parentContext);
+            var instance = CodeFirstModelContext.CreateContextualInstance(registration.ClrType, registration, out dict, parentContext, false);
 
             //properties on Generic Tab
             foreach (var property in registration.Properties)
             {
-                if (property.Metadata.GetGetMethod().IsVirtual)
-                {
-                    dict.Add(property.Metadata, new CodeFirstLazyInitialiser(() => CopyPropertyValueToModel(content, instance, property)));
-                }
-                else
-                {
-                    CopyPropertyValueToModel(content, instance, property);
-                }
+                CopyPropertyValueToModel(content, instance, property);
             }
 
             foreach (var tab in registration.Tabs)
@@ -183,14 +176,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 var tabInstance = CodeFirstModelContext.CreateContextualInstance(tab.ClrType, tab, out tabDict);
                 foreach (var property in tab.Properties)
                 {
-                    if (property.Metadata.GetGetMethod().IsVirtual)
-                    {
-                        tabDict.Add(property.Metadata, new CodeFirstLazyInitialiser(() => CopyPropertyValueToModel(content, tabInstance, property)));
-                    }
-                    else
-                    {
-                        CopyPropertyValueToModel(content, tabInstance, property);
-                    }
+                    CopyPropertyValueToModel(content, tabInstance, property);
                 }
                 tab.PropertyOfParent.SetValue(instance, tabInstance);
             }
@@ -198,14 +184,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             foreach (var composition in registration.Compositions)
             {
                 CodeFirstModelContext.NextContext(instance, composition);
-                if (composition.PropertyOfContainer.GetGetMethod().IsVirtual)
-                {
-                    dict.Add(composition.PropertyOfContainer, new CodeFirstLazyInitialiser(() => composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromContent(content, composition, CodeFirstModelContext.GetContext(instance)))));
-                }
-                else
-                {
-                    composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromContent(content, composition, CodeFirstModelContext.GetContext(instance)));
-                }
+                composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromContent(content, composition, CodeFirstModelContext.GetContext(instance)));
             }
 
             return instance;

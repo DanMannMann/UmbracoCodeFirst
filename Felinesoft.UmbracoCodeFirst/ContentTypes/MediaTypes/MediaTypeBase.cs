@@ -25,6 +25,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     /// </summary>
     public abstract class MediaTypeBase : CodeFirstContentBase<MediaNodeDetails>, IHtmlString
     {
+        private Lazy<IMediaModelModule> _modelModule;
+
         /// <summary>
         /// A base class for code-first document types.
         /// This constructor initialises the NodeDetails property with an empty instance of <see cref="DocumentNodeDetails"/>
@@ -32,6 +34,7 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public MediaTypeBase()
         {
             NodeDetails = new MediaNodeDetails();
+            _modelModule = new Lazy<IMediaModelModule>(() => CodeFirstManager.Current.Modules.MediaModelModule);
         }
 
         public override string ToString()
@@ -92,25 +95,9 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             }
         }
 
-        private string GetString()
+        public void Project(IMedia target)
         {
-            var prop = CodeFirstModelContext.GetContext(this).ContentType.Properties.FirstOrDefault(x => x.Alias == SpecialAliases.FileUpload);
-            if (prop == null)
-            {
-                return base.ToString();
-            }
-            else
-            {
-                var val = prop.Metadata.GetValue(this);
-                if (val == null)
-                {
-                    return base.ToString();
-                }
-                else
-                {
-                    return val.ToString();
-                }
-            }
+            _modelModule.Value.ProjectModelToContent(this, target);
         }
     }
 }

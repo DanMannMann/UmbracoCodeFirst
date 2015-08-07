@@ -9,7 +9,7 @@ using Felinesoft.UmbracoCodeFirst.Attributes;
 namespace Felinesoft.UmbracoCodeFirst.Extensions
 {
     public static class AttributeExtensions
-    {
+    {        
         public static T GetInitialisedAttribute<T>(this Type type) where T : Attribute
         {
             T attr = type.GetCustomAttribute<T>(false);
@@ -38,6 +38,20 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             return attrs;
         }
 
+        internal static IEnumerable<T> GetInitialisedAttributesWithInheritance<T>(this Type type) where T : Attribute
+        {
+            var attrs = type.GetCustomAttributes<T>(true);
+
+            foreach (var attr in attrs)
+            {
+                if (attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
+                {
+                    (attr as IInitialisableAttribute).Initialise(type);
+                }
+            }
+            return attrs;
+        }
+
         public static T GetInitialisedAttribute<T>(this PropertyInfo info) where T : Attribute
         {
             T attr = info.GetCustomAttribute<T>(false);
@@ -55,6 +69,20 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         public static IEnumerable<T> GetInitialisedAttributes<T>(this PropertyInfo info) where T : Attribute
         {
             var attrs = info.GetCustomAttributes<T>(false);
+
+            foreach (var attr in attrs)
+            {
+                if (attr is IInitialisablePropertyAttribute && !(attr as IInitialisablePropertyAttribute).Initialised)
+                {
+                    (attr as IInitialisablePropertyAttribute).Initialise(info);
+                }
+            }
+            return attrs;
+        }
+
+        public static IEnumerable<T> GetInitialisedAttributesWithInheritance<T>(this PropertyInfo info) where T : Attribute
+        {
+            var attrs = info.GetCustomAttributes<T>(true);
 
             foreach (var attr in attrs)
             {

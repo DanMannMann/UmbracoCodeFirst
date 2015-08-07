@@ -16,6 +16,19 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private ConcurrentDictionary<string, ContentTypeRegistration> _registerByAlias = new ConcurrentDictionary<string, ContentTypeRegistration>();
         private ConcurrentDictionary<Type, ContentTypeRegistration> _registerByType = new ConcurrentDictionary<Type, ContentTypeRegistration>();
 
+        private Type StripProxy(Type type)
+        {
+            //Remove the proxy wrapper if needed
+            if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && type.FullName.StartsWith("Castle.Proxies"))
+            {
+                return type.BaseType;
+            }
+            else
+            {
+                return type;
+            }
+        }
+
         public ContentTypeRegister(out ContentTypeRegisterController controller)
         {
             controller = new ContentTypeRegisterController(this);
@@ -28,11 +41,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public bool TryGetContentType(Type type, out ContentTypeRegistration registration)
         {
+            type = StripProxy(type);
             return _registerByType.TryGetValue(type, out registration);
         }
 
         public ContentTypeRegistration GetContentType(Type type)
         {
+            type = StripProxy(type);
             return _registerByType[type];
         }
 
@@ -43,6 +58,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public bool IsRegistered(Type type)
         {
+            type = StripProxy(type);
             return _registerByType.ContainsKey(type);
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true)]
-    public class ImageCropAttribute : MultipleCodeFirstAttribute
+    public class ImageCropAttribute : MultipleCodeFirstAttribute, IDataTypeInstance
     {
         public ImageCropAttribute(string alias, int height, int width)
         {
@@ -52,19 +52,4 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         public int Width { get; private set; }
     }
 
-    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-    public class ImageCropPropertyAttribute : CodeFirstAttribute
-    {
-        public ImageCropPropertyAttribute(int height, int width)
-        {
-            Height = height;
-            Width = width;
-        }
-
-        [JsonProperty(propertyName: "height")]
-        public int Height { get; private set; }
-
-        [JsonProperty(propertyName: "width")]
-        public int Width { get; private set; }
-    }
 }

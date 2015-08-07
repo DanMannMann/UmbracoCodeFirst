@@ -14,49 +14,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core
 {
     public sealed class CodeFirstModelContext
     {
-        public sealed class CodeFirstProxyInterceptor : IInterceptor
-        {
-            private Lazy<Dictionary<int, CodeFirstLazyInitialiser>> _initialisersByPropertyGetter;
-            private Lazy<Dictionary<int, CodeFirstLazyInitialiser>> _initialisersByPropertySetter;
-
-            public CodeFirstProxyInterceptor(Dictionary<PropertyInfo, CodeFirstLazyInitialiser> initialisersByProperty)
-            {
-                _initialisersByPropertyGetter = new Lazy<Dictionary<int, CodeFirstLazyInitialiser>>(() => initialisersByProperty.ToDictionary(x => x.Key.GetGetMethod().MetadataToken, x => x.Value));
-                _initialisersByPropertySetter = new Lazy<Dictionary<int, CodeFirstLazyInitialiser>>(() => initialisersByProperty.ToDictionary(x => x.Key.GetSetMethod().MetadataToken, x => x.Value));
-            }
-
-            public void Intercept(IInvocation invocation)
-            {
-                if (_initialisersByPropertyGetter.Value.ContainsKey(invocation.Method.MetadataToken))
-                {
-                    InterceptGetter(invocation, _initialisersByPropertyGetter.Value[invocation.Method.MetadataToken]);
-                }
-                else if (_initialisersByPropertySetter.Value.ContainsKey(invocation.Method.MetadataToken))
-                {
-                    InterceptSetter(invocation, _initialisersByPropertySetter.Value[invocation.Method.MetadataToken]);
-                }
-                invocation.Proceed();
-            }
-
-            private void InterceptSetter(IInvocation invocation, CodeFirstLazyInitialiser codeFirstLazyInitialiser)
-            {
-                if (!codeFirstLazyInitialiser.IsDone)
-                {
-                    codeFirstLazyInitialiser.Complete();
-                }
-            }
-
-            private void InterceptGetter(IInvocation invocation, CodeFirstLazyInitialiser codeFirstLazyInitialiser)
-            {
-                if (!codeFirstLazyInitialiser.IsDone)
-                {
-                    CodeFirstModelContext.ReinstateContext(invocation.InvocationTarget);
-                    codeFirstLazyInitialiser.Execute();
-                    CodeFirstModelContext.ResetContext();
-                }
-            }
-        }
-
         private class ContextContainer
         {
             private static readonly string Key = Guid.NewGuid().ToString();
@@ -145,20 +102,40 @@ namespace Felinesoft.UmbracoCodeFirst.Core
             return ContextContainer.Current.Dictionary[key];
         }
 
-        internal static T CreateContextualInstance<T>(CodeFirstRegistration registration, out Dictionary<PropertyInfo,CodeFirstLazyInitialiser> dict, CodeFirstModelContext parentContext = null) where T : ContentTypeBase
+        internal static T CreateContextualInstance<T>(CodeFirstRegistration registration, out Dictionary<PropertyInfo, CodeFirstLazyInitialiser> dict, CodeFirstModelContext parentContext = null, bool useProxy = true) where T : ContentTypeBase
         {
-            dict = new Dictionary<PropertyInfo,CodeFirstLazyInitialiser>();
-            T proxy = _generator.CreateClassProxy<T>(new CodeFirstProxyInterceptor(dict));
-            NextContext(proxy, registration, parentContext);
-            return proxy;
+            if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && useProxy)
+            {
+                dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
+                T proxy = _generator.CreateClassProxy<T>(new CodeFirstProxyInterceptor(dict));
+                NextContext(proxy, registration, parentContext);
+                return proxy;
+            }
+            else
+            {
+                dict = null;
+                var instance = Activator.CreateInstance<T>();
+                NextContext(instance, registration, parentContext);
+                return instance;
+            }
         }
 
-        internal static object CreateContextualInstance(Type type, CodeFirstRegistration registration, out Dictionary<PropertyInfo, CodeFirstLazyInitialiser> dict, CodeFirstModelContext parentContext = null)
+        internal static object CreateContextualInstance(Type type, CodeFirstRegistration registration, out Dictionary<PropertyInfo, CodeFirstLazyInitialiser> dict, CodeFirstModelContext parentContext = null, bool useProxy = true)
         {
-            dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
-            var proxy = _generator.CreateClassProxy(type, new CodeFirstProxyInterceptor(dict));
-            NextContext(proxy, registration, parentContext);
-            return proxy;
+            if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && useProxy)
+            {
+                dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
+                var proxy = _generator.CreateClassProxy(type, new CodeFirstProxyInterceptor(dict));
+                NextContext(proxy, registration, parentContext);
+                return proxy;
+            }
+            else
+            {
+                dict = null;
+                var instance = Activator.CreateInstance(type);
+                NextContext(instance, registration, parentContext);
+                return instance;
+            }
         }
 
         internal static void NextContext(object instance, CodeFirstRegistration registration, CodeFirstModelContext parentContext = null)

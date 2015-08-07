@@ -23,6 +23,29 @@ namespace Felinesoft.UmbracoCodeFirst.Demo.MediaTypes
     }
 
     [MediaType]
+    public class ExampleImageMedia : MediaTypeBase
+    {
+        [ContentProperty]
+        [ImageCrop("small", 50, 50)]
+        [ImageCrop("med", 150, 150)]
+        [ImageCrop("large", 300, 300)]
+        public virtual ImageCropper Image { get; set; }
+    }
+
+    [DataType]
+    public class ExampleCropper : ImageCropper
+    {
+        [ImageCropProperty(50, 50)]
+        public ImageCrop Small { get; set; }
+
+        [ImageCropProperty(150, 150)]
+        public ImageCrop Med { get; set; }
+
+        [ImageCropProperty(300, 300)]
+        public ImageCrop Large { get; set; }
+    }
+
+    [MediaType]
     public class TestMediaType : MediaTypeBase
     {
         [FileUploadProperty]

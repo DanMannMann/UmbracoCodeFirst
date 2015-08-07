@@ -10,9 +10,8 @@
     var model = Model.Content.ConvertToModel();
 }
 	<body>
-
 		<!-- Page Wrapper -->
-			<div id="page-wrapper">
+		    <div id="page-wrapper">
 				<!-- Header -->
 					<header id="header">
 						<h1><a href="/">@(Document.SiteName)</a></h1>
@@ -24,36 +23,38 @@
 						<header>
 							<h2>@Document.NodeDetails.Name</h2>
 							<p>@Document.RichtextEditor</p>
-                            <p style="background-color:green; color:pink">@Document.FirstTabNewName.DayteThyme</p>
+                            @*<p style="background-color:green; color:pink">@Document.FirstTabNewName.DayteThyme</p>
                             @if (Document.FirstTabNewName.TextLinesAGAIN != null)
                             {
                                 foreach (var l in Document.FirstTabNewName.TextLinesAGAIN)
                                 {
                                     <p style="background-color:blanchedalmond; color:blue">@l</p>
                                 }
-                            }
+                            }*@
                               
 						</header>
 
+                        
                         <section class="wrapper style2">
 							<div class="inner">
                                 <img src="@Document.Images.One" alt="@Document.Images.One.NodeDetails.Name" />
-                                @Document.Images.One
-                                @Document.Images.Two
-                                @Document.Images.Three
-                                @Document.Images.Four
+                                 @Document.Images.One
+                                 @Document.Images.Two
+                                 @Document.Images.Three
+                                 @Document.Images.Four
                             </div>
 						</section>
 
 						<section class="wrapper style5">
 							<div class="inner">
-                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.Effects.RoundedCorners(500)" />
-                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.BigThumb.Effects.Filter(FilterType.Lomograph)" />
-                                <img src="@Document.SecondTab.Cropped.PickedItem.RoyCropper.SmallThumb.Effects.Flip(FlipType.Both)" />
+                                <img src="@IgnoreNull(x => x.SecondTab.Cropped.PickedItem.RoyCropper.Effects.RoundedCorners(500), "404.png")" />
+                                <img src="@IgnoreNull(x => x.SecondTab.Cropped.PickedItem.RoyCropper.BigThumb.Effects.Filter(FilterType.Lomograph), "404.png")" />
+                                <img src="@IgnoreNull(x => x.SecondTab.Cropped.PickedItem.RoyCropper.SmallThumb.Effects.Flip(FlipType.Both), "404.png")" />
                                 @Document.TextboxMultiple
 								@Document.Tags
 							</div>
 						</section>
+
                         <section class="wrapper style4">
 							<div class="inner">
                                 @Document.Textstring
@@ -115,6 +116,7 @@
                                 }
 							</div>
 						</section>
+
 					</article>
 
 				<!-- Footer -->

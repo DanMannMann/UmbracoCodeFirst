@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace Felinesoft.UmbracoCodeFirst
 {
@@ -5,14 +8,11 @@ namespace Felinesoft.UmbracoCodeFirst
     {
         internal Features()
         {
-            //Set internal defaults here
-            WriteLogOutput = false;
-            HideCodeFirstEntitiesInTrees = false;
-            UseBuiltInPrimitiveDataTypes = true;
-            AllowAllMediaTypesInDefaultFolder = true;
-            UseBuiltInMediaTypes = true;
-            UseTraversalAttributes = false;
-            EnablePerformanceDiagnosticTimer = false;
+            var props = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FeatureAttribute>(false) != null).ToDictionary(x => x, x => x.GetCustomAttribute<FeatureAttribute>(false));
+            foreach (var prop in props)
+            {
+                prop.Key.SetValue(this, prop.Value.DefaultValue);
+            }
         }
 
         /// <summary>
@@ -23,17 +23,19 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Status: Stable (default: false)
         /// </para>
         /// </summary>
+        [Feature(DefaultValue = false)]
         public bool WriteLogOutput { get; set; }
 
         /// <summary>
         /// <para>
-        /// Hide any code-first-managed content or data type from the trees in the Umbraco back-office
+        /// Hide any code-first-managed content types from the developer &amp; settings trees in the Umbraco back-office
         /// </para>
         /// <para>
         /// Status: Stable (default: false)
         /// </para>
         /// </summary>
-        public bool HideCodeFirstEntitiesInTrees { get; set; }
+        [Feature(DefaultValue = false)]
+        public bool HideCodeFirstEntityTypesInTrees { get; set; }
 
         /// <summary>
         /// <para>
@@ -43,6 +45,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Status: Stable (default: true)
         /// </para>
         /// </summary>
+        [Feature(DefaultValue = true)]
         public bool UseBuiltInPrimitiveDataTypes { get; set; }
 
         /// <summary>
@@ -50,9 +53,10 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Add all known code-first media types as allowed children of the default Folder media type
         /// </para>
         /// <para>
-        /// Status: Stable (default: true)
+        /// Status: Stable (default: true) (does nothing if UseBuiltInMediaTypes is false)
         /// </para>
         /// </summary>
+        [Feature(DefaultValue = true)]
         public bool AllowAllMediaTypesInDefaultFolder { get; set; }
 
         /// <summary>
@@ -63,7 +67,42 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Status: Stable (default: true)
         /// </para>
         /// </summary>
+        [Feature(DefaultValue = true)]
         public bool UseBuiltInMediaTypes { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Use Castle DynamicProxy class proxies to enable lazy loading of 
+        /// [ContentProperty] and [ContentComposition] properties, where the property is
+        /// declared as virtual.
+        /// </para>
+        /// <para>
+        /// Status: Stable (default: true)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = true)]
+        public bool UseLazyLoadingProxies { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Allow the parent type of an existing doc type to be changed.
+        /// This operation is not supported in the Umbraco back-office. Work
+        /// is underway to support it properly in code-first but I would recommend
+        /// quite strongly against turning it on for anything other than an experiment,
+        /// well away from production sites.
+        /// </para>
+        /// <para>
+        /// If this is disabled (default. For a reason.) then attempts to "re-parent" will cause an exception on initialisation.
+        /// The way around this is to delete your existing types then reinitialise code-first, recreating them.
+        /// You'd probably have to drop all your content too. Consider compositions for scenarios where it is
+        /// too late to sort your inheritance structure out properly.
+        /// </para>
+        /// <para>
+        /// Status: Experimental (default: false) (note: Seriously. Doesn't work. Don't use it.)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = false)]
+        public bool AllowReparenting { get; set; }
 
         /// <summary>
         /// <para>
@@ -80,10 +119,15 @@ namespace Felinesoft.UmbracoCodeFirst
         /// where the ToString() method will render the most relevant bit of data (i.e. the image URL or the RelatedLink URL).
         /// </para>
         /// <para>
+        /// Traversal attributes involve a lot of attribute lookups so the first load of each document type can be a bit heavier than usual, but after the first
+        /// load the attributes will be cached so only a few dictionary look-ups are required and performance isn't too bad.
+        /// </para>
+        /// <para>
         /// Status: Experimental (default: false)
         /// </para>
         /// </summary>
-        public bool UseTraversalAttributes { get; set; }
+        [Feature(DefaultValue = false)]
+        public bool UseContextualAttributes { get; set; }
 
         /// <summary>
         /// <para>
@@ -98,6 +142,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Status: Stable (default: false)
         /// </para>
         /// </summary>
+        [Feature(DefaultValue = false)]
         public bool EnablePerformanceDiagnosticTimer
         {
             get
@@ -109,5 +154,31 @@ namespace Felinesoft.UmbracoCodeFirst
                 Diagnostics.Timing.Enabled = value;
             }
         }
+
+        /// <summary>
+        /// <para>
+        /// Enables document &amp; media models which implement IOnCreate to
+        /// intercept a newly created document or media item before it is returned
+        /// to the user. Default values (e.g. of labels) can be set, as well as node
+        /// details such as name.
+        /// </para>
+        /// <para>
+        /// When the ContentService.Creating event fires the IOnCreate.OnCreate() method is invoked on an instance of the model which
+        /// has been constructed from the newly created IContentBase item. Inside that
+        /// method the properties can be modified. After the method returns the model
+        /// is projected back onto the original entity before the entity is returned to
+        /// the front-end.
+        /// </para>
+        /// <para>
+        /// Status: Stable (default: true)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = true)]
+        public bool EnableContentCreatedEvents { get; set; }
+    }
+
+    internal sealed class FeatureAttribute : Attribute
+    {
+        public bool DefaultValue { get; set; }
     }
 }

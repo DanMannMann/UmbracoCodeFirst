@@ -77,6 +77,13 @@ namespace Felinesoft.UmbracoCodeFirst
             {
                 Debug.WriteLine(message);
             }
+            //TODO forward to Umbraco log service as Log
+        }
+
+        public void Warn(string message, object source, [CallerMemberName]string sourceMethod = null)
+        {
+            Log(message, source, sourceMethod);
+            //TODO forward to Umbraco log service as Warn
         }
 
         public CodeFirstModuleResolver Modules
@@ -199,7 +206,7 @@ namespace Felinesoft.UmbracoCodeFirst
 
         private void FilterTreeNodes(TreeControllerBase sender, TreeNodesRenderingEventArgs e)
         {
-            if (!Features.HideCodeFirstEntitiesInTrees)
+            if (!Features.HideCodeFirstEntityTypesInTrees)
             {
                 return;
             }

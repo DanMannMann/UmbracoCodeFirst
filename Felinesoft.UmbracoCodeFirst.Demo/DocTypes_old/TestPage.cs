@@ -10,6 +10,16 @@ using Felinesoft.UmbracoCodeFirst.Demo.MediaTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.Demo.DocTypes
 {
+
+    [MediaType(icon: BuiltInIcons.IconCircus)]
+    public class Image : MediaImageBase { }
+
+    [MediaType(mediaTypeName: "File", mediaTypeAlias: "file", icon: BuiltInIcons.IconCircus)]
+    public class FileUpload : MediaFileBase { }
+
+    [MediaType(icon: BuiltInIcons.IconCircus, allowAtRoot: true)]
+    public class Folder : MediaFolderBase { }
+
     [DocumentType]
     public class TestComp1 : DocumentTypeBase
     {
@@ -27,8 +37,9 @@ namespace Felinesoft.UmbracoCodeFirst.Demo.DocTypes
         public virtual Home HomePage { get; set; }
     }
 
-    [DocumentType]
+    [DocumentType(icon: BuiltInIcons.IconAlarmClock, iconColor: UmbracoIconColor.Red)]
     [Template(isDefault:true)]
+    [CssClass("test-page-main")]
     public class TestPage : Master
     {
         public new class SEOTab : Master.SEOTab
@@ -39,17 +50,27 @@ namespace Felinesoft.UmbracoCodeFirst.Demo.DocTypes
 
         public class ImageTab : TabBase
         {
-            [MediaPickerProperty(cssClasses: "test test-cropper test-attr")]
+            [MediaPickerProperty]
+            [CssClass("test test-cropper test-attr")]
             public virtual Helicropter One { get; set; }
 
-            [ContentProperty(cssClasses: "test test-cropper test-property")]
+            [ContentProperty]
+            [CssClass("test test-cropper test-property")]
             public virtual SingleMediaPicker<Helicropter> Two { get; set; }
 
-            [ContentProperty(cssClasses: "test test-file test-property")]
-            public virtual SingleMediaPicker<MediaFile> Three { get; set; }
+            [ContentProperty]
+            [CssClass("test test-file test-property")]
+            public virtual SingleMediaPicker<FileUpload> Three { get; set; }
 
-            [MediaPickerProperty(cssClasses: "test test-image test-attr")]
-            public virtual MediaImage Four { get; set; }
+            [MediaPickerProperty]
+            [CssClass("test test-image test-attr")]
+            [HtmlData("return", "/home")]
+            [AltText("media four")]
+            public virtual Image Four { get; set; }
+
+            [MediaPickerProperty]
+            [NodePickerConfig(maximumItems: 3)]
+            public virtual IEnumerable<FileUpload> Five { get; set; }
         }
 
         [ContentTab]

@@ -8,7 +8,7 @@ using Umbraco.Core.Models;
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
-    public class SingleDocumentPicker<T> : DocumentPicker<T>, IHtmlString where T : DocumentTypeBase, new()
+    public class SingleDocumentPicker<T> : DocumentPicker<T>, IPickedItem<T>, IHtmlString where T : DocumentTypeBase, new()
     {
         public string Url
         {
@@ -69,7 +69,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         public override IDictionary<string, PreValue> GetPreValues(PreValueContext context)
         {
-            return base.GetPreValuesInternal(context, 1, 0);
+            return base.GetPreValuesInternal(context, 1);
         }
     }
 }
