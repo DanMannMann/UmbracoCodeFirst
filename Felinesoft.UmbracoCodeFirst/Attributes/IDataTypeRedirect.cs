@@ -6,6 +6,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
     public interface IDataTypeRedirect
     {
         Type Redirect(PropertyInfo property);
-        object GetValue(object data);
+        object GetRedirectedValue(object originalDataTypeObject);
+        object GetOriginalDataTypeObject(object redirectedValue);
     }
 }

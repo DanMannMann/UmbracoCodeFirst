@@ -11,7 +11,7 @@ using Umbraco.Core.Models;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes
 {
-    public abstract class NodePicker<Tnode, Tnodedetails> : IUmbracoNtextDataType, ICollection<Tnode>, IEnumerable<Tnode>, IHtmlString, IPreValueFactory
+    public abstract class NodePicker<Tnode, Tnodedetails> : NodePicker, IUmbracoNtextDataType, ICollection<Tnode>, IEnumerable<Tnode>, IHtmlString, IPreValueFactory
         where Tnode : CodeFirstContentBase<Tnodedetails>
         where Tnodedetails : ContentNodeDetails
     {
@@ -20,9 +20,10 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         protected NodePicker(NodeType type)
         {
             _type = type;
+            Items = new List<Tnode>();
         }
 
-        public List<Tnode> Items { get; set; }
+        public List<Tnode> Items { get; private set; }
 
         public Tnode this[int index]
         {
@@ -101,6 +102,23 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         public virtual string Serialise()
         {
             return string.Join(",", this.Where(x => x.NodeDetails != null && x.NodeDetails.UmbracoId > 0).Select(x => x.NodeDetails.UmbracoId.ToString()));
+        }
+
+        internal override void SetCollection(object collection)
+        {
+            if (collection == null)
+            {
+                Items = new List<Tnode>();
+            }
+            else
+            {
+                var col = collection as IEnumerable<Tnode>;
+                if (col == null)
+                {
+                    throw new CodeFirstException("Not an enumerable, or not of the correct type of element");
+                }
+                Items = col.ToList();
+            }
         }
 
         protected abstract Tnode GetModelFromId(int id);
@@ -205,5 +223,10 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
                 return "No content items selected";
             }
         }
+    }
+
+    public abstract class NodePicker
+    {
+        internal abstract void SetCollection(object collection);
     }
 }

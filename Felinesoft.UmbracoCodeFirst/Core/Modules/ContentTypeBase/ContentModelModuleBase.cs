@@ -282,7 +282,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     var attr = registration.Metadata.GetCodeFirstAttribute<ContentPropertyAttribute>();
                     if (attr != null && attr is IDataTypeRedirect)
                     {
-                        val = (attr as IDataTypeRedirect).GetValue(val);
+                        val = (attr as IDataTypeRedirect).GetRedirectedValue(val);
                         if (val != null)
                         {
                             //Keep a second context so wrapped types can still find their property 
@@ -362,13 +362,36 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             object convertedValue;
             if (property.DataType.ConverterType != null)
             {
+                object toConvert;
+                var attr = property.Metadata.GetCodeFirstAttribute<ContentPropertyAttribute>();
+                
+                if (attr != null && attr is IDataTypeRedirect)
+                {
+                    toConvert = (attr as IDataTypeRedirect).GetOriginalDataTypeObject(propertyValue);
+                    if (toConvert != null)
+                    {
+                        //Keep a second context so wrapped types can still find their property 
+                        //Will add nothing if the Redirector registered a context already (e.g. called ConvertToModel to create the value).
+                        //Hopefully said redirector passed in a parent context so the converted value can still find its way back here.
+                        CodeFirstModelContext.NextContext(toConvert, property);
+                    }
+                }
+                else
+                {
+                    toConvert = propertyValue;
+                }
+
                 IDataTypeConverter converter = (IDataTypeConverter)Activator.CreateInstance(property.DataType.ConverterType);
-                convertedValue = converter.Serialise(propertyValue);
+                convertedValue = converter.Serialise(toConvert);
+            }
+            else if (!property.DataType.CodeFirstControlled && property.DataType.DbType == DatabaseType.None)
+            {
+                throw new CodeFirstException("Cannot persist PEVC-based properties. PEVCs only support retrieving a value back from IPublishedContent & cannot persist a property back to IContent");
             }
             else
             {
-                //No converter is given so we push the string back into umbraco without conversion
-                convertedValue = (propertyValue != null ? propertyValue.ToString() : string.Empty);
+                //No converter is given so we push the value back into umbraco as is (this will fail in many cases for PEVC properties)
+                convertedValue = propertyValue;
             }
 
             content.SetValue(property.Alias, convertedValue);

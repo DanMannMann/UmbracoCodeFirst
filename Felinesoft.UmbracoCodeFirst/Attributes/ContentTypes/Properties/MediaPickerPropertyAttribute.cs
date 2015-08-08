@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using Umbraco.Core;
 using System.Linq;
+using Felinesoft.UmbracoCodeFirst.DataTypes;
+using System.Collections;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
@@ -76,23 +78,47 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             return _redirect;
         }
 
-        public object GetValue(object data)
+        public object GetRedirectedValue(object originalDataTypeObject)
         {
-            if (data == null)
+            if (originalDataTypeObject == null)
             {
                 return null;
             }
-            Type t = data.GetType();
+
+            Type t = originalDataTypeObject.GetType();
 
             if (_isMultiple)
             {
-                return data; //the type itself implements IEnumerable<> so we can assign it to the property directly.
+                return originalDataTypeObject; //the type itself implements IEnumerable<> so we can assign it to the property directly.
             }
             else
             {
                 var prop = t.GetProperty(Reflekt<IPickedItem<MediaTypeBase>>.PropertyName(x => x.PickedItem));
-                return prop.GetValue(data);
+                return prop.GetValue(originalDataTypeObject);
             }
+        }
+
+        public object GetOriginalDataTypeObject(object redirectedValue)
+        {
+            var instance = (NodePicker)Activator.CreateInstance(_redirect);
+
+            if (redirectedValue == null)
+            {
+                return instance;
+            }
+            
+            if (_isMultiple)
+            {
+                instance.SetCollection(redirectedValue);
+            }
+            else
+            {
+                var list = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(redirectedValue.GetType()));
+                list.Add(redirectedValue);
+                instance.SetCollection(list);
+            }
+
+            return instance;
         }
     }
 }
