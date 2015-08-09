@@ -20,6 +20,7 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 
     }
 
+    [CodeFirstCommonBase]
     public class MediaFileBase : MediaTypeBase, IHtmlString
     {
         public class FileTab : TabBase

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Restore", "DB Restore", "{5F966450-5AFD-4F13-A87C-5CFDD0AF5FE9}"
@@ -25,9 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Demo", "Felinesoft.UmbracoCodeFirst.Demo\Felinesoft.UmbracoCodeFirst.Demo.csproj", "{3F332CA7-393C-40E2-8492-4237479EDE2C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Felinesoft.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Tests", "Felinesoft.UmbracoCodeFirst.Tests\Felinesoft.UmbracoCodeFirst.Tests.csproj", "{E0E474C8-7C7A-479B-918F-199152708E5A}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 4
+		SccNumberOfProjects = 5
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://tfs.felinesoft.com:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -40,6 +42,9 @@ Global
 		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.Demo\\Felinesoft.UmbracoCodeFirst.Demo.csproj
 		SccProjectName3 = Felinesoft.UmbracoCodeFirst.Demo
 		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.Demo
+		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.TestTarget\\Felinesoft.UmbracoCodeFirst.TestTarget.csproj
+		SccProjectName4 = Felinesoft.UmbracoCodeFirst.TestTarget
+		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.TestTarget
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +63,14 @@ Global
 		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0E474C8-7C7A-479B-918F-199152708E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0E474C8-7C7A-479B-918F-199152708E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0E474C8-7C7A-479B-918F-199152708E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0E474C8-7C7A-479B-918F-199152708E5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

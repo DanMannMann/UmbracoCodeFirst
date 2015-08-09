@@ -47,7 +47,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     }
                 }
             }
+            CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
             Umbraco.Core.Services.ContentService.Created += ContentService_Created;
+        }
+
+        void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
+        {
+            Umbraco.Core.Services.ContentService.Created -= ContentService_Created;
         }
 
         private void ContentService_Created(IContentService sender, NewEventArgs<IContent> e)

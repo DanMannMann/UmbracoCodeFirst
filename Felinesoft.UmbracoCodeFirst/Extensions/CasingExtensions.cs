@@ -32,7 +32,7 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         /// </summary>
         public static string ToCamelCase(this string the_string)
         {
-            the_string = the_string.ToPascalCase();
+            the_string = the_string.ToProperCase().ToPascalCase();
             return the_string.Substring(0, 1).ToLower() + the_string.Substring(1);
         }
 

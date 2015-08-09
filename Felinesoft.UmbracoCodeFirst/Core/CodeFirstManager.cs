@@ -47,9 +47,11 @@ namespace Felinesoft.UmbracoCodeFirst
     /// </example>
     public sealed class CodeFirstManager
     {
-        private CodeFirstModuleResolver _resolver;
         private static CodeFirstManager _current;
+        private static event EventHandler<InvalidatingEventArgs> _onInvalidate;
         private static object _managerLock = new object();
+
+        private CodeFirstModuleResolver _resolver = new CodeFirstModuleResolver();
         private object _treeFilterLock = new object();
         private Dictionary<string, List<IEntityTreeFilter>> _treeFilters = new Dictionary<string, List<IEntityTreeFilter>>();
         private object _logLock = new object();
@@ -90,11 +92,21 @@ namespace Felinesoft.UmbracoCodeFirst
         {
             get
             {
-                if (_resolver == null)
-                {
-                    _resolver = new CodeFirstModuleResolver();
-                }
                 return _resolver;
+            }
+        }
+
+        public static event EventHandler<InvalidatingEventArgs> Invalidating { add { _onInvalidate += value; } remove { _onInvalidate -= value; } }
+
+        public static void Invalidate()
+        {
+            lock (_managerLock)
+            {
+                if (_onInvalidate != null)
+                {
+                    _onInvalidate.Invoke(null, new InvalidatingEventArgs());
+                }
+                _current = null;
             }
         }
 
@@ -112,6 +124,12 @@ namespace Felinesoft.UmbracoCodeFirst
             {
                 EnableLogging = false;
             }
+            Invalidating += CodeFirstManager_Invalidating;
+        }
+
+        void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
+        {
+            TreeControllerBase.TreeNodesRendering -= FilterTreeNodes;
         }
 
         /// <summary>
@@ -172,7 +190,10 @@ namespace Felinesoft.UmbracoCodeFirst
         public void Initialise(IEnumerable<Type> types, bool refreshCache = true)
         {
             InitialiseModules(types);
-            TreeControllerBase.TreeNodesRendering += FilterTreeNodes;
+            lock (_treeFilterLock)
+            {
+                TreeControllerBase.TreeNodesRendering += FilterTreeNodes;
+            }
             if (refreshCache)
             {
                 umbraco.library.RefreshContent();
@@ -254,4 +275,6 @@ namespace Felinesoft.UmbracoCodeFirst
         }
         #endregion
     }
+
+    public class InvalidatingEventArgs : EventArgs { }
 }

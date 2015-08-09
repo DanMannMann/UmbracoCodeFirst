@@ -11,6 +11,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
+    [CodeFirstCommonBase]
     public abstract class MediaFolderBase : MediaTypeBase
     {
         public class ContentsTab : TabBase

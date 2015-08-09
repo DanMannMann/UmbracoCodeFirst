@@ -60,17 +60,20 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             propertyType.ValidationRegExp = attribute.ValidationRegularExpression;
 
 
-            var propertyDeclaredOnThisDocType = property.Metadata.DeclaringType == documentClrType;
+            var propertyDeclaredOnThisDocType = property.Metadata.DeclaringType == documentClrType || property.Metadata.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>(false) != null;
             var propertyDeclaredOnThisTab = tab == null ? false : property.Metadata.DeclaringType == tab.ClrType;
-            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType || tab.PropertyOfParent.DeclaringType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType || tab.PropertyOfParent.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>() != null;
             var declaringTypeIsDocType = property.Metadata.DeclaringType.GetCodeFirstAttribute<ContentTypeAttribute>(false) != null;
-            var propertyIsFromCommonBase = tab == null ? false : tab.ClrType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+            var propertyIsFromCommonBase = tab == null ?
+                property.Metadata.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>() != null && property.Metadata.DeclaringType == documentClrType.BaseType 
+                : 
+                property.Metadata.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>() != null && property.Metadata.DeclaringType == tab.ClrType.BaseType;
 
             if (tab == null)
             {
-                if (propertyDeclaredOnThisDocType || !declaringTypeIsDocType) //only if property declared at this level (or inherited from a non-doctype class)
+                if (propertyDeclaredOnThisDocType || propertyIsFromCommonBase) //only if property declared at this level (or inherited from a non-doctype class)
                 {
-                    if (!newContentType.PropertyTypeExists(propertyType.Alias)) //check if non-doctype properties already exist
+                    if (!propertyIsFromCommonBase || !newContentType.PropertyTypeExists(propertyType.Alias)) //check if common base properties already exist
                     {
                         CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + newContentType.Name, this);
                         newContentType.AddPropertyType(propertyType);
@@ -81,7 +84,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 if (propertyDeclaredOnThisTab || propertyIsFromCommonBase) //only if property declared at this level
                 {
-                    if (!newContentType.PropertyTypeExists(propertyType.Alias)) //check if common base properties already exist
+                    if (!propertyIsFromCommonBase || !newContentType.PropertyTypeExists(propertyType.Alias)) //check if common base properties already exist
                     {
                         CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + newContentType.Name, this);
                         newContentType.AddPropertyType(propertyType, tab.Name);
@@ -164,9 +167,12 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             var propertyDeclaredOnThisDocType = property.Metadata.DeclaringType == documentClrType;
             var propertyDeclaredOnThisTab = tab == null ? false : property.Metadata.DeclaringType == tab.ClrType;
-            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType;
+            var tabDeclaredOnThisDocType = tab == null ? false : tab.PropertyOfParent.DeclaringType == documentClrType || tab.PropertyOfParent.DeclaringType.GetCustomAttribute<ContentTypeAttribute>() == null;
             var declaringTypeIsDocType = property.Metadata.DeclaringType.GetCodeFirstAttribute<ContentTypeAttribute>(false) != null;
-            var propertyIsFromCommonBase =  tab == null ? false : tab.ClrType.GetCodeFirstAttribute<CommonTabBaseAttribute>() != null;
+            var propertyIsFromCommonBase = tab == null ?
+                property.Metadata.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>() != null && property.Metadata.DeclaringType == documentClrType.BaseType
+                :
+                property.Metadata.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>() != null && property.Metadata.DeclaringType == tab.ClrType.BaseType;
 
             if (alreadyExisted)
             {
@@ -186,7 +192,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 {
                     if (propertyDeclaredOnThisDocType || !declaringTypeIsDocType) //only if property declared at this level (or inherited from common base)
                     {
-                        if (!contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if non-doctype properties already exist
+                        if (!propertyIsFromCommonBase || !contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
                         {
                             CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + contentType.Name, this);
                             contentType.AddPropertyType(umbracoProperty);
@@ -197,7 +203,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 {
                     if (propertyDeclaredOnThisTab || propertyIsFromCommonBase) //only if property declared at this level
                     {
-                        if (!contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
+                        if (!propertyIsFromCommonBase || !contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
                         {
                             CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + contentType.Name, this);
                             contentType.AddPropertyType(umbracoProperty, tab.Name);
@@ -254,7 +260,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return false;
         }
     }
-
 }
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions

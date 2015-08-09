@@ -85,27 +85,6 @@ namespace Felinesoft.UmbracoCodeFirst
 
         /// <summary>
         /// <para>
-        /// Allow the parent type of an existing doc type to be changed.
-        /// This operation is not supported in the Umbraco back-office. Work
-        /// is underway to support it properly in code-first but I would recommend
-        /// quite strongly against turning it on for anything other than an experiment,
-        /// well away from production sites.
-        /// </para>
-        /// <para>
-        /// If this is disabled (default. For a reason.) then attempts to "re-parent" will cause an exception on initialisation.
-        /// The way around this is to delete your existing types then reinitialise code-first, recreating them.
-        /// You'd probably have to drop all your content too. Consider compositions for scenarios where it is
-        /// too late to sort your inheritance structure out properly.
-        /// </para>
-        /// <para>
-        /// Status: Experimental (default: false) (note: Seriously. Doesn't work. Don't use it.)
-        /// </para>
-        /// </summary>
-        [Feature(DefaultValue = false)]
-        public bool AllowReparenting { get; set; }
-
-        /// <summary>
-        /// <para>
         /// Allow data types to access custom attributes from their model rendering ancestry (data type itself, current property, 
         /// current content type, current composing type, current composition property) when rendering. Currently used to allow
         /// CSS classes and data- attributes to be applied to emitted HTML elements, e.g. so all image elements have class="codefirst-image"

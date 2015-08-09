@@ -10,7 +10,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-    public class CommonTabBaseAttribute : CodeFirstAttribute
+    public class CodeFirstCommonBaseAttribute : CodeFirstAttribute
     {
 
     }

@@ -86,6 +86,18 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'TestSet1' ">
+    <OutputPath>bin\TestSet1\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'TestSet2' ">
+    <OutputPath>bin\TestSet2\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'TestSet3' ">
+    <OutputPath>bin\TestSet3\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'TestSet4' ">
+    <OutputPath>bin\TestSet4\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Folder Include="Content" />
     <Folder Include="Content\VersionHistory" />

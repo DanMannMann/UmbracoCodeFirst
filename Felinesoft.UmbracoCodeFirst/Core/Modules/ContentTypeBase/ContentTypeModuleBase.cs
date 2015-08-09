@@ -199,6 +199,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (modified)
             {
                 type.AllowedContentTypes = allowedChildren;
+                type.ResetDirtyProperties(false);
                 SaveContentType(type);
             }
         }
@@ -355,10 +356,16 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             DoPerTypeConcurrent(sortedTypes.SelectMany(x => x), type =>
             {
                 var contentTypeReg = ContentTypeRegister.GetContentType(type);
-                if (contentTypeReg.ContentTypeAttribute != null && contentTypeReg.ContentTypeAttribute.AllowedChildren != null)
+                if (contentTypeReg.ContentTypeAttribute != null)
                 {
                     if (_performanceTimer != Guid.Empty) 
                         Timing.MarkTimer(_performanceTimer, "Starting " + type.Name + " Allowed Children Sync");
+
+                    if (contentTypeReg.ContentTypeAttribute.AllowedChildren == null)
+                    {
+                        contentTypeReg.ContentTypeAttribute.AllowedChildren = new Type[] { };
+                    }
+
                     SyncAllowedChildren(contentTypeReg);
                 }
                 if (_performanceTimer != Guid.Empty) 
@@ -509,158 +516,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         private IContentTypeComposition Reparent(ContentTypeRegistration registration, IContentTypeComposition contentType, IContentTypeBase newParent, IContentTypeBase oldParent)
         {
-            if (CodeFirstManager.Current.Features.AllowReparenting)
-            {
-                CheckBuiltIn(registration);
-
-                //Set the parent
-                contentType.ParentId = newParent.Id;
-
-                //Remove composition
-                var parentCompositionItem = contentType.ContentTypeComposition.FirstOrDefault(x => x.Id == contentType.ParentId);
-                if (parentCompositionItem != null)
-                {
-                    contentType.RemoveContentType(parentCompositionItem.Alias);
-                }
-
-                //Update path
-                contentType.Path = contentType.Path.Replace(oldParent.Path, newParent.Path);
-
-                //Persist changes so far before modifying DB
-                contentType.ResetDirtyProperties(false);
-                SaveContentType(contentType);
-                newParent.ResetDirtyProperties(false);
-                SaveContentType(newParent);
-
-                //Re-get the type to ensure above changes are included
-                //TODO is this needed?
-                contentType = GetContentTypeByAlias(contentType.Alias);
-
-                //COMMENTED OUT FOR SAFETY!!! NONE OF THIS WORKS YET!!!
-                //PROBABLY BEST TO KEEP IT TO API OPERATIONS ONLY UNLESS ACTUALLY WORKING ON THIS, SO DB STUFF COMMENTED OUT
-                ////Update cmsContentType2ContentType directly
-                //var db = Umbraco.Core.ApplicationContext.Current.DatabaseContext.Database;
-                //UpdateContentTypeMapping(contentType, newParent, db);
-
-                ////Update cmsPropertyTypeGroup directly
-                //ReparentPropertyGroups(contentType, newParent, oldParent, db);
-
-                //Re-get the type to ensure above changes are included
-                //TODO is this needed?
-                contentType = GetContentTypeByAlias(contentType.Alias);
-
-                //Update child paths
-                foreach (var child in GetChildren(contentType))
-                {
-                    child.Path = child.Path.Replace(oldParent.Path, newParent.Path);
-                    child.ResetDirtyProperties(false);
-                    SaveContentType(child);
-                    //Update cmsPropertyTypeGroup for child directly
-                    //ReparentPropertyGroups(child, newParent, oldParent, db);
-                }
-
-                //Persist changes again
-                contentType.ResetDirtyProperties(false);
-                SaveContentType(contentType);
-                newParent.ResetDirtyProperties(false);
-                SaveContentType(newParent);
-
-                //Re-get the type to ensure above changes are included
-                //TODO is this needed?
-                contentType = GetContentTypeByAlias(contentType.Alias);
-
-                return contentType;
-            }
-            else
-            {
-                throw new CodeFirstException("Changing parent types of existing content types is not supported. Consider dropping & recreating your content type hierarchy or using compositions instead." + Environment.NewLine +
-                    "Affected type alias: " + registration.Alias + ", previous parent alias: " + (oldParent == null ? "[none]" : oldParent.Alias) + ", new parent alias: " + (newParent == null ? "[none]" : newParent.Alias));
-            }
-        }
-
-        private static void UpdateContentTypeMapping(IContentTypeComposition contentType, IContentTypeBase newParent, UmbracoDatabase db)
-        {
-            try
-            {
-                var item = db.SingleOrDefault<ContentType2ContentTypeDto>(new Sql()
-                             .Select("*")
-                             .From<ContentType2ContentTypeDto>()
-                             .Where<ContentType2ContentTypeDto>(x => x.ChildId == contentType.Id));
-                if (item != null)
-                {
-                    db.BeginTransaction();
-                    db.Delete<ContentType2ContentTypeDto>(new Sql().Where<ContentType2ContentTypeDto>(x => x.ParentId == item.ParentId && x.ChildId == item.ChildId));
-                    if (newParent != null)
-                    {
-                        var newItem = new ContentType2ContentTypeDto() { ParentId = newParent.Id, ChildId = contentType.Id };
-                        db.Insert(newItem); 
-                    }
-                    db.CompleteTransaction();
-                }
-            }
-            catch (Exception)
-            {
-                db.AbortTransaction();
-                throw;
-            }
-        }
-
-        private static void ReparentPropertyGroups(IContentTypeBase contentType, IContentTypeBase newParent, IContentTypeBase oldParent, UmbracoDatabase db)
-        {
-            try
-            {
-                var items = db.Fetch<PropertyTypeGroupDto>(new Sql()
-                             .Select("*")
-                             .From<PropertyTypeGroupDto>()
-                             .Where<PropertyTypeGroupDto>(x => x.ContentTypeNodeId == contentType.Id));
-
-                if (items.Count > 0)
-                {
-                    db.BeginTransaction();
-
-                    foreach (var item in items)
-                    {
-                        if (item.ParentGroupId.HasValue)
-                        {
-                            var parentGroup = db.SingleOrDefault<PropertyTypeGroupDto>(new Sql()
-                                                .Select("*")
-                                                .From<PropertyTypeGroupDto>()
-                                                .Where<PropertyTypeGroupDto>(x => x.Id == item.ParentGroupId));
-
-                            if (parentGroup != null && parentGroup.ContentTypeNodeId == oldParent.Id)
-                            {
-                                if (newParent != null)
-                                {
-                                    var newParentGroup = db.SingleOrDefault<PropertyTypeGroupDto>(new Sql()
-                                                           .Select("*")
-                                                           .From<PropertyTypeGroupDto>()
-                                                           .Where<PropertyTypeGroupDto>(x => x.ContentTypeNodeId == newParent.Id && x.Text.Equals(parentGroup.Text, StringComparison.InvariantCultureIgnoreCase)));
-                                    if (newParentGroup == null)
-                                    {
-                                        item.ParentGroupId = null;
-                                    }
-                                    else
-                                    {
-                                        item.ParentGroupId = newParentGroup.Id;
-                                    }
-                                }
-                                else
-                                {
-                                    item.ParentGroupId = null;
-                                }
-                                db.Update(item);
-                            }
-                        }
-                    }
-
-                    db.CompleteTransaction();
-                }
-            }
-            catch (Exception)
-            {
-                db.AbortTransaction();
-                throw;
-            }
+            //TODO sort out reparenting
+            throw new CodeFirstException("Changing parent types of existing content types is not supported. Consider dropping & recreating your content type hierarchy or using compositions instead." + Environment.NewLine +
+                "Affected type alias: " + registration.Alias + ", previous parent alias: " + (oldParent == null ? "[none]" : oldParent.Alias) + ", new parent alias: " + (newParent == null ? "[none]" : newParent.Alias));
         }
 
         private void CheckBuiltIn(ContentTypeRegistration registration)
@@ -756,7 +614,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private void VerifyProperties(IContentTypeBase contentType, Type documentClrType, List<PropertyRegistration> propertyRegister, List<TabRegistration> tabRegister, ref bool modified)
         {
             var tabProperties = documentClrType.GetProperties().Where(x => x.GetCodeFirstAttribute<ContentTabAttribute>() != null).ToArray();
-            List<string> propertiesThatShouldExist = new List<string>();
+            var propertiesOfRoot = documentClrType.GetProperties().Where(x => x.GetCodeFirstAttribute<ContentPropertyAttribute>() != null);
+            
+            //Remove any properties which aren't in the CF definition
+            Prune(contentType, documentClrType, tabProperties, propertiesOfRoot);
 
             foreach (var tabProperty in tabProperties)
             {
@@ -767,29 +628,80 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 tabReg.OriginalName = tabAttribute.OriginalName;
                 tabReg.PropertyOfParent = tabProperty;
                 CodeFirstManager.Current.Log("Syncing tab " + tabReg.Name + " on content type " + contentType.Name, this);
-                propertiesThatShouldExist.AddRange(VerifyAllPropertiesOnTab(tabProperty, contentType, tabReg, documentClrType, ref modified));
+                VerifyAllPropertiesOnTab(tabProperty, contentType, tabReg, documentClrType, ref modified);
                 tabRegister.Add(tabReg);
             }
 
-            var propertiesOfRoot = documentClrType.GetProperties().Where(x => x.GetCodeFirstAttribute<ContentPropertyAttribute>() != null);
             foreach (var item in propertiesOfRoot)
             {
                 CodeFirstManager.Current.Log("Syncing property " + item.Name + " on content type " + contentType.Name, this);
                 var reg = _propertyModule.VerifyExistingProperty(contentType, null, item, documentClrType, ref modified);
-                propertiesThatShouldExist.Add(reg.Alias.ToLower());
                 propertyRegister.Add(reg);
             }
+        }
 
-            //loop through all the properties on the ContentType to see if they should be removed;
+        private void Prune(IContentTypeBase contentType, Type documentClrType, PropertyInfo[] tabProperties, IEnumerable<PropertyInfo> propertiesOfRoot)
+        {
+            bool modified = false;
+
+            var propertiesToKeep = propertiesOfRoot.Where(x =>
+            {
+                var attr = x.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>(false);
+                return x.DeclaringType == documentClrType || attr != null;
+            }).Select(x => x.GetCodeFirstAttribute<ContentPropertyAttribute>().Alias)
+            .Union(tabProperties.Where(x =>
+            {
+                var attr = x.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>(false);
+                return x.DeclaringType == documentClrType || attr != null;
+            }).SelectMany(x =>
+            {
+                return x.PropertyType.GetProperties().Where(y =>
+                {
+                    return (y.DeclaringType == x.PropertyType || y.DeclaringType.GetCodeFirstAttribute<CodeFirstCommonBaseAttribute>(false) != null) && y.GetCodeFirstAttribute<ContentPropertyAttribute>() != null;
+                }).Select(y =>
+                    {
+                      var attr = y.GetCodeFirstAttribute<ContentPropertyAttribute>();
+                      var tabAttr = x.GetCodeFirstAttribute<ContentTabAttribute>();
+                      return attr.AddTabAliasToPropertyAlias ? attr.Alias + "_" + tabAttr.Name.Replace(" ", "_") : attr.Alias;
+                    });
+            }));
+
+            //loop through all the properties on the ContentType to see if they should be removed.
             var existingUmbracoProperties = contentType.PropertyTypes.ToArray();
             int length = contentType.PropertyTypes.Count();
             for (int i = 0; i < length; i++)
             {
-                if (!propertiesThatShouldExist.Contains(existingUmbracoProperties[i].Alias.ToLower()))
+                if (!propertiesToKeep.Any(x => x.Equals(existingUmbracoProperties[i].Alias, StringComparison.InvariantCultureIgnoreCase)))
                 {
-                    modified = true;
-                    //remove the property
-                    contentType.RemovePropertyType(existingUmbracoProperties[i].Alias.ToLower());
+                    if (contentType.PropertyTypeExists(existingUmbracoProperties[i].Alias))
+                    {
+                        modified = true;
+                        //remove the property
+                        contentType.RemovePropertyType(existingUmbracoProperties[i].Alias);
+                        var alias = existingUmbracoProperties[i].Alias;
+                        var children = GetChildren(contentType);
+                        RemovePropertyFromChildren(alias, children);
+                    }
+                }
+            }
+
+            if (modified)
+            {
+                contentType.ResetDirtyProperties(false);
+                SaveContentType(contentType);
+            }
+        }
+
+        private void RemovePropertyFromChildren(string alias, IEnumerable<IContentTypeBase> children)
+        {
+            foreach (var child in children)
+            {
+                if (child.PropertyTypeExists(alias))
+                {
+                    child.RemovePropertyType(alias);
+                    alias = child.Alias;
+                    children = GetChildren(child);
+                    RemovePropertyFromChildren(alias, children);
                 }
             }
         }
@@ -1044,233 +956,4 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         }
         #endregion
     }
-
-    [TableName("cmsPropertyTypeGroup")]
-    [PrimaryKey("id", autoIncrement = true)]
-    [ExplicitColumns]
-    internal class PropertyTypeGroupDto
-    {
-        [Column("id")]
-        [PrimaryKeyColumn(IdentitySeed = 12)]
-        public int Id { get; set; }
-
-        [Column("parentGroupId")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        //[Constraint(Default = "NULL")]
-        [ForeignKey(typeof(PropertyTypeGroupDto))]
-        public int? ParentGroupId { get; set; }
-
-        [Column("contenttypeNodeId")]
-        [ForeignKey(typeof(ContentTypeDto), Column = "nodeId")]
-        public int ContentTypeNodeId { get; set; }
-
-        [Column("text")]
-        public string Text { get; set; }
-
-        [Column("sortorder")]
-        public int SortOrder { get; set; }
-
-        [ResultColumn]
-        public List<PropertyTypeDto> PropertyTypeDtos { get; set; }
-    }
-
-    [TableName("cmsContentType")]
-    [PrimaryKey("pk")]
-    [ExplicitColumns]
-    internal class ContentTypeDto
-    {
-        [Column("pk")]
-        [PrimaryKeyColumn(IdentitySeed = 535)]
-        public int PrimaryKey { get; set; }
-
-        [Column("nodeId")]
-        [ForeignKey(typeof(NodeDto))]
-        [Index(IndexTypes.UniqueNonClustered, Name = "IX_cmsContentType")]
-        public int NodeId { get; set; }
-
-        [Column("alias")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string Alias { get; set; }
-
-        [Column("icon")]
-        [Index(IndexTypes.NonClustered)]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string Icon { get; set; }
-
-        [Column("thumbnail")]
-        [Constraint(Default = "folder.png")]
-        public string Thumbnail { get; set; }
-
-        [Column("description")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        [Length(1500)]
-        public string Description { get; set; }
-
-        [Column("isContainer")]
-        [Constraint(Default = "0")]
-        public bool IsContainer { get; set; }
-
-        [Column("allowAtRoot")]
-        [Constraint(Default = "0")]
-        public bool AllowAtRoot { get; set; }
-
-        [ResultColumn]
-        public NodeDto NodeDto { get; set; }
-    }
-
-    [TableName("cmsPropertyType")]
-    [PrimaryKey("id")]
-    [ExplicitColumns]
-    internal class PropertyTypeDto
-    {
-        public PropertyTypeDto()
-        {
-            //by default always create a new guid
-            UniqueId = Guid.NewGuid();
-        }
-
-        [Column("id")]
-        [PrimaryKeyColumn(IdentitySeed = 50)]
-        public int Id { get; set; }
-
-        [Column("dataTypeId")]
-        [ForeignKey(typeof(DataTypeDto), Column = "nodeId")]
-        public int DataTypeId { get; set; }
-
-        [Column("contentTypeId")]
-        [ForeignKey(typeof(ContentTypeDto), Column = "nodeId")]
-        public int ContentTypeId { get; set; }
-
-        [Column("propertyTypeGroupId")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        [ForeignKey(typeof(PropertyTypeGroupDto))]
-        public int? PropertyTypeGroupId { get; set; }
-
-        [Column("Alias")]
-        public string Alias { get; set; }
-
-        [Column("Name")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string Name { get; set; }
-
-        [Column("sortOrder")]
-        [Constraint(Default = "0")]
-        public int SortOrder { get; set; }
-
-        [Column("mandatory")]
-        [Constraint(Default = "0")]
-        public bool Mandatory { get; set; }
-
-        [Column("validationRegExp")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string ValidationRegExp { get; set; }
-
-        [Column("Description")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        [Length(2000)]
-        public string Description { get; set; }
-
-        [ResultColumn]
-        public DataTypeDto DataTypeDto { get; set; }
-
-        [Column("UniqueID")]
-        [NullSetting(NullSetting = NullSettings.NotNull)]
-        [Constraint(Default = "newid()")]
-        [Index(IndexTypes.UniqueNonClustered, Name = "IX_cmsPropertyTypeUniqueID")]
-        public Guid UniqueId { get; set; }
-    }
-
-    [TableName("cmsDataType")]
-    [PrimaryKey("pk")]
-    [ExplicitColumns]
-    internal class DataTypeDto
-    {
-        [Column("pk")]
-        [PrimaryKeyColumn(IdentitySeed = 30)]
-        public int PrimaryKey { get; set; }
-
-        [Column("nodeId")]
-        [ForeignKey(typeof(NodeDto))]
-        [Index(IndexTypes.UniqueNonClustered)]
-        public int DataTypeId { get; set; }
-
-        [Column("propertyEditorAlias")]
-        public string PropertyEditorAlias { get; set; }
-
-        [Column("dbType")]
-        [Length(50)]
-        public string DbType { get; set; }//NOTE Is set to [varchar] (50) in Sql Server script
-
-        [ResultColumn]
-        public NodeDto NodeDto { get; set; }
-    }
-
-    [TableName("cmsContentType2ContentType")]
-    [ExplicitColumns]
-    internal class ContentType2ContentTypeDto
-    {
-        [Column("parentContentTypeId")]
-        [PrimaryKeyColumn(AutoIncrement = false, Clustered = true, Name = "PK_cmsContentType2ContentType", OnColumns = "parentContentTypeId, childContentTypeId")]
-        [ForeignKey(typeof(NodeDto), Name = "FK_cmsContentType2ContentType_umbracoNode_parent")]
-        public int ParentId { get; set; }
-
-        [Column("childContentTypeId")]
-        [ForeignKey(typeof(NodeDto), Name = "FK_cmsContentType2ContentType_umbracoNode_child")]
-        public int ChildId { get; set; }
-    }
-
-    [TableName("umbracoNode")]
-    [PrimaryKey("id")]
-    [ExplicitColumns]
-    internal class NodeDto
-    {
-        public const int NodeIdSeed = 1050;
-
-        [Column("id")]
-        [PrimaryKeyColumn(Name = "PK_structure", IdentitySeed = NodeIdSeed)]
-        public int NodeId { get; set; }
-
-        [Column("trashed")]
-        [Constraint(Default = "0")]
-        [Index(IndexTypes.NonClustered, Name = "IX_umbracoNodeTrashed")]
-        public bool Trashed { get; set; }
-
-        [Column("parentID")]
-        [ForeignKey(typeof(NodeDto))]
-        [Index(IndexTypes.NonClustered, Name = "IX_umbracoNodeParentId")]
-        public int ParentId { get; set; }
-
-        [Column("nodeUser")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public int? UserId { get; set; }
-
-        [Column("level")]
-        public short Level { get; set; }
-
-        [Column("path")]
-        [Length(150)]
-        public string Path { get; set; }
-
-        [Column("sortOrder")]
-        public int SortOrder { get; set; }
-
-        [Column("uniqueID")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        [Index(IndexTypes.NonClustered, Name = "IX_umbracoNodeUniqueID")]
-        public Guid? UniqueId { get; set; }
-
-        [Column("text")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        public string Text { get; set; }
-
-        [Column("nodeObjectType")]
-        [NullSetting(NullSetting = NullSettings.Null)]
-        [Index(IndexTypes.NonClustered, Name = "IX_umbracoNodeObjectType")]
-        public Guid? NodeObjectType { get; set; }
-
-        [Column("createDate")]
-        [Constraint(Default = "getdate()")]
-        public DateTime CreateDate { get; set; }
-    }
-
 }
