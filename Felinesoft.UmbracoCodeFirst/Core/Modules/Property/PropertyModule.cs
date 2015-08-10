@@ -203,7 +203,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 {
                     if (propertyDeclaredOnThisTab || propertyIsFromCommonBase) //only if property declared at this level
                     {
-                        if (!propertyIsFromCommonBase || !contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
+                        if (!propertyIsFromCommonBase || (tabDeclaredOnThisDocType && !contentType.PropertyTypeExists(umbracoProperty.Alias))) //check if common base properties already exist
                         {
                             CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + contentType.Name, this);
                             contentType.AddPropertyType(umbracoProperty, tab.Name);
