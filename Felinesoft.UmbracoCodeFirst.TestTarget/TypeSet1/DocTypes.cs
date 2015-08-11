@@ -6,10 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
+namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet1
 {
     [DocumentType(allowAtRoot: true)]
-    [Template(isDefault: true)]
     public class Master : DocumentTypeBase
     {
         [ContentProperty]
@@ -17,6 +16,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
 
         [ContentProperty]
         public virtual TrueFalse MasterTrueFalseRoot { get; set; }
+
+        [ContentProperty]
+        public virtual Numeric MasterNumericRoot { get; set; }
 
         [ContentTab]
         public virtual MasterTab MasterTab { get; set; }
@@ -29,20 +31,16 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         public virtual TrueFalse CommonTabBaseTrueFalse { get; set; }
     }
 
-    public class MasterTab : TabBase
+    public class MasterTab : CommonTabBase
     {
         [ContentProperty]
         public virtual RichtextEditor MasterRichtextEditorTab { get; set; }
 
         [ContentProperty]
         public virtual DatePicker MasterDatePickerTab { get; set; }
-
-        [ContentProperty(mandatory: true)]
-        public virtual Textstring MasterTextstringTab { get; set; }
     }
 
-    [DocumentType(icon: BuiltInIcons.IconActivity, iconColor: UmbracoIconColor.Green)]
-    [Template(isDefault: true)]
+    [DocumentType]
     public class Child1 : Master
     {
         [ContentProperty]
@@ -54,9 +52,6 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         [ContentProperty]
         public virtual Numeric Child1NumericRoot { get; set; }
 
-        [ContentProperty(description: "  This be a  lABel ", mandatory: true)]
-        public virtual Label Child1LabelRoot { get; set; }
-
         [ContentTab]
         public virtual Child1Tab Child1Tab { get; set; }
     }
@@ -65,6 +60,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
     {
         [ContentProperty]
         public virtual RichtextEditor Child1RichtextEditorTab { get; set; }
+
+        [ContentProperty]
+        public virtual DatePicker Child1DatePickerTab { get; set; }
     }
 
     [DocumentType]
@@ -78,30 +76,6 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
 
         [ContentProperty]
         public virtual Numeric Child2NumericRoot { get; set; }
-
-        [ContentTab]
-        public virtual Child2Tab Child2Tab { get; set; }
-
-        [ContentComposition]
-        public virtual Child2Composition Composition { get; set; }
-    }
-
-    [DocumentType]
-    public class Child2Composition : DocumentTypeBase
-    {
-        [ContentProperty]
-        public virtual Numeric CompositionNumericRoot { get; set; }
-
-        //TODO add a tab to this in TypeSet3
-    }
-
-    public class Child2Tab : CommonTabBase
-    {
-        [ContentProperty]
-        public virtual RichtextEditor Child2RichtextEditorTab { get; set; }
-
-        [ContentProperty]
-        public virtual DatePicker Child2DatePickerTab { get; set; }
     }
 
     [DocumentType]
@@ -115,6 +89,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
 
         [ContentProperty]
         public virtual Numeric Grandchild1NumericRoot { get; set; }
+
+        [ContentTab]
+        public virtual GrandChild1Tab Grandchild1Tab { get; set; }
     }
 
     public class GrandChild1Tab : CommonTabBase

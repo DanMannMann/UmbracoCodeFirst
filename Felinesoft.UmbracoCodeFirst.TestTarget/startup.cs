@@ -15,7 +15,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
 {
     public class startup : ApplicationEventHandler
     {
-        private readonly ICodeFirstTest[] _tests = new ICodeFirstTest[] { new DocTypeTests_DefaultSet(), new DocTypeTests_TypeSet2() };
+        private readonly ICodeFirstTest[] _tests = new ICodeFirstTest[] { new TypeSet2Tests(), new TypeSet1Tests() };
         private const string _namespacePrefix = "Felinesoft.UmbracoCodeFirst.TestTarget.";
         private const string _targetNamespace = "TypeSet2";
 

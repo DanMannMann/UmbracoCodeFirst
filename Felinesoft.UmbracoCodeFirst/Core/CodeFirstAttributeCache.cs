@@ -22,7 +22,6 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
         private static ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<Type, CodeFirstAttribute>> _propertyCache = new ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<Type, CodeFirstAttribute>>();
         private static ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<Type, object>> _multiplePropertyCache = new ConcurrentDictionary<PropertyInfo, ConcurrentDictionary<Type, object>>();
 
-
         /// <summary>
         /// Gets an attribute of type T which is applied to the input type
         /// </summary>
@@ -53,6 +52,12 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
                     attr = type.GetCustomAttribute<T>();
                 }
             }
+
+            if (initialise && attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
+            {
+                (attr as IInitialisableAttribute).Initialise(type);
+            }
+
             return (T)innerCache.GetOrAdd(attributeType, attr);
         }
 
@@ -70,7 +75,7 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             Type attributeType = typeof(T);
             object temp;
             IEnumerable<T> attrs = null;
-            _multipleCache.TryGetValue(attributeType, out innerCache);
+            _multipleCache.TryGetValue(type, out innerCache);
             if (innerCache == null)
             {
                 innerCache = new ConcurrentDictionary<Type, object>();
@@ -92,7 +97,15 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             {
                 attrs = (IEnumerable<T>)temp;
             }
-            
+
+            foreach (var attr in attrs)
+            {
+                if (initialise && attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
+                {
+                    (attr as IInitialisableAttribute).Initialise(type);
+                }
+            }
+
             return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
         }
 
@@ -110,7 +123,7 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             Type attributeType = typeof(T);
             object temp;
             IEnumerable<T> attrs = null;
-            _multipleCache.TryGetValue(attributeType, out innerCache);
+            _multipleCache.TryGetValue(type, out innerCache);
             if (innerCache == null)
             {
                 innerCache = new ConcurrentDictionary<Type, object>();
@@ -131,6 +144,14 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             else
             {
                 attrs = (IEnumerable<T>)temp;
+            }
+
+            foreach (var attr in attrs)
+            {
+                if (initialise && attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
+                {
+                    (attr as IInitialisableAttribute).Initialise(type);
+                }
             }
 
             return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
@@ -166,6 +187,12 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
                     attr = property.GetCustomAttribute<T>();
                 }
             }
+
+            if (initialise && attr is IInitialisablePropertyAttribute && !(attr as IInitialisablePropertyAttribute).Initialised)
+            {
+                (attr as IInitialisablePropertyAttribute).Initialise(property);
+            }
+
             return (T)innerCache.GetOrAdd(attributeType, attr);
         }
 
@@ -204,6 +231,15 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             {
                 attrs = (IEnumerable<T>)temp;
             }
+
+            foreach (var attr in attrs)
+            {
+                if (initialise && attr is IInitialisablePropertyAttribute && !(attr as IInitialisablePropertyAttribute).Initialised)
+                {
+                    (attr as IInitialisablePropertyAttribute).Initialise(property);
+                }
+            }
+
             return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
         }
 
@@ -242,6 +278,15 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
             {
                 attrs = (IEnumerable<T>)temp;
             }
+
+            foreach (var attr in attrs)
+            {
+                if (initialise && attr is IInitialisablePropertyAttribute && !(attr as IInitialisablePropertyAttribute).Initialised)
+                {
+                    (attr as IInitialisablePropertyAttribute).Initialise(property);
+                }
+            }
+
             return (IEnumerable<T>)innerCache.GetOrAdd(attributeType, attrs);
         }
     }

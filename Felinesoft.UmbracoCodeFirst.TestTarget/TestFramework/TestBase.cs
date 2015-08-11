@@ -117,7 +117,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
                 {
                     throw new TestFailureException("Parent is not set when it should be. Type: " + type.Name);
                 }
-                var parent = GetContentType(umbType.ParentId);
+                var parent = GetParentType(umbType);
                 Assert(parent, x => x != null && MatchOrBothEmpty(x.Alias, type.ParentAlias), "Parent alias doesn't match. Type: " + type.Name);
             }
         }
@@ -236,6 +236,22 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
             AssertDataType(DataTypeService.GetDataTypeDefinitionById(umbProp.DataTypeDefinitionId), property.DataType, msgPostfix + ", property: " + property.Alias);
         }
 
+        protected void AssertDataTypes(IEnumerable<IDataTypeDefinition> types, IEnumerable<ExpectedDataType> expectedTypes)
+        {
+            foreach (var exp in expectedTypes)
+            {
+                var type = types.FirstOrDefault(x => x.Name == exp.DataTypeName);
+                if (type == null)
+                {
+                    throw new TestFailureException("Expected Data Type '" + exp.DataTypeName + "' not found");
+                }
+                else
+                {
+                    AssertDataType(type, exp, string.Empty);
+                }
+            }
+        }
+
         protected void AssertDataType(IDataTypeDefinition dataTypeDefinition, ExpectedDataType expectedDataType, string msgPostfix)
         {
             Assert(dataTypeDefinition, x => x.Name == expectedDataType.DataTypeName, "Data type name doesn't match. Data type: " + expectedDataType.DataTypeName + msgPostfix);
@@ -243,7 +259,23 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
             Assert(dataTypeDefinition, x => x.DatabaseType == expectedDataType.DbType, "Data type database type doesn't match. Data type: " + expectedDataType.DataTypeName + msgPostfix);
         }
 
-        protected abstract IContentTypeBase GetContentType(int id);
+        private IContentTypeBase GetParentType(IContentTypeBase type)
+        {
+            if (type.ParentId <= 0) return null;
+
+            if (type is IContentType)
+            {
+                return ContentTypeService.GetContentType(type.ParentId);
+            }
+            else if (type is IMediaType)
+            {
+                return ContentTypeService.GetMediaType(type.ParentId);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
+        }
 
         protected void Assert<T>(T input, Func<T, bool> test, string message)
         {

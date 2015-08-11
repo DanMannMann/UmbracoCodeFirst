@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.DefaultTypeSet
+namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
 {
-    [DocumentType(allowAtRoot: true)]
-    public class Master : DocumentTypeBase
+    [MediaType(allowAtRoot: true)]
+    public class MediaMaster : MediaTypeBase
     {
         [ContentProperty]
         public virtual Textstring MasterTextstringRoot { get; set; }
@@ -17,31 +17,24 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.DefaultTypeSet
         [ContentProperty]
         public virtual TrueFalse MasterTrueFalseRoot { get; set; }
 
-        [ContentProperty]
-        public virtual Numeric MasterNumericRoot { get; set; }
-
         [ContentTab]
         public virtual MasterTab MasterTab { get; set; }
     }
 
-    [CodeFirstCommonBase]
-    public class CommonTabBase : TabBase
-    {
-        [ContentProperty]
-        public virtual TrueFalse CommonTabBaseTrueFalse { get; set; }
-    }
-
-    public class MasterTab : CommonTabBase
+    public class MediaMasterTab : TabBase
     {
         [ContentProperty]
         public virtual RichtextEditor MasterRichtextEditorTab { get; set; }
 
         [ContentProperty]
         public virtual DatePicker MasterDatePickerTab { get; set; }
+
+        [ContentProperty(mandatory: true)]
+        public virtual Textstring MasterTextstringTab { get; set; }
     }
 
-    [DocumentType]
-    public class Child1 : Master
+    [MediaType(icon: BuiltInIcons.IconActivity, iconColor: UmbracoIconColor.Green)]
+    public class MediaChild1 : MediaMaster
     {
         [ContentProperty]
         public virtual Textstring Child1TextstringRoot { get; set; }
@@ -52,21 +45,21 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.DefaultTypeSet
         [ContentProperty]
         public virtual Numeric Child1NumericRoot { get; set; }
 
+        [ContentProperty(description: "  This be a  lABel ", mandatory: true)]
+        public virtual Label Child1LabelRoot { get; set; }
+
         [ContentTab]
         public virtual Child1Tab Child1Tab { get; set; }
     }
 
-    public class Child1Tab : CommonTabBase
+    public class MediaChild1Tab : CommonTabBase
     {
         [ContentProperty]
         public virtual RichtextEditor Child1RichtextEditorTab { get; set; }
-
-        [ContentProperty]
-        public virtual DatePicker Child1DatePickerTab { get; set; }
     }
 
-    [DocumentType]
-    public class Child2 : Master
+    [MediaType]
+    public class MediaChild2 : MediaMaster
     {
         [ContentProperty]
         public virtual Textstring Child2TextstringRoot { get; set; }
@@ -76,10 +69,34 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.DefaultTypeSet
 
         [ContentProperty]
         public virtual Numeric Child2NumericRoot { get; set; }
+
+        [ContentTab]
+        public virtual Child2Tab Child2Tab { get; set; }
+
+        [ContentComposition]
+        public virtual MediaChild2Composition Composition { get; set; }
     }
 
-    [DocumentType]
-    public class GrandChild1 : Child1
+    [MediaType]
+    public class MediaChild2Composition : MediaTypeBase
+    {
+        [ContentProperty]
+        public virtual Numeric CompositionNumericRoot { get; set; }
+
+        //TODO add a tab to this in TypeSet3
+    }
+
+    public class MediaChild2Tab : CommonTabBase
+    {
+        [ContentProperty]
+        public virtual RichtextEditor Child2RichtextEditorTab { get; set; }
+
+        [ContentProperty]
+        public virtual DatePicker Child2DatePickerTab { get; set; }
+    }
+
+    [MediaType]
+    public class MediaGrandChild1 : MediaChild1
     {
         [ContentProperty]
         public virtual Textstring Grandchild1TextstringRoot { get; set; }
@@ -89,12 +106,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.DefaultTypeSet
 
         [ContentProperty]
         public virtual Numeric Grandchild1NumericRoot { get; set; }
-
-        [ContentTab]
-        public virtual GrandChild1Tab Grandchild1Tab { get; set; }
     }
 
-    public class GrandChild1Tab : CommonTabBase
+    public class MediaGrandChild1Tab : CommonTabBase
     {
         [ContentProperty]
         public virtual RichtextEditor Grandchild1RichtextEditorTab { get; set; }

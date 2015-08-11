@@ -10,11 +10,11 @@ using Umbraco.Core.Services;
 
 namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
 {
-    public class DocTypeTests_DefaultSet : TestBase, ICodeFirstTest
+    public class TypeSet1Tests : TestBase, ICodeFirstTest
     {
         public void Run()
         {
-            Initialise("DefaultTypeSet");
+            Initialise("TypeSet1");
             var types = ContentTypeService.GetAllContentTypes();
             var expectedTypes = GetTypes();
             AssertContentTypes(types, expectedTypes);
@@ -201,11 +201,6 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 SortOrder = 0,
                 Regex = ""
             });
-        }
-
-        protected override IContentTypeBase GetContentType(int id)
-        {
-            return ContentTypeService.GetContentType(id);
         }
     }
 

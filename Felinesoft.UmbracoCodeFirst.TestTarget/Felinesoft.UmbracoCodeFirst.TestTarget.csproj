@@ -212,7 +212,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DefaultTypeSet\DocTypes.cs" />
+    <Compile Include="TypeSet1\DocTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="startup.cs" />
     <Compile Include="TestFramework\framework.cs" />
@@ -222,8 +222,10 @@
     <Compile Include="TestModels\ExpectedDataType.cs" />
     <Compile Include="TestModels\ExpectedProperty.cs" />
     <Compile Include="TestModels\ExpectedType.cs" />
-    <Compile Include="Tests\DocTypeTests_TypeSet2.cs" />
-    <Compile Include="Tests\DocTypeTests_DefaultTypeSet.cs" />
+    <Compile Include="Tests\TypeSet2Tests.cs" />
+    <Compile Include="Tests\TypeSet1Tests.cs" />
+    <Compile Include="TypeSet2\MediaTypes.cs" />
+    <Compile Include="TypeSet2\DataTypes.cs" />
     <Compile Include="TypeSet2\DocTypes.cs" />
   </ItemGroup>
   <ItemGroup>

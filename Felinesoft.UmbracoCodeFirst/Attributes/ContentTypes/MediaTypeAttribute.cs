@@ -27,7 +27,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         /// <param name="enableListView">True to enable list view for this media type</param>
         /// <param name="description">The Description of the media type</param>
         public MediaTypeAttribute(string mediaTypeName = null, string mediaTypeAlias = null, Type[] allowedChildren = null,
-            string icon = BuiltInIcons.IconPicture, bool allowAtRoot = false, bool enableListView = false, string description = "", UmbracoIconColor iconColor = UmbracoIconColor.Black)
+            string icon = BuiltInIcons.IconDocument, bool allowAtRoot = false, bool enableListView = false, string description = "", UmbracoIconColor iconColor = UmbracoIconColor.Black)
         {
             Name = mediaTypeName;
             Alias = mediaTypeAlias;

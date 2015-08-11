@@ -542,7 +542,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 parentType = parentType.BaseType;
                 if (parentType != null)
                 {
-                    parentAttribute = parentType.GetCodeFirstAttribute<DocumentTypeAttribute>();
+                    parentAttribute = parentType.GetCodeFirstAttribute<ContentTypeAttribute>();
                 }
             }
         }
