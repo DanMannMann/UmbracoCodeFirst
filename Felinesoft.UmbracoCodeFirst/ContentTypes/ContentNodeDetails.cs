@@ -26,7 +26,13 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             ContentTypeAlias = content.ContentType.Alias;
             UmbracoId = content.Id;
             SortOrder = content.SortOrder;
+            PublishedContent = content;
         }
+
+        /// <summary>
+        /// The IPublishedContent instance used to construct this instance
+        /// </summary>
+        public IPublishedContent PublishedContent { get; private set; }
 
         /// <summary>
         /// The name of the node

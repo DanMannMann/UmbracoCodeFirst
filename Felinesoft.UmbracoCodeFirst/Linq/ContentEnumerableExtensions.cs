@@ -16,12 +16,12 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
     public static class ContentEnumerableExtensions
     {
         #region Get Single Document From Published Content
-        public static T FirstDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T FirstDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             return ExecuteSingle<T>(input, c => c.First(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>()));
         }
 
-        public static T FirstOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T FirstOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             try
             {
@@ -33,12 +33,12 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
             }
         }
 
-        public static T LastDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T LastDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             return ExecuteSingle<T>(input, c => c.Last(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>()));
         }
 
-        public static T LastOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T LastOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             try
             {
@@ -50,12 +50,12 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
             }
         }
 
-        public static T SingleDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T SingleDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             return ExecuteSingle<T>(input, c => c.Single(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>()));
         }
 
-        public static T SingleOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static T SingleOrDefaultDocument<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
             }
         }
 
-        private static T ExecuteSingle<T>(IEnumerable<IPublishedContent> input, Func<IEnumerable<IPublishedContent>, IPublishedContent> method) where T : DocumentTypeBase
+        private static T ExecuteSingle<T>(IEnumerable<IPublishedContent> input, Func<IEnumerable<IPublishedContent>, IPublishedContent> method) where T : CodeFirstContentBase
         {
             IPublishedContent match;
             try
@@ -81,7 +81,7 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
 
             try
             {
-                return match.ConvertToModel<T>();
+                return (T)match.ConvertToModel();
             }
             catch (Exception ex)
             {
@@ -91,161 +91,166 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
         #endregion
 
         #region Get Enumerable of Document From Published Content
-        public static IEnumerable<T> DocumentsOfType<T>(this IEnumerable<IPublishedContent> input) where T : DocumentTypeBase
+        public static IEnumerable<T> ContentOfType<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
-            return Execute<T>(input, x => x.Where(y => y.DocumentTypeAlias == GetDocumentTypeAlias<T>()));
+            IEnumerable<IPublishedContent> match;
+            try
+            {
+                match = input.Where(y => y.DocumentTypeAlias == GetDocumentTypeAlias<T>());
+            }
+            catch (Exception ex)
+            {
+                throw new CodeFirstException("No node of type " + typeof(T).Name + " was found in the collection", ex);
+            }
+
+            try
+            {
+                return match.Select(x => (T)x.ConvertToModel());
+            }
+            catch (Exception ex)
+            {
+                throw new CodeFirstException("Failed to convert one of the matched nodes to CLR type " + typeof(T).Name, ex);
+            }
         }
 
-        public static IEnumerable<T> DescendantsOfType<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IEnumerable<T> ChildrenOfType<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return input.Descendants().DocumentsOfType<T>();
+            return input.Children.ContentOfType<T>();
         }
 
-        public static IEnumerable<T> AncestorsOfType<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IEnumerable<T> DescendantsOfType<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return input.Ancestors().DocumentsOfType<T>();
+            return input.Descendants().ContentOfType<T>();
         }
 
-        public static IEnumerable<T> SiblingsOfType<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IEnumerable<T> AncestorsOfType<T>(this IPublishedContent input) where T : CodeFirstContentBase
+        {
+            return input.Ancestors().ContentOfType<T>();
+        }
+
+        public static IEnumerable<T> SiblingsOfType<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             if (input.Parent == null || input.Parent.Children == null)
             {
                 return new List<T>();
             }
-            return input.Parent.Children.Where(x => x != input).DocumentsOfType<T>();
-        }
-
-        private static IEnumerable<T> Execute<T>(IEnumerable<IPublishedContent> input, Func<IEnumerable<IPublishedContent>, IEnumerable<IPublishedContent>> method) where T : DocumentTypeBase
-        {
-            IEnumerable<IPublishedContent> match;
-            try
-            {
-                match = method.Invoke(input);
-            }
-            catch (Exception ex)
-            {
-                throw new CodeFirstException("No document of type " + typeof(T).Name + " was found in the collection", ex);
-            }
-
-            try
-            {
-                return match.Select(x => x.ConvertToModel<T>());
-            }
-            catch (Exception ex)
-            {
-                throw new CodeFirstException("Failed to convert one of the matched documents to CLR type " + typeof(T).Name, ex);
-            }
+            return input.Parent.Children.Where(x => x != input).ContentOfType<T>();
         }
         #endregion
 
         #region Get Enmumerable Of Document From Model
-        public static IEnumerable<T> DescendantsOfType<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static IEnumerable<T> ChildrenOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.Descendants().DocumentsOfType<T>();
+            return input.NodeDetails.PublishedContent.Children.ContentOfType<T>();
         }
 
-        public static IEnumerable<T> AncestorsOfType<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static IEnumerable<T> DescendantsOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.Ancestors().DocumentsOfType<T>();
+            return input.NodeDetails.PublishedContent.Descendants().ContentOfType<T>();
         }
 
-        public static IEnumerable<T> SiblingsOfType<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static IEnumerable<T> AncestorsOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
+        {
+            return input.NodeDetails.PublishedContent.Ancestors().ContentOfType<T>();
+        }
+
+        public static IEnumerable<T> SiblingsOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
             if (input.NodeDetails.PublishedContent == null || input.NodeDetails.PublishedContent.Parent == null || input.NodeDetails.PublishedContent.Parent.Children == null)
             {
                 return new List<T>();
             }
-            return input.NodeDetails.PublishedContent.Parent.Children.Where(x => x != input).DocumentsOfType<T>();
+            return input.NodeDetails.PublishedContent.Parent.Children.Where(x => x != input).ContentOfType<T>();
         }
         #endregion
 
         #region Navigate By Type From Published Content
-        public static IPublishedContent FirstChild<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IPublishedContent FirstChild<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             return input.Children.First(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>());
         }
 
-        public static T FirstChildModel<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static T FirstChildModel<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return FirstChild<T>(input).ConvertToModel<T>();
+            return (T)FirstChild<T>(input).ConvertToModel();
         }
 
-        public static IPublishedContent LastChild<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IPublishedContent LastChild<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             return input.Children.Last(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>());
         }
 
-        public static T LastChildModel<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static T LastChildModel<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return LastChild<T>(input).ConvertToModel<T>();
+            return (T)LastChild<T>(input).ConvertToModel();
         }
 
-        public static IPublishedContent SingleChild<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IPublishedContent SingleChild<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             return input.Children.Single(x => x.DocumentTypeAlias == GetDocumentTypeAlias<T>());
         }
 
-        public static T SingleChildModel<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static T SingleChildModel<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return SingleChild<T>(input).ConvertToModel<T>();
+            return (T)SingleChild<T>(input).ConvertToModel();
         }
 
-        public static IPublishedContent NearestAncestor<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IPublishedContent NearestAncestor<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             return input.Ancestors(GetDocumentTypeAlias<T>()).FirstOrDefault();
         }
 
-        public static T NearestAncestorModel<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static T NearestAncestorModel<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return NearestAncestor<T>(input).ConvertToModel<T>();
+            return (T)NearestAncestor<T>(input).ConvertToModel();
         }
 
-        public static IPublishedContent NearestDescendant<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static IPublishedContent NearestDescendant<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
             return input.Descendants(GetDocumentTypeAlias<T>()).FirstOrDefault();
         }
 
-        public static T NearestDescendantModel<T>(this IPublishedContent input) where T : DocumentTypeBase
+        public static T NearestDescendantModel<T>(this IPublishedContent input) where T : CodeFirstContentBase
         {
-            return NearestDescendant<T>(input).ConvertToModel<T>();
+            return (T)NearestDescendant<T>(input).ConvertToModel();
         }
         #endregion
 
         #region Navigate By Type From Model
-        public static T FirstChild<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static T FirstChild<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.FirstChild<T>().ConvertToModel<T>();
+            return (T)input.NodeDetails.PublishedContent.FirstChild<T>().ConvertToModel();
         }
 
-        public static T LastChild<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static T LastChild<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.LastChild<T>().ConvertToModel<T>();
+            return (T)input.NodeDetails.PublishedContent.LastChild<T>().ConvertToModel();
         }
 
-        public static T SingleChild<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static T SingleChild<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.SingleChild<T>().ConvertToModel<T>();
+            return (T)input.NodeDetails.PublishedContent.SingleChild<T>().ConvertToModel();
         }
 
-        public static T NearestAncestor<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static T NearestAncestor<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.NearestAncestor<T>().ConvertToModel<T>();
+            return (T)input.NodeDetails.PublishedContent.NearestAncestor<T>().ConvertToModel();
         }
 
-        public static T NearestDescendant<T>(this DocumentTypeBase input) where T : DocumentTypeBase
+        public static T NearestDescendant<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
-            return input.NodeDetails.PublishedContent.NearestDescendant<T>().ConvertToModel<T>();
+            return (T)input.NodeDetails.PublishedContent.NearestDescendant<T>().ConvertToModel();
         }
         #endregion
 
         #region Doc Type Def
-        private static string GetDocumentTypeAlias<T>() where T : DocumentTypeBase
+        private static string GetDocumentTypeAlias<T>() where T : CodeFirstContentBase
         {
             var type = GetDocumentTypeRegistration<T>().Alias;
             return type;
         }
 
-        private static ContentTypeRegistration GetDocumentTypeRegistration<T>() where T : DocumentTypeBase
+        private static ContentTypeRegistration GetDocumentTypeRegistration<T>() where T : CodeFirstContentBase
         {
             DocumentTypeRegistration type;
             if (CodeFirstManager.Current.Modules.DocumentTypeModule.TryGetDocumentType(typeof(T), out type))

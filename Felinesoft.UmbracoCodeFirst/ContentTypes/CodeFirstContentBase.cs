@@ -12,15 +12,21 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
     public abstract class CodeFirstContentBase 
     {
-
+        public virtual ContentNodeDetails NodeDetails { get; internal set; }
     }
 
     public abstract class CodeFirstContentBase<T> : CodeFirstContentBase where T : ContentNodeDetails
     {
+        private T _node;
+
         /// <summary>
         /// Gets the details of the represented node
         /// </summary>
-        public virtual T NodeDetails { get; internal set; }
+        public virtual new T NodeDetails
+        {
+            get { return base.NodeDetails as T; }
+            internal set { base.NodeDetails = value; }
+        }
 
         public override string ToString()
         {

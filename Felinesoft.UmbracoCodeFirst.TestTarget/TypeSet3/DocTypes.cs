@@ -18,7 +18,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
         [ContentProperty]
         public virtual TrueFalse MasterTrueFalseRoot { get; set; }
 
-        [ContentTab]
+        [ContentTab(sortOrder: 3)]
         public virtual MasterTab MasterTab { get; set; }
     }
 
@@ -31,13 +31,13 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
 
     public class MasterTab : TabBase
     {
-        [ContentProperty]
+        [ContentProperty(sortOrder:3)]
         public virtual RichtextEditor MasterRichtextEditorTab { get; set; }
 
-        [ContentProperty(mandatory: true)]
+        [ContentProperty(mandatory: true, sortOrder: 2)]
         public virtual DatePicker MasterDatePickerTab { get; set; }
 
-        [ContentProperty]
+        [ContentProperty(sortOrder: 1)]
         public virtual Textstring MasterTextstringTab { get; set; }
     }
 
@@ -45,13 +45,13 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
     [Template(isDefault: true)]
     public class Child1 : MasterRenamed
     {
-        [ContentProperty]
+        [ContentProperty(sortOrder: 2)]
         public virtual Textstring Child1TextstringRoot { get; set; }
 
-        [ContentProperty]
+        [ContentProperty(sortOrder: 3)]
         public virtual TrueFalse Child1TrueFalseRoot { get; set; }
 
-        [ContentProperty]
+        [ContentProperty(sortOrder: 1)]
         public virtual Numeric Child1NumericRoot { get; set; }
 
         [ContentProperty(description: "  This be a  lABel ", mandatory: true)]
@@ -89,7 +89,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
     [DocumentType]
     public class Child2Composition : DocumentTypeBase
     {
-        [ContentProperty]
+        [ContentProperty(sortOrder: 4)]
         public virtual Numeric CompositionNumericRoot { get; set; }
 
         [ContentTab]

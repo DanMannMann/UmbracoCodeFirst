@@ -123,7 +123,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = 0,
+                SortOrder = 4,
                 Regex = ""
             });
             var tabs = result.Last().Tabs = new List<ExpectedTab>();
@@ -361,7 +361,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = 0,
+                SortOrder = alias == "child1" ? 0 : 2,
                 Regex = ""
             });
             count--;
@@ -378,7 +378,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = 0,
+                SortOrder = alias == "child1" ? 0 : 3,
                 Regex = ""
             });
             count--;
@@ -395,7 +395,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = 0,
+                SortOrder = alias == "child1" ? 0 : 1,
                 Regex = ""
             });
             count--;

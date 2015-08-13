@@ -22,9 +22,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
             #region bypass tests here
-            if (false)
+            if (true)
             {
-                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2")).ToList();
+                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
                 CodeFirstManager.Current.Initialise(types);
                 return;
             }

@@ -14,11 +14,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     public class DocumentNodeDetails : ContentNodeDetails<IContent>
     {
         /// <summary>
-        /// The IPublishedContent instance used to construct this instance
-        /// </summary>
-        public IPublishedContent PublishedContent { get; private set; }
-
-        /// <summary>
         /// The IContent instance used to construct this instance
         /// </summary>
         public IContent Content { get; private set; }
@@ -54,7 +49,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public override void Initialise(IPublishedContent content)
         {
             base.Initialise(content);
-            this.PublishedContent = content;
             IsPublishedInstance = true;
         }
 

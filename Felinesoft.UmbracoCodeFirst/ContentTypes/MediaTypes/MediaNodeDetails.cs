@@ -8,11 +8,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     public class MediaNodeDetails : ContentNodeDetails<IMedia>
     {
         /// <summary>
-        /// The IPublishedContent instance used to construct this instance
-        /// </summary>
-        public IPublishedContent PublishedContent { get; private set; }
-
-        /// <summary>
         /// The IContent instance used to construct this instance
         /// </summary>
         public IMedia Media { get; private set; }
@@ -39,7 +34,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public override void Initialise(IPublishedContent media)
         {
             base.Initialise(media);
-            this.PublishedContent = media;
             IsPublishedInstance = true;
         }
 
