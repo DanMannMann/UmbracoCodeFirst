@@ -24,8 +24,6 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         public DocumentPicker() : base(NodeType.content) { }
 
-        private Lazy<UmbracoHelper> _helper = new Lazy<UmbracoHelper>(() => new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current));
-
         public override string ToHtmlString()
         {
             if (Items.Count == 1)
@@ -69,7 +67,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         protected override T GetModelFromId(int id)
         {
-            var node = _helper.Value.TypedContent(id);
+            var node = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current).TypedContent(id);
             return node.ConvertToModel<T>(CodeFirstModelContext.GetContext(this));
         }
     }

@@ -55,6 +55,14 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
             }
         }
 
+        public IMediaTypeModule MediaTypeModule
+        {
+            get
+            {
+                return Resolve<IMediaTypeModule>();
+            }
+        }
+
         public IMediaModelModule MediaModelModule
         {
             get

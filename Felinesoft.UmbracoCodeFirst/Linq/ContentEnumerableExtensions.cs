@@ -252,14 +252,33 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
 
         private static ContentTypeRegistration GetDocumentTypeRegistration<T>() where T : CodeFirstContentBase
         {
-            DocumentTypeRegistration type;
-            if (CodeFirstManager.Current.Modules.DocumentTypeModule.TryGetDocumentType(typeof(T), out type))
+            if (typeof(T).Inherits(typeof(DocumentTypeBase)))
             {
-                return type;
+                DocumentTypeRegistration type;
+                if (CodeFirstManager.Current.Modules.DocumentTypeModule.TryGetDocumentType(typeof(T), out type))
+                {
+                    return type;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            else if (typeof(T).Inherits(typeof(MediaTypeBase)))
+            {
+                MediaTypeRegistration type;
+                if (CodeFirstManager.Current.Modules.MediaTypeModule.TryGetMediaType(typeof(T), out type))
+                {
+                    return type;
+                }
+                else
+                {
+                    return null;
+                }
             }
             else
             {
-                return null;
+                throw new CodeFirstException("Unsupported content type");
             }
         }
         #endregion
