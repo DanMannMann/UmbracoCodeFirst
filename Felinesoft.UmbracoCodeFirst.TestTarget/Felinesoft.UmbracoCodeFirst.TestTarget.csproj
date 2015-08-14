@@ -212,6 +212,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tests\ContentTests.cs" />
     <Compile Include="Tests\TypeSet3Tests.cs" />
     <Compile Include="TypeSet3\DataTypes.cs" />
     <Compile Include="TypeSet3\DocTypes.cs" />

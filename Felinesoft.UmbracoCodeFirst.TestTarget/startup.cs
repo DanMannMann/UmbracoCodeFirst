@@ -15,17 +15,18 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
 {
     public class startup : ApplicationEventHandler
     {
-        private readonly List<ICodeFirstTest> _tests = NewList<ICodeFirstTest>.With(new TypeSet1Tests(), new TypeSet2Tests(), new TypeSet3Tests());
+        private readonly List<ICodeFirstTest> _tests = NewList<ICodeFirstTest>.With(new TypeSet1Tests(), new TypeSet2Tests(), new TypeSet3Tests(), new ContentTests());
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
             #region bypass tests here
-            if (true)
+            if (false)
             {
                 var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
                 CodeFirstManager.Current.Initialise(types);
+                //new ContentTests().Run();
                 return;
             }
             #endregion
@@ -34,6 +35,12 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             sw.Start();
             if (System.Diagnostics.Debugger.IsAttached)
             {
+                foreach (var test in _tests)
+                {
+                    test.Run();
+                    CodeFirstManager.Invalidate();
+                    history.Add(test.GetType().Name);
+                }
                 foreach (var test in _tests.PickRandom(8))
                 {
                     test.Run();
@@ -41,12 +48,17 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
                     history.Add(test.GetType().Name);
                 }
                 sw.Stop();
-                //throw new TestsPassedException("All tests passed. Runtime: " + sw.ElapsedMilliseconds);
             }
             else
             {
                 try
                 {
+                    foreach (var test in _tests)
+                    {
+                        test.Run();
+                        CodeFirstManager.Invalidate();
+                        history.Add(test.GetType().Name);
+                    }
                     foreach (var test in _tests.PickRandom(8))
                     {
                         test.Run();

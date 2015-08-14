@@ -145,6 +145,20 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                         DataTypeName = "Media Picker - Media Child 1",
                         DbType = DataTypeDatabaseType.Ntext
                     }
+                }, new ExpectedProperty()
+                {
+                    Name = "Composition Multitext",
+                    Alias = "compositionMultitext_Composition_Tab",
+                    Description = string.Empty,
+                    Regex = string.Empty,
+                    Mandatory = false,
+                    SortOrder = 0,
+                    DataType = new ExpectedDataType()
+                    {
+                        DataTypeName = "Code-First Multiple Textstring",
+                        DbType = DataTypeDatabaseType.Ntext,
+                        PropertyEditorAlias = "Umbraco.MultipleTextstring"
+                    }
                 })
             });
 
@@ -361,7 +375,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = alias == "child1" ? 0 : 2,
+                SortOrder = alias == "child1" ? 2 : 0,
                 Regex = ""
             });
             count--;
@@ -378,7 +392,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = alias == "child1" ? 0 : 3,
+                SortOrder = alias == "child1" ? 3 : 0,
                 Regex = ""
             });
             count--;
@@ -395,7 +409,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 },
                 Description = "",
                 Mandatory = false,
-                SortOrder = alias == "child1" ? 0 : 1,
+                SortOrder = alias == "child1" ? 1 : 0,
                 Regex = ""
             });
             count--;

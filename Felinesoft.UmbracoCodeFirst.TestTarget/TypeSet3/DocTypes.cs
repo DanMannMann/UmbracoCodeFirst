@@ -100,6 +100,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
     {
         [ContentProperty(addTabAliasToPropertyAlias: false)]
         public virtual MediaPicker<MediaChild1> CompositionTabPicker { get; set; }
+
+        [ContentProperty]
+        public virtual MultipleTextstring CompositionMultitext { get; set; }
     }
 
     public class Child2Tab : CommonTabBase

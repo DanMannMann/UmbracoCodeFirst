@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType(BuiltInDataTypes.MultipleTextstring, BuiltInPropertyEditorAliases.MultipleTextstring)]
+    [DataType(BuiltInPropertyEditorAliases.MultipleTextstring, BuiltInDataTypes.MultipleTextstring)]
     [BuiltInDataType]
     public class MultipleTextstring : IEnumerable<string>, IList<string>, IUmbracoNtextDataType
     {

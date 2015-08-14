@@ -36,13 +36,13 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
     [MediaType(icon: BuiltInIcons.IconActivity, iconColor: UmbracoIconColor.Green)]
     public class MediaChild1 : MediaMaster
     {
-        [ContentProperty]
+        [ContentProperty(sortOrder: 2)]
         public virtual Textstring Child1TextstringRoot { get; set; }
 
-        [ContentProperty]
+        [ContentProperty(sortOrder: 3)]
         public virtual TrueFalse Child1TrueFalseRoot { get; set; }
 
-        [ContentProperty]
+        [ContentProperty(sortOrder: 1)]
         public virtual Numeric Child1NumericRoot { get; set; }
 
         [ContentProperty(description: "  This be a  lABel ", mandatory: true)]
