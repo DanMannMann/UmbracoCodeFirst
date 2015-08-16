@@ -179,7 +179,7 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         /// <param name="info">The property to inspect</param>
         /// <param name="initialise">True to initialise the attribute if it is initialisable</param>
         /// <returns>The attributes, or an empty collection if none is found</returns>
-        public static IEnumerable<T> GetCodeFirstAttributesWithInheritance<T>(this PropertyInfo info, bool initialise = true) where T : MultipleCodeFirstAttribute
+        internal static IEnumerable<T> GetCodeFirstAttributesWithInheritance<T>(this PropertyInfo info, bool initialise = true) where T : MultipleCodeFirstAttribute
         {
             return CodeFirstAttributeCache.GetManyWithInheritance<T>(info, initialise);
         }

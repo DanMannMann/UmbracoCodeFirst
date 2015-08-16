@@ -284,6 +284,25 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
             if (useCommon)
                 expectedType.Tabs.Last().Properties.Add(CommonTabProperty(name));
 
+            if (expectedType.Alias == "child2")
+            {
+                expectedType.Tabs.Last().Properties.Add(new ExpectedProperty()
+                {
+                    Alias = "folderPicker_" + name.Replace(" ", "_") + "_Tab",
+                    Name = "Folder Picker",
+                    Description = "",
+                    DataType = new ExpectedDataType()
+                    {
+                        DataTypeName = "Single Media Picker - Folder",
+                        DbType = DataTypeDatabaseType.Ntext,
+                        PropertyEditorAlias = "Umbraco.MultiNodeTreePicker"
+                    },
+                    Mandatory = false,
+                    SortOrder = 0,
+                    Regex = ""
+                });
+            }
+
             count--;
             if (count < 0) return;
             expectedType.Tabs.Last().Properties.Add(new ExpectedProperty()

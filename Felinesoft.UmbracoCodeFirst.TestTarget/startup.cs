@@ -1,6 +1,8 @@
 ﻿using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework;
 using Felinesoft.UmbracoCodeFirst.TestTarget.Tests;
+using Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3;
+using Felinesoft.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,6 +12,7 @@ using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
+using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.TestTarget
 {
@@ -22,11 +25,32 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
             #region bypass tests here
-            if (false)
+            if (true)
             {
-                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
-                CodeFirstManager.Current.Initialise(types);
-                //new ContentTests().Run();
+                //var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
+                //CodeFirstManager.Current.Initialise(types);
+                new ContentTests().Run();
+
+                #region Test create and get member
+                //var tm = new TestMember();
+                //tm.Name = "Dave Daveson";
+                //tm.Username = "Dave";
+                //tm.Email = "dave@dave.com";
+                //tm.Preferences = MemberPreferences.ReceiveMarketingEmail | MemberPreferences.UseTwoFactorViaSMS;
+                //tm.PhoneNumber = new DataTypes.BuiltIn.Textstring() { Value = "56" };
+                //tm.PasswordQuestion = "How much wood would a wood chuck chuck if a wood chuck was on crack?";
+                //tm.IsApproved = true;
+                //tm.Comments = "SOME COMMENTZ";
+                //tm.Persist();
+                //var tm2 = tm.NodeDetails.Content.ConvertToModel<TestMember>();
+                //var uh = new UmbracoHelper(UmbracoContext.Current).TypedMember(tm.NodeDetails.UmbracoId);
+                //var modl = uh.ConvertMemberToModel<TestMember>();
+                ////var val = modl.Preferences;
+                //var grp = new GroupFace();
+                //grp.AddToGroup(modl);
+                //var mem = grp.GetMembers<TestMember>();
+                //var mem2 = grp.GetAllMembers();
+                #endregion
                 return;
             }
             #endregion

@@ -27,11 +27,5 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             get { return base.NodeDetails as T; }
             internal set { base.NodeDetails = value; }
         }
-
-        public override string ToString()
-        {
-            return NodeDetails == null || NodeDetails.Url == null ? string.Empty : NodeDetails.Url;
-        }
-
     }
 }

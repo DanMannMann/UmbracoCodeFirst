@@ -44,6 +44,11 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         {
             return CodeFirstManager.Current.Modules.MediaModelModule.ConvertToModel<T>(content, parentContext);
         }
+
+        public static T ConvertToModel<T>(this IMember content, CodeFirstModelContext parentContext = null) where T : MemberTypeBase
+        {
+            return CodeFirstManager.Current.Modules.MemberModelModule.ConvertToModel<T>(content, parentContext);
+        }
         #endregion
 
         #region Get Model from IPublishedContent
@@ -54,7 +59,7 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         /// <typeparam name="T"></typeparam>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static T ConvertToModel<T>(this IPublishedContent content, CodeFirstModelContext parentContext = null) where T : DocumentTypeBase
+        public static T ConvertDocumentToModel<T>(this IPublishedContent content, CodeFirstModelContext parentContext = null) where T : DocumentTypeBase
         {
             return CodeFirstManager.Current.Modules.DocumentModelModule.ConvertToModel<T>(content, parentContext);
         }
@@ -62,6 +67,11 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         public static T ConvertMediaToModel<T>(this IPublishedContent content, CodeFirstModelContext parentContext = null) where T : MediaTypeBase
         {
             return CodeFirstManager.Current.Modules.MediaModelModule.ConvertToModel<T>(content, parentContext);
+        }
+
+        public static T ConvertMemberToModel<T>(this IPublishedContent content, CodeFirstModelContext parentContext = null) where T : MemberTypeBase
+        {
+            return CodeFirstManager.Current.Modules.MemberModelModule.ConvertToModel<T>(content, parentContext);
         }
 
         /// <summary>
@@ -81,6 +91,8 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
                     return CodeFirstManager.Current.Modules.MediaModelModule.ConvertToModel(content, parentContext);
 
                 case PublishedItemType.Member:
+                    return CodeFirstManager.Current.Modules.MemberModelModule.ConvertToModel(content, parentContext);
+
                 default:
                     throw new NotImplementedException();
             }

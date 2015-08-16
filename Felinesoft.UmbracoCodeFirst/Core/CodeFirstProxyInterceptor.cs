@@ -8,24 +8,37 @@ namespace Felinesoft.UmbracoCodeFirst.Core
 {
     public sealed class CodeFirstProxyInterceptor : IInterceptor
     {
-        private Lazy<Dictionary<int, CodeFirstLazyInitialiser>> _initialisersByPropertyGetter;
-        private Lazy<Dictionary<int, CodeFirstLazyInitialiser>> _initialisersByPropertySetter;
+        private Dictionary<PropertyInfo, CodeFirstLazyInitialiser> _initialisersByProperty;
+
+        private Dictionary<string, CodeFirstLazyInitialiser> InitialisersByPropertyGetter
+        {
+            get
+            {
+                return _initialisersByProperty.ToDictionary(x => x.Key.GetGetMethod().Name, x => x.Value);
+            }
+        }
+        private Dictionary<string, CodeFirstLazyInitialiser> InitialisersByPropertySetter
+        {
+            get
+            {
+                return _initialisersByProperty.ToDictionary(x => x.Key.GetSetMethod().Name, x => x.Value);
+            }
+        }
 
         public CodeFirstProxyInterceptor(Dictionary<PropertyInfo, CodeFirstLazyInitialiser> initialisersByProperty)
         {
-            _initialisersByPropertyGetter = new Lazy<Dictionary<int, CodeFirstLazyInitialiser>>(() => initialisersByProperty.ToDictionary(x => x.Key.GetGetMethod().MetadataToken, x => x.Value));
-            _initialisersByPropertySetter = new Lazy<Dictionary<int, CodeFirstLazyInitialiser>>(() => initialisersByProperty.ToDictionary(x => x.Key.GetSetMethod().MetadataToken, x => x.Value));
+            _initialisersByProperty = initialisersByProperty;
         }
 
         public void Intercept(IInvocation invocation)
         {
-            if (_initialisersByPropertyGetter.Value.ContainsKey(invocation.Method.MetadataToken))
+            if (InitialisersByPropertyGetter.ContainsKey(invocation.Method.Name))
             {
-                InterceptGetter(invocation, _initialisersByPropertyGetter.Value[invocation.Method.MetadataToken]);
+                InterceptGetter(invocation, InitialisersByPropertyGetter[invocation.Method.Name]);
             }
-            else if (_initialisersByPropertySetter.Value.ContainsKey(invocation.Method.MetadataToken))
+            else if (InitialisersByPropertySetter.ContainsKey(invocation.Method.Name))
             {
-                InterceptSetter(invocation, _initialisersByPropertySetter.Value[invocation.Method.MetadataToken]);
+                InterceptSetter(invocation, InitialisersByPropertySetter[invocation.Method.Name]);
             }
             invocation.Proceed();
         }
@@ -46,6 +59,45 @@ namespace Felinesoft.UmbracoCodeFirst.Core
                 codeFirstLazyInitialiser.Execute();
                 CodeFirstModelContext.ResetContext();
             }
+        }
+
+        /// <summary>
+        /// http://blogs.msdn.com/b/kingces/archive/2005/08/17/452774.aspx
+        /// </summary>
+        private bool MemberInfoEquals(MemberInfo lhs, MemberInfo rhs)
+        {
+            if (lhs == rhs)
+                return true;
+
+            if (lhs.DeclaringType != rhs.DeclaringType)
+                return false;
+
+            // Methods on arrays do not have metadata tokens but their ReflectedType
+            // always equals their DeclaringType
+            if (lhs.DeclaringType != null && lhs.DeclaringType.IsArray)
+                return false;
+
+            if (lhs.MetadataToken != rhs.MetadataToken || lhs.Module != rhs.Module)
+                return false;
+
+            if (lhs is MethodInfo)
+            {
+                MethodInfo lhsMethod = lhs as MethodInfo;
+
+                if (lhsMethod.IsGenericMethod)
+                {
+                    MethodInfo rhsMethod = rhs as MethodInfo;
+
+                    Type[] lhsGenArgs = lhsMethod.GetGenericArguments();
+                    Type[] rhsGenArgs = rhsMethod.GetGenericArguments();
+                    for (int i = 0; i < rhsGenArgs.Length; i++)
+                    {
+                        if (lhsGenArgs[i] != rhsGenArgs[i])
+                            return false;
+                    }
+                }
+            }
+            return true;
         }
     }
 }

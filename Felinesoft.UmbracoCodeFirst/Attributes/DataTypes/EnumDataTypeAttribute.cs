@@ -44,9 +44,29 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             {
                 throw new CodeFirstException("EnumDataTypeAttribute can only be applied to an enum type. " + decoratedType.FullName + " is not an enum");
             }
-            Initialised = true;
 
-            //We don't call base as enums need no initialisation - the CodeFirstManager supports configuring enum types automatically as they are all basically the same
+            if (string.IsNullOrEmpty(Name))
+            {
+                Name = decoratedType.Name.ToProperCase();
+            }
+
+            if (string.IsNullOrEmpty(PropertyEditorAlias))
+            {
+                if (decoratedType.GetCustomAttribute<FlagsAttribute>() != null)
+                {
+                    PropertyEditorAlias = BuiltInPropertyEditorAliases.CheckBoxList;
+                }
+                else
+                {
+                    PropertyEditorAlias = BuiltInPropertyEditorAliases.DropDown;
+                }
+            }
+
+            ConverterType = typeof(EnumDataTypeConverter<>).MakeGenericType(decoratedType);
+
+            DbType = DataTypeDatabaseType.Ntext;
+
+            Initialised = true;
         }
     }
 }

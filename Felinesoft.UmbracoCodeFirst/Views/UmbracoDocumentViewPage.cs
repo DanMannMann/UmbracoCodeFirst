@@ -22,7 +22,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
         {
             System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-            var converted = base.Umbraco.AssignedContentItem.ConvertToModel<Tdocument>();
+            var converted = base.Umbraco.AssignedContentItem.ConvertDocumentToModel<Tdocument>();
             sw.Stop();
             return converted;
         }

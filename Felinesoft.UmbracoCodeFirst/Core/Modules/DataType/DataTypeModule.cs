@@ -115,7 +115,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 updateDataTypeDefinition = false;
             }
 
-            dataTypeRegistration = BuildDataTypeRegistration(type);
+            dataTypeRegistration = type.IsEnum ?
+                                            BuildEnumRegistration(type)
+                                                :
+                                            BuildDataTypeRegistration(type);
             IDictionary<string, PreValue> codeFirstPreValues = GetPreValuesFromDataType(type);
             UpdateOrCreateDataTypeDefinition(codeFirstPreValues, updateDataTypeDefinition, dataTypeRegistration);
             _locks.Release(type);
@@ -445,13 +448,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         private IDictionary<string, PreValue> GetEnumPreValues(Type type)
         {
-            var enumNames = type.GetEnumNames();
+            var enumNames = new List<string>();
+            foreach (var num in type.GetEnumValues())
+            {
+                if ((num.ToString().Equals("none", StringComparison.InvariantCultureIgnoreCase) ||
+                    num.ToString().Equals("all", StringComparison.InvariantCultureIgnoreCase)) &&
+                    (int)num == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    enumNames.Add(num.ToString());
+                }
+            }
             Dictionary<string, PreValue> preValues = new Dictionary<string, PreValue>();
             var sort = 1;
 
-            foreach (var name in enumNames.Select(x => x.ToProperCase()))
+            foreach (var name in enumNames)
             {
-                preValues.Add(Guid.NewGuid().ToString(), new PreValue(-1, name, sort++));
+                preValues.Add(name, new PreValue(-1, name.ToProperCase(), sort++));
             }
 
             return preValues;
@@ -468,16 +484,23 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             var attr = type.GetCodeFirstAttribute<DataTypeAttribute>();
-            var dtdType = typeof(EnumDataTypeRegistration<>).MakeGenericType(type);
+
             if (attr == null)
             {
-                dataTypeRegistration = (DataTypeRegistration)Activator.CreateInstance(dtdType, string.Empty, string.Empty, null, true);
+                attr = new EnumDataTypeAttribute();
+                attr.Initialise(type);
             }
-            else
-            {
-                dataTypeRegistration = new DataTypeRegistration() { ClrType = type, ConverterType = attr.ConverterType, PropertyEditorAlias = attr.PropertyEditorAlias, DataTypeInstanceName = attr.Name };
-            }
-            dataTypeRegistration.CodeFirstControlled = true;
+
+            dataTypeRegistration = new DataTypeRegistration() 
+            { 
+                ClrType = type, 
+                ConverterType = attr.ConverterType, 
+                PropertyEditorAlias = attr.PropertyEditorAlias, 
+                DataTypeInstanceName = attr.Name,
+                UmbracoDatabaseType = attr.DbType,
+                CodeFirstControlled = true 
+            };
+
             _registerController.Register(type, dataTypeRegistration);
             _locks.Release(type);
             return dataTypeRegistration;

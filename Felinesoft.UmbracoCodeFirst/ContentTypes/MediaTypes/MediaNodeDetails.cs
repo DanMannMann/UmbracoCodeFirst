@@ -12,6 +12,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         /// </summary>
         public IMedia Media { get; private set; }
 
+        public string Url { get; protected set; }
+
         /// <summary>
         /// Returns true if this instance was constructed from an IPublishedInstance instance
         /// </summary>
@@ -35,6 +37,15 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         {
             base.Initialise(media);
             IsPublishedInstance = true;
+            try
+            {
+                Url = media.Url;
+            }
+            catch
+            {
+                //Sometimes (e.g. folders) a media item has no URL (or rather no umbracoFile property), and accessing the Url property is an invalid operation
+                Url = string.Empty;
+            }
         }
 
         public override void Initialise(IMedia media, string contentTypeAlias = null)
@@ -42,6 +53,7 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             base.Initialise(media, media.ContentType.Alias);
             this.Media = media;
             IsPublishedInstance = false;
+            Url = string.Empty;
         }
     }
 }

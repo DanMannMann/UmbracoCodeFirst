@@ -13,7 +13,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             ContentTypeAlias = contentTypeAlias;
             UmbracoId = content.Id;
             SortOrder = content.SortOrder;
-            Url = string.Empty;
         }
     }
 
@@ -22,7 +21,6 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public virtual void Initialise(IPublishedContent content)
         {
             Name = content.Name;
-            Url = content.Url;
             ContentTypeAlias = content.ContentType.Alias;
             UmbracoId = content.Id;
             SortOrder = content.SortOrder;
@@ -50,7 +48,5 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public int UmbracoId { get; protected set; }
 
         public int SortOrder { get; set; }
-
-        public string Url { get; protected set; }
     }
 }

@@ -68,6 +68,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
     }
 
     [DocumentType]
+    [Template(isDefault:true)]
     public class Child2 : MasterRenamed
     {
         [ContentProperty]
@@ -112,6 +113,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
 
         [ContentProperty]
         public virtual DatePicker Child2DatePickerTab { get; set; }
+
+        [ContentProperty]
+        public virtual SingleMediaPicker<MediaFolder> FolderPicker { get; set; }
     }
 
     [DocumentType]

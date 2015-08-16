@@ -34,9 +34,11 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 ch2.NodeDetails.Name = Guid.NewGuid().ToString();
                 ch2.Persist(mas.NodeDetails.UmbracoId, publish: true);
             }
+
             umbraco.library.RefreshContent();
             var pubmas = new UmbracoHelper(UmbracoContext.Current).TypedContent(mas.NodeDetails.UmbracoId);
             var kids = pubmas.ChildrenOfType<ts.Child2>().ToList();
+            var trd = kids.First().Composition.CompositionNumericRoot;
         }
 
         private ts.Child2 GetChild()
@@ -58,7 +60,8 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 {
                     Child2DatePickerTab = new DataTypes.BuiltIn.DatePicker() { Value = DateTime.Now.AddDays(2) },
                     Child2RichtextEditorTab = new DataTypes.BuiltIn.RichtextEditor() { Value = "AAARRRSSSEE 2" },
-                    CommonTabBaseTrueFalse = new DataTypes.BuiltIn.TrueFalse() { Value = true }
+                    CommonTabBaseTrueFalse = new DataTypes.BuiltIn.TrueFalse() { Value = true },
+                    FolderPicker = new DataTypes.BuiltIn.SingleMediaPicker<ContentTypes.MediaFolder>()
                 },
                 Composition = new ts.Child2Composition()
                 {

@@ -232,6 +232,7 @@
     <Compile Include="TypeSet2\MediaTypes.cs" />
     <Compile Include="TypeSet2\DataTypes.cs" />
     <Compile Include="TypeSet2\DocTypes.cs" />
+    <Compile Include="TypeSet3\MemberTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -261,6 +262,9 @@
     <Content Include="Config\BaseRestExtensions.config" />
     <Content Include="Config\applications.config" />
     <Content Include="Config\404handlers.config" />
+    <Content Include="Views\child1.cshtml" />
+    <Content Include="Views\child2.cshtml" />
+    <Content Include="Views\master.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

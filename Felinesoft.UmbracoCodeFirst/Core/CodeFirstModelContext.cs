@@ -108,14 +108,14 @@ namespace Felinesoft.UmbracoCodeFirst.Core
             {
                 dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
                 T proxy = _generator.CreateClassProxy<T>(new CodeFirstProxyInterceptor(dict));
-                NextContext(proxy, registration, parentContext);
+                MoveNextContext(proxy, registration, parentContext);
                 return proxy;
             }
             else
             {
                 dict = null;
                 var instance = Activator.CreateInstance<T>();
-                NextContext(instance, registration, parentContext);
+                MoveNextContext(instance, registration, parentContext);
                 return instance;
             }
         }
@@ -126,63 +126,70 @@ namespace Felinesoft.UmbracoCodeFirst.Core
             {
                 dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
                 var proxy = _generator.CreateClassProxy(type, new CodeFirstProxyInterceptor(dict));
-                NextContext(proxy, registration, parentContext);
+                MoveNextContext(proxy, registration, parentContext);
                 return proxy;
             }
             else
             {
                 dict = null;
                 var instance = Activator.CreateInstance(type);
-                NextContext(instance, registration, parentContext);
+                MoveNextContext(instance, registration, parentContext);
                 return instance;
             }
         }
 
-        internal static void NextContext(object instance, CodeFirstRegistration registration, CodeFirstModelContext parentContext = null)
+        internal static CodeFirstModelContext GetCompositionParentContext(ContentTypeCompositionRegistration registration)
+        {
+            var newContext = new CodeFirstModelContext()
+            {
+                ContentType = _currentFrame.ContentType, //should never be null - compositions only exist on documents, which would have a context
+                CurrentComposition = registration
+            };
+            //TODO needed?
+            _currentFrame = newContext;
+            return newContext;
+        }
+
+
+        internal static void MoveNextContext(object instance, CodeFirstRegistration registration, CodeFirstModelContext parentContext = null)
         {
             if (ContextContainer.Current == null || ContextContainer.Current.Dictionary == null)
             {
                 return;
             }
-
-            //For compositions we just make sure the current frame is in an appropriate state to be cloned as the parent context of the composition
-            if (registration is ContentTypeCompositionRegistration)
-            {
-                var newContext = new CodeFirstModelContext()
-                {
-                    ContentType = _currentFrame.ContentType, //should never be null - compositions only exist on documents, which would have a context
-                    CurrentComposition = (registration as ContentTypeCompositionRegistration)
-                };
-                _currentFrame = newContext;
-                return;
-            }
-
-            if (!ContextContainer.Current.Dictionary.ContainsKey(instance))
+            else if (!ContextContainer.Current.Dictionary.ContainsKey(instance))
             {
                 if (registration is ContentTypeRegistration)
                 {
                     var newContext = new CodeFirstModelContext()
                     {
                         ContentType = (registration as ContentTypeRegistration),
-                        ParentContext = _currentFrame
+                        ParentContext = parentContext == null ? parentContext : _currentFrame
                     };
                     if (_currentFrame != null)
                     {
                         _stack.Push(_currentFrame);
                     }
-                    RegisterFrozenContext(instance, newContext);
+                    _currentFrame = newContext;
+                    ContextContainer.Current.Dictionary.Add(instance, _currentFrame);
                 }
                 else if (registration is TabRegistration)
                 {
                     var newContext = _currentFrame.Clone();
                     newContext.CurrentTab = registration as TabRegistration;
-                    RegisterFrozenContext(instance, newContext);
+                    _currentFrame = newContext;
+                    ContextContainer.Current.Dictionary.Add(instance, _currentFrame);
                 }
                 else if (registration is PropertyRegistration)
                 {
                     var newContext = _currentFrame.Clone();
                     newContext.CurrentProperty = registration as PropertyRegistration;
-                    RegisterFrozenContext(instance, newContext);
+                    _currentFrame = newContext;
+                    ContextContainer.Current.Dictionary.Add(instance, _currentFrame);
+                }
+                else
+                {
+                    throw new InvalidOperationException("Unknown context registration type");
                 }
             }
         }

@@ -379,13 +379,20 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public virtual void CreateOrUpdateContentType(ContentTypeRegistration registration)
         {
+            bool modified;
+            IContentTypeBase contentType;
             if (!AllContentTypes.Any(x => x != null && string.Equals(x.Alias, registration.ContentTypeAttribute.Alias, StringComparison.InvariantCultureIgnoreCase)))
             {
-                CreateContentType(registration);
+                contentType = CreateContentType(registration, out modified);   
             }
             else
             {
-                UpdateContentType(registration);
+                contentType = UpdateContentType(registration, out modified);
+            }
+            if (modified)
+            {
+                contentType.ResetDirtyProperties(false);
+                SaveContentType(contentType);
             }
         }
 
@@ -397,10 +404,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         /// <param name="attribute"></param>
         /// <param name="contentClrType"></param>
         /// <param name="dataTypeService"></param>
-        protected virtual void CreateContentType(ContentTypeRegistration registration)
+        protected virtual IContentTypeBase CreateContentType(ContentTypeRegistration registration, out bool modified)
         {
             CodeFirstManager.Current.Log("Creating content type for " + registration.ClrType.FullName, this);
             IContentTypeBase newContentType;
+            modified = true; //always modify when we create (overriders may save and set this to false before returning though)
 
             ContentTypeAttribute parentAttribute;
             Type parentType;
@@ -436,8 +444,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 var reg = _propertyModule.CreateProperty(newContentType, null, item, registration.ClrType);
                 registration._properties.Add(reg);
             }
-            newContentType.ResetDirtyProperties(false);
-            SaveContentType(newContentType);
+            return newContentType;
         }
 
         /// <summary>
@@ -448,11 +455,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         /// <param name="contentType"></param>
         /// <param name="type"></param>
         /// <param name="dataTypeService"></param>
-        protected virtual void UpdateContentType(ContentTypeRegistration registration)
+        protected virtual IContentTypeBase UpdateContentType(ContentTypeRegistration registration, out bool modified)
         {
             CodeFirstManager.Current.Log("Syncing content type for " + registration.ClrType.FullName, this);
             var contentType = GetContentTypeByAlias(registration.ContentTypeAttribute.Alias);
-            bool modified = false;
+            modified = false;
 
             //Get parent info
             ContentTypeAttribute parentAttribute;
@@ -494,24 +501,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             VerifyProperties(contentType, registration.ClrType, registration._properties, registration._tabs, ref modified);
 
             //verify if a tab has no properties, if so remove
-            var propertyGroups = contentType.PropertyGroups.ToArray();
-            int length = propertyGroups.Length;
+            //NB need to protect against removal of tabs declared on composition or ancestor types (note that ancestors show up in the composition collections so only that check is needed)
+            var localPropertyGroups = contentType.PropertyGroups.Where(x => !contentType.CompositionPropertyGroups.Contains(x)).ToArray();
+            var protectedTabs = registration.ClrType.GetCustomAttributes<DoNotRemoveTabAttribute>(true).Select(x => x.TabName);
+            int length = localPropertyGroups.Length;
             for (int i = 0; i < length; i++)
             {
-                if (propertyGroups[i].PropertyTypes.Count == 0)
+                if (localPropertyGroups[i].PropertyTypes.Count == 0 && !protectedTabs.Any(x => localPropertyGroups[i].Name.Equals(x, StringComparison.InvariantCultureIgnoreCase)))
                 {
                     modified = true;
                     //remove
-                    contentType.RemovePropertyGroup(propertyGroups[i].Name);
+                    contentType.RemovePropertyGroup(localPropertyGroups[i].Name);
                 }
             }
 
             if (modified)
             {
                 CheckBuiltIn(registration);
-                contentType.ResetDirtyProperties(false);
-                SaveContentType(contentType);
             }
+
+            return contentType;
         }
 
         private IContentTypeComposition Reparent(ContentTypeRegistration registration, IContentTypeComposition contentType, IContentTypeBase newParent, IContentTypeBase oldParent)
@@ -664,7 +673,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                       var tabAttr = x.GetCodeFirstAttribute<ContentTabAttribute>();
                       return attr.AddTabAliasToPropertyAlias ? attr.Alias + "_" + tabAttr.Name.Replace(" ", "_") : attr.Alias;
                     });
-            }));
+            })).ToList();
+
+            propertiesToKeep.AddRange(documentClrType.GetCustomAttributes<DoNotRemovePropertyAttribute>(true).Select(x => x.PropertyAlias));
 
             //loop through all the properties on the ContentType to see if they should be removed.
             var existingUmbracoProperties = contentType.PropertyTypes.ToArray();
@@ -680,6 +691,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                         contentType.RemovePropertyType(existingUmbracoProperties[i].Alias);
                         var alias = existingUmbracoProperties[i].Alias;
                         var children = GetChildren(contentType);
+
+                        //TODO is this needed? I reckon it shouldn't be
                         RemovePropertyFromChildren(alias, children);
                     }
                 }

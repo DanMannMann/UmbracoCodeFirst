@@ -20,7 +20,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
         private bool _frozen = false;
         private bool _pristine = true;
         private Dictionary<Type, ICodeFirstEntityModule> _instances;
-        private static readonly Type[] REQUIRED_MODULES = new Type[] { typeof(IDataTypeModule), typeof(IPropertyModule), typeof(IDocumentTypeModule), typeof(IDocumentModelModule), typeof(IPreValueCacheModule) };
+        private static readonly Type[] REQUIRED_MODULES = new Type[] { typeof(IDataTypeModule), typeof(IPropertyModule), typeof(IDocumentTypeModule), typeof(IMediaTypeModule), typeof(IMemberTypeModule), typeof(IDocumentModelModule), typeof(IMediaModelModule), typeof(IMemberModelModule), typeof(IPreValueCacheModule) };
         private bool _initialised;
 
         public IDataTypeModule DataTypeModule
@@ -70,6 +70,24 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
                 return Resolve<IMediaModelModule>();
             }
         }
+
+        public IMemberTypeModule MemberTypeModule
+        {
+            get
+            {
+                return Resolve<IMemberTypeModule>();
+            }
+        }
+
+
+        public IMemberModelModule MemberModelModule
+        {
+            get
+            {
+                return Resolve<IMemberModelModule>();
+            }
+        }
+
 
         public void RegisterModule<Tinterface>(IModuleFactory<Tinterface> moduleFactory) where Tinterface : ICodeFirstEntityModule
         {
@@ -151,7 +169,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
                     var task = new Task(() =>
                     {
                         InitialiseModule(filters, equalComparer, classAttributeMatches, t);
-                        satisfiedDependencies.Add(t);
+                        lock (satisfiedDependencies)
+                        {
+                            satisfiedDependencies.Add(t);
+                        }
                     });
                     tasks.Add(task);
                     task.Start();
@@ -340,8 +361,11 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             resolver.AddDefaultDocumentTypeModule();
             resolver.AddDefaultTemplateModule();
             resolver.AddDefaultMediaTypeModule();
+            resolver.AddDefaultMemberTypeModule();
             resolver.AddDefaultDocumentModelModule();
             resolver.AddDefaultMediaModelModule();
+            resolver.AddDefaultMemberModelModule(); 
+
         }
     }
 }

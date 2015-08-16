@@ -81,7 +81,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             return instance;
         }
 
-        public bool TryConvertToModelInternal<Tmodel>(IPublishedContent content, out Tmodel model) where Tmodel : CodeFirstContentBase<T>
+        protected bool TryConvertToModelInternal<Tmodel>(IPublishedContent content, out Tmodel model) where Tmodel : CodeFirstContentBase<T>
         {
             ContentTypeRegistration docType;
             if (_contentTypeModule.TryGetContentType(content.ContentType.Alias, out docType) && docType.ClrType == typeof(Tmodel))
@@ -143,14 +143,14 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             foreach (var composition in registration.Compositions)
             {
-                CodeFirstModelContext.NextContext(instance, composition);
+                var parent = CodeFirstModelContext.GetCompositionParentContext(composition);
                 if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && composition.PropertyOfContainer.GetGetMethod().IsVirtual)
                 {
-                    dict.Add(composition.PropertyOfContainer, new CodeFirstLazyInitialiser(() => composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromPublishedContent(content, composition, CodeFirstModelContext.GetContext(instance)))));
+                    dict.Add(composition.PropertyOfContainer, new CodeFirstLazyInitialiser(() => composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromPublishedContent(content, composition, parent))));
                 }
                 else
                 {
-                    composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromPublishedContent(content, composition, CodeFirstModelContext.GetContext(instance)));
+                    composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromPublishedContent(content, composition, parent));
                 }
             }
 
@@ -183,7 +183,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             foreach (var composition in registration.Compositions)
             {
-                CodeFirstModelContext.NextContext(instance, composition);
+                CodeFirstModelContext.MoveNextContext(instance, composition);
                 composition.PropertyOfContainer.SetValue(instance, CreateInstanceFromContent(content, composition, CodeFirstModelContext.GetContext(instance)));
             }
 
@@ -275,10 +275,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (registration.DataType.ConverterType != null)
             {
                 IDataTypeConverter converter = (IDataTypeConverter)Activator.CreateInstance(registration.DataType.ConverterType);
-                var val = converter.Create(umbracoStoredValue, x => CodeFirstModelContext.NextContext(x, registration));
+                var val = converter.Create(umbracoStoredValue, x => CodeFirstModelContext.MoveNextContext(x, registration));
                 if (val != null)
                 {
-                    CodeFirstModelContext.NextContext(val, registration);
+                    CodeFirstModelContext.MoveNextContext(val, registration);
                     var attr = registration.Metadata.GetCodeFirstAttribute<ContentPropertyAttribute>();
                     if (attr != null && attr is IDataTypeRedirect)
                     {
@@ -288,7 +288,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                             //Keep a second context so wrapped types can still find their property 
                             //Will add nothing if the Redirector registered a context already (e.g. called ConvertToModel to create the value).
                             //Hopefully said redirector passed in a parent context so the converted value can still find its way back here.
-                            CodeFirstModelContext.NextContext(val, registration); 
+                            CodeFirstModelContext.MoveNextContext(val, registration); 
                         }
                     }
                     registration.Metadata.SetValue(objectInstance, val);
@@ -373,7 +373,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                         //Keep a second context so wrapped types can still find their property 
                         //Will add nothing if the Redirector registered a context already (e.g. called ConvertToModel to create the value).
                         //Hopefully said redirector passed in a parent context so the converted value can still find its way back here.
-                        CodeFirstModelContext.NextContext(toConvert, property);
+                        CodeFirstModelContext.MoveNextContext(toConvert, property);
                     }
                 }
                 else

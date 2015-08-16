@@ -11,14 +11,12 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     /// <summary>
     /// Represents the details of an Umbraco content node
     /// </summary>
-    public class DocumentNodeDetails : ContentNodeDetails<IContent>
+    public class MemberNodeDetails : ContentNodeDetails<IMember>
     {
         /// <summary>
-        /// The IContent instance used to construct this instance
+        /// The IMember instance used to construct this instance
         /// </summary>
-        public IContent Content { get; private set; }
-
-        public string Url { get; protected set; }
+        public IMember Content { get; private set; }
 
         /// <summary>
         /// Returns true if this instance was constructed from an IPublishedInstance instance
@@ -28,13 +26,13 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         /// <summary>
         /// Constructs a new instance of <see cref="DocumentNodeDetails"/>
         /// </summary>
-        public DocumentNodeDetails() { UmbracoId = -1; }
+        public MemberNodeDetails() { UmbracoId = -1; }
 
         /// <summary>
         /// Constructs a new instance of <see cref="DocumentNodeDetails"/>
         /// </summary>
         /// <param name="content">The content instance to describe</param>
-        public DocumentNodeDetails(IPublishedContent content)
+        public MemberNodeDetails(IPublishedContent content)
         {
             Initialise(content);
         }
@@ -43,20 +41,18 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         /// Constructs a new instance of <see cref="DocumentNodeDetails"/>
         /// </summary>
         /// <param name="content">The content instance to describe</param>
-        public DocumentNodeDetails(IContent content)
+        public MemberNodeDetails(IMember content)
         {
             Initialise(content);
-            Url = string.Empty;
         }
 
         public override void Initialise(IPublishedContent content)
         {
             base.Initialise(content);
-            Url = content.Url;
             IsPublishedInstance = true;
         }
 
-        public override void Initialise(IContent content, string contentTypeAlias = null)
+        public override void Initialise(IMember content, string contentTypeAlias = null)
         {
             base.Initialise(content, content.ContentType.Alias);
             this.Content = content;

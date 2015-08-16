@@ -38,7 +38,7 @@ namespace Felinesoft.UmbracoCodeFirst.Models
         /// <param name="viewModel">A custom view model</param>
         public DocumentViewModel(RenderModel renderModel, Tviewmodel viewModel)
         {
-            Document = renderModel.Content.ConvertToModel<Tdocument>();
+            Document = renderModel.Content.ConvertDocumentToModel<Tdocument>();
             ViewModel = viewModel;
             RenderModel = renderModel;
         }

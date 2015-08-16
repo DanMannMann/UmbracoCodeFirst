@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using Felinesoft.UmbracoCodeFirst.Core;
+using Umbraco.Core.Models;
 
 namespace Felinesoft.UmbracoCodeFirst.Converters
 {
@@ -33,15 +34,38 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
             }
         }
 
-        /// <summary>
-        /// Creates an instance of Tenum by converting the input to pascal case
-        /// and parsing it. This works for comma-separated lists of values if the specified
-        /// enum is a bit-field with a [Flags] attribute.
-        /// </summary>
         public override Tenum Create(string input, Action<object> registerContext = null)
         {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return default(Tenum);
+            }
+
+            var ids = input.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            var preValues = GetPreValues();
             Tenum result;
-            if (Enum.TryParse<Tenum>(input.ToPascalCase(), true, out result))
+            int currentId;
+
+            if (ids.Count() > 0 && ids.All(x => int.TryParse(x, out currentId) && preValues.Any(y => y.Id == currentId)))
+            {
+                var items = new List<string>();
+                var idList = new List<int>();
+                idList.AddRange(ids.Select(x => int.Parse(x)));
+
+                foreach (var id in idList)
+                {
+                    items.Add(preValues.Single(x => x.Id == id).Value.ToPascalCase());
+                }
+                if (Enum.TryParse<Tenum>(string.Join(",", items), true, out result))
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new CodeFirstException("invalid prevalue id list: " + input);
+                }
+            }
+            else if (Enum.TryParse<Tenum>(input.ToPascalCase(), true, out result))
             {
                 return result;
             }
@@ -51,13 +75,31 @@ namespace Felinesoft.UmbracoCodeFirst.Converters
             }
         }
 
-        /// <summary>
-        /// Serialises the input enum by calling ToString then converting the result to proper case.
-        /// This produces comma-separated lists of values if the specified enum is a bit-field with a [Flags] attribute.
-        /// </summary>
         public override string Serialise(Tenum input)
         {
-            return input.ToString().ToProperCase();
+            var preValues = GetPreValues();
+            var ids = new List<int>();
+            foreach (var val in preValues)
+            {
+                Tenum result;
+                if (Enum.TryParse<Tenum>(val.Value.ToPascalCase(), out result) && (input as Enum).HasFlag(result as Enum))
+                {
+                    if ((result.ToString().Equals("none", StringComparison.InvariantCultureIgnoreCase) || result.ToString().Equals("all", StringComparison.InvariantCultureIgnoreCase)) && (int)Convert.ChangeType((result as Enum), (result as Enum).GetTypeCode()) == 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        ids.Add(val.Id);
+                    }
+                }
+            }
+            return string.Join(",", ids);
+        }
+
+        private IReadOnlyList<PreValue> GetPreValues()
+        {
+            return CodeFirstManager.Current.Modules.PreValueCacheModule.Get(CodeFirstManager.Current.Modules.DataTypeModule.DataTypeRegister.Registrations.First(x => x.ClrType == typeof(Tenum)));
         }
     }
 }

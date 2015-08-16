@@ -127,7 +127,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         public bool Initialised
         {
             get;
-            private set;
+            protected set;
         }
     }
 
