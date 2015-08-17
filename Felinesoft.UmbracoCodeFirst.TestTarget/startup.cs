@@ -25,13 +25,13 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
             #region bypass tests here
-            if (true)
+            if (false)
             {
-                //var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
-                //CodeFirstManager.Current.Initialise(types);
-                new ContentTests().Run();
+                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
+                CodeFirstManager.Current.Initialise(types);
 
                 #region Test create and get member
+                //new ContentTests().Run();
                 //var tm = new TestMember();
                 //tm.Name = "Dave Daveson";
                 //tm.Username = "Dave";

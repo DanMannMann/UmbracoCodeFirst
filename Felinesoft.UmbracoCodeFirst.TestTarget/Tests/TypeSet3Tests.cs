@@ -284,7 +284,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
             if (useCommon)
                 expectedType.Tabs.Last().Properties.Add(CommonTabProperty(name));
 
-            if (expectedType.Alias == "child2")
+            if (expectedType.Alias == "child2" || expectedType.Alias == "mediaChild2")
             {
                 expectedType.Tabs.Last().Properties.Add(new ExpectedProperty()
                 {
