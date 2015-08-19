@@ -7,6 +7,9 @@ using Umbraco.Core.Models;
 using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Extensions;
+using Umbraco.Web;
+using System.Web;
+using Umbraco.Web.Security;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
@@ -154,6 +157,10 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             {
                 return -1;
             }
+
+            var requestContext = new HttpContext(new HttpRequest("", "http://localhost/", ""), new HttpResponse(null));
+            var context = UmbracoContext.EnsureContext(new HttpContextWrapper(requestContext), ApplicationContext.Current);
+
             var helper = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current);
             IEnumerable<IPublishedContent> rootItems;
 
