@@ -16,4 +16,8 @@ namespace Felinesoft.UmbracoCodeFirst.Exceptions
 
         public CodeFirstException(string message, Exception inner) : base(message, inner) { }
     }
+
+    /// <summary>
+    /// Thrown if the types in the DB do not match the types in the assemblies when initialising in passive mode
+    /// </summary>
 }

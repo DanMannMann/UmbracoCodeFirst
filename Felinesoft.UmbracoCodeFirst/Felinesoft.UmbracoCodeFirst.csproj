@@ -384,6 +384,7 @@
     <Compile Include="Diagnostics\Timing.cs" />
     <Compile Include="ContentTypes\ContentNodeDetails.cs" />
     <Compile Include="Diagnostics\DiagnosticUtils.cs" />
+    <Compile Include="Exceptions\CodeFirstPassiveInitialisationException.cs" />
     <Compile Include="Exceptions\CodeFirstResolverException.cs" />
     <Compile Include="Core\Resolver\ModuleFactory[T].cs" />
     <Compile Include="Core\Resolver\ModuleFactoryBase.cs" />

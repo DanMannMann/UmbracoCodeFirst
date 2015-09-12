@@ -78,9 +78,21 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         #region Content Type Service Adapter Abstracts
         protected abstract IEnumerable<IContentTypeBase> GetAllContentTypes();
 
-        protected abstract void SaveContentType(IContentTypeBase contentType);
+        protected virtual void SaveContentType(IContentTypeBase contentType)
+        {
+            if (CodeFirstManager.Current.Features.PassiveMode)
+            {
+                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+            }
+        }
 
-        protected abstract void DeleteContentType(IContentTypeBase contentType);
+        protected virtual void DeleteContentType(IContentTypeBase contentType)
+        {
+            if (CodeFirstManager.Current.Features.PassiveMode)
+            {
+                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+            }
+        }
 
         protected abstract IEnumerable<IContentTypeBase> GetChildren(IContentTypeBase contentType);
 

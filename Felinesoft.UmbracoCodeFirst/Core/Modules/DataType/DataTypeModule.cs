@@ -516,6 +516,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 if (dataTypeDefinition == null)
                 {
                     CodeFirstManager.Current.Log("Creating data type " + dataTypeRegistration.DataTypeInstanceName, this);
+                    if (CodeFirstManager.Current.Features.PassiveMode)
+                    {
+                        throw new CodeFirstPassiveInitialisationException("The data types or prevalues defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                    }
                     dataTypeDefinition = CreateDataTypeDefinition(dataTypeRegistration);
                     modified = true;
                 }
@@ -532,6 +536,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     if (modified)
                     {
                         CodeFirstManager.Current.Log("Saving data type " + dataTypeRegistration.DataTypeInstanceName, this);
+                        if (CodeFirstManager.Current.Features.PassiveMode)
+                        {
+                            throw new CodeFirstPassiveInitialisationException("The data types or prevalues defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                        }
                         _service.SaveDataTypeAndPreValues(dataTypeDefinition, preValues);
                         //reset the collection if we've modified a type
                         _allDataTypeDefinitions = new Lazy<IEnumerable<IDataTypeDefinition>>(() =>

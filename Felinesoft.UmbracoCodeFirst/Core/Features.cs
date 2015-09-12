@@ -17,6 +17,23 @@ namespace Felinesoft.UmbracoCodeFirst
 
         /// <summary>
         /// <para>
+        /// Do not modify the Umbraco types in the database. If the types in the database do not match the type
+        /// definitions passed in to Initialise then an exception will be thrown, instead of the types being updated.
+        /// </para>
+        /// <para>
+        /// This is useful in load-balanced scenarios, where the developer may wish to nominate a "master" instance to
+        /// handle updating the database whilst the rest of the instances are in passive mode and only check that the database is correct before
+        /// starting up (or failing, depending on the outcome of the check).
+        /// </para>
+        /// <para>
+        /// Status: Stable (default: false)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = false)]
+        public bool PassiveMode { get; set; }
+
+        /// <summary>
+        /// <para>
         /// Write output to the standard log file
         /// </para>
         /// <para>
