@@ -1,14 +1,41 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Umbraco.Core;
 
 namespace Felinesoft.UmbracoCodeFirst
 {
+    public enum InitialisationMode
+    {
+        /// <summary>
+        /// The types in the database will be updated to reflect the
+        /// type definitions specified
+        /// </summary>
+        Sync = 0,
+
+        /// <summary>
+        /// If the types in the database do not match the type definitions specified
+        /// an exception will be thrown, and the database will not be modified.
+        /// </summary>
+        Ensure = 1,
+
+        /// <summary>
+        /// The types definitions are used as specified without checking if the database
+        /// matches the definitions. This is useful in load balanced scenarios where one
+        /// master instance will initialise the database whilst n slave instances will
+        /// simply assume that the database will be synchronised to the type definitions
+        /// before traffic is routed to them. It is the developer's responsibility to ensure
+        /// that this happens. If passive instances are used before the database types are
+        /// synchronised spurious behaviour may occur.
+        /// </summary>
+        Passive = 2
+    }
+
     public sealed class Features
     {
         internal Features()
         {
-            var props = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FeatureAttribute>(false) != null).ToDictionary(x => x, x => x.GetCustomAttribute<FeatureAttribute>(false));
+            var props = this.GetType().GetProperties().Where(x => x.GetCustomAttribute<FeatureAttribute>() != null).ToDictionary(x => x, x => x.GetCustomAttribute<FeatureAttribute>(false));
             foreach (var prop in props)
             {
                 prop.Key.SetValue(this, prop.Value.DefaultValue);
@@ -17,20 +44,41 @@ namespace Felinesoft.UmbracoCodeFirst
 
         /// <summary>
         /// <para>
-        /// Do not modify the Umbraco types in the database. If the types in the database do not match the type
-        /// definitions passed in to Initialise then an exception will be thrown, instead of the types being updated.
+        /// Affects the behaviour of the database interaction &amp; type synchronisation during initialisation.
         /// </para>
+        /// <para> </para>
         /// <para>
         /// This is useful in load-balanced scenarios, where the developer may wish to nominate a "master" instance to
         /// handle updating the database whilst the rest of the instances are in passive mode and only check that the database is correct before
         /// starting up (or failing, depending on the outcome of the check).
         /// </para>
+        /// <para> </para>
         /// <para>
-        /// Status: Stable (default: false)
+        /// InitialisationMode.Sync - The types in the database will be updated to reflect the
+        /// type definitions specified.
+        /// </para>
+        /// <para> </para>
+        /// <para>
+        /// InitialisationMode.Ensure - If the types in the database do not match the type definitions specified
+        /// an exception will be thrown, and the database will not be modified.
+        /// </para>
+        /// <para> </para>
+        /// <para>
+        /// InitialisationMode.Passive - The types definitions are used as specified without checking if the database
+        /// matches the definitions. This is useful in load balanced scenarios where one
+        /// master instance will initialise the database whilst n slave instances will
+        /// simply assume that the database will be synchronised to the type definitions
+        /// before traffic is routed to them. It is the developer's responsibility to ensure
+        /// that this happens. If passive instances are used before the database types are
+        /// synchronised spurious behaviour may occur.
+        /// </para>
+        /// <para> </para>
+        /// <para>
+        /// Status: Stable (default: InitialisationMode.Sync)
         /// </para>
         /// </summary>
-        [Feature(DefaultValue = false)]
-        public bool PassiveMode { get; set; }
+        [Feature(DefaultValue = InitialisationMode.Sync)]
+        public InitialisationMode InitialisationMode { get; set; }
 
         /// <summary>
         /// <para>
@@ -115,7 +163,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// where the ToString() method will render the most relevant bit of data (i.e. the image URL or the RelatedLink URL).
         /// </para>
         /// <para>
-        /// Traversal attributes involve a lot of attribute lookups so the first load of each document type can be a bit heavier than usual, but after the first
+        /// Traversing the object tree to find attributes involves a lot of attribute lookups so the first load of each document type can be a bit heavier than usual, but after the first
         /// load the attributes will be cached so only a few dictionary look-ups are required and performance isn't too bad.
         /// </para>
         /// <para>
@@ -171,10 +219,21 @@ namespace Felinesoft.UmbracoCodeFirst
         /// </summary>
         [Feature(DefaultValue = true)]
         public bool EnableContentCreatedEvents { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Use the built-in code-first classes for the default Umbraco data types
+        /// </para>
+        /// <para>
+        /// Status: Stable (default: true)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = true)]
+        public bool UseBuiltInUmbracoDataTypes { get; set; }
     }
 
     internal sealed class FeatureAttribute : Attribute
     {
-        public bool DefaultValue { get; set; }
+        public object DefaultValue { get; set; }
     }
 }

@@ -43,6 +43,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         /// </summary>
         public void RegisterTemplates(Type docType)
         {
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                return;
+            }
+
             DocumentTypeRegistration reg;
             if (_documentTypeModule.TryGetDocumentType(docType, out reg))
             {

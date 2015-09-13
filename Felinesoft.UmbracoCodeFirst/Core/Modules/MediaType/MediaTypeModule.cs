@@ -169,13 +169,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         protected override void SaveContentType(IContentTypeBase contentType)
         {
-            base.SaveContentType(contentType);
             _service.Save((IMediaType)contentType);
         }
 
         protected override void DeleteContentType(IContentTypeBase contentType)
         {
-            base.DeleteContentType(contentType);
             _service.Delete((IMediaType)contentType);
         }
 

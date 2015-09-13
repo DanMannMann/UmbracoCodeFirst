@@ -116,62 +116,68 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         protected override IContentTypeBase CreateContentType(ContentTypeRegistration registration, out bool modified)
         {
-            if (CodeFirstManager.Current.Features.PassiveMode)
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
             {
-                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
             }
 
             var result = base.CreateContentType(registration, out modified);
-            result.ResetDirtyProperties(false);
-            SaveContentType(result); //need to save to ensure no sync issues when we load from the legacy API
-            modified = false;
-            var member = new umbraco.cms.businesslogic.member.MemberType(result.Id);
-            foreach (var prop in member.PropertyTypes)
-            {
-                var propReg = registration.Properties.SingleOrDefault(x => x.Alias == prop.Alias);
-                if (propReg != null)
-                {
-                    var attr = propReg.Metadata.GetCodeFirstAttribute<MemberPropertyAttribute>();
-                    if (attr != null)
-                    {
-                        if (attr.MemberCanEdit != member.MemberCanEdit(prop))
-                        {
-                            member.setMemberCanEdit(prop, attr.MemberCanEdit);
-                            modified = true;
-                        }
-                        if (attr.ShowOnProfile != member.ViewOnProfile(prop))
-                        {
-                            member.setMemberViewOnProfile(prop, attr.ShowOnProfile);
-                            modified = true;
-                        }
-                    }
-                }
-            }
 
-            if (modified)
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
             {
-                modified = false;
-                member.Save();
+                return SyncMemberType(registration, result);
             }
-
-            return _service.Get(member.Id);
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                return result;
+            }
+            else
+            {
+                throw new CodeFirstException("Unknown initialisation type");
+            }
         }
 
         protected override IContentTypeBase UpdateContentType(ContentTypeRegistration registration, out bool modified)
         {
             var result = base.UpdateContentType(registration, out modified);
 
-            if (modified && CodeFirstManager.Current.Features.PassiveMode)
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
             {
-                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                if (modified)
+                {
+                    throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
+                }
+                else
+                {
+                    return result;
+                }
             }
-            else if (modified)
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
             {
-                result.ResetDirtyProperties(false);
-                SaveContentType(result); //need to save to ensure no sync issues when we load from the legacy API
-                modified = false; 
+                if (modified)
+                {
+                    return SyncMemberType(registration, result);
+                }
+                else
+                {
+                    return result;
+                }
             }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                return result;
+            }
+            else
+            {
+                throw new CodeFirstException("Unknown initialisation type");
+            }
+        }
 
+        private IContentTypeBase SyncMemberType(ContentTypeRegistration registration, IContentTypeBase result)
+        {
+            result.ResetDirtyProperties(false);
+            SaveContentType(result); //need to save to ensure no sync issues when we load from the legacy API
+            bool modified = false;
             var member = new umbraco.cms.businesslogic.member.MemberType(result.Id);
             foreach (var prop in member.PropertyTypes)
             {
@@ -238,13 +244,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         protected override void SaveContentType(IContentTypeBase contentType)
         {
-            base.SaveContentType(contentType);
             _service.Save((IMemberType)contentType);
         }
 
         protected override void DeleteContentType(IContentTypeBase contentType)
         {
-            base.DeleteContentType(contentType);
             _service.Delete((IMemberType)contentType);
         }
 

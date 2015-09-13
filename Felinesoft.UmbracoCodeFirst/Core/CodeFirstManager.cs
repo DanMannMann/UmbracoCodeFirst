@@ -84,7 +84,7 @@ namespace Felinesoft.UmbracoCodeFirst
 
         public void Warn(string message, object source, [CallerMemberName]string sourceMethod = null)
         {
-            Log(message, source, sourceMethod);
+            Log("WARN: " + message, source, sourceMethod);
             //TODO forward to Umbraco log service as Warn
         }
 
@@ -202,14 +202,22 @@ namespace Felinesoft.UmbracoCodeFirst
 
         private void InitialiseModules(IEnumerable<Type> types)
         {
-            //pre-register the built-in datatypes
-            var builtInTypes = typeof(CodeFirstManager).Assembly.GetTypes().Where(x => x.GetCustomAttribute<BuiltInDataTypeAttribute>(false) != null);
-            var allTypes = types.Concat(builtInTypes).ToList();
             if (Modules.IsPristine) //If the resolver hasn't been explicitly configured do the default stuff
             {
                 Modules.AddDefaultModules();
             }
-            Modules.Initialise(allTypes);
+
+            if (CodeFirstManager.Current.Features.UseBuiltInUmbracoDataTypes)
+            {
+                //pre-register the built-in datatypes
+                var builtInTypes = typeof(CodeFirstManager).Assembly.GetTypes().Where(x => x.GetCustomAttribute<BuiltInDataTypeAttribute>(false) != null);
+                var allTypes = types.Concat(builtInTypes).ToList();
+                Modules.Initialise(allTypes);
+            }
+            else
+            {
+                Modules.Initialise(types);
+            }
         }
 
         public void GenerateTypeFilesFromDatabase(string folderPath, string nameSpace = "UmbracoCodeFirst.GeneratedTypes")

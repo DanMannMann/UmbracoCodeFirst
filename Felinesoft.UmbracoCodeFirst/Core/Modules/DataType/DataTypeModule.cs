@@ -516,10 +516,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 if (dataTypeDefinition == null)
                 {
                     CodeFirstManager.Current.Log("Creating data type " + dataTypeRegistration.DataTypeInstanceName, this);
-                    if (CodeFirstManager.Current.Features.PassiveMode)
-                    {
-                        throw new CodeFirstPassiveInitialisationException("The data types or prevalues defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
-                    }
                     dataTypeDefinition = CreateDataTypeDefinition(dataTypeRegistration);
                     modified = true;
                 }
@@ -535,26 +531,38 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     IDictionary<string, PreValue> preValues = MergePreValuesWithExisting(dataTypeRegistration, codeFirstPreValues, ref modified);
                     if (modified)
                     {
-                        CodeFirstManager.Current.Log("Saving data type " + dataTypeRegistration.DataTypeInstanceName, this);
-                        if (CodeFirstManager.Current.Features.PassiveMode)
-                        {
-                            throw new CodeFirstPassiveInitialisationException("The data types or prevalues defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
-                        }
-                        _service.SaveDataTypeAndPreValues(dataTypeDefinition, preValues);
-                        //reset the collection if we've modified a type
-                        _allDataTypeDefinitions = new Lazy<IEnumerable<IDataTypeDefinition>>(() =>
-                        {
-                            return _service.GetAllDataTypeDefinitions();
-                        });
+                        PersistDataTypeAndPreValues(dataTypeRegistration, dataTypeDefinition, preValues);
                     }
                 }
             }
-            else
+            else if (dataTypeRegistration.Definition == null)
             {
                 dataTypeRegistration.Definition = dataTypeDefinition;
             }
 
             return dataTypeDefinition;
+        }
+
+        private void PersistDataTypeAndPreValues(DataTypeRegistration dataTypeRegistration, IDataTypeDefinition dataTypeDefinition, IDictionary<string, PreValue> preValues)
+        {
+            CodeFirstManager.Current.Log("Saving data type " + dataTypeRegistration.DataTypeInstanceName, this);
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
+            {
+                throw new CodeFirstPassiveInitialisationException("The data types or prevalues defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
+            {
+                _service.SaveDataTypeAndPreValues(dataTypeDefinition, preValues);
+                //reset the collection if we've modified a type
+                _allDataTypeDefinitions = new Lazy<IEnumerable<IDataTypeDefinition>>(() =>
+                {
+                    return _service.GetAllDataTypeDefinitions();
+                });
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode != InitialisationMode.Passive)
+            {
+                throw new CodeFirstException("Unknown initialisation mode");
+            }
         }
 
         private bool UpdateDataTypeDefinition(DataTypeRegistration dataTypeRegistration, IDataTypeDefinition dataTypeDefinition)

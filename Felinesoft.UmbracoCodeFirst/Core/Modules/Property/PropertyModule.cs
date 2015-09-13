@@ -137,10 +137,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                                (umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0) || //don't count sort order changes if no sort order is specified, as Umbraco will have assigned an automatic one
                                umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression;
 
-                if (contentType.Description != attribute.Description)
+                if (umbracoProperty.Description != attribute.Description)
                 {
                     //If not both null/empty
-                    if (!(string.IsNullOrEmpty(contentType.Description) && string.IsNullOrEmpty(attribute.Description)))
+                    if (!(string.IsNullOrEmpty(umbracoProperty.Description) && string.IsNullOrEmpty(attribute.Description)))
                     {
                         modified = true;
                     }

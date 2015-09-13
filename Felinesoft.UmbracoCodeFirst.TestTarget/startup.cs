@@ -18,7 +18,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
 {
     public class startup : ApplicationEventHandler
     {
-        private readonly List<ICodeFirstTest> _tests = NewList<ICodeFirstTest>.With(new TypeSet1Tests(), new TypeSet2Tests(), new TypeSet3Tests(), new ContentTests());
+        private readonly List<ICodeFirstTest> _tests = NewList<ICodeFirstTest>.With(new TypeSet1Tests(), new TypeSet2Tests(), new TypeSet3Tests()/*, new ContentTests()*/);
 
         protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
         {
@@ -27,6 +27,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             #region bypass tests here
             if (false)
             {
+                CodeFirstManager.Current.Features.InitialisationMode = InitialisationMode.Sync;
                 var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
                 CodeFirstManager.Current.Initialise(types);
 

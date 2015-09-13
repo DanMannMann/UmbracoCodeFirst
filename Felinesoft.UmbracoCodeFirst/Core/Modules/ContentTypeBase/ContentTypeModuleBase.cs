@@ -78,21 +78,49 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         #region Content Type Service Adapter Abstracts
         protected abstract IEnumerable<IContentTypeBase> GetAllContentTypes();
 
-        protected virtual void SaveContentType(IContentTypeBase contentType)
+        protected void Save(IContentTypeBase contentType)
         {
-            if (CodeFirstManager.Current.Features.PassiveMode)
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
             {
-                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
+            {
+                SaveContentType(contentType);
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                return;
+            }
+            else
+            {
+                throw new CodeFirstException("Unknown initialisation mode");
             }
         }
 
-        protected virtual void DeleteContentType(IContentTypeBase contentType)
+        protected void Delete(IContentTypeBase contentType)
         {
-            if (CodeFirstManager.Current.Features.PassiveMode)
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
             {
-                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In passive mode the types must match or the site will be prevented from starting.");
+                throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
+            {
+                DeleteContentType(contentType);
+            }
+            else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                return;
+            }
+            else
+            {
+                throw new CodeFirstException("Unknown initialisation mode");
             }
         }
+
+        protected abstract void SaveContentType(IContentTypeBase contentType);
+
+        protected abstract void DeleteContentType(IContentTypeBase contentType);
 
         protected abstract IEnumerable<IContentTypeBase> GetChildren(IContentTypeBase contentType);
 
@@ -212,7 +240,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 type.AllowedContentTypes = allowedChildren;
                 type.ResetDirtyProperties(false);
-                SaveContentType(type);
+                Save(type);
             }
         }
         #endregion
@@ -267,7 +295,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             if (modified)
             {
-                SaveContentType(type);
+                Save(type);
             }
         }
 
@@ -362,6 +390,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 });
             }
 
+            if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
+            {
+                if (_performanceTimer != Guid.Empty)
+                    Timing.EndTimer(_performanceTimer, "Complete - skipped allowed children and composition sync as InitialisationMode is Passive");
+                return;
+            }
+
             if (_performanceTimer != Guid.Empty) 
                 Timing.MarkTimer(_performanceTimer, "Starting Allowed Children and Composition Sync");
             CodeFirstManager.Current.Log("Starting Allowed Children and Composition Sync", this);
@@ -404,7 +439,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (modified)
             {
                 contentType.ResetDirtyProperties(false);
-                SaveContentType(contentType);
+                Save(contentType);
             }
         }
 
@@ -713,7 +748,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (modified)
             {
                 contentType.ResetDirtyProperties(false);
-                SaveContentType(contentType);
+                Save(contentType);
             }
         }
 
