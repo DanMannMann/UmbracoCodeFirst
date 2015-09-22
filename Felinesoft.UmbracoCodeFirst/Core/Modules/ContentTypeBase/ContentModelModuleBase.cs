@@ -55,6 +55,12 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         protected Tmodel ConvertToModelInternal<Tmodel>(IPublishedContent content, CodeFirstModelContext parentContext = null) where Tmodel : CodeFirstContentBase<T>
         {
             ContentTypeRegistration registration;
+
+            if (content == null)
+            {
+                throw new ArgumentNullException("content", Environment.StackTrace);
+            }
+
             if (!_contentTypeModule.TryGetContentType(content.ContentType.Alias, out registration))
             {
                 throw new CodeFirstException("Could not find content type registration for content type alias " + content.ContentType.Alias);
@@ -76,6 +82,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             Tmodel instance = (Tmodel)CreateInstanceFromPublishedContent(content, registration, parentContext);
+
+            if (instance == null)
+            {
+                throw new CodeFirstException("Model could not be created. Target type: " + typeof(Tmodel).Name);
+            }
+
+            if ((instance as CodeFirstContentBase<T>) == null)
+            {
+                throw new CodeFirstException("Created model could not be cast to CodeFirstContentBase<T>. Type of T: " + typeof(T).Name);
+            }
+
             (instance as CodeFirstContentBase<T>).NodeDetails = new T();
             ((instance as CodeFirstContentBase<T>).NodeDetails as ContentNodeDetails).Initialise(content);
             return instance;
