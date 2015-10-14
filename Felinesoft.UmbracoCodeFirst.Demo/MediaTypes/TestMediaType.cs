@@ -2,6 +2,7 @@
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Felinesoft.UmbracoCodeFirst.Demo.NewDocTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
