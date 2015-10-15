@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
 {
@@ -158,7 +159,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
             var classAttributeMatches = types.ToDictionary(type => type, type => type.GetCustomAttributes().Select(y => y.GetType()).Intersect(classAttributes, equalComparer)).Where(x => x.Value.Any()).ToDictionary(x => x.Key, x => x.Value);
             var satisfiedDependencies = new List<Type>();
             var queue = new List<Type>(_order);
-
+            var httpContext = HttpContext.Current;
+            var httpContextWrapper = new HttpContextWrapper(httpContext);
+            var appContext = Umbraco.Core.ApplicationContext.Current;
+            
             while (queue.Count > 0)
             {
                 var tasks = new List<Task>();
@@ -168,6 +172,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
                     queue.Remove(t);
                     var task = new Task(() =>
                     {
+                        HttpContext.Current = httpContext;
+                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
                         InitialiseModule(filters, equalComparer, classAttributeMatches, t);
                         lock (satisfiedDependencies)
                         {

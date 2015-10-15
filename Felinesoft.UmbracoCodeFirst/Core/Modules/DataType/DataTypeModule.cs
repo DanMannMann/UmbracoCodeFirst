@@ -22,6 +22,7 @@ using Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Converters;
 using Umbraco.Core;
+using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -58,9 +59,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
+            var httpContext = HttpContext.Current;
+            var httpContextWrapper = new HttpContextWrapper(httpContext);
+            var appContext = Umbraco.Core.ApplicationContext.Current;
             foreach (var t in classes)
             {
-                tasks.Add(System.Threading.Tasks.Task.Run(() => GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null)));
+                tasks.Add(System.Threading.Tasks.Task.Run(() =>
+                    {
+                        HttpContext.Current = httpContext;
+                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
+                        GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null);
+                    }));
             }
             System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
         }

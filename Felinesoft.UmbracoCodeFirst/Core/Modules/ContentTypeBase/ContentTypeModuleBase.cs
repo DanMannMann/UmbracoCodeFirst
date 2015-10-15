@@ -18,6 +18,8 @@ using System.IO;
 using Felinesoft.UmbracoCodeFirst.Diagnostics;
 using Umbraco.Core.Persistence;
 using Umbraco.Core.Persistence.DatabaseAnnotations;
+using System.Web;
+using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -155,9 +157,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 ResetContentTypesCache();
             }
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
+            var httpContext = HttpContext.Current;
+            var httpContextWrapper = new HttpContextWrapper(httpContext);
+            var appContext = Umbraco.Core.ApplicationContext.Current;
             foreach (var type in types)
             {
-                tasks.Add(System.Threading.Tasks.Task.Run(() => action.Invoke(type)));
+                tasks.Add(System.Threading.Tasks.Task.Run(() =>
+                    {
+                        HttpContext.Current = httpContext;
+                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
+                        action.Invoke(type);
+                    }));
             }
             System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
             if (resetCacheBeforeAndAfter)
