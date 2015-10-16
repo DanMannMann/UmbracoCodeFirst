@@ -6,11 +6,15 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Web;
+using umbraco;
+using Umbraco.Core;
+using Umbraco.Core.Persistence;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
 {
@@ -159,34 +163,55 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
             var classAttributeMatches = types.ToDictionary(type => type, type => type.GetCustomAttributes().Select(y => y.GetType()).Intersect(classAttributes, equalComparer)).Where(x => x.Value.Any()).ToDictionary(x => x.Key, x => x.Value);
             var satisfiedDependencies = new List<Type>();
             var queue = new List<Type>(_order);
-            var httpContext = HttpContext.Current;
-            var httpContextWrapper = new HttpContextWrapper(httpContext);
-            var appContext = Umbraco.Core.ApplicationContext.Current;
-            
+
             while (queue.Count > 0)
             {
-                var tasks = new List<Task>();
                 var allModulesWhichCanBeInitialised = queue.Where(x => _modules[x].GetPrerequisites().Except(satisfiedDependencies).Count() == 0).ToList();
-                foreach (Type t in allModulesWhichCanBeInitialised)
+                if (CodeFirstManager.Current.Features.UseConcurrentInitialisation)
                 {
-                    queue.Remove(t);
-                    var task = new Task(() =>
-                    {
-                        HttpContext.Current = httpContext;
-                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
-                        InitialiseModule(filters, equalComparer, classAttributeMatches, t);
-                        lock (satisfiedDependencies)
-                        {
-                            satisfiedDependencies.Add(t);
-                        }
-                    });
-                    tasks.Add(task);
-                    task.Start();
+                    InitialiseModulesConcurrent(filters, equalComparer, classAttributeMatches, satisfiedDependencies, queue, allModulesWhichCanBeInitialised);
                 }
-                Task.WaitAll(tasks.ToArray());
+                else
+                {
+                    InitialiseModules(filters, equalComparer, classAttributeMatches, satisfiedDependencies, queue, allModulesWhichCanBeInitialised);
+                }
             }
+
+            //Umbraco.Core.ApplicationContext.EnsureContext(originalContext, true);
+
             _initialised = true;
             Timing.EndTimer(Timing.ModuleResolverTimer, "Completed Initialisation of modules");
+        }
+
+        private void InitialiseModulesConcurrent(Dictionary<Type, IEnumerable<Type>> filters, TypeAssignableEqualityComparer equalComparer, Dictionary<Type, IEnumerable<Type>> classAttributeMatches, List<Type> satisfiedDependencies, List<Type> queue, List<Type> toDo)
+        {
+            var tasks = new List<Task>();
+            foreach (Type t in toDo)
+            {
+                queue.Remove(t);
+                var task = new Task(() =>
+                {
+                    InitialiseModule(filters, equalComparer, classAttributeMatches, t);
+                    lock (satisfiedDependencies)
+                    {
+                        satisfiedDependencies.Add(t);
+                    }
+                });
+                tasks.Add(task);
+                task.Start();
+            }
+            Task.WaitAll(tasks.ToArray());
+        }
+
+        private void InitialiseModules(Dictionary<Type, IEnumerable<Type>> filters, TypeAssignableEqualityComparer equalComparer, Dictionary<Type, IEnumerable<Type>> classAttributeMatches, List<Type> satisfiedDependencies, List<Type> queue, List<Type> toDo)
+        {
+            var tasks = new List<Task>();
+            foreach (Type t in toDo)
+            {
+                queue.Remove(t);
+                InitialiseModule(filters, equalComparer, classAttributeMatches, t);
+                satisfiedDependencies.Add(t);
+            }
         }
 
         private void InitialiseModule(Dictionary<Type, IEnumerable<Type>> filters, TypeAssignableEqualityComparer equalComparer, Dictionary<Type, IEnumerable<Type>> classAttributeMatches, Type t)
@@ -350,6 +375,55 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
                     }
                 }
                 return obj.GetHashCode();
+            }
+        }
+    }
+
+    internal sealed class CodeFirstStartupDatabaseFactory : IDatabaseFactory
+    {
+        internal string ConnectionString { get; set; }
+
+        //very important to have ThreadStatic:
+        // see: http://issues.umbraco.org/issue/U4-2172
+        [ThreadStatic]
+        private static volatile UmbracoDatabase _nonHttpInstance;
+        private string _providerName;
+
+        public UmbracoDatabase CreateDatabase()
+        {
+            if (_nonHttpInstance == null)
+            {
+                _nonHttpInstance = new UmbracoDatabase("umbracoDbDSN");
+            }
+            return _nonHttpInstance;
+        }
+
+        public void Dispose()
+        {
+            
+        }
+
+        /// <summary>
+        /// Returns the name of the dataprovider from the connectionstring setting in config
+        /// </summary>
+        internal string ProviderName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_providerName) == false)
+                    return _providerName;
+
+                _providerName = "System.Data.SqlClient";
+                if (ConfigurationManager.ConnectionStrings["umbracoDbDSN"] != null)
+                {
+                    if (string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings["umbracoDbDSN"].ProviderName) == false)
+                        _providerName = ConfigurationManager.ConnectionStrings["umbracoDbDSN"].ProviderName;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Can't find a connection string with the name 'umbracoDbDSN'");
+                }
+                return _providerName;
             }
         }
     }

@@ -230,6 +230,21 @@ namespace Felinesoft.UmbracoCodeFirst
         /// </summary>
         [Feature(DefaultValue = true)]
         public bool UseBuiltInUmbracoDataTypes { get; set; }
+
+        /// <summary>
+        /// <para>
+        /// Use multiple threads to initialise the data/content types more quickly
+        /// </para>
+        /// <para>
+        /// WARNING: This does not work when distributed calls are enabled and hence cannot
+        /// be used in load-balanced scenarios.
+        /// </para>
+        /// <para>
+        /// Status: Stable (default: true)
+        /// </para>
+        /// </summary>
+        [Feature(DefaultValue = true)]
+        public bool UseConcurrentInitialisation { get; set; }
     }
 
     internal sealed class FeatureAttribute : Attribute

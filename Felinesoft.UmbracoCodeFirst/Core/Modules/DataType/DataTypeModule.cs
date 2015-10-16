@@ -59,19 +59,35 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
-            var httpContext = HttpContext.Current;
-            var httpContextWrapper = new HttpContextWrapper(httpContext);
-            var appContext = Umbraco.Core.ApplicationContext.Current;
+            if (CodeFirstManager.Current.Features.UseConcurrentInitialisation)
+            {
+                InitialiseTypesConcurrent(classes, tasks);
+            }
+            else
+            {
+                InitialiseTypes(classes, tasks);
+            }
+        }
+
+        private void InitialiseTypesConcurrent(IEnumerable<Type> classes, List<System.Threading.Tasks.Task> tasks)
+        {
+
             foreach (var t in classes)
             {
                 tasks.Add(System.Threading.Tasks.Task.Run(() =>
-                    {
-                        HttpContext.Current = httpContext;
-                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
-                        GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null);
-                    }));
+                {
+                    GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null);
+                }));
             }
             System.Threading.Tasks.Task.WaitAll(tasks.ToArray());
+        }
+
+        private void InitialiseTypes(IEnumerable<Type> classes, List<System.Threading.Tasks.Task> tasks)
+        {
+            foreach (var t in classes)
+            {
+                GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null);
+            }
         }
 
         public DataTypeRegister DataTypeRegister

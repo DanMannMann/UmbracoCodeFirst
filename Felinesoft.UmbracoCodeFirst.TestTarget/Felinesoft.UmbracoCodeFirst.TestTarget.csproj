@@ -15,7 +15,7 @@
     <RootNamespace>Felinesoft.UmbracoCodeFirst.TestTarget</RootNamespace>
     <AssemblyName>Felinesoft.UmbracoCodeFirst.TestTarget</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -419,7 +419,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5910</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5281/</IISUrl>
+          <IISUrl>http://localhost/Felinesoft.UmbracoCodeFirst.TestTarget</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

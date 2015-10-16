@@ -16,6 +16,7 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Diagnostics;
 using Umbraco.Web.Models.Trees;
 using System.IO;
+using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {

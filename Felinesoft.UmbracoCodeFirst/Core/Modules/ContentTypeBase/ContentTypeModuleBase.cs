@@ -157,15 +157,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 ResetContentTypesCache();
             }
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
-            var httpContext = HttpContext.Current;
-            var httpContextWrapper = new HttpContextWrapper(httpContext);
-            var appContext = Umbraco.Core.ApplicationContext.Current;
+
             foreach (var type in types)
             {
                 tasks.Add(System.Threading.Tasks.Task.Run(() =>
                     {
-                        HttpContext.Current = httpContext;
-                        Umbraco.Web.UmbracoContext.EnsureContext(httpContextWrapper, appContext);
                         action.Invoke(type);
                     }));
             }
@@ -390,14 +386,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             CodeFirstManager.Current.Log("Initialising content types", this);
             foreach (var generation in sortedTypes)
             {
-                DoPerTypeConcurrent(generation, type =>
-                {
-                    if (_performanceTimer != Guid.Empty) 
-                        Timing.MarkTimer(_performanceTimer, "Staring " + type.Name + " Content Type Sync");
-                    var registration = CreateRegistration(type);
-                    CreateOrUpdateContentType(registration);
-                    Register(registration);
-                });
+                SyncContentTypes(generation);
             }
 
             if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
@@ -410,12 +399,41 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (_performanceTimer != Guid.Empty) 
                 Timing.MarkTimer(_performanceTimer, "Starting Allowed Children and Composition Sync");
             CodeFirstManager.Current.Log("Starting Allowed Children and Composition Sync", this);
-            DoPerTypeConcurrent(sortedTypes.SelectMany(x => x), type =>
+            SyncChildrenAndCompositions(sortedTypes);
+
+            if (_performanceTimer != Guid.Empty)
+                Timing.EndTimer(_performanceTimer, "Complete");
+        }
+
+        private void SyncContentTypes(List<Type> generation)
+        {
+            Action<Type> action = type =>
+            {
+                if (_performanceTimer != Guid.Empty)
+                    Timing.MarkTimer(_performanceTimer, "Staring " + type.Name + " Content Type Sync");
+                var registration = CreateRegistration(type);
+                CreateOrUpdateContentType(registration);
+                Register(registration);
+            };
+
+            if (CodeFirstManager.Current.Features.UseConcurrentInitialisation)
+            {
+                DoPerTypeConcurrent(generation, action);
+            }
+            else
+            {
+                DoPerType(generation, action);
+            }
+        }
+
+        private void SyncChildrenAndCompositions(List<List<Type>> sortedTypes)
+        {
+            Action<Type> action = type =>
             {
                 var contentTypeReg = ContentTypeRegister.GetContentType(type);
                 if (contentTypeReg.ContentTypeAttribute != null)
                 {
-                    if (_performanceTimer != Guid.Empty) 
+                    if (_performanceTimer != Guid.Empty)
                         Timing.MarkTimer(_performanceTimer, "Starting " + type.Name + " Allowed Children Sync");
 
                     if (contentTypeReg.ContentTypeAttribute.AllowedChildren == null)
@@ -425,13 +443,19 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
                     SyncAllowedChildren(contentTypeReg);
                 }
-                if (_performanceTimer != Guid.Empty) 
+                if (_performanceTimer != Guid.Empty)
                     Timing.MarkTimer(_performanceTimer, "Starting " + type.Name + " Composition Sync");
                 SyncCompositions(contentTypeReg);
-            });
+            };
 
-            if (_performanceTimer != Guid.Empty)
-                Timing.EndTimer(_performanceTimer, "Complete");
+            if (CodeFirstManager.Current.Features.UseConcurrentInitialisation)
+            {
+                DoPerTypeConcurrent(sortedTypes.SelectMany(x => x), action);
+            }
+            else
+            {
+                DoPerType(sortedTypes.SelectMany(x => x), action);
+            }
         }
 
         public virtual void CreateOrUpdateContentType(ContentTypeRegistration registration)
