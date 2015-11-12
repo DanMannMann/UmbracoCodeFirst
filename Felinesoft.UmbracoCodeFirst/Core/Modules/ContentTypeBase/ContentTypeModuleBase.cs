@@ -82,16 +82,20 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         protected void Save(IContentTypeBase contentType)
         {
+            CodeFirstManager.Current.Log("Attempting to save changes to content type " + contentType.Name, this);
             if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Ensure)
             {
+                CodeFirstManager.Current.Log("ERROR: In Ensure mode and the following content type is not sync'ed: " + contentType.Name, this);
                 throw new CodeFirstPassiveInitialisationException("The types defined in the database do not match the types passed in to initialise. In InitialisationMode.Ensure the types must match or the site will be prevented from starting.");
             }
             else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
             {
                 SaveContentType(contentType);
+                CodeFirstManager.Current.Log("Saved changes to content type " + contentType.Name, this);
             }
             else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Passive)
             {
+                CodeFirstManager.Current.Log("In passive mode - ignoring changes to content type " + contentType.Name, this);
                 return;
             }
             else

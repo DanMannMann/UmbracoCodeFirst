@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
@@ -110,14 +111,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             property.PropertyAttribute = attribute;
             property.Metadata = item;
 
-            if (tab == null)
-            {
-                CodeFirstManager.Current.Log("Syncing property " + property.Name + " on content type " + contentType.Name, this);
-            }
-            else
-            {
-                CodeFirstManager.Current.Log("Syncing property " + property.Name + " on tab " + tab.Name + " of content type " + contentType.Name, this);
-            }
+            LogPropertySyncInfo(contentType, tab, property, "Syncing");
 
             bool alreadyExisted = contentType.PropertyTypeExists(alias);
             PropertyType umbracoProperty = contentType.PropertyTypes.FirstOrDefault(x => x.Alias == alias);
@@ -125,7 +119,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (umbracoProperty == null && alreadyExisted)
             {
                 //This is a property from an underlying tab. Leave it alone. Log a warning in case this is an orphaned property.
-                CodeFirstManager.Current.Warn("Property ignored as it appears to exist on an ancestor type. Warning: could be orphaned. Property alias: " + alias + ", type alias: " + contentType.Alias, this);
+                LogPropertySyncInfo(contentType, tab, property, "Ignoring inherited");
                 return property;
             }
 
@@ -143,7 +137,23 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     if (!(string.IsNullOrEmpty(umbracoProperty.Description) && string.IsNullOrEmpty(attribute.Description)))
                     {
                         modified = true;
+                        LogPropertySyncInfo(contentType, tab, property, "Description changed on");
                     }
+                }
+
+                if (modified)
+                {
+                    if (!umbracoProperty.Name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase))
+                        LogPropertySyncInfo(contentType, tab, property, "Name changed on");
+
+                    if (umbracoProperty.Mandatory != attribute.Mandatory)
+                        LogPropertySyncInfo(contentType, tab, property, "Mandatory changed on");
+
+                    if ((umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0))
+                        LogPropertySyncInfo(contentType, tab, property, "SortOrder changed on");
+
+                    if (umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression)
+                        LogPropertySyncInfo(contentType, tab, property, "ValidationRegExp changed on");
                 }
             }
 
@@ -151,11 +161,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 modified = true;
                 umbracoProperty = new PropertyType(dataType.Definition);
+                LogPropertySyncInfo(contentType, tab, property, "Creating new");
             }
             else if (umbracoProperty.DataTypeDefinitionId != dataType.Definition.Id)
             {
                 modified = true;
                 umbracoProperty.DataTypeDefinitionId = dataType.Definition.Id;
+                LogPropertySyncInfo(contentType, tab, property, "Data type changed for");
             }
 
             umbracoProperty.Name = attribute.Name;
@@ -183,6 +195,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     {
                         modified = true;
                         contentType.MovePropertyType(alias, tab.Name);
+                        LogPropertySyncInfo(contentType, tab, property, string.Format("Moved from tab {0}:", tab.Name));
                     }
                 }
             }
@@ -194,7 +207,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     {
                         if (!propertyIsFromCommonBase || !contentType.PropertyTypeExists(umbracoProperty.Alias)) //check if common base properties already exist
                         {
-                            CodeFirstManager.Current.Log("Adding property " + property.Name + " on content type " + contentType.Name, this);
+                            LogPropertySyncInfo(contentType, tab, property, "Adding");
                             contentType.AddPropertyType(umbracoProperty);
                         }
                     }
@@ -205,7 +218,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     {
                         if (!propertyIsFromCommonBase || (tabDeclaredOnThisDocType && !contentType.PropertyTypeExists(umbracoProperty.Alias))) //check if common base properties already exist
                         {
-                            CodeFirstManager.Current.Log("Adding property " + property.Name + " on tab " + tab.Name + " of content type " + contentType.Name, this);
+                            LogPropertySyncInfo(contentType, tab, property, "Adding");
                             contentType.AddPropertyType(umbracoProperty, tab.Name);
                         }
                     }
@@ -213,6 +226,18 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
 
             return property;
+        }
+
+        private void LogPropertySyncInfo(IContentTypeBase contentType, TabRegistration tab, PropertyRegistration property, string action, [CallerMemberName]string sourceMethod = null)
+        {
+            if (tab == null)
+            {
+                CodeFirstManager.Current.Log(string.Format("{0} property {1} on content type {2}", action, property.Name, contentType.Name), this, sourceMethod);
+            }
+            else
+            {
+                CodeFirstManager.Current.Log(string.Format("{0} property {1} on tab {2} of content type {3}", action, tab.Name, property.Name, contentType.Name), this, sourceMethod);
+            }
         }
 
         private bool IsInheritedProperty(TabRegistration tab, Type documentClrType, PropertyRegistration property)

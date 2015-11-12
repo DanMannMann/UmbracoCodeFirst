@@ -63,7 +63,17 @@ namespace Felinesoft.UmbracoCodeFirst
             set { _features = value; }
         }
 
-        public bool EnableLogging { get; set; }
+        public bool EnableLogging
+        {
+            get
+            {
+                return Features.WriteLogOutput;
+            }
+            set
+            {
+                Features.WriteLogOutput = value;
+            }
+        }
 
         public void Log(string message, object source, [CallerMemberName]string sourceMethod = null)
         {

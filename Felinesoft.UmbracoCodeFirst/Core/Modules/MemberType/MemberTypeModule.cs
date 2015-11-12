@@ -176,7 +176,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private IContentTypeBase SyncMemberType(ContentTypeRegistration registration, IContentTypeBase result)
         {
             result.ResetDirtyProperties(false);
-            SaveContentType(result); //need to save to ensure no sync issues when we load from the legacy API
+            Save(result); //need to save to ensure no sync issues when we load from the legacy API
             bool modified = false;
             var member = new umbraco.cms.businesslogic.member.MemberType(result.Id);
             foreach (var prop in member.PropertyTypes)
