@@ -6,7 +6,7 @@
 <#@ import namespace="Felinesoft.UmbracoCodeFirst" #>
 <#@ import namespace="Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration" #>
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.Extensions;
@@ -18,7 +18,7 @@ using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 
 namespace <#= Namespace #>
 {
-    [<#= Model.AttributeName #>("<#= Model.Name #>", "<#= Model.Alias #>", <#= Model.AllowedChildren #>, "<#= Model.Icon #>", <#= Model.AllowAtRoot #>, <#= Model.EnableListView #>, "<#= Model.Description #>")]
+    [<#= Model.AttributeName #>(@"<#= Model.Name #>", @"<#= Model.Alias #>", <#= Model.AllowedChildren #>, @"<#= Model.Icon #>", <#= Model.AllowAtRoot #>, <#= Model.EnableListView #>, @"<#= Model.Description #>")]
 <#foreach(TemplateDescription template in Model.Templates)
     {#>
     [Template(<#= template.IsDefault #>, "<#= template.Name #>", "<#= template.Alias #>")]
@@ -32,7 +32,7 @@ namespace <#= Namespace #>
 <#foreach(PropertyDescription prop in tab.Properties)
             {
 #>
-            [ContentProperty("<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, "<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+            [ContentProperty(@"<#= prop.Name #>", @"<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false)]
             public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 
 <#          }
@@ -43,7 +43,7 @@ namespace <#= Namespace #>
 	    foreach(TabDescription tab in Model.Tabs)
         {#>
 
-        [ContentTab("<#= tab.TabName #>", <#= tab.SortOrder #>)]
+        [ContentTab(@"<#= tab.TabName #>", <#= tab.SortOrder #>)]
         public <#= tab.TabClassName #> <#= tab.TabPropertyName #> { get; set; }
 <#
         }#>
@@ -51,7 +51,7 @@ namespace <#= Namespace #>
         {
         #>
 
-        [ContentProperty("<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, "<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+        [ContentProperty(@"<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false)]
         public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 <#      }
         #>

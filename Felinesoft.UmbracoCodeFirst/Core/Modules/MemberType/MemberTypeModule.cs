@@ -228,10 +228,21 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 System.IO.Directory.CreateDirectory(dataDirectory);
             }
 
-            GenerateContentTypes(nameSpace, dataDirectory, "MemberType", () => ApplicationContext.Current.Services.ContentTypeService.GetAllMediaTypes(), (x, y) =>
+            GenerateContentTypes(nameSpace, dataDirectory, "MemberType", () => ApplicationContext.Current.Services.MemberTypeService.GetAll(), (x, y) =>
                 {
-                    y.ParentAlias = x.ParentId == -1 ? "MemberTypeBase" : ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId).Alias;
-                    y.ParentClassName = x.ParentId == -1 ? "MemberTypeBase" : y.ParentAlias.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+                    y.IgnoredPropertyAliases.AddRange(typeof(MemberTypeBase).GetCodeFirstAttributes<DoNotRemovePropertyAttribute>().Select(t => t.PropertyAlias));
+                    y.IgnoredTabs.AddRange(typeof(MemberTypeBase).GetCodeFirstAttributes<DoNotRemoveTabAttribute>().Select(t => t.TabName));
+                    if (x.ParentId == -1)
+                    {
+                        y.ParentAlias = "MemberTypeBase";
+                        y.ParentClassName = "MemberTypeBase";
+                    }
+                    else
+                    {
+                        var parent = ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId);
+                        y.ParentAlias = parent == null ? "MemberTypeBase" : parent.Alias;
+                        y.ParentClassName = parent == null ? "MemberTypeBase" : TypeGeneratorUtils.GetFormattedMemberName(parent.Alias);
+                    }
                 });
         }
         #endregion

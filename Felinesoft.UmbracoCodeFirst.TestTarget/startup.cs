@@ -24,6 +24,14 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
         {
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
+            if (true)
+            {
+                CodeFirstManager.Current.Features.UseBuiltInMediaTypes = false;
+                CodeFirstManager.Current.Initialise(new List<Type>());
+                CodeFirstManager.Current.GenerateTypeFilesFromDatabase("E:\\types");
+                return;
+            }
+
             #region bypass tests here
             if (false)
             {

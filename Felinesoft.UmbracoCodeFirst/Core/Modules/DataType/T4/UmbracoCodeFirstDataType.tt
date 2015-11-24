@@ -7,7 +7,7 @@
 <#@ import namespace="Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration" #>
 
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -20,7 +20,7 @@ using System;
 
 namespace <#= Namespace #>
 {
-    [DataType("<#= Model.PropertyEditorAlias #>", "<#= Model.DataTypeInstanceName #>", null, DataTypeDatabaseType.<#= Model.DbType #>)]
+    [DataType("<#= Model.PropertyEditorAlias #>", "<#= Model.DataTypeInstanceName #>")]
 <#
         foreach(var item in Model.PreValues)
         {#>

@@ -20,6 +20,7 @@ using Umbraco.Core.Persistence;
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 using System.Web;
 using Umbraco.Web;
+using System.Text.RegularExpressions;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -938,23 +939,23 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             types = new List<ContentTypeDescription>();
             foreach (var node in selector.Invoke())
             {
-                var type = BuildContentTypeModel(nameSpace, node, attributeName);
-                if (customAction != null)
-                {
-                    customAction.Invoke(node, type);
-                }
+                var type = BuildContentTypeModel(nameSpace, node, attributeName, customAction);
                 types.Add(type);
             }
         }
 
-        private ContentTypeDescription BuildContentTypeModel(string nameSpace, IContentTypeComposition node, string attributeName)
+        private ContentTypeDescription BuildContentTypeModel(string nameSpace, IContentTypeComposition node, string attributeName, Action<IContentTypeComposition, ContentTypeDescription> customAction)
         {
             var type = CreateTypeDescription(node, attributeName);
+            if (customAction != null)
+            {
+                customAction.Invoke(node, type);
+            }
             AddAllowedChildTypes(node, type);
             AddTabs(nameSpace, node, type);
             type.Properties = new List<PropertyDescription>();
             type.Compositions = new List<CompositionDescription>();
-            AddProperties(type.Properties, node.PropertyTypes.Except(node.PropertyGroups.SelectMany(x => x.PropertyTypes)), nameSpace);
+            AddProperties(type.Properties, node.PropertyTypes.Except(node.PropertyGroups.SelectMany(x => x.PropertyTypes)).Where(x => !type.IgnoredPropertyAliases.Any(y => y.Equals(x.Alias, StringComparison.InvariantCultureIgnoreCase))), nameSpace, type.ClassName);
             AddCompositions(type.Compositions, node.ContentTypeComposition, type.ParentAlias);
             return type;
         }
@@ -963,7 +964,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             foreach (var item in items.Where(x => x.Alias != parentAlias))
             {
-                var name = item.Alias.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+                var name = TypeGeneratorUtils.GetFormattedMemberName(item.Alias);
                 descriptions.Add(new CompositionDescription() { TypeName = name, PropertyName = name + "Composition" });
             }
         }
@@ -971,22 +972,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private void AddTabs(string nspace, IContentTypeComposition node, ContentTypeDescription type)
         {
             type.Tabs = new List<TabDescription>();
-            foreach (var group in node.PropertyGroups)
+            foreach (var group in node.PropertyGroups.Where(x => !type.IgnoredTabs.Any(y => y.Equals(x.Name, StringComparison.InvariantCultureIgnoreCase))))
             {
-                var tab = BuildTabModel(nspace, group);
+                var tab = BuildTabModel(nspace, group, type.IgnoredPropertyAliases, type.ClassName);
                 type.Tabs.Add(tab);
             }
         }
 
-        private TabDescription BuildTabModel(string nameSpace, PropertyGroup group)
+        private TabDescription BuildTabModel(string nameSpace, PropertyGroup group, List<string> ignoredProperties, string typeName)
         {
             var tab = new TabDescription();
             tab.TabName = group.Name;
-            tab.TabClassName = group.Name.Replace('.', '_').Replace('-', '_').ToPascalCase() + "Tab";
-            tab.TabPropertyName = group.Name.Replace('.', '_').Replace('-', '_').ToPascalCase();
+            tab.TabClassName = TypeGeneratorUtils.GetFormattedMemberName(group.Name) + "Tab";
+            tab.TabPropertyName = TypeGeneratorUtils.GetFormattedMemberName(group.Name);
+            if (tab.TabPropertyName == typeName)
+            {
+                tab.TabPropertyName += "TabProperty";
+            }
             tab.SortOrder = group.SortOrder.ToString();
             tab.Properties = new List<PropertyDescription>();
-            AddProperties(tab.Properties, group.PropertyTypes, nameSpace, "_" + group.Name.Replace(" ", "_"));
+            AddProperties(tab.Properties, group.PropertyTypes.Where(x => !ignoredProperties.Any(y => y.Equals(x.Alias, StringComparison.InvariantCultureIgnoreCase))), nameSpace, typeName, "_" + TypeGeneratorUtils.GetFormattedMemberName(group.Name));
             return tab;
         }
 
@@ -1001,7 +1006,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     {
                         typeArray += ", ";
                     }
-                    typeArray += "typeof(" + allowedType.Alias.Replace('.', '_').Replace('-', '_').ToPascalCase() + ")";
+                    typeArray += "typeof(" + TypeGeneratorUtils.GetFormattedMemberName(allowedType.Alias) + ")";
                 }
                 type.AllowedChildren = "new Type[] { " + typeArray + " }";
             }
@@ -1018,23 +1023,23 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             type.Alias = node.Alias;
             type.Name = node.Name;
             type.AllowAtRoot = node.AllowedAsRoot.ToString().ToLower();
-            type.ClassName = node.Alias.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+            type.ClassName = TypeGeneratorUtils.GetFormattedMemberName(node.Alias); 
             type.EnableListView = node.IsContainer.ToString().ToLower();
             type.Icon = node.Icon;
-            type.Description = node.Description == null ? "null" : node.Description;
+            type.Description = node.Description == null ? "null" : node.Description.Replace(@"""", @"\""");
             return type;
         }
 
-        private void AddProperties(List<PropertyDescription> list, IEnumerable<PropertyType> propertyTypeCollection, string nspace, string tabName = null)
+        private void AddProperties(List<PropertyDescription> list, IEnumerable<PropertyType> propertyTypeCollection, string nspace, string typeName, string tabName = null)
         {
             foreach (var propType in propertyTypeCollection)
             {
-                PropertyDescription prop = BuildPropertyModel(nspace, tabName, propType);
+                PropertyDescription prop = BuildPropertyModel(nspace, tabName, propType, typeName);
                 list.Add(prop);
             }
         }
 
-        private PropertyDescription BuildPropertyModel(string nameSpace, string tabName, PropertyType propType)
+        private PropertyDescription BuildPropertyModel(string nameSpace, string tabName, PropertyType propType, string typeName)
         {
             PropertyDescription prop = new PropertyDescription();
             prop.Alias = propType.Alias;
@@ -1044,11 +1049,15 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
             prop.Name = propType.Name;
             prop.PropertyEditorAlias = propType.PropertyEditorAlias;
-            prop.PropertyName = propType.Name.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+            prop.PropertyName = TypeGeneratorUtils.GetFormattedMemberName(propType.Alias.ToPascalCase());
+            if (prop.PropertyName == typeName)
+            {
+                prop.PropertyName += "Property";
+            }
             prop.DataTypeClassName = TypeGeneratorUtils.GetDataTypeClassName(propType.DataTypeDefinitionId, nameSpace);
             prop.DataTypeInstanceName = ApplicationContext.Current.Services.DataTypeService.GetDataTypeDefinitionById(propType.DataTypeDefinitionId).Name;
             prop.Mandatory = propType.Mandatory.ToString().ToLower();
-            prop.Description = propType.Description == null ? "" : propType.Description;
+            prop.Description = propType.Description == null ? "" : propType.Description.Replace("\"", "\"\"");
             prop.SortOrder = propType.SortOrder.ToString();
             return prop;
         }

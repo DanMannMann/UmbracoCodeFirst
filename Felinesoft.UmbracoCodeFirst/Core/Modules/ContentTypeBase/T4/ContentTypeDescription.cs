@@ -11,6 +11,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
             Tabs = new List<TabDescription>();
             Properties = new List<PropertyDescription>();
             Compositions = new List<CompositionDescription>();
+            IgnoredPropertyAliases = new List<string>();
+            IgnoredTabs = new List<string>();
         }
 
         public string ClassName { get; set; }
@@ -28,5 +30,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
         public string ParentAlias { get; set; }
         public string AttributeName { get; set; }
         public List<TemplateDescription> Templates { get; set; }
+        public List<string> IgnoredPropertyAliases { get; set; }
+        public List<string> IgnoredTabs { get; set; }
     }
 }

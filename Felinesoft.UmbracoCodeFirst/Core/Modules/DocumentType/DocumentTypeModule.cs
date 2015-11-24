@@ -94,8 +94,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             GenerateContentTypes(nameSpace, dataDirectory, "DocumentType", () => ApplicationContext.Current.Services.ContentTypeService.GetAllContentTypes(), (x, y) =>
                 {
                     ConfigureTemplates(x as IContentType, y);
-                    y.ParentAlias = x.ParentId == -1 ? "DocumentTypeBase" : ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId).Alias;
-                    y.ParentClassName = x.ParentId == -1 ? "DocumentTypeBase" : y.ParentAlias.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+                    if (x.ParentId == -1)
+                    {
+                        y.ParentAlias = "DocumentTypeBase";
+                        y.ParentClassName = "DocumentTypeBase";
+                    }
+                    else
+                    {
+                        var parent = ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId);
+                        y.ParentAlias = parent == null ? "DocumentTypeBase" : parent.Alias;
+                        y.ParentClassName = parent == null ? "DocumentTypeBase" : TypeGeneratorUtils.GetFormattedMemberName(parent.Alias);
+                    }
                 });
         }
 

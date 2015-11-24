@@ -156,8 +156,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             GenerateContentTypes(nameSpace, dataDirectory, "MediaType", () => ApplicationContext.Current.Services.ContentTypeService.GetAllMediaTypes(), (x, y) =>
                 {
-                    y.ParentAlias = x.ParentId == -1 ? "MediaTypeBase" : ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId).Alias;
-                    y.ParentClassName = x.ParentId == -1 ? "MediaTypeBase" : y.ParentAlias.Replace('.', '_').Replace('-', '_').Replace("?", "").ToPascalCase();
+                    if (x.ParentId == -1)
+                    {
+                        y.ParentAlias = "MediaTypeBase";
+                        y.ParentClassName = "MediaTypeBase";
+                    }
+                    else
+                    {
+                        var parent = ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId);
+                        y.ParentAlias = parent == null ? "MediaTypeBase" : parent.Alias;
+                        y.ParentClassName = parent == null ? "MediaTypeBase" : TypeGeneratorUtils.GetFormattedMemberName(parent.Alias);
+                    }
                 });
         }
         #endregion

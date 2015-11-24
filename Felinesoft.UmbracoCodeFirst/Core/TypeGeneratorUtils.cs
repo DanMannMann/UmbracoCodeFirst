@@ -11,16 +11,22 @@ using Felinesoft.UmbracoCodeFirst.Attributes;
 using System.Reflection;
 
 using Felinesoft.UmbracoCodeFirst;
+using System.Text.RegularExpressions;
 
 namespace Felinesoft.UmbracoCodeFirst.Core
 {
     public static class TypeGeneratorUtils
     {
+        public static string GetFormattedMemberName(string input)
+        {
+            return Regex.Replace(input.ToPascalCase(), @"[^\w]", "_", RegexOptions.None);
+        }
+
         public static string GetDataTypeClassName(int dataTypeDefinitionId, string nameSpace)
         {
             var typeDefs = typeof(TypeGeneratorUtils).Assembly.GetTypes().Where(x => x.GetCustomAttribute<BuiltInDataTypeAttribute>() != null && !x.IsGenericTypeDefinition).ToDictionary(x => x.GetCustomAttribute<DataTypeAttribute>(), x => x.Name);
 
-            if (!string.IsNullOrEmpty(nameSpace))
+            if (!string.IsNullOrEmpty(nameSpace) && !nameSpace.EndsWith("."))
             {
                 nameSpace += ".";
             }
@@ -32,7 +38,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core
                 var builtIn = typeDefs.Where(x => x.Key.Name == dtd.Name).FirstOrDefault().Value;
                 if (builtIn == null)
                 {
-                    return nameSpace + dtd.Name.Replace('.', '_').Replace('-', '_').Replace("/", "").ToPascalCase();
+                    return nameSpace + GetFormattedMemberName(dtd.Name);
                 }
                 return builtIn;
             }

@@ -20,11 +20,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+    #line 1 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "11.0.0.0")]
     public partial class UmbracoCodeFirstDataType : UmbracoCodeFirstDataTypeBase
     {
-#line hidden
         /// <summary>
         /// Create the template output
         /// </summary>
@@ -32,7 +31,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4
         {
             this.Write(@"
 using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DocumentTypes;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
@@ -45,35 +44,28 @@ using System;
 
 namespace ");
             
-            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    [DataType(\"");
             
-            #line 23 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 23 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.PropertyEditorAlias));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 23 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 23 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataTypeInstanceName));
             
             #line default
             #line hidden
-            this.Write("\", null, DataTypeDatabaseType.");
+            this.Write("\")]\r\n");
             
-            #line 23 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Model.DbType));
-            
-            #line default
-            #line hidden
-            this.Write(")]\r\n");
-            
-            #line 24 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 24 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
 
         foreach(var item in Model.PreValues)
         {
@@ -82,42 +74,42 @@ namespace ");
             #line hidden
             this.Write("    [PreValue(\"");
             
-            #line 27 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 27 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture((Model.PreValues.IndexOf(item) + 1).ToString()));
             
             #line default
             #line hidden
             this.Write("\", @\"");
             
-            #line 27 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 27 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(item));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 28 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 28 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
       }
             
             #line default
             #line hidden
             this.Write("    public class ");
             
-            #line 29 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 29 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.DataTypeClassName));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 29 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 29 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.InheritanceBase));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n    ");
             
-            #line 31 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 31 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
 
         if(Model.CustomType)
         {
@@ -126,7 +118,7 @@ namespace ");
             #line hidden
             this.Write("    //TODO implement the properties and serialisation logic for the ");
             
-            #line 34 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 34 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.PropertyEditorAlias));
             
             #line default
@@ -135,7 +127,7 @@ namespace ");
                     "nstance from the db value\r\n        /// </summary>\r\n        public void Initialis" +
                     "e(");
             
-            #line 39 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 39 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.SerializedTypeName));
             
             #line default
@@ -144,7 +136,7 @@ namespace ");
                     "\r\n\r\n        /// <summary>\r\n        /// Serialises the instance to the db value\r\n" +
                     "        /// </summary>\r\n        public ");
             
-            #line 47 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 47 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.SerializedTypeName));
             
             #line default
@@ -152,7 +144,7 @@ namespace ");
             this.Write(" Serialise()\r\n        {\r\n            throw new NotImplementedException();\r\n      " +
                     "  }\r\n");
             
-            #line 51 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\twigs\refactor-converters\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
+            #line 51 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
       }
     
             

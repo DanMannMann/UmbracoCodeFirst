@@ -704,7 +704,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 if (!_typeDefs.Any(x => x.Key.Name == def.Name)) //not a known built-in type
                 {
                     var dataType = new DataTypeDescription();
-                    dataType.PreValues = ApplicationContext.Current.Services.DataTypeService.GetPreValuesByDataTypeId(def.Id).Select(x => x.Replace("\"", "\"\"")).ToList();
+                    dataType.PreValues = ApplicationContext.Current.Services.DataTypeService.GetPreValuesByDataTypeId(def.Id).Where(x => x != null).Select(x => x.Replace("\"", "\"\"")).ToList();
                     if (_typeDefs.Any(x => x.Key.PropertyEditorAlias == def.PropertyEditorAlias)) //can base on a known built-in type
                     {
                         var builtIn = _typeDefs.First(x => x.Key.PropertyEditorAlias == def.PropertyEditorAlias);
@@ -725,12 +725,15 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                                 dataType.SerializedTypeName = "DateTime";
                                 break;
                             case DataTypeDatabaseType.Integer:
-                                dataType.InheritanceBase = "IUmbracoIntDataType";
+                                dataType.InheritanceBase = "IUmbracoIntegerDataType";
                                 dataType.SerializedTypeName = "int";
                                 break;
                             case DataTypeDatabaseType.Ntext:
+                                dataType.InheritanceBase = "IUmbracoNtextDataType";
+                                dataType.SerializedTypeName = "string";
+                                break;
                             case DataTypeDatabaseType.Nvarchar:
-                                dataType.InheritanceBase = "IUmbracoStringDataType";
+                                dataType.InheritanceBase = "IUmbracoNvarcharDataType";
                                 dataType.SerializedTypeName = "string";
                                 break;
                         }
