@@ -280,31 +280,38 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         private IDictionary<string, PreValue> GetPreValuesFromDataType(Type type, PreValueContext context = null)
         {
-            IDictionary<string, PreValue> preValues;
-            var factoryAttr = type.GetCodeFirstAttribute<PreValueFactoryAttribute>();
-            if (context == null)
+            try
             {
-                context = new PreValueContext(type);
-            }
+                IDictionary<string, PreValue> preValues;
+                var factoryAttr = type.GetCodeFirstAttribute<PreValueFactoryAttribute>();
+                if (context == null)
+                {
+                    context = new PreValueContext(type);
+                }
 
-            if (factoryAttr != null)
-            {
-                preValues = factoryAttr.GetFactory().GetPreValues(context);
-            }
-            else if (type.IsEnum)
-            {
-                preValues = GetEnumPreValues(type);
-            }
-            else if (type.Implements<IPreValueFactory>())
-            {
-                preValues = ((IPreValueFactory)Activator.CreateInstance(type)).GetPreValues(context);
-            }
-            else
-            {
-                preValues = type.GetCodeFirstAttributes<PreValueAttribute>().ToDictionary(x => x.Alias, x => x.PreValue);
-            }
+                if (factoryAttr != null)
+                {
+                    preValues = factoryAttr.GetFactory().GetPreValues(context);
+                }
+                else if (type.IsEnum)
+                {
+                    preValues = GetEnumPreValues(type);
+                }
+                else if (type.Implements<IPreValueFactory>())
+                {
+                    preValues = ((IPreValueFactory)Activator.CreateInstance(type)).GetPreValues(context);
+                }
+                else
+                {
+                    preValues = type.GetCodeFirstAttributes<PreValueAttribute>().ToDictionary(x => x.Alias, x => x.PreValue);
+                }
 
-            return preValues;
+                return preValues;
+            }
+            catch (Exception ex)
+            {
+                throw new CodeFirstException("Failed to get pre-values for type " + type.FullName, ex);
+            }
         }
 
         private DataTypeRegistration BuildDataTypeRegistration(Type type)
