@@ -13,12 +13,18 @@ namespace Felinesoft.UmbracoCodeFirst
         internal string InheritanceBase { get; set; }
         internal string PropertyEditorAlias { get; set; }
         internal string DbType { get; set; }
-        internal List<string> PreValues { get; set; }
+        internal List<PreValueDescription> PreValues { get; set; }
         internal string SerializedTypeName { get; set; }
 
         /// <summary>
         /// true to add serialise/initialise stubs for an unknown property editor
         /// </summary>
         internal bool CustomType { get; set; } 
+    }
+
+    internal class PreValueDescription
+    {
+        internal string Alias { get; set; }
+        internal string Value { get; set; }
     }
 }

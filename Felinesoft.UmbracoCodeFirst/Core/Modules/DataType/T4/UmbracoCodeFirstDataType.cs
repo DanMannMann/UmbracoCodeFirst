@@ -75,14 +75,14 @@ namespace ");
             this.Write("    [PreValue(\"");
             
             #line 27 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture((Model.PreValues.IndexOf(item) + 1).ToString()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Alias));
             
             #line default
             #line hidden
             this.Write("\", @\"");
             
             #line 27 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\DataType\T4\UmbracoCodeFirstDataType.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(item));
+            this.Write(this.ToStringHelper.ToStringWithCulture(item.Value));
             
             #line default
             #line hidden

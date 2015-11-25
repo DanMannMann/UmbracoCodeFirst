@@ -24,7 +24,7 @@ namespace <#= Namespace #>
 <#
         foreach(var item in Model.PreValues)
         {#>
-    [PreValue("<#= (Model.PreValues.IndexOf(item) + 1).ToString() #>", @"<#= item #>")]
+    [PreValue("<#= item.Alias #>", @"<#= item.Value #>")]
 <#      }#>
     public class <#= Model.DataTypeClassName #> : <#= Model.InheritanceBase #>
     {

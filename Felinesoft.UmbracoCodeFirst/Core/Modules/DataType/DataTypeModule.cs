@@ -711,7 +711,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 if (!_typeDefs.Any(x => x.Key.Name == def.Name)) //not a known built-in type
                 {
                     var dataType = new DataTypeDescription();
-                    dataType.PreValues = ApplicationContext.Current.Services.DataTypeService.GetPreValuesByDataTypeId(def.Id).Where(x => x != null).Select(x => x.Replace("\"", "\"\"")).ToList();
+                    dataType.PreValues = ApplicationContext.Current.Services.DataTypeService
+                        .GetPreValuesCollectionByDataTypeId(def.Id)
+                        .PreValuesAsDictionary
+                        .Where(x => x.Value != null && x.Value.Value != null)
+                        .Select(x => new PreValueDescription() { Alias = x.Key, Value = x.Value.Value.Replace("\"", "\"\"") })
+                        .ToList();
+
                     if (_typeDefs.Any(x => x.Key.PropertyEditorAlias == def.PropertyEditorAlias)) //can base on a known built-in type
                     {
                         var builtIn = _typeDefs.First(x => x.Key.PropertyEditorAlias == def.PropertyEditorAlias);
