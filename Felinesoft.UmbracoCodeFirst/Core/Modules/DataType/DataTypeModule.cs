@@ -23,6 +23,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Converters;
 using Umbraco.Core;
 using System.Web;
+using System.IO;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -584,6 +585,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
             else if (CodeFirstManager.Current.Features.InitialisationMode == InitialisationMode.Sync)
             {
+                UmbracoContext.EnsureContext(new HttpContextWrapper(new HttpContext(new HttpRequest("", "http://tempuri.org", ""), new HttpResponse(new StringWriter()))), ApplicationContext.Current, true);
+
                 _service.SaveDataTypeAndPreValues(dataTypeDefinition, preValues);
                 //reset the collection if we've modified a type
                 _allDataTypeDefinitions = new Lazy<IEnumerable<IDataTypeDefinition>>(() =>

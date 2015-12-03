@@ -24,7 +24,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
         {
             base.ApplicationStarted(umbracoApplication, applicationContext);
 
-            if (true)
+            if (false)
             {
                 CodeFirstManager.Current.Features.UseBuiltInMediaTypes = false;
                 CodeFirstManager.Current.Initialise(new List<Type>());
@@ -33,10 +33,11 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             }
 
             #region bypass tests here
-            if (false)
+            if (true)
             {
-                CodeFirstManager.Current.Features.InitialisationMode = InitialisationMode.Sync;
-                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3")).ToList();
+               // CodeFirstManager.Current.Features.InitialisationMode = InitialisationMode.Sync;
+                CodeFirstManager.Current.Features.UseConcurrentInitialisation = false;
+                var types = typeof(startup).Assembly.GetTypes().Where(x => x.Namespace.StartsWith("LMI.BusinessLogic.CodeFirst")).ToList();
                 CodeFirstManager.Current.Initialise(types);
 
                 #region Test create and get member
