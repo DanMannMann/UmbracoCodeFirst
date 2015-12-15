@@ -103,10 +103,10 @@ namespace Felinesoft.UmbracoCodeFirst
         /// Use the built-in code-first classes for the default media types - Image, File and Folder (do this if you don't need to modify those types)
         /// </para>
         /// <para>
-        /// Status: Stable (default: true)
+        /// Status: Stable (default: false) - this defaults to false as it can be very confusing when converting an existing site to code-first if this defaults to true
         /// </para>
         /// </summary>
-        [Feature(DefaultValue = true)]
+        [Feature(DefaultValue = false)]
         public bool UseBuiltInMediaTypes { get; set; }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// HTML is emitted by any data type which implements IHtmlString, including many of the built-in ones, when the property is accessed
         /// within an HTML element body on a Razor view causing the Razor renderer to call ToHtmlString on the data type. 
         /// If the property is accessed within a HTML element tag (e.g. as an attribute value) then
-        /// ToString() is called instead. In general the ToHtmlString method will render a sensible entire element (i.e. img element for an image, a element for a RelatedLink)
+        /// ToString() is called instead. In general the ToHtmlString method will render a sensible entire element (i.e. img element for an image, anchor element for a RelatedLink)
         /// where the ToString() method will render the most relevant bit of data (i.e. the image URL or the RelatedLink URL).
         /// </para>
         /// <para>

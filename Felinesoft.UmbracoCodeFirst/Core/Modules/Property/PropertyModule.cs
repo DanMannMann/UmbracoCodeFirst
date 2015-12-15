@@ -126,10 +126,19 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if(alreadyExisted)
             {
                 modified = modified ||
-                               !umbracoProperty.Name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase) || 
+                               !umbracoProperty.Name.Equals(attribute.Name, StringComparison.InvariantCultureIgnoreCase) ||
                                umbracoProperty.Mandatory != attribute.Mandatory ||
-                               (umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0) || //don't count sort order changes if no sort order is specified, as Umbraco will have assigned an automatic one
-                               umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression;
+                               (umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0); //don't count sort order changes if no sort order is specified, as Umbraco will have assigned an automatic one
+
+                if (umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression)
+                {
+                    //If not both null/empty
+                    if (!(string.IsNullOrEmpty(umbracoProperty.ValidationRegExp) && string.IsNullOrEmpty(attribute.ValidationRegularExpression)))
+                    {
+                        modified = true;
+                        LogPropertySyncInfo(contentType, tab, property, "ValidationRegExp changed on");
+                    }
+                }
 
                 if (umbracoProperty.Description != attribute.Description)
                 {
@@ -151,9 +160,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
                     if ((umbracoProperty.SortOrder != attribute.SortOrder && attribute.SortOrder != 0))
                         LogPropertySyncInfo(contentType, tab, property, "SortOrder changed on");
-
-                    if (umbracoProperty.ValidationRegExp != attribute.ValidationRegularExpression)
-                        LogPropertySyncInfo(contentType, tab, property, "ValidationRegExp changed on");
                 }
             }
 

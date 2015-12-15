@@ -219,10 +219,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         }
     }
 
-    public interface IOnCreate
-    {
-        void OnCreate();
-    }
 }
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions

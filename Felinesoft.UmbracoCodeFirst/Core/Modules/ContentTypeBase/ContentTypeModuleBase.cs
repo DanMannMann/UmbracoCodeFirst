@@ -227,7 +227,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             foreach (var child in type.AllowedContentTypes)
             {
                 ContentTypeRegistration childReg;
-                if (!TryGetContentType(child.Alias, out childReg) || !allowedChildren.Any(x => x.Alias == childReg.Alias))
+                if (!TryGetContentType(child.Alias, out childReg))
+                {
+                    throw new CodeFirstException(string.Format("Type with alias {0} was specified as an allowed child of type with alias {1}, but no type with alias {0} is registered in code-first", child.Alias, type.Alias));
+                }
+                if (!allowedChildren.Any(x => x.Alias == childReg.Alias))
                 {
                     modified = true;
                     break;
@@ -239,7 +243,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 foreach (var child in allowedChildren)
                 {
                     ContentTypeRegistration childReg;
-                    if (!TryGetContentType(child.Alias, out childReg) || !type.AllowedContentTypes.Any(x => x.Alias == childReg.Alias))
+                    if (!TryGetContentType(child.Alias, out childReg))
+                    {
+                        throw new CodeFirstException(string.Format("Type with alias {0} was specified as an allowed child of type with alias {1}, but no type with alias {0} is registered in code-first", child.Alias, type.Alias));
+                    }
+                    if (!type.AllowedContentTypes.Any(x => x.Alias == childReg.Alias))
                     {
                         modified = true;
                         break;

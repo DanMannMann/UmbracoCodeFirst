@@ -87,6 +87,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             foreach (var t in classes)
             {
+                var nm = t.Name;
                 GetDataType(t, t.GetCustomAttribute<DoNotSyncDataTypeAttribute>(false) == null);
             }
         }
@@ -230,7 +231,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                         else
                         {
                             var existing = match.First();
-                            preValuesChanged = preValuesChanged || value.Value.Value != existing.Value.Value || value.Value.SortOrder != existing.Value.SortOrder;
+                            preValuesChanged = preValuesChanged || value.Value.Value != existing.Value.Value || (value.Value.SortOrder != 0 && value.Value.SortOrder != existing.Value.SortOrder);
                             preValues.Add(existing.Key, new PreValue(existing.Value.Id, value.Value.Value, value.Value.SortOrder));
                         }
                     }

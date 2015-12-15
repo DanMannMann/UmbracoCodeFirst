@@ -329,6 +329,7 @@
     <Compile Include="Core\Modules\ContentTypeBase\T4\TemplateDescription.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />
     <Compile Include="Core\Modules\DataType\Registration\EnumDataTypeRegistration.cs" />
+    <Compile Include="Core\Modules\DocumentModel\IOnCreate.cs" />
     <Compile Include="Core\Modules\MemberModel\IMemberModelModule.cs" />
     <Compile Include="Core\Modules\MemberModel\MemberModelModule.cs" />
     <Compile Include="Core\Modules\MemberModel\MemberModelModuleFactory.cs" />
