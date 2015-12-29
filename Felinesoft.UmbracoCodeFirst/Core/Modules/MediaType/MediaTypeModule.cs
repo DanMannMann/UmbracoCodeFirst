@@ -163,7 +163,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     }
                     else
                     {
-                        var parent = ApplicationContext.Current.Services.ContentTypeService.GetContentType(x.ParentId);
+                        var parent = ApplicationContext.Current.Services.ContentTypeService.GetMediaType(x.ParentId);
                         y.ParentAlias = parent == null ? "MediaTypeBase" : parent.Alias;
                         y.ParentClassName = parent == null ? "MediaTypeBase" : TypeGeneratorUtils.GetFormattedMemberName(parent.Alias);
                     }
