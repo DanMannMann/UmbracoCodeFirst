@@ -217,37 +217,40 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             CodeFirstManager.Current.Log("Syncing allowed children for content type " + docTypeReg.Name, this);
             bool modified = false;
-            var allowedChildren = FetchAllowedContentTypes(docTypeReg.ContentTypeAttribute.AllowedChildren);
+            var allowedChildren = FetchAllowedContentTypes(docTypeReg.ContentTypeAttribute.AllowedChildren, docTypeReg.ClrType);
             var type = GetContentTypeByAlias(docTypeReg.Alias);
             if (type == null)
             {
                 throw new CodeFirstException(docTypeReg.Name + " (alias: " + docTypeReg.Alias + ") is not found or is an entity type which does not implement IContentTypeBase");
             }
 
-            foreach (var child in type.AllowedContentTypes)
+			//REMOVED - Dan M 04/01/2016 - this is now checked in FetchAllowedContentTypes (or should be...)
+			//Check that all specified allowed children are registered as CF types
+			//foreach (var child in allowedChildren)
+			//{
+			//	ContentTypeRegistration childReg;
+			//	if (!TryGetContentType(child.Alias, out childReg))
+			//	{
+			//		throw new CodeFirstException(string.Format("Type with alias {0} was specified as an allowed child of type with alias {1}, but no type with alias {0} is registered in code-first", child.Alias, type.Alias));
+			//	}
+			//}
+
+			//Flag as modified if any existing children need to be removed
+			foreach (var child in type.AllowedContentTypes)
             {
-                ContentTypeRegistration childReg;
-                if (!TryGetContentType(child.Alias, out childReg))
-                {
-                    throw new CodeFirstException(string.Format("Type with alias {0} was specified as an allowed child of type with alias {1}, but no type with alias {0} is registered in code-first", child.Alias, type.Alias));
-                }
-                if (!allowedChildren.Any(x => x.Alias == childReg.Alias))
+                if (!allowedChildren.Any(x => x.Alias == child.Alias))
                 {
                     modified = true;
                     break;
                 }
             }
 
+			//If we haven't already detected any mods, check if any new allowed children have been added
             if (!modified)
             {
                 foreach (var child in allowedChildren)
                 {
-                    ContentTypeRegistration childReg;
-                    if (!TryGetContentType(child.Alias, out childReg))
-                    {
-                        throw new CodeFirstException(string.Format("Type with alias {0} was specified as an allowed child of type with alias {1}, but no type with alias {0} is registered in code-first", child.Alias, type.Alias));
-                    }
-                    if (!type.AllowedContentTypes.Any(x => x.Alias == childReg.Alias))
+                    if (!type.AllowedContentTypes.Any(x => x.Alias == child.Alias))
                     {
                         modified = true;
                         break;
@@ -854,13 +857,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         /// </summary>
         /// <param name="types"></param>
         /// <returns></returns>
-        private List<ContentTypeSort> FetchAllowedContentTypes(Type[] types)
+        private List<ContentTypeSort> FetchAllowedContentTypes(Type[] types, Type parentType)
         {
             if (types == null) return new List<ContentTypeSort>();
 
             List<ContentTypeSort> contentTypeSorts = new List<ContentTypeSort>();
 
-            List<string> aliases = GetAliasesFromTypes(types);
+            List<string> aliases = GetAliasesFromTypes(types, parentType);
 
             var contentTypes = AllContentTypes.Where(x => aliases.Contains(x.Alias)).ToArray();
 
@@ -880,7 +883,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         /// <summary>
         /// Gets all the document type aliases from the supplied list of types
         /// </summary>
-        private List<string> GetAliasesFromTypes(Type[] types)
+        private List<string> GetAliasesFromTypes(Type[] types, Type parentType)
         {
             List<string> aliases = new List<string>();
 
@@ -889,8 +892,17 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 var attribute = type.GetCodeFirstAttribute<ContentTypeAttribute>();
                 if (attribute != null)
                 {
+					ContentTypeRegistration ct;
+					if (!TryGetContentType(attribute.Alias, out ct))
+					{
+						throw new CodeFirstException(type.FullName + " is used as an allowed child of " + parentType.FullName + " but it is not registered with Code-First");
+					}
                     aliases.Add(attribute.Alias);
                 }
+				else
+				{
+					throw new CodeFirstException(type.FullName + " is used as an allowed child of " + parentType.FullName + " but it does not have a [ContentType] attribute");
+				}
             }
 
             return aliases;
