@@ -1079,6 +1079,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             prop.Mandatory = propType.Mandatory.ToString().ToLower();
             prop.Description = propType.Description == null ? "" : propType.Description.Replace("\"", "\"\"");
             prop.SortOrder = propType.SortOrder.ToString();
+			prop.ValidationRegex = propType.ValidationRegExp;
             return prop;
         }
         #endregion

@@ -32,7 +32,7 @@ namespace <#= Namespace #>
 <#foreach(PropertyDescription prop in tab.Properties)
             {
 #>
-            [ContentProperty(@"<#= prop.Name #>", @"<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+            [ContentProperty(@"<#= prop.Name #>", @"<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false<#= prop.RegexpParam #>)]
             public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 
 <#          }
@@ -51,7 +51,7 @@ namespace <#= Namespace #>
         {
         #>
 
-        [ContentProperty(@"<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false)]
+        [ContentProperty(@"<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false<#= prop.RegexpParam #>)]
         public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 <#      }
         #>

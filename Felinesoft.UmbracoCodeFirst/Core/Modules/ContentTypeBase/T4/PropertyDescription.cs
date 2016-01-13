@@ -12,5 +12,14 @@ namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
         public string Mandatory { get; set; }
         public string Description { get; set; }
         public string SortOrder { get; set; }
+		public string ValidationRegex { get; set; }
+
+		public string RegexpParam
+		{
+			get
+			{
+				return string.IsNullOrWhiteSpace(ValidationRegex) ? null : ", ValidationRegularExpression = " + ValidationRegex;
+			}
+		}
     }
 }
