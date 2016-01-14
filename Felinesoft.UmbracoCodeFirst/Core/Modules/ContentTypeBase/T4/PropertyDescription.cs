@@ -18,7 +18,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
 		{
 			get
 			{
-				return string.IsNullOrWhiteSpace(ValidationRegex) ? null : ", ValidationRegularExpression = " + ValidationRegex;
+				return string.IsNullOrWhiteSpace(ValidationRegex) ? string.Empty : ", ValidationRegularExpression = " + ValidationRegex;
 			}
 		}
     }
