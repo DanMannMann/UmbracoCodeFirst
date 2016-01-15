@@ -248,13 +248,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             switch (type)
             {
                 case DatabaseType.Date:
-                    return TryGetProperty<DateTime>(property, DateTime.MinValue, out propertyValue, dataTypeName);
+                    return TryGetProperty(property, DateTime.MinValue, out propertyValue, dataTypeName);
                 case DatabaseType.Integer:
-                    return TryGetProperty<int>(property, 0, out propertyValue, dataTypeName);
+                    return TryGetProperty(property, 0, out propertyValue, dataTypeName);
                 case DatabaseType.Ntext:
                 case DatabaseType.Nvarchar:
                 default:
-                    return TryGetProperty<string>(property, string.Empty, out propertyValue, dataTypeName);
+                    return TryGetProperty(property, string.Empty, out propertyValue, dataTypeName);
             }
         }
 
