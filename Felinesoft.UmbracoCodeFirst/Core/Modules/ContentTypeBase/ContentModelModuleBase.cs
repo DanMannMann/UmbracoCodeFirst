@@ -223,7 +223,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 var property = content.GetProperty(registration.Alias);
                 object propertyValue;
-                if (TryGetPropertyAsDbType(property, registration.DataType.DbType, out propertyValue))
+                if (TryGetPropertyAsDbType(property, registration.DataType.DbType, out propertyValue, registration.DataType.DataTypeInstanceName))
                 {
                     //Always prefer the underlying value, cast to the database type (int, string or DateTime), as this
                     //matches the type of the property on an instance of IContent, therefore allowing converters to be used for
@@ -243,31 +243,52 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             SetPropertyValueOnModel(objectInstance, registration, umbracoStoredValue);
         }
 
-        private bool TryGetPropertyAsDbType(IPublishedProperty property, DatabaseType type, out object propertyValue)
+        private bool TryGetPropertyAsDbType(IPublishedProperty property, DatabaseType type, out object propertyValue, string dataTypeName)
         {
             switch (type)
             {
                 case DatabaseType.Date:
-                    return TryGetProperty<DateTime>(property, DateTime.MinValue, out propertyValue);
+                    return TryGetProperty<DateTime>(property, DateTime.MinValue, out propertyValue, dataTypeName);
                 case DatabaseType.Integer:
-                    return TryGetProperty<int>(property, 0, out propertyValue);
+                    return TryGetProperty<int>(property, 0, out propertyValue, dataTypeName);
                 case DatabaseType.Ntext:
                 case DatabaseType.Nvarchar:
                 default:
-                    return TryGetProperty<string>(property, string.Empty, out propertyValue);
+                    return TryGetProperty<string>(property, string.Empty, out propertyValue, dataTypeName);
             }
         }
 
-        private bool TryGetProperty<T>(IPublishedProperty property, T defaultValue, out object output)
+        private bool TryGetProperty<Tval>(IPublishedProperty property, Tval defaultValue, out object output, string dataTypeName)
         {
             try
             {
-                output = property.GetValue(defaultValue);
-                return true;
+				if (property.DataValue == null)
+				{
+					output = default(Tval);
+					return true;
+				}
+				else if (Equals(property.DataValue, default(Tval)))
+				{
+					output = property.DataValue;
+					return true;
+				}
+
+				if (property.DataValue.GetType() == typeof(Tval))
+				{
+					output = property.DataValue;
+					return true;
+				}
+				else
+				{
+					throw new CodeFirstException("The data value type of data type " + dataTypeName  + " is " + property.DataValue.GetType() + ", where " + typeof(T) + " is expected. Consider using a different interface for your data type implementation.");
+				}
+				//OLD CODE - will often just call ToString on the PEVC output, which is wrong.
+				//output = property.GetValue(defaultValue);
+				//return true;
             }
             catch
             {
-                output = default(T);
+                output = default(Tval);
                 return false;
             }
         }
