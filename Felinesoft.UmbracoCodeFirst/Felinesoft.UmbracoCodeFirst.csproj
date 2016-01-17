@@ -329,7 +329,8 @@
     <Compile Include="Core\Modules\ContentTypeBase\T4\TemplateDescription.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />
     <Compile Include="Core\Modules\DataType\Registration\EnumDataTypeRegistration.cs" />
-    <Compile Include="Core\Modules\DocumentModel\IOnCreate.cs" />
+    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\IOnCreate.cs" />
     <Compile Include="Core\Modules\MemberModel\IMemberModelModule.cs" />
     <Compile Include="Core\Modules\MemberModel\MemberModelModule.cs" />
     <Compile Include="Core\Modules\MemberModel\MemberModelModuleFactory.cs" />
@@ -391,6 +392,10 @@
     <Compile Include="Diagnostics\Timing.cs" />
     <Compile Include="ContentTypes\ContentNodeDetails.cs" />
     <Compile Include="Diagnostics\DiagnosticUtils.cs" />
+    <Compile Include="Events\IOnDelete.cs" />
+    <Compile Include="Events\IOnRender.cs" />
+    <Compile Include="Events\IOnSave.cs" />
+    <Compile Include="Events\ModelEventDispatcher.cs" />
     <Compile Include="Exceptions\CodeFirstPassiveInitialisationException.cs" />
     <Compile Include="Exceptions\CodeFirstResolverException.cs" />
     <Compile Include="Core\Resolver\ModuleFactory[T].cs" />

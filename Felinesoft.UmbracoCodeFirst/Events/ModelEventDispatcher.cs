@@ -1,96 +1,46 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Web;
-using Umbraco.Web;
-using Umbraco.Core.Models;
-using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Extensions;
 using Felinesoft.UmbracoCodeFirst.Attributes;
-using System.Reflection;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Core;
+using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Felinesoft.UmbracoCodeFirst.Extensions;
+using System;
+using System.Reflection;
+using System.Web;
+using Umbraco.Core;
+using Umbraco.Core.Models;
+using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Events
 {
-	public interface IOnCreateBase { }
-
-	public interface IOnCreate : IOnCreateBase
-	{
-        bool OnCreate(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-    }
-
-	public interface IOnCreate<in T> : IOnCreateBase where T : CodeFirstContentBase
-	{
-		bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnSaveBase { }
-
-	public interface IOnSave : IOnSaveBase
-	{
-		bool OnSave(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnSave<in T> : IOnSaveBase where T : CodeFirstContentBase
-	{
-		bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnDeleteBase { }
-
-	public interface IOnDelete : IOnDeleteBase
-	{
-		bool OnDelete(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnDelete<in T> : IOnDeleteBase where T : CodeFirstContentBase
-	{
-		bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnRender
-	{
-		void OnRender(HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage);
-	}
-
-	public interface IOnRender<in T> where T : CodeFirstContentBase
-	{
-		void OnRender(T model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage);
-	}
-
-	public interface IOnRender<in T, Tviewmodel> where T : CodeFirstContentBase
-	{
-		void OnRender(T model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out Tviewmodel viewModel);
-	}
-
 	internal static class ModelEventDispatcher
 	{
 		internal static bool HasEvent<Tinterface>(Type type)
 		{
 			return type.Implements<Tinterface>() || type.GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<Tinterface>() == true;
-        }
+		}
 
 		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				return (bool)typeof(ModelEventDispatcher<>)
-					.MakeGenericType(model.GetType())
-					.GetTypeInfo()
-					.InvokeMember("OnCreate", 
-						BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod, 
-						null, 
-						null,
-						new object[]
-						{
-							model,
-							contentInstance,
-							httpContext,
-							umbContext,
-							appContext
-						});
+				.MakeGenericType(model.GetType())
+				.GetTypeInfo()
+				.InvokeMember("OnCreate",
+				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+				null,
+				null,
+				new object[]
+				{
+					model,
+					contentInstance,
+					httpContext,
+					umbContext,
+					appContext
+				});
 			}
 			else
 			{
@@ -103,20 +53,20 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				return (bool)typeof(ModelEventDispatcher<>)
-					.MakeGenericType(model.GetType())
-					.GetTypeInfo()
-					.InvokeMember("OnSave",
-						BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-						null,
-						null,
-						new object[]
-						{
-							model,
-							contentInstance,
-							httpContext,
-							umbContext,
-							appContext
-						});
+				.MakeGenericType(model.GetType())
+				.GetTypeInfo()
+				.InvokeMember("OnSave",
+				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+				null,
+				null,
+				new object[]
+				{
+					model,
+					contentInstance,
+					httpContext,
+					umbContext,
+					appContext
+				});
 			}
 			else
 			{
@@ -129,20 +79,20 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				return (bool)typeof(ModelEventDispatcher<>)
-					.MakeGenericType(model.GetType())
-					.GetTypeInfo()
-					.InvokeMember("OnDelete",
-						BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-						null,
-						null,
-						new object[]
-						{
-							model,
-							contentInstance,
-							httpContext,
-							umbContext,
-							appContext
-						});
+				.MakeGenericType(model.GetType())
+				.GetTypeInfo()
+				.InvokeMember("OnDelete",
+				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+				null,
+				null,
+				new object[]
+				{
+					model,
+					contentInstance,
+					httpContext,
+					umbContext,
+					appContext
+				});
 			}
 			else
 			{
@@ -155,21 +105,21 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				typeof(ModelEventDispatcher<>)
-					.MakeGenericType(model.GetType())
-					.GetTypeInfo()
-					.InvokeMember("OnRender",
-						BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-						null,
-						null,
-						new object[]
-						{
-							model,
-							contentInstance,
-							httpContext,
-							umbContext,
-							appContext,
-							modelContext
-						});
+				.MakeGenericType(model.GetType())
+				.GetTypeInfo()
+				.InvokeMember("OnRender",
+				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
+				null,
+				null,
+				new object[]
+				{
+					model,
+					contentInstance,
+					httpContext,
+					umbContext,
+					appContext,
+					modelContext
+				});
 			}
 			else
 			{

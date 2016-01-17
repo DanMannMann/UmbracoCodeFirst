@@ -5,17 +5,14 @@ using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
-using System.Globalization;
 using at = Felinesoft.UmbracoCodeFirst.Attributes;
 using dt = Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Felinesoft.UmbracoCodeFirst.Core;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using System;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
@@ -45,7 +42,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 	}
 
 	[DocumentType]
-	[Template(true, "Debug", "debug")]
+	[Template(true, alias: "debug")]
 	[EventHandler(typeof(DebugController))]
 	public class ExtraDebug : Debug
 	{
@@ -53,9 +50,9 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 		public Textstring Textses { get; set; }
 	}
 
-	public class DebugController : IOnCreate<Debug>, IOnRender<Debug, DebugViewModel>, IOnSave<Debug>, IOnDelete<Debug>
+	public class DebugController : EventHandler<Debug, DebugViewModel>
 	{
-		public bool OnCreate(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public override bool OnCreate(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
 			instance.NodeDetails.Name = "SUCKA";
 			instance.Timer = new DatePickerWithTime()
@@ -79,7 +76,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 			return true;
 		}
 
-		public void OnRender(Debug model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out DebugViewModel viewModel)
+		public override void OnRender(Debug model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out DebugViewModel viewModel)
 		{
 			viewModel = new DebugViewModel()
 			{
@@ -87,13 +84,13 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 			};
 		}
 
-		public bool OnSave(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public override bool OnSave(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
 			instance.NodeDetails.Name = "HAHA FUCKER";
 			return true;
 		}
 
-		public bool OnDelete(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public override bool OnDelete(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
 			return false;
 		}

@@ -21,7 +21,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     {
         protected UmbracoDocumentViewPage() : base()
 		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents && ModelEventDispatcher.HasEvent<IOnRender>(typeof(Tdocument)))
+			if (CodeFirstManager.Current.Features.EnableContentEvents && ModelEventDispatcher.HasEvent<IOnRenderBase>(typeof(Tdocument)))
 			{
 				var doc = GetDocument();
                 _helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, doc));
