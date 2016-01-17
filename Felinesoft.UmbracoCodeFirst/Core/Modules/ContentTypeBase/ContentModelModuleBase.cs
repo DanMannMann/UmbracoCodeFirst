@@ -12,24 +12,75 @@ using Umbraco.Web;
 using Umbraco.Core;
 using System.Collections.Generic;
 using Marsman.Reflekt;
+using Felinesoft.UmbracoCodeFirst.Events;
+using Umbraco.Core.Services;
+using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Umbraco.Core.Events;
+using System.Web;
+using Umbraco.Core.Publishing;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
-    public class ContentModelModuleBase<T> : IContentModelModule where T : ContentNodeDetails, new()
+	public enum SubscribeType
+	{
+		Subscribe,
+		Unsubscribe
+	}
+
+    public class ContentModelModuleBase<T,Tservice,Tentity> : ICodeFirstEntityModule, IContentModelModule where T : ContentNodeDetails, new() where Tentity : IContentBase
     {
         private MethodInfo _convertToModelGenericMethod;
         private ConcurrentDictionary<Type, MethodInfo> _runtimeConvertToModelMethods = new ConcurrentDictionary<Type, MethodInfo>();
         private IDataTypeModule _dataTypeModule;
         private IContentTypeModuleBase _contentTypeModule;
+		private ModelEventHandler<Tservice, Tentity, T> _eventHandler;
 
-        public ContentModelModuleBase(IDataTypeModule dataTypeModule, IContentTypeModuleBase contentTypeModule)
+		public ContentModelModuleBase(IDataTypeModule dataTypeModule, 
+									  IContentTypeModuleBase contentTypeModule,
+									  Func<Tentity,string> aliasGetter,
+									  Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> trashEventSubscriber,
+									  Action<TypedEventHandler<Tservice, DeleteEventArgs<Tentity>>, SubscribeType> deleteEventSubscriber,
+									  Action<TypedEventHandler<Tservice, NewEventArgs<Tentity>>, SubscribeType> createEventSubscriber,
+									  Action<TypedEventHandler<Tservice, SaveEventArgs<Tentity>>, SubscribeType> saveEventSubscriber,
+									  Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> moveEventSubscriber,
+									  Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> copyEventSubscriber,
+									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> publishEventSubscriber,
+									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishEventSubscriber)
         {
             _dataTypeModule = dataTypeModule;
             _contentTypeModule = contentTypeModule;
-        }
 
-        #region IContentModelModule
-        public object ConvertToModel(IPublishedContent content, CodeFirstModelContext parentContext = null)
+			_eventHandler = new ModelEventHandler<Tservice, Tentity, T>(
+				contentTypeModule,
+				trashEventSubscriber,
+				deleteEventSubscriber,
+				createEventSubscriber,
+				saveEventSubscriber,
+				moveEventSubscriber,
+				copyEventSubscriber,
+				publishEventSubscriber,
+				unpublishEventSubscriber,
+				(x, y) => CreateInstanceFromContent(x, y),
+				aliasGetter,
+				(x, y, z) => MapModelToContent(x, y, z)
+			);
+		}
+
+		#region Events
+		public virtual void Initialise(IEnumerable<Type> types)
+		{
+			CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
+			_eventHandler.Initialise(types);
+		}
+
+		void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
+		{
+			_eventHandler.Invalidate();
+        }
+		#endregion
+
+		#region IContentModelModule
+		public object ConvertToModel(IPublishedContent content, CodeFirstModelContext parentContext = null)
         {
             ContentTypeRegistration docType;
             if (_contentTypeModule.TryGetContentType(content.DocumentTypeAlias, out docType))

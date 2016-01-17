@@ -22,120 +22,26 @@ using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
-    public class DocumentModelModule : ContentModelModuleBase<DocumentNodeDetails>, IDocumentModelModule
+    public class DocumentModelModule : ContentModelModuleBase<DocumentNodeDetails,IContentService,IContent>, IDocumentModelModule
     {
         private IDataTypeModule _dataTypeModule;
         private IDocumentTypeModule _documentTypeModule;
-        private Dictionary<string, DocumentTypeRegistration> _onCreate = new Dictionary<string, DocumentTypeRegistration>();
-		private Dictionary<string, DocumentTypeRegistration> _onSave = new Dictionary<string, DocumentTypeRegistration>();
-		private Dictionary<string, DocumentTypeRegistration> _onDelete = new Dictionary<string, DocumentTypeRegistration>();
 
 		public DocumentModelModule(IDataTypeModule dataTypeModule, IDocumentTypeModule documentTypeModule)
-            : base(dataTypeModule, documentTypeModule)
+            : base(dataTypeModule, 
+				  documentTypeModule, 
+				  x => x.ContentType.Alias,
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Trashing += x; } else { ContentService.Trashing -= x; } }, //trashing
+				  (x, type) => { }, //deleting
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Created += x; } else { ContentService.Created -= x; } }, //creating
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Saving += x; } else { ContentService.Saving -= x; } }, //saving
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Moving += x; } else { ContentService.Moving -= x; } }, //moving
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Copying += x; } else { ContentService.Copying -= x; } }, //copying
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Publishing += x; } else { ContentService.Publishing -= x; } }, //publishing
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.UnPublishing += x; } else { ContentService.UnPublishing -= x; } }) //unpublishing
         {
             _dataTypeModule = dataTypeModule;
             _documentTypeModule = documentTypeModule;
-        }
-
-        public void Initialise(IEnumerable<Type> classes)
-        {
-            foreach (var type in classes)
-            {
-                if (ModelEventDispatcher.HasEvent<IOnCreateBase>(type))
-                {
-                    DocumentTypeRegistration reg;
-                    if (_documentTypeModule.TryGetDocumentType(type, out reg))
-                    {
-                        _onCreate.Add(reg.Alias, reg);
-                    }
-                }
-
-				if (ModelEventDispatcher.HasEvent<IOnSaveBase>(type))
-				{
-					DocumentTypeRegistration reg;
-					if (_documentTypeModule.TryGetDocumentType(type, out reg))
-					{
-						_onSave.Add(reg.Alias, reg);
-					}
-				}
-
-				if (ModelEventDispatcher.HasEvent<IOnDeleteBase>(type))
-				{
-					DocumentTypeRegistration reg;
-					if (_documentTypeModule.TryGetDocumentType(type, out reg))
-					{
-						_onDelete.Add(reg.Alias, reg);
-					}
-				}
-			}
-            CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
-            Umbraco.Core.Services.ContentService.Created += ContentService_Created;
-			Umbraco.Core.Services.ContentService.Saving += ContentService_Saving;
-			Umbraco.Core.Services.ContentService.Trashing += ContentService_Trashing;
-        }
-
-		private void ContentService_Trashing(IContentService sender, MoveEventArgs<IContent> e)
-		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents)
-			{
-				lock (_onDelete)
-				{
-					foreach (var entity in e.MoveInfoCollection.Select(x => x.Entity))
-					{
-						if (_onDelete.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-						{
-							var instance = CreateInstanceFromContent(entity, _onDelete[entity.ContentType.Alias], null);
-							(instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(entity);
-							e.Cancel |= !ModelEventDispatcher.OnDeleteObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-							ProjectModelToContent((instance as DocumentTypeBase), entity);
-						}
-					}
-				}
-			}
-		}
-
-		private void ContentService_Saving(IContentService sender, SaveEventArgs<IContent> e)
-		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents)
-			{
-				lock (_onSave)
-				{
-					foreach (var entity in e.SavedEntities)
-					{
-						if (_onSave.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-						{
-							var instance = CreateInstanceFromContent(entity, _onSave[entity.ContentType.Alias], null);
-							(instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(entity);
-							e.Cancel |= !ModelEventDispatcher.OnSaveObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-							ProjectModelToContent((instance as DocumentTypeBase), entity);
-						}
-					}
-				}
-			}
-		}
-
-		void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
-        {
-            Umbraco.Core.Services.ContentService.Created -= ContentService_Created;
-			Umbraco.Core.Services.ContentService.Saving -= ContentService_Saving;
-			Umbraco.Core.Services.ContentService.Trashing -= ContentService_Trashing;
-		}
-
-		private void ContentService_Created(IContentService sender, NewEventArgs<IContent> e)
-        {
-            if (CodeFirstManager.Current.Features.EnableContentEvents)
-            {
-                lock (_onCreate)
-                {
-                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-                    {
-                        var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
-                        (instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(e.Entity);
-						ModelEventDispatcher.OnCreateObject(instance, e.Entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-                        ProjectModelToContent((instance as DocumentTypeBase), e.Entity);
-                    }
-                }
-            }
         }
 
         #region Convert Model to Content

@@ -17,6 +17,7 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using System.Web;
 using Felinesoft.UmbracoCodeFirst.Core;
+using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {

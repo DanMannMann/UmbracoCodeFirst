@@ -16,120 +16,26 @@ using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
-    public class MemberModelModule : ContentModelModuleBase<MemberNodeDetails>, IMemberModelModule
+    public class MemberModelModule : ContentModelModuleBase<MemberNodeDetails,IMemberService,IMember>, IMemberModelModule
     {
         private IDataTypeModule _dataTypeModule;
         private IMemberTypeModule _memberTypeModule;
-        private Dictionary<string, MemberTypeRegistration> _onCreate = new Dictionary<string, MemberTypeRegistration>();
-		private Dictionary<string, MemberTypeRegistration> _onSave = new Dictionary<string, MemberTypeRegistration>();
-		private Dictionary<string, MemberTypeRegistration> _onDelete = new Dictionary<string, MemberTypeRegistration>();
 
 		public MemberModelModule(IDataTypeModule dataTypeModule, IMemberTypeModule memberTypeModule)
-            : base(dataTypeModule, memberTypeModule)
-        {
+            : base(dataTypeModule, 
+				  memberTypeModule,
+				  x => x.ContentType.Alias,
+				  (x, type) => { }, //trashing
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MemberService.Deleting += x; } else { MemberService.Deleting -= x; } }, //deleting
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MemberService.Created += x; } else { MemberService.Created -= x; } }, //creating
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MemberService.Saving += x; } else { MemberService.Saving -= x; } }, //saving
+				  (x, type) => { }, //moving
+				  (x, type) => { }, //copying
+				  (x, type) => { }, //publishing
+				  (x, type) => { }) //unpublishing
+		{
             _dataTypeModule = dataTypeModule;
             _memberTypeModule = memberTypeModule;
-        }
-
-        public void Initialise(IEnumerable<Type> classes)
-        {
-            foreach (var type in classes)
-            {
-                if (ModelEventDispatcher.HasEvent<IOnCreateBase>(type))
-                {
-                    MemberTypeRegistration reg;
-                    if (_memberTypeModule.TryGetMemberType(type, out reg))
-                    {
-                        _onCreate.Add(reg.Alias, reg);
-                    }
-                }
-
-				if (ModelEventDispatcher.HasEvent<IOnSaveBase>(type))
-				{
-					MemberTypeRegistration reg;
-					if (_memberTypeModule.TryGetMemberType(type, out reg))
-					{
-						_onSave.Add(reg.Alias, reg);
-					}
-				}
-
-				if (ModelEventDispatcher.HasEvent<IOnDeleteBase>(type))
-				{
-					MemberTypeRegistration reg;
-					if (_memberTypeModule.TryGetMemberType(type, out reg))
-					{
-						_onDelete.Add(reg.Alias, reg);
-					}
-				}
-			}
-            CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
-            Umbraco.Core.Services.MemberService.Created += ContentService_Created;
-			Umbraco.Core.Services.MemberService.Saving += MemberService_Saving;
-			Umbraco.Core.Services.MemberService.Deleting += MemberService_Deleting;
-        }
-
-		private void MemberService_Deleting(IMemberService sender, DeleteEventArgs<IMember> e)
-		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents)
-			{
-				lock (_onDelete)
-				{
-					foreach (var entity in e.DeletedEntities)
-					{
-						if (_onDelete.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-						{
-							var instance = CreateInstanceFromContent(entity, _onDelete[entity.ContentType.Alias], null);
-							(instance as MemberTypeBase).NodeDetails = new MemberNodeDetails(entity);
-							e.Cancel |= !ModelEventDispatcher.OnDeleteObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-							ProjectModelToContent((instance as MemberTypeBase), entity);
-						}
-					}
-				}
-			}
-		}
-
-		private void MemberService_Saving(IMemberService sender, SaveEventArgs<IMember> e)
-		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents)
-			{
-				lock (_onSave)
-				{
-					foreach (var entity in e.SavedEntities)
-					{
-						if (_onSave.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-						{
-							var instance = CreateInstanceFromContent(entity, _onSave[entity.ContentType.Alias], null);
-							(instance as MemberTypeBase).NodeDetails = new MemberNodeDetails(entity);
-							e.Cancel |= !ModelEventDispatcher.OnSaveObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-							ProjectModelToContent((instance as MemberTypeBase), entity);
-						}
-					}
-				}
-			}
-		}
-
-		void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
-        {
-            Umbraco.Core.Services.MemberService.Created -= ContentService_Created;
-			Umbraco.Core.Services.MemberService.Saving -= MemberService_Saving;
-			Umbraco.Core.Services.MemberService.Deleting -= MemberService_Deleting;
-		}
-
-        private void ContentService_Created(IMemberService sender, NewEventArgs<IMember> e)
-        {
-            if (CodeFirstManager.Current.Features.EnableContentEvents)
-            {
-                lock (_onCreate)
-                {
-                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
-                    {
-                        var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
-                        (instance as MemberTypeBase).NodeDetails = new MemberNodeDetails(e.Entity);
-						ModelEventDispatcher.OnCreateObject(instance, e.Entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
-						ProjectModelToContent((instance as MemberTypeBase), e.Entity);
-                    }
-                }
-            }
         }
 
         #region Convert Model to Content

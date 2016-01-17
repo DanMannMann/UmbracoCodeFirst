@@ -15,6 +15,7 @@ using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.Converters;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
@@ -22,7 +23,7 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     /// A base class for code-first document types
     /// </summary>
     public abstract class DocumentTypeBase : CodeFirstContentBase<DocumentNodeDetails>
-    {
+	{
         private Lazy<IDocumentModelModule> _modelModule;
 
         /// <summary>

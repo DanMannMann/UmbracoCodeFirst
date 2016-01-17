@@ -19,7 +19,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 {
 	[DocumentType]
 	[Template(true)]
-	[EventHandler(typeof(DebugController))]
+	[EventHandler(typeof(DebugEvents))]
 	public class Debug : DocumentTypeBase
 	{
 		#region Umbraco Properties
@@ -43,14 +43,14 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 	[DocumentType]
 	[Template(true, alias: "debug")]
-	[EventHandler(typeof(DebugController))]
+	[EventHandler(typeof(DebugEvents))]
 	public class ExtraDebug : Debug
 	{
 		[ContentProperty]
 		public Textstring Textses { get; set; }
 	}
 
-	public class DebugController : EventHandler<Debug, DebugViewModel>
+	public class DebugEvents : DocumentEventHandler<Debug, DebugViewModel>
 	{
 		public override bool OnCreate(Debug instance, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{

@@ -25,4 +25,5 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 	{
 		bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
 	}
+
 }

@@ -22,14 +22,14 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return type.Implements<Tinterface>() || type.GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<Tinterface>() == true;
 		}
 
-		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		private static bool OnEvent(string eventName, object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				return (bool)typeof(ModelEventDispatcher<>)
 				.MakeGenericType(model.GetType())
 				.GetTypeInfo()
-				.InvokeMember("OnCreate",
+				.InvokeMember(eventName,
 				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
 				null,
 				null,
@@ -48,56 +48,19 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			}
 		}
 
+		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			return OnEvent("OnCreate", model, contentInstance, httpContext, umbContext, appContext);
+        }
+
 		internal static bool OnSaveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
-			if (model.GetType().Inherits<CodeFirstContentBase>())
-			{
-				return (bool)typeof(ModelEventDispatcher<>)
-				.MakeGenericType(model.GetType())
-				.GetTypeInfo()
-				.InvokeMember("OnSave",
-				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-				null,
-				null,
-				new object[]
-				{
-					model,
-					contentInstance,
-					httpContext,
-					umbContext,
-					appContext
-				});
-			}
-			else
-			{
-				throw new CodeFirstException("Not a valid model type");
-			}
+			return OnEvent("OnSave", model, contentInstance, httpContext, umbContext, appContext);
 		}
 
 		internal static bool OnDeleteObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
-			if (model.GetType().Inherits<CodeFirstContentBase>())
-			{
-				return (bool)typeof(ModelEventDispatcher<>)
-				.MakeGenericType(model.GetType())
-				.GetTypeInfo()
-				.InvokeMember("OnDelete",
-				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
-				null,
-				null,
-				new object[]
-				{
-					model,
-					contentInstance,
-					httpContext,
-					umbContext,
-					appContext
-				});
-			}
-			else
-			{
-				throw new CodeFirstException("Not a valid model type");
-			}
+			return OnEvent("OnDelete", model, contentInstance, httpContext, umbContext, appContext);
 		}
 
 		internal static void OnRenderObject(object model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
@@ -125,6 +88,26 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			{
 				throw new CodeFirstException("Not a valid model type");
 			}
+		}
+
+		internal static bool OnUnpublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			return OnEvent("OnUnpublish", model, contentInstance, httpContext, umbContext, appContext);
+		}
+
+		internal static bool OnPublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			return OnEvent("OnPublish", model, contentInstance, httpContext, umbContext, appContext);
+		}
+
+		internal static bool OnCopyObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			return OnEvent("OnCopy", model, contentInstance, httpContext, umbContext, appContext);
+		}
+
+		internal static bool OnMoveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			return OnEvent("OnMove", model, contentInstance, httpContext, umbContext, appContext);
 		}
 	}
 
@@ -185,6 +168,86 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnDelete<T>>() == true)
 				{
 					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDelete<T>).OnDelete(model, contentInstance, httpContext, umbContext, appContext);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnCopy(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).Implements<IOnCopy>())
+				{
+					return (model as IOnCopy)?.OnCopy(contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).Implements<IOnCopy<T>>())
+				{
+					return (model as IOnCopy<T>)?.OnCopy(model, contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCopy<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopy<T>).OnCopy(model, contentInstance, httpContext, umbContext, appContext);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnMove(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).Implements<IOnMove>())
+				{
+					return (model as IOnMove)?.OnMove(contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).Implements<IOnCreate<T>>())
+				{
+					return (model as IOnMove<T>)?.OnMove(model, contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnMove<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMove<T>).OnMove(model, contentInstance, httpContext, umbContext, appContext);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).Implements<IOnPublish>())
+				{
+					return (model as IOnPublish)?.OnPublish(contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).Implements<IOnCreate<T>>())
+				{
+					return (model as IOnPublish<T>)?.OnPublish(model, contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnPublish<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublish<T>).OnPublish(model, contentInstance, httpContext, umbContext, appContext);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnUnpublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).Implements<IOnUnpublish>())
+				{
+					return (model as IOnUnpublish)?.OnUnpublish(contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).Implements<IOnUnpublish<T>>())
+				{
+					return (model as IOnUnpublish<T>)?.OnUnpublish(model, contentInstance, httpContext, umbContext, appContext) ?? true;
+				}
+				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnUnpublish<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublish<T>).OnUnpublish(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
