@@ -5,11 +5,11 @@ using System;
 
 namespace Felinesoft.UmbracoCodeFirst.Attributes
 {
-	public class EventHandlerAttribute : CodeFirstAttribute
+	public class EventHandlerAttribute : CodeFirstAttribute, IInitialisableAttribute
 	{
 		private object _instance;
 
-		public EventHandlerAttribute(Type eventHandlerType)
+		public EventHandlerAttribute(Type eventHandlerType = null)
 		{
 			EventHandlerType = eventHandlerType;
 		}
@@ -24,5 +24,19 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 				return _instance;
 			}
 		}
+
+		public bool Initialised { get; private set; }
+
+		public bool ContentIsSelfHandling { get; private set; }
+
+		public void Initialise(Type decoratedType)
+		{
+			if (EventHandlerType == null)
+			{
+				EventHandlerType = decoratedType;
+				ContentIsSelfHandling = true;
+            }
+			Initialised = true;
+        }
 	}
 }

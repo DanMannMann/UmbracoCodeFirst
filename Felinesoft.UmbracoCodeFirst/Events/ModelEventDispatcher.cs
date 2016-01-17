@@ -117,17 +117,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnCreate>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCreate<T>>() == true)
 				{
-					return (model as IOnCreate)?.OnCreate(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnCreate<T>>())
-				{
-					return (model as IOnCreate<T>)?.OnCreate(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCreate<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCreate<T>).OnCreate(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCreate<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCreate<T>).OnCreate(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -137,17 +129,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnSave>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnSave<T>>() == true)
 				{
-					return (model as IOnSave)?.OnSave(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnCreate<T>>())
-				{
-					return (model as IOnSave<T>)?.OnSave(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnSave<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnSave<T>).OnSave(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnSave<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnSave<T>).OnSave(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -157,17 +141,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnDelete>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnDelete<T>>() == true)
 				{
-					return (model as IOnDelete)?.OnDelete(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnDelete<T>>())
-				{
-					return (model as IOnDelete<T>)?.OnDelete(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnDelete<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDelete<T>).OnDelete(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnDelete<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDelete<T>).OnDelete(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -177,17 +153,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnCopy>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCopy<T>>() == true)
 				{
-					return (model as IOnCopy)?.OnCopy(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnCopy<T>>())
-				{
-					return (model as IOnCopy<T>)?.OnCopy(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCopy<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopy<T>).OnCopy(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCopy<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopy<T>).OnCopy(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -197,17 +165,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnMove>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnMove<T>>() == true)
 				{
-					return (model as IOnMove)?.OnMove(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnCreate<T>>())
-				{
-					return (model as IOnMove<T>)?.OnMove(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnMove<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMove<T>).OnMove(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnMove<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMove<T>).OnMove(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -217,17 +177,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnPublish>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnPublish<T>>() == true)
 				{
-					return (model as IOnPublish)?.OnPublish(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnCreate<T>>())
-				{
-					return (model as IOnPublish<T>)?.OnPublish(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnPublish<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublish<T>).OnPublish(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnPublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublish<T>).OnPublish(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -237,17 +189,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnUnpublish>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnUnpublish<T>>() == true)
 				{
-					return (model as IOnUnpublish)?.OnUnpublish(contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).Implements<IOnUnpublish<T>>())
-				{
-					return (model as IOnUnpublish<T>)?.OnUnpublish(model, contentInstance, httpContext, umbContext, appContext) ?? true;
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnUnpublish<T>>() == true)
-				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublish<T>).OnUnpublish(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnUnpublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublish<T>).OnUnpublish(model, contentInstance, httpContext, umbContext, appContext);
 				}
 			}
 			return true;
@@ -257,17 +201,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnRender>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T>>() == true)
 				{
-					(model as IOnRender)?.OnRender(httpContext, umbContext, appContext, modelContext, contentInstance);
-				}
-				else if (typeof(T).Implements<IOnRender<T>>())
-				{
-					(model as IOnRender<T>)?.OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance);
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T>>() == true)
-				{
-					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance);
+					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnRender<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance);
 				}
 			}
 		}
@@ -277,13 +213,9 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			viewModel = default(Tviewmodel);
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).Implements<IOnRender<T, Tviewmodel>>())
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T, Tviewmodel>>() == true)
 				{
-					(model as IOnRender<T, Tviewmodel>)?.OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance, out viewModel);
-				}
-				else if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T, Tviewmodel>>() == true)
-				{
-					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T, Tviewmodel>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance, out viewModel);
+					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnRender<T,Tviewmodel> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T, Tviewmodel>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance, out viewModel);
 				}
 				else
 				{

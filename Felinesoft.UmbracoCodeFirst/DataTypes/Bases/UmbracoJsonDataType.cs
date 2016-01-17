@@ -79,8 +79,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             {
                 try
                 {
-            JsonConvert.PopulateObject(dbValue, this);
-        }
+					JsonConvert.PopulateObject(dbValue, this);
+				}
                 catch { }
             }
         }

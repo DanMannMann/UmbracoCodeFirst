@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using RJP.MultiUrlPicker.Models;
 using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Models;
@@ -43,11 +41,17 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 	[DocumentType]
 	[Template(true, alias: "debug")]
-	[EventHandler(typeof(DebugEvents))]
-	public class ExtraDebug : Debug
+	[EventHandler]
+	public class ExtraDebug : Debug, IOnCreate<ExtraDebug>
 	{
 		[ContentProperty]
 		public Textstring Textses { get; set; }
+
+		public bool OnCreate(ExtraDebug model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			NodeDetails.Name = "BAD MUTHA";
+			return true;
+		}
 	}
 
 	public class DebugEvents : DocumentEventHandler<Debug, DebugViewModel>

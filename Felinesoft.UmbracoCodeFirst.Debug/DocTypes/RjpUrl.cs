@@ -9,6 +9,6 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 	[DataType(propertyEditorAlias: "RJP.MultiUrlPicker")]
 	public class RjpUrl : UmbracoJsonCollectionDataType<UrlLink>
 	{
-
+		
 	}
 }
