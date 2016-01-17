@@ -222,6 +222,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (converterType != null)
             {
                 var property = content.GetProperty(registration.Alias);
+				
                 object propertyValue;
                 if (TryGetPropertyAsDbType(property, registration.DataType.DbType, out propertyValue, registration.DataType.DataTypeInstanceName))
                 {
@@ -248,65 +249,70 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             switch (type)
             {
                 case DatabaseType.Date:
-                    return TryGetProperty(property, DateTime.MinValue, out propertyValue, dataTypeName);
+					propertyValue = property.GetValue<DateTime>();
+					return true;
+
                 case DatabaseType.Integer:
-                    return TryGetProperty(property, 0, out propertyValue, dataTypeName);
-                case DatabaseType.Ntext:
+					propertyValue = property.GetValue<int>();
+					return true;
+				case DatabaseType.Ntext:
                 case DatabaseType.Nvarchar:
                 default:
-                    return TryGetProperty(property, string.Empty, out propertyValue, dataTypeName);
-            }
+					propertyValue = property.DataValue;
+					return true;
+			}
         }
 
-        private bool TryGetProperty<Tval>(IPublishedProperty property, Tval defaultValue, out object output, string dataTypeName)
-        {
-            try
-            {
-				if (property.DataValue == null)
-				{
-					output = default(Tval);
-					return true;
-				}
-				else if (Equals(property.DataValue, default(Tval)))
-				{
-					output = property.DataValue;
-					return true;
-				}
+    //    private bool TryGetProperty<Tval>(IPublishedProperty property, Tval defaultValue, out object output, string dataTypeName)
+    //    {
+			
+    //        try
+    //        {
+				//if (property.DataValue == null)
+				//{
+				//	output = default(Tval);
+				//	return true;
+				//}
+				//else if (Equals(property.DataValue, default(Tval)))
+				//{
+				//	output = property.DataValue;
+				//	return true;
+				//}
 
-				if (property.DataValue.GetType() == typeof(Tval))
-				{
-					output = property.DataValue;
-					return true;
-				}
-				else
-				{
-					throw new CodeFirstException("The data value type of data type " + dataTypeName  + " is " + property.DataValue.GetType() + ", where " + typeof(T) + " is expected. Consider using a different interface for your data type implementation.");
-				}
-				//OLD CODE - will often just call ToString on the PEVC output, which is wrong.
-				//output = property.GetValue(defaultValue);
-				//return true;
-            }
-            catch
-            {
-                output = default(Tval);
-                return false;
-            }
-        }
+				//if (property.DataValue.GetType() == typeof(Tval))
+				//{
+				//	output = property.DataValue;
+				//	return true;
+				//}
+				//else
+				//{
+				//	throw new CodeFirstException("The data value type of data type " + dataTypeName  + " is " + property.DataValue.GetType() + ", where " + typeof(Tval) + " is expected. Consider using a different interface for your data type implementation.");
+				//}
+				////OLD CODE - will often just call ToString on the PEVC output, which is wrong.
+				////output = property.GetValue(defaultValue);
+				////return true;
+    //        }
+    //        catch
+    //        {
+    //            output = default(Tval);
+    //            return false;
+    //        }
+    //    }
 
-        private Type GetDataConverterInputType(Type converterType)
-        {
-            try
-            {
-                var converterInterface = converterType.GetInterfaces()
-                .Where(i => i.IsGenericType)
-                .Single(i => i.GetGenericTypeDefinition() == typeof(IDataTypeConverter<,>));
-                return converterInterface.GenericTypeArguments.First();
-            }
-            catch (InvalidOperationException ex)
-            {
-                throw new CodeFirstException("The type " + converterType.Name + " implements more than one IDataTypeConverter<,> interface, or does not implement any. A converter type must implement IDataTypeConverter<,> exactly once.", ex);
-            }
-        }
+        //private Type GetDataConverterInputType(Type converterType)
+        //{
+        //    try
+        //    {
+        //        var converterInterface = converterType.GetInterfaces()
+        //        .Where(i => i.IsGenericType)
+        //        .Single(i => i.GetGenericTypeDefinition() == typeof(IDataTypeConverter<,>));
+        //        return converterInterface.GenericTypeArguments.First();
+        //    }
+        //    catch (InvalidOperationException ex)
+        //    {
+        //        throw new CodeFirstException("The type " + converterType.Name + " implements more than one IDataTypeConverter<,> interface, or does not implement any. A converter type must implement IDataTypeConverter<,> exactly once.", ex);
+        //    }
+        //}
 
         private void SetPropertyValueOnModel(object objectInstance, PropertyRegistration registration, object umbracoStoredValue)
         {
@@ -424,7 +430,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
             else if (!property.DataType.CodeFirstControlled && property.DataType.DbType == DatabaseType.None)
             {
-                throw new CodeFirstException("Cannot persist PEVC-based properties. PEVCs only support retrieving a value back from IPublishedContent & cannot persist a property back to IContent");
+                throw new CodeFirstException("Cannot persist PEVC-based properties or use events which attempt to persist PEVC-based properties. " + Environment.NewLine +  
+											 "PEVCs only support retrieving a value from IPublishedContent & cannot persist a property back to IContent." + Environment.NewLine +
+											 "Property: " + property.Metadata.DeclaringType.FullName + "." + property.Name);
             }
             else
             {

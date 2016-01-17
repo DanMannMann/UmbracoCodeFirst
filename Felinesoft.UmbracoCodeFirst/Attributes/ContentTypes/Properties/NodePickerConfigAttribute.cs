@@ -24,16 +24,28 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         private Type _targetType;
         private Type[] _allowedDescendants;
         private NodePickerConfigAttribute _basis;
-
         private bool _initialised;
+		private bool _showOpenButton;
+		private bool _showEditButton;
+		private bool _showPathsWhenHovering;
 
-        public NodePickerConfigAttribute(int minimumItems = -1, int maximumItems = -1, Type[] allowedDescendants = null, string startNode = null, StartNodeSpecifier startNodeSpecifier = StartNodeSpecifier.Path)
+		public NodePickerConfigAttribute(int minimumItems = -1, 
+										 int maximumItems = -1, 
+										 Type[] allowedDescendants = null, 
+										 string startNode = null, 
+										 StartNodeSpecifier startNodeSpecifier = StartNodeSpecifier.Path, 
+										 bool showOpenButton = false, 
+										 bool showEditButton = false, 
+										 bool showPathsWhenHovering = false)
         {
             _minimumItems = minimumItems;
             _maximumItems = maximumItems;
             _startNodeMode = startNodeSpecifier;
             _startNodeInput = startNode;
             _allowedDescendants = allowedDescendants;
+			_showOpenButton = showOpenButton;
+			_showEditButton = showEditButton;
+			_showPathsWhenHovering = showPathsWhenHovering;
         }
 
         public int MinimumItems
@@ -69,7 +81,31 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             }
         }
 
-        public void Initialise(PropertyInfo propertyTarget)
+		public bool ShowOpenButton
+		{
+			get
+			{
+				return _showOpenButton;
+			}
+		}
+
+		public bool ShowEditButton
+		{
+			get
+			{
+				return _showEditButton;
+			}
+		}
+
+		public bool ShowPathsWhenHovering
+		{
+			get
+			{
+				return _showPathsWhenHovering;
+			}
+		}
+
+		public void Initialise(PropertyInfo propertyTarget)
         {
             _targetType = propertyTarget.PropertyType;
             _basis = _targetType.GetCodeFirstAttribute<NodePickerConfigAttribute>();

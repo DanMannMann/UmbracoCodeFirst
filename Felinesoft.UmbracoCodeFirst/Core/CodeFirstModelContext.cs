@@ -12,7 +12,70 @@ using System.Reflection;
 
 namespace Felinesoft.UmbracoCodeFirst.Core
 {
-    public sealed class CodeFirstModelContext
+	public class ProxyBase : IHtmlString
+	{
+		public string ToHtmlString()
+		{
+			var proxy = this as IProxyTargetAccessor;
+			if (proxy == null)
+			{
+				return (this as IHtmlString)?.ToString();
+			}
+			var target = proxy.DynProxyGetTarget();
+			if (target == null)
+			{
+				return (this as IHtmlString)?.ToString();
+			}
+			return (target as IHtmlString)?.ToString();
+		}
+
+		public override string ToString()
+		{
+			var proxy = this as IProxyTargetAccessor;
+			if (proxy == null)
+			{
+				return base.ToString();
+			}
+			var target = proxy.DynProxyGetTarget();
+			if (target == null)
+			{
+				return base.ToString();
+			}
+			return target.ToString();
+		}
+
+		public override bool Equals(object obj)
+		{
+			var proxy = this as IProxyTargetAccessor;
+			if (proxy == null)
+			{
+				return base.Equals(obj);
+			}
+			var target = proxy.DynProxyGetTarget();
+			if (target == null)
+			{
+				return base.Equals(obj);
+			}
+			return target.Equals(obj);
+		}
+
+		public override int GetHashCode()
+		{
+			var proxy = this as IProxyTargetAccessor;
+			if (proxy == null)
+			{
+				return base.GetHashCode();
+			}
+			var target = proxy.DynProxyGetTarget();
+			if (target == null)
+			{
+				return base.GetHashCode();
+			}
+			return target.GetHashCode();
+		}
+	}
+
+	public sealed class CodeFirstModelContext
     {
         private class ContextContainer
         {
@@ -87,6 +150,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core
         private static Stack<CodeFirstModelContext> _stack = new Stack<CodeFirstModelContext>();
         private static CodeFirstModelContext _currentFrame;
         private static ProxyGenerator _generator = new ProxyGenerator();
+		private static ProxyGenerationOptions _opts = new ProxyGenerationOptions()
+		{
+			BaseTypeForInterfaceProxy = typeof(ProxyBase)
+		};
 
         private static CodeFirstModelContext RegisterFrozenContext(object key, CodeFirstModelContext context)
         {
@@ -107,7 +174,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core
             if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && useProxy)
             {
                 dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
-                T proxy = _generator.CreateClassProxy<T>(new CodeFirstProxyInterceptor(dict));
+                T proxy = _generator.CreateClassProxy<T>(_opts, new CodeFirstProxyInterceptor(dict));
                 MoveNextContext(proxy, registration, parentContext);
                 return proxy;
             }
@@ -125,7 +192,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core
             if (CodeFirstManager.Current.Features.UseLazyLoadingProxies && useProxy)
             {
                 dict = new Dictionary<PropertyInfo, CodeFirstLazyInitialiser>();
-                var proxy = _generator.CreateClassProxy(type, new CodeFirstProxyInterceptor(dict));
+                var proxy = _generator.CreateClassProxy(type, _opts, new CodeFirstProxyInterceptor(dict));
                 MoveNextContext(proxy, registration, parentContext);
                 return proxy;
             }

@@ -175,24 +175,15 @@ namespace Felinesoft.UmbracoCodeFirst
 
         /// <summary>
         /// <para>
-        /// Enables document &amp; media models which implement IOnCreate to
-        /// intercept a newly created document or media item before it is returned
-        /// to the user. Default values (e.g. of labels) can be set, as well as node
-        /// details such as name.
-        /// </para>
-        /// <para>
-        /// When the ContentService.Creating event fires the IOnCreate.OnCreate() method is invoked on an instance of the model which
-        /// has been constructed from the newly created IContentBase item. Inside that
-        /// method the properties can be modified. After the method returns the model
-        /// is projected back onto the original entity before the entity is returned to
-        /// the front-end.
+        /// Enables raising of events to content models which implement 
+		/// event interfaces or specify event handlers which do so.
         /// </para>
         /// <para>
         /// Status: Stable (default: true)
         /// </para>
         /// </summary>
         [Feature(DefaultValue = true)]
-        public bool EnableContentCreatedEvents { get; set; }
+        public bool EnableContentEvents { get; set; }
 
         /// <summary>
         /// <para>

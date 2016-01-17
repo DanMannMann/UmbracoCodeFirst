@@ -10,6 +10,10 @@ using Felinesoft.UmbracoCodeFirst.Models;
 using Felinesoft.UmbracoCodeFirst.Views;
 using Felinesoft.UmbracoCodeFirst.Controllers;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Umbraco.Core;
+using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -18,9 +22,6 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     /// A custom view which provides a strongly-typed document model and a custom view model with specialised HTML helpers for each model.
     /// </para>
     /// <para>
-    /// This view expects an input model of type <see cref="DocumentViewModel&lt;Tdocument,Tviewmodel&gt;"/>.
-    /// The controller <see cref="CodeFirstController&lt;Tdocument&gt;"/> provides a convenience 
-    /// method <c>DocumentView&lt;T&gt;(T viewModel, RenderModel renderModel)</c> to generate this model
     /// The view has an @Model property containing the original Umbraco RenderModel and also has @Document and @ViewModel properties of types Tdocument and Tviewmodel respectively,
     /// as well as @DocumentHelper and @ViewModelHelper HTML helper properties.
     /// </para>
@@ -62,16 +63,29 @@ namespace Felinesoft.UmbracoCodeFirst.Views
         /// </summary>
         /// <param name="viewData">The view data for the request</param>
         protected override void SetViewData(ViewDataDictionary viewData)
-        {
-            if (viewData.Model is DocumentViewModel<Tdocument, Tviewmodel>)
+        {	
+			if (viewData.Model is RenderModel)
+			{
+				var doc = (viewData.Model as RenderModel).Content.ConvertToModel();
+				if (doc.GetType() != typeof(Tdocument) && !doc.GetType().Inherits<Tdocument>())
+				{
+					throw new CodeFirstException("Wrong type of model. This model does not inherit " + typeof(Tdocument).FullName);
+                }
+				base.SetViewData(viewData);
+				Tviewmodel vm;
+				ModelEventDispatcher<Tdocument>.OnRender((Tdocument)doc, out vm, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(doc));
+                _innerModel = new DocumentViewModel<Tdocument, Tviewmodel>((viewData.Model as RenderModel), (Tdocument)doc, vm);
+			}
+            else if (viewData.Model is DocumentViewModel<Tdocument, Tviewmodel>)
             {
                 _innerModel = viewData.Model as DocumentViewModel<Tdocument, Tviewmodel>;
-                viewData.Model = _innerModel.RenderModel;
-                base.SetViewData(viewData);
+				viewData.Model = _innerModel?.RenderModel;
+				base.SetViewData(viewData);
+				ModelEventDispatcher<Tdocument>.OnRender(_innerModel.Document, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_innerModel.Document));
             }
             else
             {
-                throw new Exception("Wrong type of view");
+                throw new CodeFirstException("Wrong type of model. This view requires either a RenderModel (if the document type or its specified event handler implements IOnRender<Tdocument,Tviewmodel>) or DocumentViewModel<Tdocument, Tviewmodel> (if you're using a custom RenderMvcController). Note that CodeFirstManager.Current.Features.EnableContentEvents must be true to use IOnRender.");
             }
         }
     }

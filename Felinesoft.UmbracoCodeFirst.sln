@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
 EndProject
@@ -26,29 +26,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Demo", "Felinesoft.UmbracoCodeFirst.Demo\Felinesoft.UmbracoCodeFirst.Demo.csproj", "{3F332CA7-393C-40E2-8492-4237479EDE2C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Felinesoft.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Debug", "Felinesoft.UmbracoCodeFirst.Debug\Felinesoft.UmbracoCodeFirst.Debug.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.felinesoft.com/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Felinesoft.UmbracoCodeFirst\\Felinesoft.UmbracoCodeFirst.csproj
-		SccProjectName1 = Felinesoft.UmbracoCodeFirst
-		SccLocalPath1 = Felinesoft.UmbracoCodeFirst
-		SccProjectUniqueName2 = Felinesoft.UmbracoCodeFirst.Docs\\Felinesoft.UmbracoCodeFirst.Docs.shfbproj
-		SccProjectName2 = Felinesoft.UmbracoCodeFirst.Docs
-		SccLocalPath2 = Felinesoft.UmbracoCodeFirst.Docs
-		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.Demo\\Felinesoft.UmbracoCodeFirst.Demo.csproj
-		SccProjectName3 = Felinesoft.UmbracoCodeFirst.Demo
-		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.Demo
-		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.TestTarget\\Felinesoft.UmbracoCodeFirst.TestTarget.csproj
-		SccProjectName4 = Felinesoft.UmbracoCodeFirst.TestTarget
-		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.TestTarget
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -62,16 +44,34 @@ Global
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3F332CA7-393C-40E2-8492-4237479EDE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://tfs.felinesoft.com:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Felinesoft.UmbracoCodeFirst\\Felinesoft.UmbracoCodeFirst.csproj
+		SccProjectName1 = Felinesoft.UmbracoCodeFirst
+		SccLocalPath1 = Felinesoft.UmbracoCodeFirst
+		SccProjectUniqueName2 = Felinesoft.UmbracoCodeFirst.Docs\\Felinesoft.UmbracoCodeFirst.Docs.shfbproj
+		SccProjectName2 = Felinesoft.UmbracoCodeFirst.Docs
+		SccLocalPath2 = Felinesoft.UmbracoCodeFirst.Docs
+		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.TestTarget\\Felinesoft.UmbracoCodeFirst.TestTarget.csproj
+		SccProjectName3 = Felinesoft.UmbracoCodeFirst.TestTarget
+		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.TestTarget
+		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.Debug\\Felinesoft.UmbracoCodeFirst.Debug.csproj
+		SccProjectName4 = Felinesoft.UmbracoCodeFirst.Debug
+		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.Debug
 	EndGlobalSection
 EndGlobal

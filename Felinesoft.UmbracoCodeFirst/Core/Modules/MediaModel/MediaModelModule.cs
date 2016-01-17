@@ -1,13 +1,19 @@
+using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Felinesoft.UmbracoCodeFirst.Events;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Felinesoft.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
+using Umbraco.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -16,8 +22,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private IDataTypeModule _dataTypeModule;
         private IMediaTypeModule _mediaTypeModule;
         private Dictionary<string, MediaTypeRegistration> _onCreate = new Dictionary<string, MediaTypeRegistration>();
+		private Dictionary<string, MediaTypeRegistration> _onSave = new Dictionary<string, MediaTypeRegistration>();
+		private Dictionary<string, MediaTypeRegistration> _onDelete = new Dictionary<string, MediaTypeRegistration>();
 
-        public MediaModelModule(IDataTypeModule dataTypeModule, IMediaTypeModule mediaTypeModule)
+		public MediaModelModule(IDataTypeModule dataTypeModule, IMediaTypeModule mediaTypeModule)
             : base(dataTypeModule, mediaTypeModule)
         {
             _dataTypeModule = dataTypeModule;
@@ -28,7 +36,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             foreach (var type in classes)
             {
-                if (type.Implements<IOnCreate>())
+                if (ModelEventDispatcher.HasEvent<IOnCreateBase>(type))
                 {
                     MediaTypeRegistration reg;
                     if (_mediaTypeModule.TryGetMediaType(type, out reg))
@@ -36,28 +44,90 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                         _onCreate.Add(reg.Alias, reg);
                     }
                 }
-            }
+
+				if (ModelEventDispatcher.HasEvent<IOnSaveBase>(type))
+				{
+					MediaTypeRegistration reg;
+					if (_mediaTypeModule.TryGetMediaType(type, out reg))
+					{
+						_onSave.Add(reg.Alias, reg);
+					}
+				}
+
+				if (ModelEventDispatcher.HasEvent<IOnDeleteBase>(type))
+				{
+					MediaTypeRegistration reg;
+					if (_mediaTypeModule.TryGetMediaType(type, out reg))
+					{
+						_onDelete.Add(reg.Alias, reg);
+					}
+				}
+			}
             CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
             Umbraco.Core.Services.MediaService.Created += ContentService_Created;
+			Umbraco.Core.Services.MediaService.Saving += MediaService_Saving;
+			Umbraco.Core.Services.MediaService.Trashing += MediaService_Trashing;
         }
 
-        void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
+		private void MediaService_Trashing(IMediaService sender, MoveEventArgs<IMedia> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onDelete)
+				{
+					foreach (var entity in e.MoveInfoCollection.Select(x => x.Entity))
+					{
+						if (_onDelete.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
+						{
+							var instance = CreateInstanceFromContent(entity, _onDelete[entity.ContentType.Alias], null);
+							(instance as MediaTypeBase).NodeDetails = new MediaNodeDetails(entity);
+							e.Cancel |= !ModelEventDispatcher.OnDeleteObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+							ProjectModelToContent((instance as MediaTypeBase), entity);
+						}
+					}
+				}
+			}
+		}
+
+		private void MediaService_Saving(IMediaService sender, SaveEventArgs<IMedia> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onSave)
+				{
+					foreach (var entity in e.SavedEntities)
+					{
+						if (_onSave.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
+						{
+							var instance = CreateInstanceFromContent(entity, _onSave[entity.ContentType.Alias], null);
+							(instance as MediaTypeBase).NodeDetails = new MediaNodeDetails(entity);
+							e.Cancel |= !ModelEventDispatcher.OnSaveObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+							ProjectModelToContent((instance as MediaTypeBase), entity);
+						}
+					}
+				}
+			}
+		}
+
+		void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
         {
             Umbraco.Core.Services.MediaService.Created -= ContentService_Created;
-        }
+			Umbraco.Core.Services.MediaService.Saving -= MediaService_Saving;
+			Umbraco.Core.Services.MediaService.Trashing -= MediaService_Trashing;
+		}
 
         private void ContentService_Created(IMediaService sender, NewEventArgs<IMedia> e)
         {
-            if (CodeFirstManager.Current.Features.EnableContentCreatedEvents)
+            if (CodeFirstManager.Current.Features.EnableContentEvents)
             {
                 lock (_onCreate)
                 {
-                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias))
+                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
                     {
                         var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
                         (instance as MediaTypeBase).NodeDetails = new MediaNodeDetails(e.Entity);
-                        (instance as IOnCreate).OnCreate();
-                        ProjectModelToContent((instance as MediaTypeBase), e.Entity);
+						ModelEventDispatcher.OnCreateObject(instance, e.Entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+						ProjectModelToContent((instance as MediaTypeBase), e.Entity);
                     }
                 }
             }

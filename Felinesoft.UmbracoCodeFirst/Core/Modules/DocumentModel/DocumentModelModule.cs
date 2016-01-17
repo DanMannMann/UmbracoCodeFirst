@@ -18,6 +18,7 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using System.Web;
 using Umbraco.Core.Services;
 using Umbraco.Core.Events;
+using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 {
@@ -26,8 +27,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private IDataTypeModule _dataTypeModule;
         private IDocumentTypeModule _documentTypeModule;
         private Dictionary<string, DocumentTypeRegistration> _onCreate = new Dictionary<string, DocumentTypeRegistration>();
+		private Dictionary<string, DocumentTypeRegistration> _onSave = new Dictionary<string, DocumentTypeRegistration>();
+		private Dictionary<string, DocumentTypeRegistration> _onDelete = new Dictionary<string, DocumentTypeRegistration>();
 
-        public DocumentModelModule(IDataTypeModule dataTypeModule, IDocumentTypeModule documentTypeModule)
+		public DocumentModelModule(IDataTypeModule dataTypeModule, IDocumentTypeModule documentTypeModule)
             : base(dataTypeModule, documentTypeModule)
         {
             _dataTypeModule = dataTypeModule;
@@ -38,7 +41,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             foreach (var type in classes)
             {
-                if (type.Implements<IOnCreate>())
+                if (ModelEventDispatcher.HasEvent<IOnCreateBase>(type))
                 {
                     DocumentTypeRegistration reg;
                     if (_documentTypeModule.TryGetDocumentType(type, out reg))
@@ -46,27 +49,89 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                         _onCreate.Add(reg.Alias, reg);
                     }
                 }
-            }
+
+				if (ModelEventDispatcher.HasEvent<IOnSaveBase>(type))
+				{
+					DocumentTypeRegistration reg;
+					if (_documentTypeModule.TryGetDocumentType(type, out reg))
+					{
+						_onSave.Add(reg.Alias, reg);
+					}
+				}
+
+				if (ModelEventDispatcher.HasEvent<IOnDeleteBase>(type))
+				{
+					DocumentTypeRegistration reg;
+					if (_documentTypeModule.TryGetDocumentType(type, out reg))
+					{
+						_onDelete.Add(reg.Alias, reg);
+					}
+				}
+			}
             CodeFirstManager.Invalidating += CodeFirstManager_Invalidating;
             Umbraco.Core.Services.ContentService.Created += ContentService_Created;
+			Umbraco.Core.Services.ContentService.Saving += ContentService_Saving;
+			Umbraco.Core.Services.ContentService.Trashing += ContentService_Trashing;
         }
 
-        void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
+		private void ContentService_Trashing(IContentService sender, MoveEventArgs<IContent> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onDelete)
+				{
+					foreach (var entity in e.MoveInfoCollection.Select(x => x.Entity))
+					{
+						if (_onDelete.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
+						{
+							var instance = CreateInstanceFromContent(entity, _onDelete[entity.ContentType.Alias], null);
+							(instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(entity);
+							e.Cancel |= !ModelEventDispatcher.OnDeleteObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+							ProjectModelToContent((instance as DocumentTypeBase), entity);
+						}
+					}
+				}
+			}
+		}
+
+		private void ContentService_Saving(IContentService sender, SaveEventArgs<IContent> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onSave)
+				{
+					foreach (var entity in e.SavedEntities)
+					{
+						if (_onSave.ContainsKey(entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
+						{
+							var instance = CreateInstanceFromContent(entity, _onSave[entity.ContentType.Alias], null);
+							(instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(entity);
+							e.Cancel |= !ModelEventDispatcher.OnSaveObject(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+							ProjectModelToContent((instance as DocumentTypeBase), entity);
+						}
+					}
+				}
+			}
+		}
+
+		void CodeFirstManager_Invalidating(object sender, InvalidatingEventArgs e)
         {
             Umbraco.Core.Services.ContentService.Created -= ContentService_Created;
-        }
+			Umbraco.Core.Services.ContentService.Saving -= ContentService_Saving;
+			Umbraco.Core.Services.ContentService.Trashing -= ContentService_Trashing;
+		}
 
-        private void ContentService_Created(IContentService sender, NewEventArgs<IContent> e)
+		private void ContentService_Created(IContentService sender, NewEventArgs<IContent> e)
         {
-            if (CodeFirstManager.Current.Features.EnableContentCreatedEvents)
+            if (CodeFirstManager.Current.Features.EnableContentEvents)
             {
                 lock (_onCreate)
                 {
-                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias))
+                    if (_onCreate.ContainsKey(e.Entity.ContentType.Alias) && CodeFirstManager.Current.Features.EnableContentEvents)
                     {
                         var instance = CreateInstanceFromContent(e.Entity, _onCreate[e.Entity.ContentType.Alias], null);
                         (instance as DocumentTypeBase).NodeDetails = new DocumentNodeDetails(e.Entity);
-                        (instance as IOnCreate).OnCreate();
+						ModelEventDispatcher.OnCreateObject(instance, e.Entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
                         ProjectModelToContent((instance as DocumentTypeBase), e.Entity);
                     }
                 }

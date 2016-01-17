@@ -273,6 +273,7 @@
     <Compile Include="Attributes\CssClassAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\ImageCropPropertyAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\InstancePreValueAttribute.cs" />
+    <Compile Include="Attributes\EventHandlerAttribute.cs" />
     <Compile Include="Attributes\HtmlDataAttribute.cs" />
     <Compile Include="Attributes\IDataTypeRedirect.cs" />
     <Compile Include="Attributes\ContentTypes\Properties\MediaPickerPropertyAttribute.cs" />
@@ -514,8 +515,8 @@
   <PropertyGroup>
     <PostBuildEvent>REM Create a NuGet package for this project and place the .nupkg file in the project's output directory.
 REM If you see this in Visual Studio's Error List window, check the Output window's Build tab for the actual error.
-ECHO Creating NuGet package in Post-Build event...
-PowerShell -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1' -ProjectFilePath '$(ProjectPath)' -OutputDirectory '$(TargetDir)' -BuildConfiguration '$(ConfigurationName)' -BuildPlatform '$(PlatformName)'"</PostBuildEvent>
+REM ECHO Creating NuGet package in Post-Build event...
+REM PowerShell -NoProfile -ExecutionPolicy Bypass -Command "&amp; '$(ProjectDir)_CreateNewNuGetPackage\DoNotModify\CreateNuGetPackage.ps1' -ProjectFilePath '$(ProjectPath)' -OutputDirectory '$(TargetDir)' -BuildConfiguration '$(ConfigurationName)' -BuildPlatform '$(PlatformName)'"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

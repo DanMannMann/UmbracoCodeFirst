@@ -24,6 +24,7 @@ namespace Felinesoft.UmbracoCodeFirst.Controllers
     /// views to be created without creating a custom controller.</para>
     /// <para>Views which inherit <see cref="UmbracoViewPage&gt;Tdocument&lt;"/> or specify @model Tdocument will work with this controller</para>
     /// </summary>
+	[Obsolete("Don't use this. It probably doesn't work and the whole general concept sucks.")]
     public class CodeFirstController : RenderMvcController
     {
         private static MethodInfo _currentTemplateGenericMethod = typeof(RenderMvcController).GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Single(x => x.Name == "CurrentTemplate");

@@ -5,6 +5,9 @@ using Umbraco.Web.Models;
 using Felinesoft.UmbracoCodeFirst.ViewHelpers;
 using System;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Umbraco.Core;
+using Felinesoft.UmbracoCodeFirst.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -16,23 +19,36 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     /// <typeparam name="Tdocument">The document type</typeparam>
     public abstract class UmbracoDocumentViewPage<Tdocument> : Umbraco.Web.Mvc.UmbracoViewPage<Umbraco.Web.Models.RenderModel>  where Tdocument : DocumentTypeBase
     {
-        protected UmbracoDocumentViewPage() : base() { _helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, GetDocument())); }
+        protected UmbracoDocumentViewPage() : base()
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents && ModelEventDispatcher.HasEvent<IOnRender>(typeof(Tdocument)))
+			{
+				var doc = GetDocument();
+                _helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, doc));
+			}
+			else
+			{
+				_helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, GetDocument()));
+			}
+		}
 
         private Tdocument GetDocument()
         {
-            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
-            sw.Start();
-            var converted = base.Umbraco.AssignedContentItem.ConvertDocumentToModel<Tdocument>();
-            sw.Stop();
-            return converted;
+			if (_converted == null)
+			{
+				_converted = base.Umbraco.AssignedContentItem.ConvertToModel() as Tdocument;
+				ModelEventDispatcher<Tdocument>.OnRender(_converted, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_converted));
+			}
+            return _converted;
         }
 
         private Lazy<CodeFirstDocumentHelper<Tdocument>> _helper;
+		private Tdocument _converted;
 
-        /// <summary>
-        /// A HTML helper for the document model
-        /// </summary>
-        public HtmlHelper<Tdocument> DocumentHelper { get { return _helper.Value.DocumentHelper; } }
+		/// <summary>
+		/// A HTML helper for the document model
+		/// </summary>
+		public HtmlHelper<Tdocument> DocumentHelper { get { return _helper.Value.DocumentHelper; } }
 
         /// <summary>
         /// The document model

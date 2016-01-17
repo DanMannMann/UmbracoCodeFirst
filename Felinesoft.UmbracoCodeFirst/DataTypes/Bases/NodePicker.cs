@@ -128,7 +128,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             return GetPreValuesInternal(context);
         }
 
-        protected IDictionary<string, PreValue> GetPreValuesInternal(PreValueContext context, int maxNumberOverride = -1, int minNumberOverride = -1)
+        protected IDictionary<string, PreValue> GetPreValuesInternal(PreValueContext context, int maxNumberOverride = -1)
         {
             Dictionary<string, PreValue> result = new Dictionary<string, PreValue>();
 
@@ -181,16 +181,22 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
                 maxNumberString = maxNumberOverride.ToString();
             }
 
-            if (minNumberOverride != -1)
-            {
-                minNumberString = minNumberOverride.ToString();
-            }
-
             result.Add("startNode", new PreValue(id: 0, value: "{\"type\": \"" + _type.ToString() + "\"" + startNodeString + "}", sortOrder: 1));
             result.Add("filter", new PreValue(id: 0, value: typeAlias, sortOrder: 2));
             result.Add("minNumber", new PreValue(id: 0, value: minNumberString, sortOrder: 3));
             result.Add("maxNumber", new PreValue(id: 0, value: maxNumberString, sortOrder: 4));
-            result.Add("showEditButton", new PreValue(id: 0, value: "0", sortOrder: 5));
+			if (configAttribute != null)
+			{
+				result.Add("showEditButton", new PreValue(id: 0, value: configAttribute.ShowEditButton ? "1" : "0", sortOrder: 5));
+				result.Add("showOpenButton", new PreValue(id: 0, value: configAttribute.ShowOpenButton ? "1" : "0", sortOrder: 6));
+				result.Add("showPathOnHover", new PreValue(id: 0, value: configAttribute.ShowPathsWhenHovering ? "1" : "0", sortOrder: 7));
+			}
+			else
+			{
+				result.Add("showEditButton", new PreValue(id: 0, value: "0", sortOrder: 5));
+				result.Add("showOpenButton", new PreValue(id: 0, value: "0", sortOrder: 6));
+				result.Add("showPathOnHover", new PreValue(id: 0, value: "0", sortOrder: 7));
+			}
             return result;
         }
 
