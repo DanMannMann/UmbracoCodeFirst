@@ -20,7 +20,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+    #line 1 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "14.0.0.0")]
     public partial class UmbracoCodeFirstContentType : UmbracoCodeFirstContentTypeBase
     {
@@ -43,70 +43,70 @@ using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 
 namespace ");
             
-            #line 19 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 19 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n    [");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.AttributeName));
             
             #line default
             #line hidden
             this.Write("(@\"");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Name));
             
             #line default
             #line hidden
             this.Write("\", @\"");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Alias));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.AllowedChildren));
             
             #line default
             #line hidden
             this.Write(", @\"");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Icon));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.AllowAtRoot));
             
             #line default
             #line hidden
             this.Write(", ");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.EnableListView));
             
             #line default
             #line hidden
             this.Write(", @\"");
             
-            #line 21 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 21 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.Description));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 22 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 22 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 foreach(TemplateDescription template in Model.Templates)
     {
             
@@ -114,49 +114,49 @@ foreach(TemplateDescription template in Model.Templates)
             #line hidden
             this.Write("    [Template(");
             
-            #line 24 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 24 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(template.IsDefault));
             
             #line default
             #line hidden
             this.Write(", \"");
             
-            #line 24 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 24 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(template.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 24 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 24 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(template.Alias));
             
             #line default
             #line hidden
             this.Write("\")]\r\n");
             
-            #line 25 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 25 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 }
             
             #line default
             #line hidden
             this.Write("    public class ");
             
-            #line 26 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 26 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ClassName));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 26 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 26 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Model.ParentClassName));
             
             #line default
             #line hidden
             this.Write("\r\n    {\r\n");
             
-            #line 28 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 28 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 foreach(TabDescription tab in Model.Tabs)
         {
             
@@ -164,14 +164,14 @@ foreach(TabDescription tab in Model.Tabs)
             #line hidden
             this.Write("        public class ");
             
-            #line 30 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 30 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tab.TabClassName));
             
             #line default
             #line hidden
             this.Write(" : TabBase\r\n        {\r\n");
             
-            #line 32 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 32 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 foreach(PropertyDescription prop in tab.Properties)
             {
 
@@ -180,63 +180,63 @@ foreach(PropertyDescription prop in tab.Properties)
             #line hidden
             this.Write("            [ContentProperty(@\"");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write("\", @\"");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Alias));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Mandatory));
             
             #line default
             #line hidden
             this.Write(", @\"");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Description));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.SortOrder));
             
             #line default
             #line hidden
             this.Write(", false");
             
-            #line 35 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 35 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.RegexpParam));
             
             #line default
             #line hidden
-            this.Write(")]\r\n            public ");
+            this.Write(")]\r\n            public virtual ");
             
-            #line 36 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 36 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.DataTypeClassName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 36 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 36 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.PropertyName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n\r\n");
             
-            #line 38 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 38 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
           }
     
             
@@ -244,7 +244,7 @@ foreach(PropertyDescription prop in tab.Properties)
             #line hidden
             this.Write("        }\r\n");
             
-            #line 41 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 41 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 
 	    }
 	    foreach(TabDescription tab in Model.Tabs)
@@ -254,42 +254,42 @@ foreach(PropertyDescription prop in tab.Properties)
             #line hidden
             this.Write("\r\n        [ContentTab(@\"");
             
-            #line 46 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 46 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tab.TabName));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 46 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 46 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tab.SortOrder));
             
             #line default
             #line hidden
-            this.Write(")]\r\n        public ");
+            this.Write(")]\r\n        public virtual ");
             
-            #line 47 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 47 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tab.TabClassName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 47 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 47 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(tab.TabPropertyName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 48 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 48 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 
         }
             
             #line default
             #line hidden
             
-            #line 50 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 50 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 foreach(PropertyDescription prop in Model.Properties)
         {
         
@@ -298,93 +298,93 @@ foreach(PropertyDescription prop in Model.Properties)
             #line hidden
             this.Write("\r\n        [ContentProperty(@\"");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Name));
             
             #line default
             #line hidden
             this.Write("\", \"");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Alias));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Mandatory));
             
             #line default
             #line hidden
             this.Write(", @\"");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.Description));
             
             #line default
             #line hidden
             this.Write("\", ");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.SortOrder));
             
             #line default
             #line hidden
             this.Write(", false");
             
-            #line 54 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 54 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.RegexpParam));
             
             #line default
             #line hidden
-            this.Write(")]\r\n        public ");
+            this.Write(")]\r\n        public virtual ");
             
-            #line 55 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 55 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.DataTypeClassName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 55 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 55 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(prop.PropertyName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 56 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 56 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
       }
         
             
             #line default
             #line hidden
             
-            #line 58 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 58 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
 foreach(CompositionDescription comp in Model.Compositions)
         {
         
             
             #line default
             #line hidden
-            this.Write("\r\n        [ContentComposition]\r\n        public ");
+            this.Write("\r\n        [ContentComposition]\r\n        public virtual ");
             
-            #line 63 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 63 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(comp.TypeName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 63 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 63 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(comp.PropertyName));
             
             #line default
             #line hidden
             this.Write(" { get; set; }\r\n");
             
-            #line 64 "F:\sources\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
+            #line 64 "E:\tfs\DefaultCollection\Felinesoft.UmbracoCodeFirst\Dev Branches\dev-main\Felinesoft.UmbracoCodeFirst\Core\Modules\ContentTypeBase\T4\UmbracoCodeFirstContentType.tt"
       }
         
             

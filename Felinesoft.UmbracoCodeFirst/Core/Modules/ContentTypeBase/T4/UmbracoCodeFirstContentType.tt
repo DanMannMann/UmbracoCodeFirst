@@ -33,7 +33,7 @@ namespace <#= Namespace #>
             {
 #>
             [ContentProperty(@"<#= prop.Name #>", @"<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false<#= prop.RegexpParam #>)]
-            public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
+            public virtual <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 
 <#          }
     #>
@@ -44,7 +44,7 @@ namespace <#= Namespace #>
         {#>
 
         [ContentTab(@"<#= tab.TabName #>", <#= tab.SortOrder #>)]
-        public <#= tab.TabClassName #> <#= tab.TabPropertyName #> { get; set; }
+        public virtual <#= tab.TabClassName #> <#= tab.TabPropertyName #> { get; set; }
 <#
         }#>
 <#foreach(PropertyDescription prop in Model.Properties)
@@ -52,7 +52,7 @@ namespace <#= Namespace #>
         #>
 
         [ContentProperty(@"<#= prop.Name #>", "<#= prop.Alias #>", <#= prop.Mandatory #>, @"<#= prop.Description #>", <#= prop.SortOrder #>, false<#= prop.RegexpParam #>)]
-        public <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
+        public virtual <#= prop.DataTypeClassName #> <#= prop.PropertyName #> { get; set; }
 <#      }
         #>
 <#foreach(CompositionDescription comp in Model.Compositions)
@@ -60,7 +60,7 @@ namespace <#= Namespace #>
         #>
 
         [ContentComposition]
-        public <#= comp.TypeName #> <#= comp.PropertyName #> { get; set; }
+        public virtual <#= comp.TypeName #> <#= comp.PropertyName #> { get; set; }
 <#      }
         #>
     }
