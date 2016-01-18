@@ -1,0 +1,16 @@
+﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+@using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("GetNextQuestion", FormMethod.Post, new { id = "MainForm" }))
+{
+	<div>
+		<img src="@(ViewModel.CurrentQuestion(Document).Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White))" />
+	</div>
+	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
+	<div>
+		@Document.Messages.CorrectAnswerMessage
+	</div>
+
+	<input type="submit" value="Get next question" />
+}

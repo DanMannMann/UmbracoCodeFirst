@@ -21,7 +21,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     {
         protected UmbracoDocumentViewPage() : base()
 		{
-			if (CodeFirstManager.Current.Features.EnableContentEvents && ModelEventDispatcher.HasEvent<IOnRenderBase>(typeof(Tdocument)))
+			if (CodeFirstManager.Current.Features.EnableContentEvents && ModelEventDispatcher.HasEvent<IOnLoadBase>(typeof(Tdocument)))
 			{
 				var doc = GetDocument();
                 _helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, doc));
@@ -37,7 +37,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
 			if (_converted == null)
 			{
 				_converted = base.Umbraco.AssignedContentItem.ConvertToModel() as Tdocument;
-				ModelEventDispatcher<Tdocument>.OnRender(_converted, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_converted));
+				ModelEventDispatcher<Tdocument>.OnLoad(_converted, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_converted));
 			}
             return _converted;
         }

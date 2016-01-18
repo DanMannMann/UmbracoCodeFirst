@@ -63,14 +63,14 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return OnEvent("OnDelete", model, contentInstance, httpContext, umbContext, appContext);
 		}
 
-		internal static void OnRenderObject(object model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
+		internal static void OnLoadObject(object model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
 		{
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
 				typeof(ModelEventDispatcher<>)
 				.MakeGenericType(model.GetType())
 				.GetTypeInfo()
-				.InvokeMember("OnRender",
+				.InvokeMember("OnLoad",
 				BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.InvokeMethod,
 				null,
 				null,
@@ -197,29 +197,29 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		internal static void OnRender(T model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
+		internal static void OnLoad(T model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T>>() == true)
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnLoad<T>>() == true)
 				{
-					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnRender<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance);
+					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnLoad<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnLoad<T>).OnLoad(model, httpContext, umbContext, appContext, modelContext, contentInstance);
 				}
 			}
 		}
 
-		internal static void OnRender<Tviewmodel>(T model, out Tviewmodel viewModel, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
+		internal static void OnLoad<Tviewmodel>(T model, out Tviewmodel viewModel, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
 		{
 			viewModel = default(Tviewmodel);
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
-				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnRender<T, Tviewmodel>>() == true)
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnLoad<T, Tviewmodel>>() == true)
 				{
-					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnRender<T,Tviewmodel> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnRender<T, Tviewmodel>).OnRender(model, httpContext, umbContext, appContext, modelContext, contentInstance, out viewModel);
+					(typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnLoad<T,Tviewmodel> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnLoad<T, Tviewmodel>).OnLoad(model, httpContext, umbContext, appContext, modelContext, contentInstance, out viewModel);
 				}
 				else
 				{
-					OnRender(model, contentInstance, httpContext, umbContext, appContext, modelContext);
+					OnLoad(model, contentInstance, httpContext, umbContext, appContext, modelContext);
 				}
 			}
 		}

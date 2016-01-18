@@ -16,11 +16,6 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 {
 	public interface IOnCreateBase { }
 
-	public interface IOnCreate : IOnCreateBase
-	{
-        bool OnCreate(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-    }
-
 	public interface IOnCreate<in T> : IOnCreateBase where T : CodeFirstContentBase
 	{
 		bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);

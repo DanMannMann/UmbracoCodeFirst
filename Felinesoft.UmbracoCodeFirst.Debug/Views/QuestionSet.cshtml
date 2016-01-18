@@ -1,0 +1,38 @@
+﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Question Set</title>
+</head>
+<body>
+    <div> 
+		@Document.WelcomeParagraph
+    </div>
+	<br />
+	@Html.Partial(ViewModel.RequiredPartial, UnderlyingViewModel)
+		
+	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.2.0.min.js")"></script>
+	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.min.js")"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			AjaxItUpABit($('#MainForm'));
+		});
+
+		function AjaxItUpABit(form) {
+			form.ajaxForm({
+				data: { isAjax: true },
+				target: form,
+				replaceTarget: true,
+				success: function (a, formElement) {
+					AjaxItUpABit($('#MainForm'));
+				}
+			});
+		}
+	</script>
+</body>
+</html>

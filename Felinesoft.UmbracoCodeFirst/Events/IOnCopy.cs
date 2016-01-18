@@ -8,12 +8,7 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 {
 	public interface IOnCopyBase { }
 
-	public interface IOnCopy : IOnCreateBase
-	{
-		bool OnCopy(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnCopy<in T> : IOnCreateBase where T : CodeFirstContentBase
+	public interface IOnCopy<in T> : IOnCopyBase where T : CodeFirstContentBase
 	{
 		bool OnCopy(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
 	}

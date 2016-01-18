@@ -396,7 +396,7 @@
     <Compile Include="Events\IOnDelete.cs" />
     <Compile Include="Events\IOnMove.cs" />
     <Compile Include="Events\IOnPublish.cs" />
-    <Compile Include="Events\IOnRender.cs" />
+    <Compile Include="Events\IOnLoad.cs" />
     <Compile Include="Events\IOnSave.cs" />
     <Compile Include="Events\IOnUnpublish.cs" />
     <Compile Include="Events\ModelEventDispatcher.cs" />

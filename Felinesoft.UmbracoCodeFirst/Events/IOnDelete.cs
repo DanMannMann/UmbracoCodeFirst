@@ -15,9 +15,4 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 	{
 		bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
 	}
-
-	public interface IOnDelete : IOnDeleteBase
-	{
-		bool OnDelete(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
 }

@@ -56,13 +56,21 @@ namespace Felinesoft.UmbracoCodeFirst.Views
         /// </summary>
         public Tviewmodel ViewModel { get { return _helper.Value.ViewModel; } }
 
-        /// <summary>
-        /// Intercepts the view data to get a reference to the code-first model, then
-        /// passes the render model down to the base method (thus allowing the @Model property
-        /// to behave as it usually does in an Umbraco view)
-        /// </summary>
-        /// <param name="viewData">The view data for the request</param>
-        protected override void SetViewData(ViewDataDictionary viewData)
+		public DocumentViewModel<Tdocument, Tviewmodel> UnderlyingViewModel
+		{
+			get
+			{
+				return _innerModel;
+			}
+		}
+
+		/// <summary>
+		/// Intercepts the view data to get a reference to the code-first model, then
+		/// passes the render model down to the base method (thus allowing the @Model property
+		/// to behave as it usually does in an Umbraco view)
+		/// </summary>
+		/// <param name="viewData">The view data for the request</param>
+		protected override void SetViewData(ViewDataDictionary viewData)
         {	
 			if (viewData.Model is RenderModel)
 			{
@@ -73,20 +81,44 @@ namespace Felinesoft.UmbracoCodeFirst.Views
                 }
 				base.SetViewData(viewData);
 				Tviewmodel vm;
-				ModelEventDispatcher<Tdocument>.OnRender((Tdocument)doc, out vm, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(doc));
+				ModelEventDispatcher<Tdocument>.OnLoad((Tdocument)doc, out vm, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(doc));
                 _innerModel = new DocumentViewModel<Tdocument, Tviewmodel>((viewData.Model as RenderModel), (Tdocument)doc, vm);
 			}
             else if (viewData.Model is DocumentViewModel<Tdocument, Tviewmodel>)
             {
-                _innerModel = viewData.Model as DocumentViewModel<Tdocument, Tviewmodel>;
-				viewData.Model = _innerModel?.RenderModel;
+				_innerModel = viewData.Model as DocumentViewModel<Tdocument, Tviewmodel>;
+				viewData.Model = UnderlyingViewModel?.RenderModel;
 				base.SetViewData(viewData);
-				ModelEventDispatcher<Tdocument>.OnRender(_innerModel.Document, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_innerModel.Document));
+				ModelEventDispatcher<Tdocument>.OnLoad(UnderlyingViewModel.Document, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(UnderlyingViewModel.Document));
             }
             else
             {
                 throw new CodeFirstException("Wrong type of model. This view requires either a RenderModel (if the document type or its specified event handler implements IOnRender<Tdocument,Tviewmodel>) or DocumentViewModel<Tdocument, Tviewmodel> (if you're using a custom RenderMvcController). Note that CodeFirstManager.Current.Features.EnableContentEvents must be true to use IOnRender.");
             }
         }
-    }
+
+		public MvcHtmlString IgnoreNullRaw(Func<Tdocument, IHtmlString> selector, string defaultValue = "")
+		{
+			try
+			{
+				return new MvcHtmlString(selector.Invoke(Document).ToHtmlString());
+			}
+			catch (NullReferenceException ex)
+			{
+				return new MvcHtmlString(defaultValue);
+			}
+		}
+
+		public string IgnoreNull(Func<Tdocument, object> selector, string defaultValue = "")
+		{
+			try
+			{
+				return selector.Invoke(Document).ToString();
+			}
+			catch (NullReferenceException ex)
+			{
+				return defaultValue;
+			}
+		}
+	}
 }

@@ -80,7 +80,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 			return true;
 		}
 
-		public override void OnRender(Debug model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out DebugViewModel viewModel)
+		public override void OnLoad(Debug model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out DebugViewModel viewModel)
 		{
 			viewModel = new DebugViewModel()
 			{

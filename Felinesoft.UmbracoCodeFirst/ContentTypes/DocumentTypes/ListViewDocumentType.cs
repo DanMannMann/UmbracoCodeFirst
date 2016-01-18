@@ -65,7 +65,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         {
             get
             {
-                return _children;
+				init();
+				return _children;
             }
         }
 

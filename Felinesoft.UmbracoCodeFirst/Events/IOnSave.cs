@@ -11,11 +11,6 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 {
 	public interface IOnSaveBase { }
 
-	public interface IOnSave : IOnSaveBase
-	{
-		bool OnSave(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
 	public interface IOnSave<in T> : IOnSaveBase where T : CodeFirstContentBase
 	{
 		bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);

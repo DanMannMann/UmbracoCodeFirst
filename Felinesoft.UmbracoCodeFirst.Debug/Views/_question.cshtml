@@ -1,0 +1,22 @@
+﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+@using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("ValidateAnswer", FormMethod.Post, new { id = "MainForm" }))
+{
+	<div>
+		<img src="@(ViewModel.CurrentQuestion(Document).Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White))" />
+	</div>
+	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
+
+	<div>
+		@Html.Partial("_questionBody", ViewModel.CurrentQuestion(Document))
+	</div>
+
+	<span>1. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 1)
+	<span>2. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 2)
+	<span>3. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 3)
+	<span>4. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 4)
+
+	<input type="submit" value="Answer" />
+}

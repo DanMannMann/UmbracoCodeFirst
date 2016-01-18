@@ -1,0 +1,12 @@
+﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+@ViewModelHelper.HiddenFor(x => x.QuestionId, new { @Value = (ViewModel.QuestionId).ToString() })
+@ViewModelHelper.HiddenFor(x => x.QuestionIndex, new { @Value = (ViewModel.QuestionIndex).ToString() })
+@ViewModelHelper.HiddenFor(x => x.QuestionVersion, new { @Value = (ViewModel.QuestionVersion).ToString() })
+@ViewModelHelper.HiddenFor(x => x.SetId, new { @Value = (ViewModel.SetId).ToString() })
+@ViewModelHelper.HiddenFor(x => x.SetVersion, new { @Value = (ViewModel.SetVersion).ToString() })
+@ViewModelHelper.HiddenFor(x => x.MaxIndex, new { @Value = (ViewModel.MaxIndex).ToString() })
+@ViewModelHelper.HiddenFor(x => x.Reply.Correct, new { @Value = (ViewModel.Reply.Correct).ToString() })
+@ViewModelHelper.HiddenFor(x => x.Reply.Message, new { @Value = (ViewModel.Reply.Message).ToString() })

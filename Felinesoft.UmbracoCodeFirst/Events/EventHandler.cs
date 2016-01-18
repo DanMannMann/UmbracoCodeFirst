@@ -38,7 +38,7 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 		}
 	}
 
-	public abstract class DocumentEventHandler<Tdocument> : EventHandlerBase<Tdocument>, IOnPublish<Tdocument>, IOnUnpublish<Tdocument>, IOnCopy<Tdocument>, IOnMove<Tdocument>, IOnRender<Tdocument> where Tdocument : DocumentTypeBase
+	public abstract class DocumentEventHandler<Tdocument> : EventHandlerBase<Tdocument>, IOnPublish<Tdocument>, IOnUnpublish<Tdocument>, IOnCopy<Tdocument>, IOnMove<Tdocument>, IOnLoad<Tdocument> where Tdocument : DocumentTypeBase
 	{
 		public virtual bool OnMove(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
@@ -60,15 +60,15 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		public virtual void OnRender(Tdocument model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage)
+		public virtual void OnLoad(Tdocument model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage)
 		{
 
 		}
 	}
 
-	public abstract class DocumentEventHandler<Tdocument, Tviewmodel> : DocumentEventHandler<Tdocument>, IOnRender<Tdocument, Tviewmodel> where Tdocument : DocumentTypeBase
+	public abstract class DocumentEventHandler<Tdocument, Tviewmodel> : DocumentEventHandler<Tdocument>, IOnLoad<Tdocument, Tviewmodel> where Tdocument : DocumentTypeBase
 	{
-		public virtual void OnRender(Tdocument model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out Tviewmodel viewModel)
+		public virtual void OnLoad(Tdocument model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out Tviewmodel viewModel)
 		{
 			viewModel = default(Tviewmodel);
 		}

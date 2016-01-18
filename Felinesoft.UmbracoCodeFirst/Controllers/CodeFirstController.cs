@@ -16,14 +16,28 @@ using Felinesoft.UmbracoCodeFirst.Core.Modules;
 
 namespace Felinesoft.UmbracoCodeFirst.Controllers
 {
-    /// <summary>
-    /// <para>Converts IPublishedContent instances to code-first strongly-typed models and returns them as the model to a view. 
-    /// If no suitable model exists the Umbraco RenderModel is passed through to the view, making it safe to mix code-first and manual
-    /// document types.</para>
-    /// <para>This controller is suitable as a replacement for the default controller in the controller resolver, allowing strongly-typed
-    /// views to be created without creating a custom controller.</para>
-    /// <para>Views which inherit <see cref="UmbracoViewPage&gt;Tdocument&lt;"/> or specify @model Tdocument will work with this controller</para>
-    /// </summary>
+	public abstract class CodeFirstSurfaceController<Tdocument> : SurfaceController where Tdocument : DocumentTypeBase
+	{
+		private Tdocument _document;
+
+		public Tdocument Document
+		{
+			get
+			{
+				_document = _document ?? CurrentPage.ConvertDocumentToModel<Tdocument>();
+				return _document;
+			}
+		}
+	}
+
+	/// <summary>
+	/// <para>Converts IPublishedContent instances to code-first strongly-typed models and returns them as the model to a view. 
+	/// If no suitable model exists the Umbraco RenderModel is passed through to the view, making it safe to mix code-first and manual
+	/// document types.</para>
+	/// <para>This controller is suitable as a replacement for the default controller in the controller resolver, allowing strongly-typed
+	/// views to be created without creating a custom controller.</para>
+	/// <para>Views which inherit <see cref="UmbracoViewPage&gt;Tdocument&lt;"/> or specify @model Tdocument will work with this controller</para>
+	/// </summary>
 	[Obsolete("Don't use this. It probably doesn't work and the whole general concept sucks.")]
     public class CodeFirstController : RenderMvcController
     {

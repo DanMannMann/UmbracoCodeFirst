@@ -1,0 +1,9 @@
+﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+<div>
+	@ViewModel.Reply.Message
+</div>
+
+<a target="_self" href="@Document.NodeDetails.Url">Reload Question Set</a>

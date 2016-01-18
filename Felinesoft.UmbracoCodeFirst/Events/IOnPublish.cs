@@ -8,12 +8,7 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 {
 	public interface IOnPublishBase { }
 
-    public interface IOnPublish : IOnCreateBase
-	{
-		bool OnPublish(IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
-	}
-
-	public interface IOnPublish<in T> : IOnCreateBase where T : CodeFirstContentBase
+	public interface IOnPublish<in T> : IOnPublishBase where T : CodeFirstContentBase
 	{
 		bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
 	}

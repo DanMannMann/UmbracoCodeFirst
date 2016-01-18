@@ -1,0 +1,17 @@
+﻿@model Felinesoft.UmbracoCodeFirst.Debug.DocTypes.Question
+
+@{ 
+	int i = 1;
+}
+<div>
+	<div>@Model.QuestionText</div>
+	@foreach(var answer in Model.Answers)
+	{
+		<div>
+			<i>Answer @(i++)</i>:
+		</div>
+		<div>
+			@answer
+		</div>
+	}
+</div>
