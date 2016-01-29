@@ -84,7 +84,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
             }
         }
 
-
         public IMemberModelModule MemberModelModule
         {
             get
@@ -93,6 +92,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
             }
         }
 
+		public IDictionaryModule DictionaryModule
+		{
+			get
+			{
+				return Resolve<IDictionaryModule>();
+			}
+		}
 
         public void RegisterModule<Tinterface>(IModuleFactory<Tinterface> moduleFactory) where Tinterface : ICodeFirstEntityModule
         {
@@ -444,8 +450,8 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             resolver.AddDefaultMemberTypeModule();
             resolver.AddDefaultDocumentModelModule();
             resolver.AddDefaultMediaModelModule();
-            resolver.AddDefaultMemberModelModule(); 
-
+            resolver.AddDefaultMemberModelModule();
+			resolver.AddDefaultDictionaryModule();
         }
     }
 }

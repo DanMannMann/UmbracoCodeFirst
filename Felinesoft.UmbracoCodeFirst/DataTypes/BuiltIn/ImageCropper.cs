@@ -57,15 +57,18 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         /// </summary>
         public void Initialise(string dbValue)
         {
-            JsonConvert.PopulateObject(dbValue, this);
-            _underlying = JsonConvert.DeserializeObject<ImageCropDataSet>(dbValue); //This is useful as it has logic for generating the crop URLs
-            Effects.SetUnderlyingDataset(_underlying);
-            Crops.ForEach(x => x.SetUnderlyingDataset(_underlying));
-            var crops = GetCropsFromProperties();
-            foreach (var crop in crops)
-            {
-                crop.Key.SetValue(this, Crops.FirstOrDefault(x => x.Alias == crop.Value.Alias));
-            }
+			if (!string.IsNullOrWhiteSpace(dbValue))
+			{
+				JsonConvert.PopulateObject(dbValue, this);
+				_underlying = JsonConvert.DeserializeObject<ImageCropDataSet>(dbValue); //This is useful as it has logic for generating the crop URLs
+				Effects.SetUnderlyingDataset(_underlying);
+				Crops.ForEach(x => x.SetUnderlyingDataset(_underlying));
+				var crops = GetCropsFromProperties();
+				foreach (var crop in crops)
+				{
+					crop.Key.SetValue(this, Crops.FirstOrDefault(x => x.Alias == crop.Value.Alias));
+				}
+			}
         }
 
         /// <summary>

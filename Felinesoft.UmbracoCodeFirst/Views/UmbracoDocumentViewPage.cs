@@ -8,6 +8,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.Events;
+using Felinesoft.UmbracoCodeFirst.Dictionaries;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -30,6 +31,11 @@ namespace Felinesoft.UmbracoCodeFirst.Views
 			{
 				_helper = new Lazy<CodeFirstDocumentHelper<Tdocument>>(() => new CodeFirstDocumentHelper<Tdocument>(Html, GetDocument()));
 			}
+		}
+
+		public Tdict Dictionary<Tdict>() where Tdict : DictionaryBase
+		{
+			return CodeFirstExtensions.Dictionary<Tdict>(this);
 		}
 
         private Tdocument GetDocument()

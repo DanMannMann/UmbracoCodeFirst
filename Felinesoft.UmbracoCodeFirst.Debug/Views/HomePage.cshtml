@@ -1,0 +1,34 @@
+﻿<!--
+	This view inherits UmbracoDocumentViewPage<T>, which allows code-first strongly typed views without using any kind of custom controller.
+    UmbracoDocumentViewPage<T> is fully compatible with UmbracoViewPage<RenderModel>, so can be easily swapped into existing Umbraco views
+	without breaking anything.
+-->
+
+@inherits UmbracoDocumentViewPage<HomePage>
+@using Felinesoft.UmbracoCodeFirst.Views
+@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+
+@{
+    Layout = "_layout.cshtml";
+}
+
+@section title{
+	@Document.NodeDetails.Name
+}
+
+<div style="margin:10px">
+	@Document.WelcomeParagraph
+</div>
+
+<div>
+	@(Dictionary<QuizmasterDictionary>().ChooseQuestionSet)
+</div>
+
+<div>
+	@foreach(var set in Document.QuestionSets)
+	{
+		<div>
+			<a href="@set.NodeDetails.Url">@set.NodeDetails.Name</a>
+		</div>
+	}
+</div>

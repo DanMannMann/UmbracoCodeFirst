@@ -1,3 +1,4 @@
+using Felinesoft.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Linq;
 
@@ -23,4 +24,5 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             return val == null ? string.Empty : val.Value;
         }
     }
+
 }

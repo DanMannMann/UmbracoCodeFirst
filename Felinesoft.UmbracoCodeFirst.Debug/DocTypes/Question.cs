@@ -1,37 +1,69 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
-
-using at = Felinesoft.UmbracoCodeFirst.Attributes;
-using dt = Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Felinesoft.UmbracoCodeFirst.Linq;
+using System.Web.Http.Routing;
 using System.Web;
+using System.Net.Http;
 
 namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 {
-	[DocumentType]
+	[DocumentType(allowAtRoot: false)]
 	public class Question : DocumentTypeBase
 	{
 		[ContentProperty(mandatory: true)]
-		public dt.Textstring QuestionText { get; set; }
+		public virtual Textstring QuestionText { get; set; }
 
 		[ContentProperty(mandatory: true)]
-		[at.InstancePreValue("minItems", "4")]
-		[at.InstancePreValue("maxItems", "4")]
-		public dt.MultipleTextstring Answers { get; set; }
+		[InstancePreValue("minItems", "4")]
+		[InstancePreValue("maxItems", "4")]
+		public virtual MultipleTextstring Answers { get; set; }
+
+		[ContentProperty(mandatory: false)]
+		public virtual QuestionImage Image { get; set; }
 
 		[ContentProperty(mandatory: true)]
-		public QuestionImage Image { get; set; }
+		[InstancePreValue("max", "4")]
+		[InstancePreValue("min", "1")]
+		public virtual Numeric CorrectAnswer { get; set; }
 
-		[ContentProperty(mandatory: true)]
-		[at.InstancePreValue("max", "4")]
-		[at.InstancePreValue("min", "1")]
-		public dt.Numeric CorrectAnswer { get; set; }
+		public QuestionSet Parent
+		{
+			get
+			{
+				return this.NearestAncestor<QuestionSet>();
+			}
+		}
+
+		public string ImageUrl
+		{
+			get
+			{
+				string imgUrl = null;
+				try
+				{
+					imgUrl = Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
+				}
+				catch
+				{
+					try
+					{
+						imgUrl = Parent.DefaultImageForSet.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
+					}
+					catch
+					{
+						try
+						{
+							imgUrl = new UrlHelper(HttpContext.Current.Items["MS_HttpRequestMessage"] as HttpRequestMessage).Content("~/Content/defaultImage.jpg");
+						}
+						catch
+						{
+							imgUrl = string.Empty;
+						}
+					}
+				}
+				return imgUrl;
+			}
+		}
 	}
-
 }

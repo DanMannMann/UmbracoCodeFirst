@@ -3,7 +3,12 @@
 @using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 <div>
+	<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
+</div>
+
+<div>
 	@ViewModel.Reply.Message
 </div>
 
 <a target="_self" href="@Document.NodeDetails.Url">Reload Question Set</a>
+<a target="_self" href="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))">Home</a>

@@ -19,6 +19,8 @@ using System.Web.Mvc;
 using System.Web.Mvc.Html;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using System.Linq.Expressions;
+using System.Web.WebPages;
+using Felinesoft.UmbracoCodeFirst.Dictionaries;
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions
 {
@@ -136,7 +138,17 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         }
         #endregion
 
-        internal static bool IsParentTabFor(this PropertyInfo propertyInfo, TabRegistration tab)
+		public static Tdict Dictionary<Tdict>(this WebPageExecutingBase page, CultureInfo culture = null) where Tdict : DictionaryBase
+		{
+			return CodeFirstManager.Current?.Modules?.DictionaryModule?.GetDictionary<Tdict>(culture);
+		}
+
+		public static Tdict Dictionary<Tdict>(this Controller page, CultureInfo culture = null) where Tdict : DictionaryBase
+		{
+			return CodeFirstManager.Current?.Modules?.DictionaryModule?.GetDictionary<Tdict>(culture);
+		}
+
+		internal static bool IsParentTabFor(this PropertyInfo propertyInfo, TabRegistration tab)
         {
             var attr = propertyInfo.GetCodeFirstAttribute<ContentTabAttribute>();
             //if parent property (inherited or otherwise) has [ContentTab] attr
@@ -154,12 +166,6 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             return false;
         }
 
-        /// <summary>
-        /// Returns true if the specified type implements <see cref="IUmbracoDataType{T}"/>
-        /// </summary>
-        /// <param name="type">The type to inspect</param>
-        /// <param name="underlyingValueType">Returns the Umbraco database type</param>
-        /// <returns>True if the specified type implements <see cref="IUmbracoDataType{T}"/></returns>
         public static bool IsUmbracoDataType(this Type type, out Type underlyingValueType, out DataTypeDatabaseType? storageType)
         {
             var result = type.GetInterfaces().FirstOrDefault(x =>

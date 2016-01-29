@@ -37,7 +37,10 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 result = GetPreValues(registration.Definition.Id);
                 if (!_cache.TryAdd(registration, result))
                 {
-                    throw new CodeFirstException("Unable to cache prevalues");
+                    if (!_cache.ContainsKey(registration))
+					{
+						throw new CodeFirstException("Unable to cache prevalues");
+					}
                 }
             }
             return result;

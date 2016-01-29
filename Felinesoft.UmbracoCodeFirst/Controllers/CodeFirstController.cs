@@ -13,6 +13,7 @@ using System.Collections.Concurrent;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Umbraco.Web.Models;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Felinesoft.UmbracoCodeFirst.Dictionaries;
 
 namespace Felinesoft.UmbracoCodeFirst.Controllers
 {
@@ -27,6 +28,11 @@ namespace Felinesoft.UmbracoCodeFirst.Controllers
 				_document = _document ?? CurrentPage.ConvertDocumentToModel<Tdocument>();
 				return _document;
 			}
+		}
+
+		protected Tdict Dictionary<Tdict>() where Tdict : DictionaryBase
+		{
+			return CodeFirstExtensions.Dictionary<Tdict>(this);
 		}
 	}
 

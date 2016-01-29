@@ -44,7 +44,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         /// <param name="nullHandling">Defines how null properties are serialised</param>
         protected UmbracoJsonDataType(NullValueHandling nullHandling = NullValueHandling.Include)
         {
-            _serialiserSettings = new JsonSerializerSettings
+			_serialiserSettings = new JsonSerializerSettings
             {
                 NullValueHandling = nullHandling
             };

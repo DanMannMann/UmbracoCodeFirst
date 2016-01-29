@@ -12,113 +12,158 @@ using System.Web.Mvc;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
+using Umbraco.Web.Models;
 
 namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 {
 	public class QuestionSetSurfaceController : CodeFirstSurfaceController<QuestionSet>, Events.IOnLoad<QuestionSet, QuestionSetViewModel>, Events.IOnCreate<QuestionSet>
 	{
-		public ActionResult ValidateAnswer(QuestionSetViewModel questionSet, bool isAjax = false)
+		#region Actions
+		/// <summary>
+		/// Validates the answer
+		/// </summary>
+		public ActionResult ValidateAnswerAsync(QuestionSetViewModel questionSet)
 		{
-			var questionDocument = Document.Children.FirstOrDefault(x => x.NodeDetails.UmbracoId == questionSet.QuestionId);
-			if (questionSet.SetVersion != CurrentPage.Version)
-			{
-				questionSet.Answer = new QuestionSetViewModel.QuestionResponse()
-				{
-					AnswerIndex = -1
-				};
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.SetVersionChangedErrorMessage.Value };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionError"), GetViewModel(questionSet, Document));
-			}
-			else if (questionSet.QuestionVersion != questionDocument.NodeDetails.PublishedContent.Version)
-			{
-				questionSet.Answer = new QuestionSetViewModel.QuestionResponse()
-				{
-					AnswerIndex = -1
-				};
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.QuestionVersionChangedErrorMessage.Value };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionError"), GetViewModel(questionSet, Document));
-			}
-			else if (questionSet.Answer.AnswerIndex != questionDocument.CorrectAnswer.Value)
-			{
-				questionSet.Answer = new QuestionSetViewModel.QuestionResponse()
-				{
-					AnswerIndex = -1
-				};
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.IncorrectAnswerMessage.Value };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionError"), GetViewModel(questionSet, Document));
-			}
-			else
-			{
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.CorrectAnswerMessage.Value, Correct = true };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionCorrect"), GetViewModel(questionSet, Document));
-			}
+			//If async only render the relevant partial
+			string viewName;
+			viewName = CheckAnswer(questionSet);
+			return View(viewName, GetViewModel(questionSet, Document));
 		}
 
-		public ActionResult GetNextQuestion(QuestionSetViewModel questionSet, bool isAjax = false)
+		/// <summary>
+		/// Validates the answer asynchronously
+		/// </summary>
+		public ActionResult ValidateAnswer(QuestionSetViewModel questionSet, bool isAjax)
 		{
-			if (questionSet.SetVersion != CurrentPage.Version)
+			if (isAjax)
 			{
-				questionSet.Answer = new QuestionSetViewModel.QuestionResponse()
-				{
-					AnswerIndex = -1
-				};
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.SetVersionChangedErrorMessage.Value };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionError"), GetViewModel(questionSet, Document));
+				return ValidateAnswerAsync(questionSet);
 			}
-			else if (questionSet.Reply?.Correct == true && questionSet.QuestionIndex + 1 > questionSet.MaxIndex)
+
+			//If no async re-render the entire page
+			CheckAnswer(questionSet);
+			return View("QuestionSet", GetViewModel(questionSet, Document));
+		}
+
+		/// <summary>
+		/// Gets next question
+		/// </summary>
+		public ActionResult GetNextQuestionAsync(QuestionSetViewModel questionSet)
+		{
+			//If async only render the relevant partial
+			string viewName;
+			viewName = CheckNextQuestion(questionSet);
+			return View(viewName, GetViewModel(questionSet, Document));
+		}
+
+		/// <summary>
+		/// Gets next question asynchronously
+		/// </summary>
+		public ActionResult GetNextQuestion(QuestionSetViewModel questionSet, bool isAjax)
+		{
+			if (isAjax)
 			{
-				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Document.Messages.NoMoreQuestionsMessage.Value };
-				return View(ConfigureViewName(questionSet, isAjax, "_questionEnd"), GetViewModel(questionSet, Document));
+				return GetNextQuestionAsync(questionSet);
+			}
+
+			//If no async re - render the entire page
+			CheckNextQuestion(questionSet);
+			return View("QuestionSet", GetViewModel(questionSet, Document));
+		}
+		#endregion
+
+		#region Private Methods
+		/// <summary>
+		/// Constructs a model which can be used as the input to any view in this site. The model is a combination
+		/// of Umbraco's render model, the code-first strongly-typed document and a custom viewmodel.
+		/// </summary>
+		private object GetViewModel(QuestionSetViewModel questionSet, QuestionSet setDoc)
+		{
+			return new DocumentViewModel<QuestionSet, QuestionSetViewModel>(new RenderModel(setDoc.NodeDetails.PublishedContent), setDoc, questionSet);
+		}
+
+		/// <summary>
+		/// Checks whether the answer to a question is correct and returns the name
+		/// of the view that should be rendered in response to the answer.
+		/// </summary>
+		private string CheckAnswer(QuestionSetViewModel questionSet)
+		{
+			string viewName;
+			ModelState.Clear();
+
+			var questionDocument = Document.Children.FirstOrDefault(x => x.NodeDetails.UmbracoId == questionSet.QuestionId);
+			if (questionSet.Answer.AnswerIndex != questionDocument.CorrectAnswer.Value)
+			{
+				questionSet.Answer.AnswerIndex = -1;
+				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Dictionary<QuizmasterDictionary>().IncorrectAnswer };
+				viewName = "_questionError";
 			}
 			else
 			{
+				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Dictionary<QuizmasterDictionary>().CorrectAnswer, Correct = true };
+				viewName = "_questionCorrect";
+			}
+
+			questionSet.RequiredPartial = viewName;
+			return viewName;
+		}
+
+		/// <summary>
+		/// Works out the next question to display and returns the relevant view name.
+		/// </summary>
+		private string CheckNextQuestion(QuestionSetViewModel questionSet)
+		{
+			string viewName;
+			ModelState.Clear();
+			if (questionSet.Reply?.Correct == true && questionSet.QuestionIndex + 1 > questionSet.MaxIndex)
+			{
+				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Dictionary<QuizmasterDictionary>().NoMoreQuestions };
+				viewName = "_questionEnd";
+			}
+			else
+			{
+				//Move to next question if answer was correct, otherwise stay on same question.
 				questionSet.QuestionIndex = questionSet.Reply?.Correct == true ? questionSet.QuestionIndex + 1 : questionSet.QuestionIndex;
 				questionSet.QuestionId = Document.ElementAt(questionSet.QuestionIndex)?.NodeDetails?.UmbracoId ?? -1;
-				questionSet.QuestionVersion = Document.ElementAt(questionSet.QuestionIndex)?.NodeDetails?.PublishedContent?.Version ?? Guid.Empty;
-				questionSet.Answer = new QuestionSetViewModel.QuestionResponse()
-				{
-					AnswerIndex = -1,
-				};
-				return View(ConfigureViewName(questionSet, isAjax, "_question"), GetViewModel(questionSet, Document));
+				questionSet.Answer.AnswerIndex = -1;
+				viewName = "_question";
 			}
+
+			return viewName;
+		}
+		#endregion
+
+		#region Events
+		/// <summary>
+		/// An event raised whenever an instance of the QuestionSet document type is created. The method
+		/// sets some default values on the document instance.
+		/// </summary>
+		public bool OnCreate(QuestionSet model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		{
+			model.WelcomeParagraph = new RichtextEditor() { Value = "Welcome to the new question set" };
+			model.NodeDetails.Name = "New question set";
+			return true;
 		}
 
+		/// <summary>
+		/// An event raised whenever a QuestionSet document is being requested. The method
+		/// sets up a default viewmodel, which will be passed back and forth by the form postbacks or
+		/// ajax posts on the views.
+		/// </summary>
 		public void OnLoad(QuestionSet model, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext, IPublishedContent currentPage, out QuestionSetViewModel viewModel)
 		{
 			viewModel = new QuestionSetViewModel()
 			{
 				MaxIndex = model?.Count - 1 ?? -1,
-				SetVersion = currentPage?.Version ?? Guid.Empty,
 				SetId = currentPage?.Id ?? -1,
 				QuestionIndex = model?.Count > 0 ? 0 : -1,
 				QuestionId = model.FirstOrDefault()?.NodeDetails?.UmbracoId ?? -1,
-				QuestionVersion = model.FirstOrDefault()?.NodeDetails?.PublishedContent?.Version ?? Guid.Empty,
 				Answer = new QuestionSetViewModel.QuestionResponse()
 				{
 					AnswerIndex = -1
 				}
 			};
 		}
-
-		private string ConfigureViewName(QuestionSetViewModel questionSet, bool isAjax, string name)
-		{
-			questionSet.RequiredPartial = name;
-			return isAjax ? name : "QuestionSet"; //If not AJAX render the outermost view
-		}
-
-		private object GetViewModel(QuestionSetViewModel questionSet, QuestionSet setDoc)
-		{
-			return new DocumentViewModel<QuestionSet, QuestionSetViewModel>(new Umbraco.Web.Models.RenderModel(setDoc.NodeDetails.PublishedContent), setDoc, questionSet);
-		}
-
-		public bool OnCreate(QuestionSet model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
-		{
-			model.Messages.IncorrectAnswerMessage = new Textstring() { Value = "You suck balls, guy." };
-			model.Messages.NoMoreQuestionsMessage = new Textstring() { Value = "No more questions! :(" };
-			model.Messages.QuestionVersionChangedErrorMessage = new Textstring() { Value = "The question changed. :(" };
-			model.Messages.SetVersionChangedErrorMessage = new Textstring() { Value = "The question set changed. :(" };
-			model.Messages.CorrectAnswerMessage = new Textstring() { Value = "Woot woot!" };
-			return true;
-		}
+		#endregion
 	}
 }

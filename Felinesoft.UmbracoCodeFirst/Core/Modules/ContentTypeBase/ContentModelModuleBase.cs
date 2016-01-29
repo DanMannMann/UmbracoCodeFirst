@@ -159,8 +159,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                     model = ConvertToModelInternal<Tmodel>(content);
                     return true;
                 }
-                catch
+                catch (Exception ex)
                 {
+					CodeFirstManager.Current.Warn("TryConvertToModel failed. Exception: " + ex, this);
                     model = default(Tmodel);
                     return false;
                 }

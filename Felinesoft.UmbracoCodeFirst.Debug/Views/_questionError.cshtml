@@ -6,8 +6,9 @@
 @using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("GetNextQuestion", FormMethod.Post, new { id = "MainForm" }))
 {
 	<div>
-		<img src="@(ViewModel.CurrentQuestion(Document).Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White))" />
+		<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
 	</div>
+
 	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
 	<div>
 		@ViewModel.Reply.Message

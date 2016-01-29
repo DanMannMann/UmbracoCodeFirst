@@ -1,7 +1,3 @@
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,8 +12,6 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 		public int SetId { get; set; }
 
-		public Guid SetVersion { get; set; }
-
 		public int MaxIndex { get; set; }
 
 		public QuestionResponse Answer { get; set; } = new QuestionResponse();
@@ -27,8 +21,6 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 		public int QuestionIndex { get; set; }
 
 		public int QuestionId { get; set; }
-
-		public Guid QuestionVersion { get; set; }
 
 		public string RequiredPartial { get; set; } = "_question";
 
@@ -41,19 +33,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 		[Bind(Prefix = "Reply")]
 		public class AnswerResponse
 		{
-			private bool _c;
-
-			public bool Correct
-			{
-				get
-				{
-					return _c;
-				}
-				set
-				{
-					_c = value;
-				}
-			}
+			public bool Correct { get; set; }
 
 			public string Message { get; set; } = string.Empty;
 		}

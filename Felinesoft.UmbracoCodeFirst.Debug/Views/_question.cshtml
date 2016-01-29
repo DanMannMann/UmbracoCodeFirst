@@ -2,11 +2,13 @@
 @using Felinesoft.UmbracoCodeFirst.Views
 @using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
+
 @using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("ValidateAnswer", FormMethod.Post, new { id = "MainForm" }))
 {
 	<div>
-		<img src="@(ViewModel.CurrentQuestion(Document).Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White))" />
+		<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
 	</div>
+
 	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
 
 	<div>

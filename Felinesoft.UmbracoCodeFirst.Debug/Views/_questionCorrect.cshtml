@@ -5,12 +5,13 @@
 @using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("GetNextQuestion", FormMethod.Post, new { id = "MainForm" }))
 {
 	<div>
-		<img src="@(ViewModel.CurrentQuestion(Document).Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White))" />
-	</div>
-	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
-	<div>
-		@Document.Messages.CorrectAnswerMessage
+		<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
 	</div>
 
+	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
+	<div>
+		@(Dictionary<QuizmasterDictionary>().CorrectAnswer)
+	</div>
+	@Url
 	<input type="submit" value="Get next question" />
 }

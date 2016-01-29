@@ -1,38 +1,29 @@
-﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
+﻿<!--
+	This view inherits CodeFirstDocumentView<Tdoc,Tvm>, which allows code-first strongly typed views to be used alongside a custom viewmodel for richly-featured applications.
+	You need to inject the viewmodel. This can be done by either:
+		1. creating a custom RenderMvcController which passes an instance of DocumentViewModel<Tdoc, Tvm> to the view
+	    2. Providing an OnLoad event handler for the document type (Tdoc) which will allow code-first to automatically build the model, relying on the event handler to create the custom viewmodel.
+	This project uses option 2. The OnLoad event handler can be found on the QuestionSetSurfaceController. The event binding is via an attribute on the class declaration for QuestionSet.
+-->
+
+@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
 @using Felinesoft.UmbracoCodeFirst.Views
 @using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
-<!DOCTYPE html>
+@{ 
+	Layout = "_layout.cshtml";
+}
 
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Question Set</title>
-</head>
-<body>
-    <div> 
-		@Document.WelcomeParagraph
-    </div>
-	<br />
-	@Html.Partial(ViewModel.RequiredPartial, UnderlyingViewModel)
-		
-	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.2.0.min.js")"></script>
-	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.min.js")"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			AjaxItUpABit($('#MainForm'));
-		});
+@section title{
+	@Document.NodeDetails.Name
+}
 
-		function AjaxItUpABit(form) {
-			form.ajaxForm({
-				data: { isAjax: true },
-				target: form,
-				replaceTarget: true,
-				success: function (a, formElement) {
-					AjaxItUpABit($('#MainForm'));
-				}
-			});
-		}
-	</script>
-</body>
-</html>
+<div style="margin:10px">
+	@Document.WelcomeParagraph
+</div>
+
+@Html.Partial(ViewModel.RequiredPartial, UnderlyingViewModel)
+
+<div style="margin:10px">
+	@(Dictionary<QuizmasterDictionary>().CopyrightMessage)
+</div>

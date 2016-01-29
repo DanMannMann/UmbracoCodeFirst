@@ -66,7 +66,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         protected override T GetModelFromId(int id)
         {
             var node = new Umbraco.Web.UmbracoHelper(Umbraco.Web.UmbracoContext.Current).TypedMedia(id);
-            return node.ConvertMediaToModel<T>(CodeFirstModelContext.GetContext(this));
+            return node == null ? null : node.ConvertMediaToModel<T>(CodeFirstModelContext.GetContext(this));
         }
     }
 

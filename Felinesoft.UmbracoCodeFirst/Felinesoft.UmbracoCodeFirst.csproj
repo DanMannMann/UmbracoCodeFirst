@@ -273,6 +273,7 @@
     <Compile Include="Attributes\CssClassAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\ImageCropPropertyAttribute.cs" />
     <Compile Include="Attributes\DataTypes\PreValues\InstancePreValueAttribute.cs" />
+    <Compile Include="Attributes\DictionaryAttribute.cs" />
     <Compile Include="Attributes\EventHandlerAttribute.cs" />
     <Compile Include="Attributes\HtmlDataAttribute.cs" />
     <Compile Include="Attributes\IDataTypeRedirect.cs" />
@@ -329,6 +330,8 @@
     <Compile Include="Core\Modules\ContentTypeBase\T4\TemplateDescription.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />
     <Compile Include="Core\Modules\DataType\Registration\EnumDataTypeRegistration.cs" />
+    <Compile Include="Core\Modules\Dictionary\IDictionaryModule.cs" />
+    <Compile Include="Dictionaries\DictionaryBase.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\IOnCopy.cs" />
     <Compile Include="Events\IOnCreate.cs" />

@@ -92,7 +92,10 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             foreach (var id in ids)
             {
                 var model = GetModelFromId(id);
-                Add(model);
+				if (model != null)
+				{
+					Add(model);
+				}
             }
         }
 

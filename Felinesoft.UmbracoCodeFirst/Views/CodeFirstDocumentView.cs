@@ -14,6 +14,7 @@ using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.Events;
+using Felinesoft.UmbracoCodeFirst.Dictionaries;
 
 namespace Felinesoft.UmbracoCodeFirst.Views
 {
@@ -31,6 +32,11 @@ namespace Felinesoft.UmbracoCodeFirst.Views
     public abstract class CodeFirstDocumentView<Tdocument, Tviewmodel> : Umbraco.Web.Mvc.UmbracoViewPage<RenderModel>, ICodeFirstViewHelper<Tdocument, Tviewmodel> where Tdocument : DocumentTypeBase
     {
         private DocumentViewModel<Tdocument, Tviewmodel> _innerModel;
+
+		public Tdict Dictionary<Tdict>() where Tdict : DictionaryBase
+		{
+			return CodeFirstExtensions.Dictionary<Tdict>(this);
+		}
 
         protected CodeFirstDocumentView() : base() { _helper = new Lazy<CodeFirstViewHelper<Tdocument, Tviewmodel>>(() => new CodeFirstViewHelper<Tdocument, Tviewmodel>(Html, _innerModel.Document, _innerModel.ViewModel)); }
 
