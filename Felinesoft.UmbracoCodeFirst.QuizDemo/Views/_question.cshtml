@@ -6,7 +6,7 @@
 @using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("ValidateAnswer", FormMethod.Post, new { id = "MainForm" }))
 {
 	<div>
-		<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
+		<img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
 	</div>
 
 	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)

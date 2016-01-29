@@ -3,7 +3,7 @@
 @using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 <div>
-	<img src="@ViewModel.CurrentQuestion(Document).ImageUrl" />
+	<img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
 </div>
 
 <div>

@@ -22,6 +22,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				//Default homepage doesn't exist, add the seed content
 				AddSeedContent();
 				applicationContext.Services.ContentService.RePublishAll();
+				umbraco.library.RefreshContent();
 			}
 		}
 

@@ -5,6 +5,7 @@ using Felinesoft.UmbracoCodeFirst.Linq;
 using System.Web.Http.Routing;
 using System.Web;
 using System.Net.Http;
+using System;
 
 namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 {
@@ -52,14 +53,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 					}
 					catch
 					{
-						try
-						{
-							imgUrl = new UrlHelper(HttpContext.Current.Items["MS_HttpRequestMessage"] as HttpRequestMessage).Content("~/Content/defaultImage.jpg");
-						}
-						catch
-						{
-							imgUrl = string.Empty;
-						}
+						imgUrl = null;
 					}
 				}
 				return imgUrl;
