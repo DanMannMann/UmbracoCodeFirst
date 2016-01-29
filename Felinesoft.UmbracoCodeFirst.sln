@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
 EndProject
@@ -28,7 +28,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Felinesoft.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.Debug", "Felinesoft.UmbracoCodeFirst.Debug\Felinesoft.UmbracoCodeFirst.Debug.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.QuizDemo", "Felinesoft.UmbracoCodeFirst.QuizDemo\Felinesoft.UmbracoCodeFirst.QuizDemo.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,8 +70,8 @@ Global
 		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.TestTarget\\Felinesoft.UmbracoCodeFirst.TestTarget.csproj
 		SccProjectName3 = Felinesoft.UmbracoCodeFirst.TestTarget
 		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.TestTarget
-		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.Debug\\Felinesoft.UmbracoCodeFirst.Debug.csproj
-		SccProjectName4 = Felinesoft.UmbracoCodeFirst.Debug
-		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.Debug
+		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.QuizDemo\\Felinesoft.UmbracoCodeFirst.QuizDemo.csproj
+		SccProjectName4 = Felinesoft.UmbracoCodeFirst.QuizDemo
+		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.QuizDemo
 	EndGlobalSection
 EndGlobal
