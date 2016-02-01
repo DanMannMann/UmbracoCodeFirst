@@ -2,8 +2,8 @@
 @using Felinesoft.UmbracoCodeFirst.Extensions
 @using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 
-<div style="border:solid black 1px; margin:10px; padding:5px;">
-	<h3>@(this.Dictionary<QuizmasterDictionary>().FactoidTitle)</h3>
-	<h4>@Model.Details.FactoidTitle</h4>
-	<div style="background-color:lightblue; margin:5px">@Model.Details.FactoidText</div>
-</div>
+<aside class="factoid">
+	<h1 class="factoid__title">@(this.Dictionary<QuizmasterDictionary>().FactoidTitle)</h1>
+	<strong class="factoid__major">@Model.Details.FactoidTitle</strong>
+	<p class="factoid__minor">@Model.Details.FactoidText</p>
+</aside>

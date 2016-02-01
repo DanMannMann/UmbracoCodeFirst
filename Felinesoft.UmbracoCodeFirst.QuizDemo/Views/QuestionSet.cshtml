@@ -18,12 +18,14 @@
 	@Document.NodeDetails.Name
 }
 
-<div style="margin:10px">
-	@Document.Content.WelcomeParagraph
+<div class="content">
+    <p>
+        @Document.Content.WelcomeParagraph
+    </p>
 </div>
 
 @Html.Partial(ViewModel.RequiredPartial, UnderlyingViewModel)
 
-<div style="margin:10px">
+@*<div style="margin:10px">
 	@(Dictionary<QuizmasterDictionary>().CopyrightMessage)
-</div>
+</div>*@

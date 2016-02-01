@@ -328,6 +328,8 @@
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
     <Content Include="Content\defaultImage.jpg" />
+    <Content Include="Content\FS-icon.png" />
+    <Content Include="Content\stylesheet.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
@@ -356,7 +358,6 @@
     <Content Include="Config\ClientDependency.config" />
     <Content Include="App_Plugins\RJP.MultiUrlPicker\package.manifest" />
     <Content Include="Views\QuestionSet.cshtml" />
-    <Content Include="Views\_questionBody.cshtml" />
     <Content Include="Views\_question.cshtml" />
     <Content Include="Views\_questionCorrect.cshtml" />
     <Content Include="Views\_questionError.cshtml" />

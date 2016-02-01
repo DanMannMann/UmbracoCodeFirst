@@ -2,15 +2,28 @@
 <html>
 <head>
 	<meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/stylesheet.css")" />
 	<title>@RenderSection("title")</title>
 </head>
 <body>
 	
-	<div id="header">
-		<a href="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))">Home</a>
-	</div>
-
-	@RenderBody()
+    <header class="header">
+        <div class="guns-dont-kill-people"><!-- wrappers do -->
+            <ul class="navigation header__navigation">
+                <li class="navigation__item"><a class="navigation__link" href="@string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))">Home</a></li>
+            </ul>
+        </div>
+    </header>
+    <main class="main">
+        <div class="guns-dont-kill-people">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="footer">
+        <div class="guns-dont-kill-people">
+            [Licensing information, links to places, etc.]
+        </div>
+    </footer>
 
 	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery-2.2.0.min.js")"></script>
 	<script type="text/javascript" src="@Url.Content("~/Scripts/jquery.form.min.js")"></script>

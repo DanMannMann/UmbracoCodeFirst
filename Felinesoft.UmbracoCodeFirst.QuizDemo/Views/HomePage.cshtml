@@ -16,19 +16,19 @@
 	@Document.NodeDetails.Name
 }
 
-<div style="margin:10px">
-	@Document.Content.WelcomeParagraph
-</div>
-
-<div>
-	@(Dictionary<QuizmasterDictionary>().ChooseQuestionSet)
-</div>
-
-<div>
-	@foreach(var set in Document.QuestionSets)
-	{
-		<div>
-			<a href="@set.NodeDetails.Url">@set.NodeDetails.Name</a>
-		</div>
-	}
+<div class="content">
+    <p>
+        @Document.Content.WelcomeParagraph
+    </p>
+    <p>
+        @(Dictionary<QuizmasterDictionary>().ChooseQuestionSet)
+    </p>
+    <ul>
+        @foreach (var set in Document.QuestionSets)
+        {
+            <li>
+                <a href="@set.NodeDetails.Url">@set.NodeDetails.Name</a>
+            </li>
+        }
+    </ul>
 </div>

@@ -3,22 +3,36 @@
 @using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 
 
-@using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("ValidateAnswer", FormMethod.Post, new { id = "MainForm" }))
+@using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("ValidateAnswer", FormMethod.Post, new { id = "MainForm", @class = "form" }))
 {
-	<div>
-		<img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
-	</div>
 
 	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
 
-	<div>
-		@Html.Partial("_questionBody", ViewModel.CurrentQuestion(Document))
+	<div class="question">
+        @{
+            int i = 1;
+            var questionViewModel = ViewModel.CurrentQuestion(Document);
+        }
+        <div class="question__image">
+            <img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
+        </div>
+        <div class="question__question">
+            @questionViewModel.QuestionDetails.QuestionText
+        </div>
+        @foreach (var answer in questionViewModel.QuestionDetails.Answers)
+        {
+            var answerId = "answer" + i;
+            <div class="question__answer">
+                @ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, i, new { @class = "question__checkbox", id = answerId })
+                <label class="question__label" for="@answerId" tabindex="0">
+                    @answer
+                </label>
+            </div>
+            i++;
+        }
 	</div>
 
-	<span>1. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 1)
-	<span>2. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 2)
-	<span>3. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 3)
-	<span>4. </span>@ViewModelHelper.RadioButtonFor(x => x.Answer.AnswerIndex, 4)
-
-	<input type="submit" value="Answer" />
+    <div class="form__actions">
+        <button type="submit" class="form__submit">Answer &#x203A;</button>
+    </div>
 }
