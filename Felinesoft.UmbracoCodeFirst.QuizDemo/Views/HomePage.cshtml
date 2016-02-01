@@ -6,7 +6,7 @@
 
 @inherits UmbracoDocumentViewPage<HomePage>
 @using Felinesoft.UmbracoCodeFirst.Views
-@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+@using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 
 @{
     Layout = "_layout.cshtml";
@@ -17,7 +17,7 @@
 }
 
 <div style="margin:10px">
-	@Document.WelcomeParagraph
+	@Document.Content.WelcomeParagraph
 </div>
 
 <div>

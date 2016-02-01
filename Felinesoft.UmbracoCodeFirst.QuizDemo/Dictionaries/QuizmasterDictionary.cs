@@ -5,7 +5,7 @@ using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes;
 using Felinesoft.UmbracoCodeFirst.Dictionaries;
 
-namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	[Dictionary]
 	public class QuizmasterDictionary : DictionaryBase
@@ -24,5 +24,8 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 
 		[Item(defaultValue: "Please choose the question set you would like to complete:")]
 		public string ChooseQuestionSet { get; set; }
+
+		[Item(defaultValue: "Fun Factoid")]
+		public string FactoidTitle { get; set; }
 	}
 }

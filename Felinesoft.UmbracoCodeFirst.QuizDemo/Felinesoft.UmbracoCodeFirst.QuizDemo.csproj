@@ -374,6 +374,7 @@
     <Content Include="Views\Partials\Grid\Bootstrap2.cshtml" />
     <Content Include="Views\_layout.cshtml" />
     <Content Include="Views\HomePage.cshtml" />
+    <Content Include="Views\_factoid.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -389,6 +390,9 @@
   <ItemGroup>
     <Compile Include="DataTypes\QuestionImage.cs" />
     <Compile Include="Dictionaries\QuizmasterDictionary.cs" />
+    <Compile Include="DocTypes\Factoid.cs" />
+    <Compile Include="MediaTypes\FactoidImageMedia.cs" />
+    <Compile Include="DocTypes\Factoids.cs" />
     <Compile Include="DocTypes\HomePage.cs" />
     <Compile Include="Ext.cs" />
     <Compile Include="DocTypes\Question.cs" />

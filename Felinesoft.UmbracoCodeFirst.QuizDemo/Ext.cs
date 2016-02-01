@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	public static class Ext
 	{

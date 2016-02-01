@@ -1,18 +1,24 @@
 ﻿@inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
 @using Felinesoft.UmbracoCodeFirst.Views
-@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+@using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 
+@{ var fact = ViewModel.CurrentQuestion(Document).Extras.Factoids.RandomOrder().FirstOrDefault(); }
 
 @using (ViewModelHelper.BeginUmbracoForm<QuestionSetSurfaceController>("GetNextQuestion", FormMethod.Post, new { id = "MainForm" }))
 {
-	<div>
+	<div style="margin:10px">
 		<img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
 	</div>
 
 	@Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
-	<div>
+	<div style="margin:10px">
 		@ViewModel.Reply.Message
 	</div>
 
-	<input type="submit" value="Retry" />
+	if (fact != null)
+	{
+		@Html.Partial("_factoid", fact)
+	}
+
+	<input type="submit" value="Retry" style="margin:10px" />
 }

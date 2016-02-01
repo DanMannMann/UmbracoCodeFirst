@@ -14,7 +14,7 @@ using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	public class QuestionSetSurfaceController : CodeFirstSurfaceController<QuestionSet>, Events.IOnLoad<QuestionSet, QuestionSetViewModel>, Events.IOnCreate<QuestionSet>
 	{
@@ -92,7 +92,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 			ModelState.Clear();
 
 			var questionDocument = Document.Children.FirstOrDefault(x => x.NodeDetails.UmbracoId == questionSet.QuestionId);
-			if (questionSet.Answer.AnswerIndex != questionDocument.CorrectAnswer.Value)
+			if (questionSet.Answer.AnswerIndex != questionDocument.QuestionDetails.CorrectAnswer.Value)
 			{
 				questionSet.Answer.AnswerIndex = -1;
 				questionSet.Reply = new QuestionSetViewModel.AnswerResponse() { Message = Dictionary<QuizmasterDictionary>().IncorrectAnswer };
@@ -140,7 +140,7 @@ namespace Felinesoft.UmbracoCodeFirst.Debug.DocTypes
 		/// </summary>
 		public bool OnCreate(QuestionSet model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
 		{
-			model.WelcomeParagraph = new RichtextEditor() { Value = "Welcome to the new question set" };
+			model.Content.WelcomeParagraph = new RichtextEditor() { Value = "Welcome to the new question set" };
 			model.NodeDetails.Name = "New question set";
 			return true;
 		}

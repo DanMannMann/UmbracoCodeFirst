@@ -1,5 +1,5 @@
 ﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Debug.DocTypes;
+using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes;
 using Felinesoft.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
@@ -8,12 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
 
-namespace Felinesoft.UmbracoCodeFirst.Debug
+namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 {
 	public class StartUp : ApplicationEventHandler
 	{
+		private Factoids _factoidFolder;
+		private List<Factoid> _factoids = new List<Factoid>();
+		private Random _randy = new Random();
+
 		protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
 		{
+			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
+			CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
 			CodeFirstManager.Current.Initialise(GetType().Assembly);
 
 			//Check if default homepage exists
@@ -30,22 +36,78 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 		private void AddSeedContent()
 		{
 			var homePage = new HomePage();
-			homePage.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Felinesoft Code-First quiz. This quiz tests your knowledge of Felinesoft Code-First for Umbraco." };
+			homePage.Content = new HomePage.ContentTab();
+			homePage.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Felinesoft Code-First quiz. This quiz tests your knowledge of Felinesoft Code-First for Umbraco." };
 			homePage.NodeDetails.Name = "Code-First Quiz";
 			homePage.Persist(publish: true);
+
+			CreateFactoids();
+
 			CreateSet1(homePage);
 			CreateSet2(homePage);
 			CreateSet3(homePage);
 		}
 
+		private void CreateFactoids()
+		{
+			_factoidFolder = new Factoids();
+			_factoidFolder.NodeDetails.Name = "Factoids";
+			_factoidFolder.Persist(publish: true);
+
+			CreateFactoid(
+				"Man these facts are old",
+				"By the year 2012 there will be approximately 17 billion devices connected to the Internet.");
+
+			CreateFactoid(
+				"(Of which 870,000 are clickbait listicle slideshow sites)",
+				"Domain names are being registered at a rate of more than one million names every month.");
+
+			CreateFactoid(
+				"I think this fact is a bit tame, compared to facebook being more populous than China.",
+				"MySpace reports over 110 million registered users. Were it a country, it would be the tenth largest, just behind Mexico.");
+
+			CreateFactoid(
+				"Love & Marriage",
+				"One of every 8 married couples in the US last year met online.");
+
+			CreateFactoid(
+				"Blinkin' 'eck",
+				"The average computer user blinks 7 times a minute, less than half the normal rate of 20.");
+
+			CreateFactoid(
+				"The Mother of All Demos",
+				"The first computer mouse was invented by Doug Engelbart in around 1964 and was made of wood. His initial demonstration of the mouse also included the first ever demonstrations of word processing, computer networking and video-conferencing. In the late '60s.");
+
+			CreateFactoid(
+				"The Internets Go Quick",
+				"While it took the radio 38 years, and the television a short 13 years, it took the World Wide Web only 4 years to reach 50 million users.");
+
+			CreateFactoid(
+				"Grace Hopper is Definitely the Coolest Person Ever",
+				"Grace Hopper, the inventor of the first ever software compiler and co-creator of COBOL, was also the oldest serviceperson on active duty in the US Navy, retiring at the age of 79 and rank of Rear Admiral.");
+		}
+
+		private void CreateFactoid(string title, string text)
+		{
+			var factoid = new Factoid();
+			factoid.Details = new Factoid.FactoidDetailsTab();
+			factoid.Details.FactoidTitle = new DataTypes.BuiltIn.Textstring() { Value = title };
+			factoid.Details.FactoidText = new DataTypes.BuiltIn.Textstring() { Value = text };
+			factoid.NodeDetails.Name = factoid.Details.FactoidTitle.Value.Truncate(10);
+			factoid.Persist(_factoidFolder?.NodeDetails?.UmbracoId ?? -1, publish: true);
+			_factoids.Add(factoid);
+
+		}
+
 		private void CreateSet1(HomePage homePage)
 		{
 			var questionSet1 = new QuestionSet();
-			questionSet1.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first document types." };
+			questionSet1.Content = new QuestionSet.ContentTab();
+			questionSet1.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first document types." };
 			questionSet1.NodeDetails.Name = "Document Type Quiz";
 			questionSet1.Persist(parentId: homePage.NodeDetails.UmbracoId, publish: true);
 
-			var set1_q1 = CreateQuestion
+			var question1 = CreateQuestion
 			(
 				"Document type attribute",
 				"What is the correct attribute to use to signal that a class represents a document type?",
@@ -55,9 +117,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"[CodeFirstDocument]",
 				1
 			);
-			set1_q1.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
+			question1.Extras = new Question.ExtrasTab();
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
 
-			var set1_q2 = CreateQuestion
+			var question2 = CreateQuestion
 			(
 				"Document type base",
 				"What is the correct base class to inherit from when declaring a document type class?",
@@ -67,9 +132,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"DocumentTypeBase",
 				4
 			);
-			set1_q2.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
+			question2.Extras = new Question.ExtrasTab();
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
 
-			var set1_q3 = CreateQuestion
+			var question3 = CreateQuestion
 			(
 				"Property type",
 				"What is the correct attribute to use to signal that a property of a class represents an Umbraco property type?",
@@ -79,17 +147,21 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"[CodeFirstProperty]",
 				2
 			);
-			set1_q3.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
+			question3.Extras = new Question.ExtrasTab();
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Persist(parentId: questionSet1.NodeDetails.UmbracoId, publish: true);
 		}
 
 		private void CreateSet2(HomePage homePage)
 		{
 			var questionSet2 = new QuestionSet();
-			questionSet2.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first data types." };
+			questionSet2.Content = new QuestionSet.ContentTab();
+			questionSet2.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first data types." };
 			questionSet2.NodeDetails.Name = "Data Type Quiz";
 			questionSet2.Persist(parentId: homePage.NodeDetails.UmbracoId, publish: true);
 
-			var set2_q1 = CreateQuestion
+			var question1 = CreateQuestion
 			(
 				"Data type attribute",
 				"What is the correct attribute to use to signal that a class represents a data type?",
@@ -99,9 +171,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"[DataType]",
 				4
 			);
-			set2_q1.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
+			question1.Extras = new Question.ExtrasTab();
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
 
-			var set2_q2 = CreateQuestion
+			var question2 = CreateQuestion
 			(
 				"Data type interfaces",
 				"Which of the following is the correct interface to implement to create a data type which is stored as a string and can accomodate a large amount of data?",
@@ -111,9 +186,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"IUmbracoDataTypeString",
 				1
 			);
-			set2_q2.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
+			question2.Extras = new Question.ExtrasTab();
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
 
-			var set2_q3 = CreateQuestion
+			var question3 = CreateQuestion
 			(
 				"Data type implementation",
 				"When is it OK to leave the interface methods unimplemented on a data type?",
@@ -123,17 +201,21 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"Never",
 				1
 			);
-			set2_q3.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
+			question3.Extras = new Question.ExtrasTab();
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Persist(parentId: questionSet2.NodeDetails.UmbracoId, publish: true);
 		}
 
 		private void CreateSet3(HomePage homePage)
 		{
 			var questionSet3 = new QuestionSet();
-			questionSet3.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first dictionaries." };
+			questionSet3.Content = new QuestionSet.ContentTab();
+			questionSet3.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "This question set tests your knowledge of declaring and using code-first dictionaries." };
 			questionSet3.NodeDetails.Name = "Dictionary Quiz";
 			questionSet3.Persist(parentId: homePage.NodeDetails.UmbracoId, publish: true);
 
-			var set3_q1 = CreateQuestion
+			var question1 = CreateQuestion
 			(
 				"Dictionary attribute",
 				"What is the correct attribute to use to signal that a class represents a dictionary?",
@@ -143,9 +225,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"[UmbracoDictionary]",
 				1
 			);
-			set3_q1.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
+			question1.Extras = new Question.ExtrasTab();
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question1.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
 
-			var set3_q2 = CreateQuestion
+			var question2 = CreateQuestion
 			(
 				"Dictionary items",
 				"What is the correct attribute to use to signal that a property represents a dictionary item?",
@@ -155,9 +240,12 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"[DictionaryEntry]",
 				3
 			);
-			set3_q2.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
+			question2.Extras = new Question.ExtrasTab();
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question2.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
 
-			var set3_q3 = CreateQuestion
+			var question3 = CreateQuestion
 			(
 				"Dictionary base class",
 				"What is the correct base class to inherit from when declaring a dictionary class?",
@@ -167,21 +255,25 @@ namespace Felinesoft.UmbracoCodeFirst.Debug
 				"DictionaryBase",
 				4
 			);
-			set3_q3.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
+			question3.Extras = new Question.ExtrasTab();
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Extras.Factoids.Add(_factoids.ElementAt(_randy.Next(0, _factoids.Count)));
+			question3.Persist(parentId: questionSet3.NodeDetails.UmbracoId, publish: true);
 		}
 
 		private static Question CreateQuestion(string questionName, string questionText, string answer1, string answer2, string answer3, string answer4, int correctAnswer)
 		{
 			var question = new Question();
-			question.QuestionText = new DataTypes.BuiltIn.Textstring() { Value = questionText };
-			question.Answers = new DataTypes.BuiltIn.MultipleTextstring()
+			question.QuestionDetails = new Question.QuestionTab();
+			question.QuestionDetails.QuestionText = new DataTypes.BuiltIn.Textstring() { Value = questionText };
+			question.QuestionDetails.Answers = new DataTypes.BuiltIn.MultipleTextstring()
 			{
 				answer1,
 				answer2,
 				answer3,
 				answer4
 			};
-			question.CorrectAnswer = new DataTypes.BuiltIn.Numeric() { Value = correctAnswer };
+			question.QuestionDetails.CorrectAnswer = new DataTypes.BuiltIn.Numeric() { Value = correctAnswer };
 			question.NodeDetails.Name = questionName;
 			return question;
 		}

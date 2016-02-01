@@ -8,7 +8,7 @@
 
 @inherits CodeFirstDocumentView<QuestionSet, QuestionSetViewModel>
 @using Felinesoft.UmbracoCodeFirst.Views
-@using Felinesoft.UmbracoCodeFirst.Debug.DocTypes
+@using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 
 @{ 
 	Layout = "_layout.cshtml";
@@ -19,7 +19,7 @@
 }
 
 <div style="margin:10px">
-	@Document.WelcomeParagraph
+	@Document.Content.WelcomeParagraph
 </div>
 
 @Html.Partial(ViewModel.RequiredPartial, UnderlyingViewModel)

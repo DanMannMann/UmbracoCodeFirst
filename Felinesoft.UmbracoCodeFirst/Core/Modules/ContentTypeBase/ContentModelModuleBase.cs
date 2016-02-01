@@ -429,7 +429,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             foreach (var prop in registration.Properties)
             {
-                SetPropertyOnContent(node, prop, prop.Metadata.GetValue(model));
+				var val = prop.Metadata.GetValue(model);
+				if (val != null)
+				{
+					SetPropertyOnContent(node, prop, val);
+				}
             }
 
             //Get and then set all the properties from any tabs
@@ -442,7 +446,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 {
                     foreach (var prop in tab.Properties)
                     {
-                        SetPropertyOnContent(node, prop, prop.Metadata.GetValue(tabInstance));
+						var val = prop.Metadata.GetValue(tabInstance);
+						if (val != null)
+						{
+							SetPropertyOnContent(node, prop, val);
+						}
                     }
                 }
             }
