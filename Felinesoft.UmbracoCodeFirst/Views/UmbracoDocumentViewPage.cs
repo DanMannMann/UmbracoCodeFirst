@@ -43,7 +43,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
 			if (_converted == null)
 			{
 				_converted = base.Umbraco.AssignedContentItem.ConvertToModel() as Tdocument;
-				ModelEventDispatcher<Tdocument>.OnLoad(_converted, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_converted));
+				//ModelEventDispatcher<Tdocument>.OnLoad(_converted, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(_converted));
 			}
             return _converted;
         }

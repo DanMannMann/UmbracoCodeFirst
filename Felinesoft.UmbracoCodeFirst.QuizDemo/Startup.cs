@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
+using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
+using System.Web;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 {
@@ -15,10 +17,11 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 		private Factoids _factoidFolder;
 		private List<Factoid> _factoids = new List<Factoid>();
 		private Random _randy = new Random();
+		private FactoidImageMedia _image;
 
 		protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
 		{
-			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
+			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = false;
 			CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
 			CodeFirstManager.Current.Initialise(GetType().Assembly);
 
@@ -35,21 +38,39 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 		#region Seed Methods
 		private void AddSeedContent()
 		{
-			var homePage = new HomePage();
-			homePage.Content = new HomePage.ContentTab();
-			homePage.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Felinesoft Code-First quiz. This quiz tests your knowledge of Felinesoft Code-First for Umbraco." };
-			homePage.NodeDetails.Name = "Code-First Quiz";
-			homePage.Persist(publish: true);
+			try
+			{
+				var homePage = new HomePage();
+				homePage.Content = new HomePage.ContentTab();
+				homePage.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Felinesoft Code-First quiz. This quiz tests your knowledge of Felinesoft Code-First for Umbraco." };
+				homePage.NodeDetails.Name = "Code-First Quiz";
+				homePage.Persist(publish: true);
 
-			CreateFactoids();
+				CreateFactoids();
 
-			CreateSet1(homePage);
-			CreateSet2(homePage);
-			CreateSet3(homePage);
+				CreateSet1(homePage);
+				CreateSet2(homePage);
+				CreateSet3(homePage);
+			}
+			catch
+			{
+				foreach(var c in ApplicationContext.Current.Services.ContentService.GetRootContent())
+				{
+					ApplicationContext.Current.Services.ContentService.Delete(c);
+				}
+				throw;
+			}
 		}
 
 		private void CreateFactoids()
 		{
+			_image = new FactoidImageMedia();
+			_image.NodeDetails.Name = "FactoidImage";
+			using (var fs = new System.IO.FileStream(HttpContext.Current.Server.MapPath("/MediaTypes/logoimg.png"), System.IO.FileMode.Open))
+			{
+				_image.SetMediaFile(fs);
+				_image.Persist();
+			}
 			_factoidFolder = new Factoids();
 			_factoidFolder.NodeDetails.Name = "Factoids";
 			_factoidFolder.Persist(publish: true);
@@ -89,7 +110,9 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 
 		private void CreateFactoid(string title, string text)
 		{
+			
 			var factoid = new Factoid();
+			factoid.Details.Image = _image;
 			factoid.Details = new Factoid.FactoidDetailsTab();
 			factoid.Details.FactoidTitle = new DataTypes.BuiltIn.Textstring() { Value = title };
 			factoid.Details.FactoidText = new DataTypes.BuiltIn.Textstring() { Value = text };

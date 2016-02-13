@@ -328,7 +328,11 @@
     <Content Include="Config\Lang\sv-SE.user.xml" />
     <Content Include="Config\Lang\zh-CN.user.xml" />
     <Content Include="Content\defaultImage.jpg" />
+    <Content Include="Content\defaultImage.png" />
     <Content Include="Content\FS-icon.png" />
+    <Content Include="Content\logoimage.png" />
+    <Content Include="MediaTypes\logoimg.png" />
+    <Content Include="Content\logotext.png" />
     <Content Include="Content\stylesheet.css" />
     <Content Include="default.aspx" />
     <Content Include="Global.asax" />

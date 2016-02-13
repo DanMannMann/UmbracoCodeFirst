@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Topics>
-  <Topic id="04441c6f-baf5-4f66-a724-d0107a13af66" visible="True" isExpanded="true" title="Getting Started">
+  <Topic id="04441c6f-baf5-4f66-a724-d0107a13af66" visible="True" title="Getting Started">
     <HelpKeywords>
       <HelpKeyword index="K" term="Welcome" />
     </HelpKeywords>
@@ -14,7 +14,7 @@
       </Topic>
       <Topic id="f13fc6da-38dc-4585-b0f3-e701d17d03e1" visible="True" title="Working With Pre-Values" />
       <Topic id="787d469d-06cb-4ba1-8b13-d889e1b88c72" visible="True" title="Using Code-First with Umbraco Property Editor Value Converters" />
-      <Topic id="47c8c745-bef7-41c6-bd7a-d3424c627e78" visible="True" isSelected="true" title="Registering Existing Classes as Data Types" />
+      <Topic id="47c8c745-bef7-41c6-bd7a-d3424c627e78" visible="True" title="Registering Existing Classes as Data Types" />
     </Topic>
     <Topic id="844edfcf-ec79-489e-85fb-e07b441af825" visible="True" title="Working With Strongly-Typed Views" />
     <Topic id="79ea8886-41e6-4691-9d55-4c3fc3be5310" visible="True" title="Working With Media Types">
@@ -22,5 +22,6 @@
     </Topic>
     <Topic id="b3e13010-a239-4b6b-bc27-8711a5f00a6c" visible="True" title="Working With Node Pickers" />
   </Topic>
+  <Topic id="23fc3bce-40df-4a04-9c71-3980e931de5f" visible="True" isSelected="true" title="Walkthrough - The Quiz Demo" />
   <Topic id="ce58197e-999a-4748-876f-5f9b1223133a" visible="True" noFile="true" apiParentMode="InsertAsChild" title="API Reference" />
 </Topics>

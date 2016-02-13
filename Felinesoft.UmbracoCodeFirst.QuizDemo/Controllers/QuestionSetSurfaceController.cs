@@ -22,53 +22,43 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 		/// <summary>
 		/// Validates the answer
 		/// </summary>
-		public ActionResult ValidateAnswerAsync(QuestionSetViewModel questionSet)
-		{
-			//If async only render the relevant partial
-			string viewName;
-			viewName = CheckAnswer(questionSet);
-			return View(viewName, GetViewModel(questionSet, Document));
-		}
-
-		/// <summary>
-		/// Validates the answer asynchronously
-		/// </summary>
-		public ActionResult ValidateAnswer(QuestionSetViewModel questionSet, bool isAjax)
+		public ActionResult ValidateAnswer(QuestionSetViewModel questionSet, bool isAjax = false)
 		{
 			if (isAjax)
 			{
-				return ValidateAnswerAsync(questionSet);
+				//If async only render the relevant partial
+				string viewName;
+				viewName = CheckAnswer(questionSet);
+				return View(viewName, GetViewModel(questionSet, Document));
 			}
-
-			//If no async re-render the entire page
-			CheckAnswer(questionSet);
-			return View("QuestionSet", GetViewModel(questionSet, Document));
+			else
+			{
+				//If no async render the entire page
+				CheckAnswer(questionSet);
+				return View("QuestionSet", GetViewModel(questionSet, Document));
+			}
 		}
 
 		/// <summary>
 		/// Gets next question
 		/// </summary>
-		public ActionResult GetNextQuestionAsync(QuestionSetViewModel questionSet)
-		{
-			//If async only render the relevant partial
-			string viewName;
-			viewName = CheckNextQuestion(questionSet);
-			return View(viewName, GetViewModel(questionSet, Document));
-		}
-
-		/// <summary>
-		/// Gets next question asynchronously
-		/// </summary>
-		public ActionResult GetNextQuestion(QuestionSetViewModel questionSet, bool isAjax)
+		public ActionResult GetNextQuestion(QuestionSetViewModel questionSet, bool isAjax = false)
 		{
 			if (isAjax)
 			{
-				return GetNextQuestionAsync(questionSet);
+				//If async only render the relevant partial
+				string viewName;
+				viewName = CheckNextQuestion(questionSet);
+				return View(viewName, GetViewModel(questionSet, Document));
 			}
-
-			//If no async re - render the entire page
-			CheckNextQuestion(questionSet);
-			return View("QuestionSet", GetViewModel(questionSet, Document));
+			else
+			{
+				//If no async render the entire page
+				string viewName;
+				viewName = CheckNextQuestion(questionSet);
+				questionSet.RequiredPartial = viewName; //Tell the main layout which partial to render (all the partials in this system take the same viewmodel)
+				return View("QuestionSet", GetViewModel(questionSet, Document));
+			}
 		}
 		#endregion
 
@@ -76,6 +66,8 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 		/// <summary>
 		/// Constructs a model which can be used as the input to any view in this site. The model is a combination
 		/// of Umbraco's render model, the code-first strongly-typed document and a custom viewmodel.
+		/// This model type is required for use with a CodeFirstDocumentView, which is one of two view bases included
+		/// in the Code-First library.
 		/// </summary>
 		private object GetViewModel(QuestionSetViewModel questionSet, QuestionSet setDoc)
 		{

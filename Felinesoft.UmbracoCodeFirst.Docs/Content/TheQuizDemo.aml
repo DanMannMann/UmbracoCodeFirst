@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<topic id="23fc3bce-40df-4a04-9c71-3980e931de5f" revisionNumber="1">
+  <developerWalkthroughDocument
+    xmlns="http://ddue.schemas.microsoft.com/authoring/2003/5"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+   
+
+    <introduction>
+      <!-- Uncomment this to generate an outline of the section and sub-section
+           titles.  Specify a numeric value as the inner text to limit it to
+           a specific number of sub-topics when creating the outline.  Specify
+           zero (0) to limit it to top-level sections only.  -->
+      <autoOutline />
+	  <para>
+		The Quiz Demo is a simple application, built on Umbraco with Code-First, which allows multiple choice
+		quizzes to be designed by content authors and played by users. This walkthrough covers a representative subset
+		of the implementation, as an introduction to using Code-First. The complete project is available from the Code-First github.
+	  </para>
+	  <alert class="note">
+		<para>
+		  Code-First is a tool intended for professional developers delivering Umbraco installations to enterprise.
+		  This walkthrough assumes the reader is familiar with Umbraco 7 and has a good grasp of C#.
+		</para>
+	  </alert>
+	  <para>
+		The Quiz Demo uses, and is a good introduction to, the following Code-First features:
+	  </para>
+	  <list class="bullet">
+		<listItem>
+		  <para>Document Types</para>
+	  </listItem>
+	  <listItem>
+		<para>Media Types</para>
+	  </listItem>
+		<listItem>
+		  <para>List View Document Types</para>
+		</listItem>
+	  <listItem>
+		<para>Custom Data Types</para>
+		</listItem>
+		<listItem>
+		  <para>Image Croppers</para>
+		</listItem>
+		<listItem>
+		  <para>Node Picker Properties</para>
+		</listItem>
+		<listItem> 
+		  <para>Strongly-Typed Views</para>
+		</listItem>
+		<listItem>
+		  <para>Dictionaries</para>
+		</listItem>
+		<listItem>
+		  <para>Content Events</para>
+		</listItem>
+		<listItem>
+		  <para>Document Creation/Persistence</para>
+		</listItem>
+		<listItem>
+		  <para>Type Tree Filtering</para>
+		</listItem>
+	  </list>
+  </introduction>
+
+    <!-- <prerequisites><content>Optional prerequisites info</content></prerequisites> -->
+
+    <!-- One or more procedure or section with procedure --><!--
+    <procedure>
+      <title>Installing Code-First</title>
+      <steps class="ordered">
+        <step>
+          <content>
+            <para>First step</para>
+          </content>
+        </step>
+        <step>
+          <content>
+            <para>Second step</para>
+          </content>
+        </step>
+      </steps>
+      --><!-- <conclusion>Optional conclusion</conclusion> --><!--
+    </procedure>-->
+
+    <!-- Optional additional procedure or section with procedure -->
+    <section address="installing">
+      <title>Installing Code-First</title>
+      <content>
+		<para>
+		  Start with an empty MVC4 project with Umbraco installed. Code-First supports Umbraco 7.2.1+. From that point follow this simple procedure to install Code-First.
+		</para>
+        <procedure>
+          <title>Steps</title>
+          <steps class="bullet">
+            <step>
+              <content>
+                <para>Add the Code-First nuget package using the command
+				</para>
+				<code language="none">
+				  install-package FelinesoftCodeFirst
+				</code>
+              </content>
+            </step>
+            <step>
+              <content>
+                <para>Add the following ApplicationEventHandler to initialise Code-First when the site starts</para>
+				<code language="csharp">
+				  public class StartUp : ApplicationEventHandler
+				  {
+
+					  protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+					  {
+					      //Tell Code-First to hide from the back-office document type &amp; media type trees any entities which are defined in code.
+						  CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
+						  
+						  //Tell Code-First to use concurrent initialisation, so that modules perform their initialisation in parallel and, therefore, more quickly
+						  //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
+						  CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; 
+						  
+						  //Initialise Code-First, using types found in the assembly where this class is located
+						  CodeFirstManager.Current.Initialise(GetType().Assembly);
+					   }
+				   }
+
+				</code>
+              </content>
+            </step>
+          </steps>
+          <!-- <conclusion>Optional conclusion</conclusion> -->
+        </procedure>
+      </content>
+    </section>
+
+	<section address="doctypes">
+	  <title>Creating Document Types</title>
+	  <content>
+		<procedure>
+		  <title>Creating the Document Type Class</title>
+		  <steps class="bullet">
+			<step>
+			  <content>
+				<para>
+				  Within the MVC4 project create a folder named DocTypes, and within that folder create a C# class file named Question.cs
+				</para>
+				<mediaLink>
+				  <image xlink:href="doctypes_sln"/>
+				</mediaLink>
+			  </content>
+			</step>
+			<step>
+			  <content>
+				<para>Create a class which inherits from <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
+				 and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. Question will
+				 be a type which can only be created under a parent, so set its allowAtRoot property to false.
+			  </para>
+				<code language="csharp">
+				  using Felinesoft.UmbracoCodeFirst.ContentTypes;
+				  using Felinesoft.UmbracoCodeFirst.Attributes;
+				  using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+				  using Felinesoft.UmbracoCodeFirst.Linq;
+
+				  namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+				  {
+					  [DocumentType(allowAtRoot: false)]
+					  public class Question : DocumentTypeBase
+					  {
+					  
+					  }
+				  }
+				</code>
+			  </content>
+			</step>
+		  </steps>
+		  <!-- <conclusion>Optional conclusion</conclusion> -->
+		</procedure>
+		<procedure>
+		  <title>Adding Tabs to the Document Type</title>
+		  <steps class="bullet">
+			<step>
+			  <content>
+				<para>
+				  Create a nested class for each tab definition required, in this case QuestionTab and ExtrasTab. The tab classes should inherit <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
+				</para>
+				<code language="csharp">
+				  	[DocumentType(allowAtRoot: false)]
+					public class Question : DocumentTypeBase
+					{
+						#region Tab Definitions
+						public class QuestionTab : TabBase
+						{
+
+						}
+
+						public class ExtrasTab : TabBase
+						{
+
+						}			
+						#endregion
+					}
+				</code>
+			  </content>
+			</step>
+			<step>
+			  <content>
+				<para>
+				  Add a property to the Question class for each tab type, to declare that tab as a member of the Question document type. The tab properties should be decorated with a 
+				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>.
+				</para>
+				<code language="csharp">
+				  	[DocumentType(allowAtRoot: false)]
+					public class Question : DocumentTypeBase
+					{
+						...
+					
+						#region Tab Declarations
+						[ContentTab]
+						public QuestionTab QuestionDetails { get; set; }
+
+						[ContentTab]
+						public ExtrasTab Extras { get; set; }
+						#endregion		
+					}
+				</code>
+			  </content>
+			</step>
+		  </steps>
+		  <conclusion>
+			<content>
+			  <alert class="note">
+				<para>
+				  Tabs are represented by classes. It is recommended best practice to create tab classes as nested classes of the document type, as in this walkthrough. However this is not essential.
+				  One situation where creating a top-level class would be better is if you want the same tab to be added to many document types, a useful composition approach
+				  unique to Code-First.
+				</para>
+			  </alert>
+			</content>
+		  </conclusion>
+		</procedure>
+	  </content>
+	</section>
+	
+	<section address="props">
+	  <title>Creating Property Types</title>
+	  <content>
+		<para>
+		  Umbraco property types are represented by regular C# properties on the document type and tab classes. The type of the C# property denotes the Umbraco data type to use, the
+		  name of the property denotes the Umbraco property type name &amp; alias and the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> 
+		  can be used to specify all other Umbraco property type configuration.
+		</para>
+		<procedure>
+		  <title>Adding Properties</title>
+		  <steps class="bullet">
+			<step>
+			  <content>
+				<para>
+				  Create a C# property for each document type property required, placing the property either on the Question class (for generic properties) or on the relevant
+				  tab class (for any property on a tab). The built-in Umbraco data types
+				  are available in the namespace <codeEntityReference qualifyHint="true">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference>.
+				</para>
+				<code language="csharp">
+				  [DocumentType(allowAtRoot: false)]
+				  public class Question : DocumentTypeBase
+				  {
+					  ...
+				  
+					  #region Tab Definitions
+					  public class QuestionTab : TabBase
+					  {
+						  [ContentProperty(mandatory: true)]
+						  public virtual Textstring QuestionText { get; set; }
+
+						  [ContentProperty(mandatory: true)]
+						  public virtual MultipleTextstring Answers { get; set; }
+
+						  [ContentProperty(mandatory: true)]
+						  public virtual Numeric CorrectAnswer { get; set; }
+					  }
+
+					  ...
+					  
+					  #endregion
+				  }
+				</code>
+				<alert class="tip">
+				  <para>
+					<link xlink:href="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0">Custom data types</link> can also be created for use as property types.
+				  </para>
+				</alert>
+				<alert class="note">
+				  <para>
+					The properties are declared as virtual because this enables <link xlink:href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82#lazy">lazy loading</link> when the document type is used as a model in a view.
+				  </para>
+				</alert>
+			  </content>
+			</step>
+			<step>
+			  <content>
+				<para>
+				  Add any pre-values which are needed on the properties, using <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s
+				</para>
+				<code language="csharp">
+				  [DocumentType(allowAtRoot: false)]
+				  public class Question : DocumentTypeBase
+				  {
+					  ...
+				  
+					  #region Tab Definitions
+					  public class QuestionTab : TabBase
+					  {
+						  [ContentProperty(mandatory: true)]
+						  public virtual Textstring QuestionText { get; set; }
+
+						  [ContentProperty(mandatory: true)]
+						  [InstancePreValue("minItems", "4")]
+						  [InstancePreValue("maxItems", "4")]
+						  public virtual MultipleTextstring Answers { get; set; }
+
+						  [ContentProperty(mandatory: true)]
+						  [InstancePreValue("max", "4")]
+						  [InstancePreValue("min", "1")]
+						  public virtual Numeric CorrectAnswer { get; set; }
+					  }
+
+					  ...
+					  
+					  #endregion
+				  }
+				</code>
+				<alert class="note">
+				  <para>
+					Astute readers may have noticed that the above refers to pre-values "on properties", which is odd since Umbraco pre-values "belong" to data types not to property types.
+					Code-First allows a fluent approach where "instance" pre-values can be used to automatically create a copy of a data type with specific pre-values applied for use on
+					a given property. For example, the [InstancePreValue] attributes applied to the CorrectAnswer property will cause a new data type to be created named "Numeric (QuestionTab.CorrectAnswer)". This
+					new data type will be used as the type of the CorrectAnswer property in Umbraco, and will have the specified pre-values applied.
+				  </para>
+				  <para>
+					<mediaLinkInline>
+					  <image xlink:href="instance_datatype"/>
+					</mediaLinkInline>
+				  </para>
+				</alert>
+			  </content>
+			</step>
+		  </steps>
+		</procedure>
+		<procedure>
+		  <title>Adding Node-Picker Properties</title>
+		  <steps class="bullet">
+			<step>
+			  <content>
+				<para>
+				  The Extras tab has a property via which multiple other documents can be selected by content authors. This is created by
+				  adding a <link xlink:href="b3e13010-a239-4b6b-bc27-8711a5f00a6c">Node Picker Property</link> to the tab, and specifying options
+				  via a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.NodePickerConfigAttribute</codeEntityReference>.
+				</para>
+				<para>
+				  The Factoid type is another document type (shown in the code listing below). Using it as the generic argument to a DocumentPicker causes
+				  the document picker to only allow that type of document to be selected in the back-office.
+				</para>
+				<code language="csharp">
+				  ...
+				  
+				  public class ExtrasTab : TabBase
+				  {
+					  [ContentProperty]
+					  [NodePickerConfig(maximumItems: 3, startNode: "/Factoids", showEditButton: true, showOpenButton: true, showPathsWhenHovering: true)]
+					  public DocumentPicker&lt;Factoid&gt; Factoids { get; set; } = new DocumentPicker&lt;Factoid&gt;();
+				  }
+				  
+				  ...
+				  
+				</code>
+				<alert class="warning">
+				  <para>
+					The start node, specified as a path string in the NodePickerConfig attribute, may not be correctly set the first time the site is started
+					because the path may not exist when the data types are first built. If the path does not exist the root will be used as the start node. This
+					allows the path to be created in the content tree and, after restarting the app pool &amp; the site, the start node will be correctly set.
+				  </para>
+				</alert>
+			  </content>
+			</step>
+		  </steps>
+		</procedure>
+	  </content>
+	</section>
+
+	<section address="dat">
+	  <title>Creating Data Types</title>
+	  <content>
+		<para>
+		  The Extras tab on the Question document calls for a custom data type, so that an image can be specified to go with the question. Custom data types are
+		  created as classes and can derive from existing data types, in which case they use the existing type's property editor, or can implement a data type interface to
+		  create an entirely new type with its own property editor. The QuestionImage type extends the ImageCropper built-in type. For information on creating properties
+		  via the interfaces see <link xlink:href="1a5b08a0-7cdf-4538-b315-9e0652e5e6e0" />.
+		</para>
+		<procedure>
+		  <title>Create the Data Type Class</title>
+		  <steps class="bullet">
+			<step>
+			  <content>
+				<para>
+				  The QuestionImage data type is an image cropper with custom crop sizes defined. Begin by creating a class named QuestionImage, which derives from
+				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>. Decorate the class with a
+				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
+				</para>
+				<code language="csharp">
+				  	[DataType]
+					public class QuestionImage : ImageCropper
+					{
+
+					}
+				</code>
+			  </content>
+			</step>
+			<step>
+			  <content>
+				<para>
+				  Add properties of type <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> for each required
+				  crop size, and decorate each property with an <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
+				  specifying the required width and height.
+				</para>
+								<code language="csharp">
+				  	[DataType]
+					public class QuestionImage : ImageCropper, IHtmlString
+					{
+						[ImageCropProperty(50, 50)]
+						public ImageCrop Small { get; set; }
+
+						[ImageCropProperty(100, 100)]
+						public ImageCrop Medium { get; set; }
+
+						[ImageCropProperty(200, 200)]
+						public ImageCrop Large { get; set; }
+					}
+				</code>
+			  </content>
+			</step>
+			<step>
+			  <content>
+				<para>
+				  Finally, add a property of type QuestionImage to the Extras tab.
+				</para>
+				<para>
+				  The Factoid type is another document type (shown in the code listing below). Using it as the generic argument to a DocumentPicker causes
+				  the document picker to allow only that type of document to be selected in the back-office.
+				</para>
+				<code language="csharp">
+				  ...
+
+				  public class ExtrasTab : TabBase
+				  {
+					  [ContentProperty]
+					  [NodePickerConfig(maximumItems: 3, startNode: "/Factoids", showEditButton: true, showOpenButton: true, showPathsWhenHovering: true)]
+					  public DocumentPicker&lt;Factoid&gt; Factoids { get; set; } = new DocumentPicker&lt;Factoid&gt;();
+
+					  [ContentProperty]
+					  public virtual QuestionImage Image { get; set; }
+				  }
+
+				  ...
+
+				</code>
+				<alert class="note">
+				  <para>
+					It is customary to add the image cropper to a media type then add a media picker to the document type, allowing re-use of images across
+					the site. However if appropriate it can work just as well to put the image cropper directly on the document type, as shown here.
+				  </para>
+				</alert>
+			  </content>
+			</step>
+		  </steps>
+		</procedure>
+	  </content>
+	</section>
+		<!-- Optional next steps info
+    <nextSteps>
+      <content><para>Next steps info goes here</para></content>
+    </nextSteps>
+    -->
+
+    <relatedTopics>
+      <!-- One or more of the following:
+           - A local link
+           - An external link
+           - A code entity reference
+
+      <link xlink:href="Other Topic's ID">Link text</link>
+      <externalLink>
+          <linkText>Link text</linkText>
+          <linkAlternateText>Optional alternate link text</linkAlternateText>
+          <linkUri>URI</linkUri>
+      </externalLink>
+      <codeEntityReference>API member ID</codeEntityReference>
+
+      Examples:
+
+      <link xlink:href="00e97994-e9e6-46e0-b420-5be86b2f8278">Some other topic</link>
+
+      <externalLink>
+          <linkText>SHFB on GitHub</linkText>
+          <linkAlternateText>Go to GitHub</linkAlternateText>
+          <linkUri>https://GitHub.com/EWSoftware/SHFB</linkUri>
+      </externalLink>
+
+      <codeEntityReference>T:TestDoc.TestClass</codeEntityReference>
+      <codeEntityReference>P:TestDoc.TestClass.SomeProperty</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.#ctor(System.String,System.Int32)</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.ToString</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.FirstMethod</codeEntityReference>
+      <codeEntityReference>M:TestDoc.TestClass.SecondMethod(System.Int32,System.String)</codeEntityReference>
+      -->
+    </relatedTopics>
+  </developerWalkthroughDocument>
+</topic>

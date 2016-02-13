@@ -47,7 +47,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 media = ConvertToContent(model, parentId);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 media = null;
                 return false;
@@ -58,7 +58,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             var contentId = model.NodeDetails.UmbracoId;
             MediaTypeRegistration registration;
-            if (!_mediaTypeModule.TryGetMediaType(model.GetType(), out registration))
+			_mediaTypeModule.TryGetMediaType(model.GetType(), out registration);
+			if (registration == null)
             {
                 throw new CodeFirstException("Media type not registered. Type: " + model.GetType());
             }
@@ -83,6 +84,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             var typeAlias = registration.Alias;
             var node = ApplicationContext.Current.Services.MediaService.CreateMedia(model.NodeDetails.Name, parentId, typeAlias);
             MapModelToContent(node, model, registration);
+			if (model.MediaFile != null && node.HasProperty("umbracoFile"))
+			{
+				var fn = System.IO.Path.GetFileNameWithoutExtension(model.MediaFile.Name);
+				node.SetValue("umbracoFile", fn, model.MediaFile);
+			}
             return node;
         }
 
@@ -98,7 +104,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             }
             var node = ApplicationContext.Current.Services.MediaService.GetById(model.NodeDetails.UmbracoId);
             MapModelToContent(node, model, registration);
-            return node;
+			if (model.MediaFile != null && node.HasProperty("umbracoFile"))
+			{
+				node.SetValue("umbracoFile", System.IO.Path.GetFileNameWithoutExtension(model.MediaFile.Name), model.MediaFile);
+			}
+			return node;
         }
         #endregion
 
@@ -181,7 +191,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (_mediaTypeModule.TryGetMediaType(type, out reg) && (reg.ClrType == type || reg.ClrType.Inherits(type)))
             {
                 MapModelToContent(content, model, reg);
-            }
+				if (model.MediaFile != null && content.HasProperty("umbracoFile"))
+				{
+					content.SetValue("umbracoFile", System.IO.Path.GetFileNameWithoutExtension(model.MediaFile.Name), model.MediaFile);
+				}
+			}
         }
     }
 }

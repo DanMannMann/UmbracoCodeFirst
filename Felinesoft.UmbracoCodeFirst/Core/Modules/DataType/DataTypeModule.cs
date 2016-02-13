@@ -36,6 +36,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         private SyncLock<MemberInfo> _locks;
         private static Dictionary<DataTypeAttribute, string> _typeDefs;
 
+		public static Action<DataTypeModule> DeferredRegistrations { get; set; }
+
         public DataTypeModule(IDataTypeService service)
         {
             _service = service;
@@ -58,6 +60,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 RegisterIntegerType<int, PassThroughConverter<int>>(BuiltInDataTypes.Numeric);
                 RegisterDateTimeType<DateTime, PassThroughConverter<DateTime>>(BuiltInDataTypes.DatePickerWithTime);
             }
+
+			if (DeferredRegistrations != null)
+			{
+				DeferredRegistrations.Invoke(this);
+			}
 
             List<System.Threading.Tasks.Task> tasks = new List<System.Threading.Tasks.Task>();
             if (CodeFirstManager.Current.Features.UseConcurrentInitialisation)

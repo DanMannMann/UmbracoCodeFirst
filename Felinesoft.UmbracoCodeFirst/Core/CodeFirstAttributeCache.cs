@@ -53,12 +53,20 @@ namespace Felinesoft.UmbracoCodeFirst.CodeFirst
                 }
             }
 
-            if (initialise && attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
-            {
-                (attr as IInitialisableAttribute).Initialise(type);
-            }
+			if (initialise && attr is IInitialisableAttribute && !(attr as IInitialisableAttribute).Initialised)
+			{
+				(attr as IInitialisableAttribute).Initialise(type);
+			}
 
-            return (T)innerCache.GetOrAdd(attributeType, attr);
+			if (!initialise && attr is IInitialisableAttribute)
+			{
+				//Do not add uninitialised IInitialisableAttributes to the cache. They should be 
+				return (T)attr;
+			}
+			else
+			{
+				return (T)innerCache.GetOrAdd(attributeType, attr);
+			}
         }
 
         /// <summary>

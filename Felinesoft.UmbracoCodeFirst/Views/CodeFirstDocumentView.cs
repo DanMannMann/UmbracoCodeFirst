@@ -93,7 +93,7 @@ namespace Felinesoft.UmbracoCodeFirst.Views
             else if (viewData.Model is DocumentViewModel<Tdocument, Tviewmodel>)
             {
 				_innerModel = viewData.Model as DocumentViewModel<Tdocument, Tviewmodel>;
-				viewData.Model = UnderlyingViewModel?.RenderModel;
+				viewData.Model = _innerModel.RenderModel;
 				base.SetViewData(viewData);
 				ModelEventDispatcher<Tdocument>.OnLoad(UnderlyingViewModel.Document, Umbraco.AssignedContentItem, Context, UmbracoContext, ApplicationContext, Core.CodeFirstModelContext.GetContext(UnderlyingViewModel.Document));
             }

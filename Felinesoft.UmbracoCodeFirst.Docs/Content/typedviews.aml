@@ -105,47 +105,6 @@
         </code>
       </content>
     </section>
-    
-    <section address="Section3">
-      <title>The Code-First RenderMvcController</title>
-      <content>
-        <!-- Uncomment this to create a sub-section outline
-        <autoOutline /> -->
-        <para>The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Controllers.CodeFirstController</codeEntityReference> class can be used
-        as a replacement for Umbraco's default RenderMvcController implementation. It functions exactly the same except it passes the strongly-typed document as the model
-        to the view if a strongly-typed conversion is possible. If no conversion is possible the usual RenderModel instance is passed, making it safe to use a mix of code-first and
-        ordinary Umbraco workflows.
-      </para>
-        <para>
-          Any view which inherits UmbracoViewPage&lt;Tdocument&gt; or specifies @model Tdocument can be used with the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Controllers.CodeFirstController</codeEntityReference>.
-          The @Model property will contain the document instance.
-        </para>
-        <para>
-          The controller can be overridden as follows.
-        </para>
-        <code language="c#">
-          public class CustomApplicationEventHandler : ApplicationEventHandler
-          {
-              protected override void ApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
-              {
-                  DefaultRenderMvcControllerResolver.Current.SetDefaultControllerType(typeof(Felinesoft.UmbracoCodeFirst.Controllers.CodeFirstController));
-                  base.ApplicationStarting(umbracoApplication, applicationContext);
-              }
-          }
-        </code>
-        <alert class="tip">
-          <para>See the entry on custom controllers on 
-            <externalLink>
-              <linkText>Our Umbraco</linkText>
-              <linkAlternateText>Custom controllers on Our Umbraco</linkAlternateText>
-              <linkUri>https://our.umbraco.org/documentation/Reference/Templating/Mvc/custom-controllers</linkUri>
-              <linkTarget>_blank</linkTarget>
-            </externalLink>
-          </para>
-        </alert>
-      </content>
-    </section>
-
     <relatedTopics>
       <!-- One or more of the following:
            - A local link

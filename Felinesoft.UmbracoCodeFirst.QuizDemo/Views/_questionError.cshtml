@@ -8,7 +8,7 @@
 {
     <div class="question">
         <div class="question__image">
-            <img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.jpg"))" />
+            <img src="@(ViewModel.CurrentQuestion(Document).ImageUrl ?? Url.Content("~/Content/defaultImage.png"))" />
         </div>
         @Html.Partial("_questionSetViewModelElements", UnderlyingViewModel)
         <div class="question__question">

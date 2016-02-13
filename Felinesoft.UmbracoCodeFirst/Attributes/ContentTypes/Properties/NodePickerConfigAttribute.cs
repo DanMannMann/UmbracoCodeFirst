@@ -225,6 +225,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
             while (current != null && i < pieces.Length)
             {
                 current = current.Children.FirstOrDefault(x => x.Name == pieces[i]);
+				i++;
             }
             if (current == null)
             {

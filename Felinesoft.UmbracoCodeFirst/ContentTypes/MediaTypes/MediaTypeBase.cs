@@ -18,6 +18,7 @@ using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using System.Web;
 using Felinesoft.UmbracoCodeFirst.Core;
 using Felinesoft.UmbracoCodeFirst.Events;
+using System.IO;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
@@ -27,12 +28,13 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     public abstract class MediaTypeBase : CodeFirstContentBase<MediaNodeDetails>, IHtmlString
     {
         private Lazy<IMediaModelModule> _modelModule;
+		private FileStream _file;
 
-        /// <summary>
-        /// A base class for code-first document types.
-        /// This constructor initialises the NodeDetails property with an empty instance of <see cref="DocumentNodeDetails"/>
-        /// </summary>
-        public MediaTypeBase()
+		/// <summary>
+		/// A base class for code-first document types.
+		/// This constructor initialises the NodeDetails property with an empty instance of <see cref="DocumentNodeDetails"/>
+		/// </summary>
+		public MediaTypeBase()
         {
             NodeDetails = new MediaNodeDetails();
             _modelModule = new Lazy<IMediaModelModule>(() => CodeFirstManager.Current.Modules.MediaModelModule);
@@ -100,5 +102,44 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         {
             _modelModule.Value.ProjectModelToContent(this, target);
         }
-    }
+
+		#region Create and update IContent
+		/// <summary>
+		/// Persists the current values of the instance back to the database
+		/// </summary>
+		/// <param name="contentId">Id of the Umbraco Document</param>
+		/// <param name="parentId">Id of the parent Umbraco Document. Only applied when creating new content. At present code-first cannot change the parent of an existing node.</param>
+		/// <param name="userId">The user ID for the audit trail</param>
+		/// <param name="raiseEvents">True to raise Umbraco content service events</param>
+		public void Persist(int parentId = -1, int userId = 0, bool raiseEvents = false)
+		{
+			IMedia content;
+			if (_modelModule.Value.TryConvertToContent(this, out content, parentId))
+			{
+				//persist object into umbraco database
+				ApplicationContext.Current.Services.MediaService.Save(content, userId, raiseEvents);
+
+				//update the node details
+				NodeDetails = new MediaNodeDetails(content);
+			}
+			else
+			{
+				throw new CodeFirstException("Failed to convert model to content.");
+			}
+		}
+
+		public void SetMediaFile(FileStream file)
+		{
+			_file = file;
+		}
+
+		internal FileStream MediaFile
+		{
+			get
+			{
+				return _file;
+			}
+		}
+		#endregion
+	}
 }

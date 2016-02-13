@@ -146,7 +146,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             (instance as CodeFirstContentBase<T>).NodeDetails = new T();
             ((instance as CodeFirstContentBase<T>).NodeDetails as ContentNodeDetails).Initialise(content);
-            return instance;
+			ModelEventDispatcher<Tmodel>.OnLoad(instance, content, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current, CodeFirstModelContext.GetContext(instance));
+			return instance;
         }
 
         protected bool TryConvertToModelInternal<Tmodel>(IPublishedContent content, out Tmodel model) where Tmodel : CodeFirstContentBase<T>
@@ -314,57 +315,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 					return true;
 			}
         }
-
-    //    private bool TryGetProperty<Tval>(IPublishedProperty property, Tval defaultValue, out object output, string dataTypeName)
-    //    {
-			
-    //        try
-    //        {
-				//if (property.DataValue == null)
-				//{
-				//	output = default(Tval);
-				//	return true;
-				//}
-				//else if (Equals(property.DataValue, default(Tval)))
-				//{
-				//	output = property.DataValue;
-				//	return true;
-				//}
-
-				//if (property.DataValue.GetType() == typeof(Tval))
-				//{
-				//	output = property.DataValue;
-				//	return true;
-				//}
-				//else
-				//{
-				//	throw new CodeFirstException("The data value type of data type " + dataTypeName  + " is " + property.DataValue.GetType() + ", where " + typeof(Tval) + " is expected. Consider using a different interface for your data type implementation.");
-				//}
-				////OLD CODE - will often just call ToString on the PEVC output, which is wrong.
-				////output = property.GetValue(defaultValue);
-				////return true;
-    //        }
-    //        catch
-    //        {
-    //            output = default(Tval);
-    //            return false;
-    //        }
-    //    }
-
-        //private Type GetDataConverterInputType(Type converterType)
-        //{
-        //    try
-        //    {
-        //        var converterInterface = converterType.GetInterfaces()
-        //        .Where(i => i.IsGenericType)
-        //        .Single(i => i.GetGenericTypeDefinition() == typeof(IDataTypeConverter<,>));
-        //        return converterInterface.GenericTypeArguments.First();
-        //    }
-        //    catch (InvalidOperationException ex)
-        //    {
-        //        throw new CodeFirstException("The type " + converterType.Name + " implements more than one IDataTypeConverter<,> interface, or does not implement any. A converter type must implement IDataTypeConverter<,> exactly once.", ex);
-        //    }
-        //}
 
         private void SetPropertyValueOnModel(object objectInstance, PropertyRegistration registration, object umbracoStoredValue)
         {

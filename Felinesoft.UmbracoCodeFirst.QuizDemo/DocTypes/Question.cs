@@ -2,11 +2,6 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Linq;
-using System.Web.Http.Routing;
-using System.Web;
-using System.Net.Http;
-using System;
-using System.Collections.Generic;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {

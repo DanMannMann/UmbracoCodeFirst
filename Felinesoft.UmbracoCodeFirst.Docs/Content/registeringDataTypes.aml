@@ -16,7 +16,7 @@
            a specific number of sub-topics when creating the outline.  Specify
            zero (0) to limit it to top-level sections only.  -->
       <!-- <autoOutline /> -->
-
+	  
       <para>Code-first maintains a mapping of CLR types to data type converters. Generally this mapping
       will consist mainly of code-first data classes, both built-in &amp; custom, but it is in fact
       possible to register a converter for any CLR type. Each type may only be registered once with a single
@@ -53,12 +53,20 @@
             }
         </code>
         <code title="Registering the Type">
-          CodeFirstManager.Current.Initialise(this.GetType().Assembly);
-          RegisterIntegerType&lt;bool, BoolTrueFalseConverter&gt;(BuiltInDataTypes.TrueFalse);
+		  //The deferred registration action is executed by the DataTypeModule at the correct time during initialisation. Only
+		  //one deferred registration action can be assigned, so it should perform all registrations required by your application.
+		  Core.Modules.DataTypeModule.DeferredRegistrations = x =>
+		  {
+			  x.RegisterIntegerType&lt;bool, BoolTrueFalseConverter&gt;(BuiltInDataTypes.TrueFalse);
+		  };
+		  CodeFirstManager.Current.Initialise(this.GetType().Assembly);
         </code>
-        <alert class="caution">
-          <para>Custom registrations should always be made after initialisation.</para>
-        </alert>
+		<alert class="caution">
+		  <para>
+			Don't implement your own mapping between bool &amp; the true/false data type as shown in the example - this registration exists
+			by default (as per <link xlink:href="#builtin">below</link>) and can be used without any custom jiggery pokery.
+		  </para>
+		</alert>
       </content>
     </section>
 
