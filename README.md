@@ -9,7 +9,7 @@ Install-Package Felinesoft.UmbracoCodeFirst
 
 ## Documentation
 
-![Documentation and Walkthrough](http://codefirst.marsman.co.uk/)
+See the [Documentation and Walkthrough](http://codefirst.marsman.co.uk/)
 
 ## Running the QuizDemo project
 
