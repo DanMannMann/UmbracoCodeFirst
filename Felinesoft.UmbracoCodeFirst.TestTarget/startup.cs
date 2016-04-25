@@ -33,7 +33,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
             }
 
             #region bypass tests here
-            if (true)
+            if (false)
             {
                // CodeFirstManager.Current.Features.InitialisationMode = InitialisationMode.Sync;
                 CodeFirstManager.Current.Features.UseConcurrentInitialisation = false;
@@ -82,7 +82,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget
                     history.Add(test.GetType().Name);
                 }
                 sw.Stop();
-            }
+				System.Diagnostics.Debugger.Break();
+
+			}
             else
             {
                 try

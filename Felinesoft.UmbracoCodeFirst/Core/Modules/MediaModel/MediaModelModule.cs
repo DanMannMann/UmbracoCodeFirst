@@ -86,7 +86,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             MapModelToContent(node, model, registration);
 			if (model.MediaFile != null && node.HasProperty("umbracoFile"))
 			{
-				var fn = System.IO.Path.GetFileNameWithoutExtension(model.MediaFile.Name);
+				var fn = System.IO.Path.GetFileName(model.MediaFile.Name);
 				node.SetValue("umbracoFile", fn, model.MediaFile);
 			}
             return node;

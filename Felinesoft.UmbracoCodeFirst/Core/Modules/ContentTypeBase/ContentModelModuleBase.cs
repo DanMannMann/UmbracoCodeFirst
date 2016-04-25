@@ -422,13 +422,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 if (attr != null && attr is IDataTypeRedirect)
                 {
                     toConvert = (attr as IDataTypeRedirect).GetOriginalDataTypeObject(propertyValue);
-                    if (toConvert != null)
-                    {
-                        //Keep a second context so wrapped types can still find their property 
-                        //Will add nothing if the Redirector registered a context already (e.g. called ConvertToModel to create the value).
-                        //Hopefully said redirector passed in a parent context so the converted value can still find its way back here.
-                        CodeFirstModelContext.MoveNextContext(toConvert, property);
-                    }
                 }
                 else
                 {

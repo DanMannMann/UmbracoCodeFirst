@@ -154,3 +154,7 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/Felinesoft.UmbracoCodeFirst/App_Data/NuGetBackup/20160423-010255/Config
+/Felinesoft.UmbracoCodeFirst/App_Data/NuGetBackup/20160423-010255/Config
+/Felinesoft.UmbracoCodeFirst/Umbraco
+/Felinesoft.UmbracoCodeFirst/Umbraco_Client

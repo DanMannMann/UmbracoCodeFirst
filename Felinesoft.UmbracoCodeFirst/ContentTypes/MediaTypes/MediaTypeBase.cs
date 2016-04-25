@@ -23,7 +23,7 @@ using System.IO;
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
     /// <summary>
-    /// A base class for code-first document types
+    /// A base class for code-first media types
     /// </summary>
     public abstract class MediaTypeBase : CodeFirstContentBase<MediaNodeDetails>, IHtmlString
     {
@@ -31,8 +31,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 		private FileStream _file;
 
 		/// <summary>
-		/// A base class for code-first document types.
-		/// This constructor initialises the NodeDetails property with an empty instance of <see cref="DocumentNodeDetails"/>
+		/// A base class for code-first media types.
+		/// This constructor initialises the NodeDetails property with an empty instance of <see cref="MediaNodeDetails"/>
 		/// </summary>
 		public MediaTypeBase()
         {
@@ -107,8 +107,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 		/// <summary>
 		/// Persists the current values of the instance back to the database
 		/// </summary>
-		/// <param name="contentId">Id of the Umbraco Document</param>
-		/// <param name="parentId">Id of the parent Umbraco Document. Only applied when creating new content. At present code-first cannot change the parent of an existing node.</param>
+		/// <param name="contentId">Id of the Umbraco media</param>
+		/// <param name="parentId">Id of the parent Umbraco media. Only applied when creating new content. At present code-first cannot change the parent of an existing node.</param>
 		/// <param name="userId">The user ID for the audit trail</param>
 		/// <param name="raiseEvents">True to raise Umbraco content service events</param>
 		public void Persist(int parentId = -1, int userId = 0, bool raiseEvents = false)

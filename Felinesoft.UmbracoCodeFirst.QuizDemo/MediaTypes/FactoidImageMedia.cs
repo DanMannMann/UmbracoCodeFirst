@@ -16,5 +16,15 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes
 
 		[FileSizeProperty]
 		public virtual Label Size { get; set; }
+
+		[ImageWidthProperty]
+		public Label Width { get; set; }
+
+		[ImageHeightProperty]
+		public Label Height { get; set; }
+
+		[FileExtensionProperty]
+		public Label Type { get; set; }
 	}
+
 }

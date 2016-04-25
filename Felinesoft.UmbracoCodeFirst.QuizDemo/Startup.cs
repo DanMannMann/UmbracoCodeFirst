@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
 using System.Web;
+using System.Diagnostics;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 {
@@ -21,10 +22,12 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 
 		protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
 		{
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
 			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = false;
 			CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
 			CodeFirstManager.Current.Initialise(GetType().Assembly);
-
+			var s = sw.ElapsedMilliseconds;
 			//Check if default homepage exists
 			if (applicationContext.Services.ContentService.GetRootContent().Count() == 0)
 			{
@@ -33,12 +36,13 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 				applicationContext.Services.ContentService.RePublishAll();
 				umbraco.library.RefreshContent();
 			}
+			sw.Stop();
 		}
 
 		#region Seed Methods
 		private void AddSeedContent()
 		{
-			try
+			//try
 			{
 				var homePage = new HomePage();
 				homePage.Content = new HomePage.ContentTab();
@@ -52,14 +56,14 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 				CreateSet2(homePage);
 				CreateSet3(homePage);
 			}
-			catch
-			{
-				foreach(var c in ApplicationContext.Current.Services.ContentService.GetRootContent())
-				{
-					ApplicationContext.Current.Services.ContentService.Delete(c);
-				}
-				throw;
-			}
+			//catch
+			//{
+			//	foreach(var c in ApplicationContext.Current.Services.ContentService.GetRootContent())
+			//	{
+			//		ApplicationContext.Current.Services.ContentService.Delete(c);
+			//	}
+			//	throw;
+			//}
 		}
 
 		private void CreateFactoids()
@@ -112,8 +116,8 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 		{
 			
 			var factoid = new Factoid();
-			factoid.Details.Image = _image;
 			factoid.Details = new Factoid.FactoidDetailsTab();
+			factoid.Details.Image = _image;
 			factoid.Details.FactoidTitle = new DataTypes.BuiltIn.Textstring() { Value = title };
 			factoid.Details.FactoidText = new DataTypes.BuiltIn.Textstring() { Value = text };
 			factoid.NodeDetails.Name = factoid.Details.FactoidTitle.Value.Truncate(10);
