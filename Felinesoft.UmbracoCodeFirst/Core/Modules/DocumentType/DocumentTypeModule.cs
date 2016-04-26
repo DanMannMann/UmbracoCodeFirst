@@ -77,7 +77,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         #region IEntityTreeFilter
         public override bool IsFilter(string treeAlias)
         {
-            return treeAlias.Equals("nodeTypes", StringComparison.InvariantCultureIgnoreCase);
+			//old = nodeTypes, new = documentTypes
+			return treeAlias.Equals("documentTypes", StringComparison.InvariantCultureIgnoreCase) || treeAlias.Equals("nodeTypes", StringComparison.InvariantCultureIgnoreCase);
         }
         #endregion
 

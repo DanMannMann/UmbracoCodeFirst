@@ -660,7 +660,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         #region IEntityTreeFilter
         public bool IsFilter(string treeAlias)
         {
-            return treeAlias == "datatype";
+            return treeAlias == "dataTypes" || treeAlias == "datatype";
         }
 
         public void Filter(Umbraco.Web.Models.Trees.TreeNodeCollection nodes, out bool changesMade)
