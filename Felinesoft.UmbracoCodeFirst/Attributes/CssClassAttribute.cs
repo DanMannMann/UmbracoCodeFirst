@@ -16,7 +16,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
         public override string CombineToOutputString(System.Collections.Generic.IEnumerable<CodeFirstContextualAttribute> input)
         {
             var classes = string.Join(" ", input.Where(x => x is CssClassAttribute).Cast<CssClassAttribute>().Select(x => x.Value));
-            var attr = string.IsNullOrWhiteSpace(classes) ? string.Empty : string.Format("Class = '{0}'", classes);
+            var attr = string.IsNullOrWhiteSpace(classes) ? string.Empty : string.Format("Class = \"{0}\"", classes);
             return attr;
         }
     }

@@ -11,13 +11,9 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         [JsonIgnore]
         private ImageCropDataSet _underlying;
 
-        [JsonIgnore]
-        private ImageCropper _parent;
-
-        public ImageCrop(ImageCropper parent)
+        public ImageCrop()
         {
             Effects = new CropEffects();
-            _parent = parent;
         }
 
         public void SetUnderlyingDataset(ImageCropDataSet underlying)

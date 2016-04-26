@@ -18,6 +18,7 @@ using Felinesoft.UmbracoCodeFirst.Core.Modules;
 using System.Web.Mvc;
 using Umbraco.Web.Mvc;
 using Felinesoft.UmbracoCodeFirst.Core;
+using Felinesoft.UmbracoCodeFirst.DataTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions
 {
@@ -98,5 +99,10 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             }
         }
         #endregion
+
+		public static string GetContextualAttributes(this CodeFirstContentBase input)
+		{
+			return DataTypeUtils.GetHtmlTagContentFromContextualAttributes(input);
+		}
     }
 }

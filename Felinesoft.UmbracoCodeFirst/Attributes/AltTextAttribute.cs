@@ -11,10 +11,10 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 
         public AltTextAttribute(string altText, bool useAsTitle = true)
         {
-            Value = string.Format("alt='{0}'", altText);
+            Value = string.Format("alt=\"{0}\"", altText);
             if (useAsTitle)
             {
-                Value = string.Format("{0} title='{1}'", Value, altText);
+                Value = string.Format("{0} title=\"{1}\"", Value, altText);
             }
         }
 

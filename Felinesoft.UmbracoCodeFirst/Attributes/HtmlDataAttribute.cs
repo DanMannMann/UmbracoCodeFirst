@@ -18,7 +18,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 
         public string Value
         {
-            get { return string.Format("data-{0}='{1}'", AttributeName, AttributeValue); }
+            get { return string.Format("data-{0}=\"{1}\"", AttributeName, AttributeValue); }
         }
 
         public override string CombineToOutputString(System.Collections.Generic.IEnumerable<CodeFirstContextualAttribute> input)

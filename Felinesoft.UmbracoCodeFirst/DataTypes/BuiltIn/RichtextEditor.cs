@@ -51,7 +51,8 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         public string ToHtmlString()
         {
-            return _raw;
+            var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
+			return "<p" + toAdd + ">" + _raw + "</p>";
         }
     }
 }

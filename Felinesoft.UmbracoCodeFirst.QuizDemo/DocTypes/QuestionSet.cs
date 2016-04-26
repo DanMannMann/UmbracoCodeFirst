@@ -2,6 +2,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Linq;
+using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {
@@ -18,7 +19,7 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 			public virtual RichtextEditor WelcomeParagraph { get; set; }
 
 			[ContentProperty(mandatory: false)]
-			public virtual QuestionImage DefaultImageForSet { get; set; }
+			public virtual SingleMediaPicker<QuestionImageMedia> DefaultImageForSet { get; set; }
 		}
 
 		[ContentTab]

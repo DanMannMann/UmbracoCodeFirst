@@ -7,6 +7,7 @@
 @inherits UmbracoDocumentViewPage<HomePage>
 @using Felinesoft.UmbracoCodeFirst.Views
 @using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+@using Felinesoft.UmbracoCodeFirst.Extensions
 
 @{
     Layout = "_layout.cshtml";
@@ -16,10 +17,8 @@
 	@Document.NodeDetails.Name
 }
 
-<div class="content">
-    <p>
+<div class="content" @Document.GetContextualAttributes()>
         @Document.Content.WelcomeParagraph
-    </p>
     <p>
         @(Dictionary<QuizmasterDictionary>().ChooseQuestionSet)
     </p>

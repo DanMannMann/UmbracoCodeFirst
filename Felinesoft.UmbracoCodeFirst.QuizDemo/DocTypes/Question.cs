@@ -2,6 +2,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Attributes;
 using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Felinesoft.UmbracoCodeFirst.Linq;
+using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 {
@@ -28,10 +29,11 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 		public class ExtrasTab : TabBase
 		{
 			[ContentProperty(mandatory: false)]
-			public virtual QuestionImage Image { get; set; }
+			public virtual SingleMediaPicker<QuestionImageMedia> Image { get; set; }
 
 			[ContentProperty]
 			[NodePickerConfig(maximumItems: 3, startNode: "/Factoids", showEditButton: true, showOpenButton: true, showPathsWhenHovering: true)]
+			[AltText("Picker Made This")]
 			public DocumentPicker<Factoid> Factoids { get; set; } = new DocumentPicker<Factoid>();
 		}
 		#endregion
@@ -60,13 +62,13 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 				string imgUrl = null;
 				try
 				{
-					imgUrl = Extras.Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
+					imgUrl = Extras.Image.PickedItem.Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
 				}
 				catch
 				{
 					try
 					{
-						imgUrl = Parent.Content.DefaultImageForSet.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
+						imgUrl = Parent.Content.DefaultImageForSet.PickedItem.Image.Medium.Effects.RoundedCorners(30, System.Drawing.Color.White).ToString();
 					}
 					catch
 					{
