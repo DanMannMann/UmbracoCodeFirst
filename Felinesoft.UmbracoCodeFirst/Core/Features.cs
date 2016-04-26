@@ -23,8 +23,8 @@ namespace Felinesoft.UmbracoCodeFirst
         /// <para> </para>
         /// <para>
         /// This is useful in load-balanced scenarios, where the developer may wish to nominate a "master" instance to
-        /// handle updating the database whilst the rest of the instances are in passive mode and only check that the database is correct before
-        /// starting up (or failing, depending on the outcome of the check).
+        /// handle updating the database whilst the rest of the instances are in "ensure" mode and only check that the database is correct before
+        /// starting up or failing, depending on the outcome of the check.
         /// </para>
         /// <para> </para>
         /// <para>
@@ -38,7 +38,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// </para>
         /// <para> </para>
         /// <para>
-        /// InitialisationMode.Passive - The types definitions are used as specified without checking if the database
+        /// InitialisationMode.Passive - The type definitions are used as specified without checking if the database
         /// matches the definitions. This is useful in load balanced scenarios where one
         /// master instance will initialise the database whilst n slave instances will
         /// simply assume that the database will be synchronised to the type definitions
@@ -203,6 +203,7 @@ namespace Felinesoft.UmbracoCodeFirst
         /// <para>
         /// WARNING: This does not work when distributed calls are enabled and hence cannot
         /// be used in load-balanced scenarios.
+		/// UPDATE: Works in 7.4.x for farm/balanced scenarios as distributed calls are not used.
         /// </para>
         /// <para>
         /// Status: Stable (default: true)
