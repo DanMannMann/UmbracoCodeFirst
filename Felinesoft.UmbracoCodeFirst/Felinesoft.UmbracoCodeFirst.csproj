@@ -140,8 +140,9 @@
       <HintPath>..\packages\Markdown.1.14.4\lib\net45\MarkdownSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Marsman.Reflekt">
-      <HintPath>..\packages\Marsman.Reflekt.0.5.0\lib\net45\Marsman.Reflekt.dll</HintPath>
+    <Reference Include="Marsman.Reflekt, Version=0.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Marsman.Reflekt.0.6.0.0\lib\portable-net45+DNXcore50+win+wpa81+wp80+Xamarin.iOS10+MonoAndroid10+MonoTouch10\Marsman.Reflekt.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data, Version=1.0.1559.20655, Culture=neutral">
       <HintPath>..\packages\UmbracoCms.Core.7.4.3\lib\Microsoft.ApplicationBlocks.Data.dll</HintPath>
