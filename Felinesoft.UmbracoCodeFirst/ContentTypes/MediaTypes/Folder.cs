@@ -14,15 +14,16 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
     [CodeFirstCommonBase]
     public abstract class MediaFolderBase : MediaTypeBase
     {
-        public class ContentsTab : TabBase
-        {
-            [ContentProperty("Contents:", "contents", false, "", 0, false)]
-            public FolderBrowser Contents { get; set; }
-        }
+		public class ContentsTab : TabBase
+		{
+			[ContentProperty(@"Contents:", @"contents", false, @"", 0, false)]
+			public virtual Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ListView_Media Contents { get; set; }
 
-        [ContentTab("Contents", 1)]
-        public ContentsTab Contents { get; set; }
-    }
+		}
+
+		[ContentTab(@"Contents", 1)]
+		public virtual ContentsTab Contents { get; set; }
+	}
 
     [MediaType("Folder", "Folder", new Type[] { typeof(MediaFolder), typeof(MediaImage), typeof(MediaFile) }, "icon-folder", true, false, "")]
     [BuiltInMediaType]

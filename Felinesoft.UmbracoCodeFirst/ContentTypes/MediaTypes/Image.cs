@@ -13,7 +13,7 @@ using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
-    [MediaType("Image", "Image", null, "icon-picture", false, false, "")]
+    [MediaType("Image", "Image", null, "icon-picture", false, false, null)]
     [BuiltInMediaType]
     public class MediaImage : MediaImageBase
     {
@@ -26,9 +26,9 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public class ImageTab : TabBase
         {
             [ContentProperty("Upload image", "umbracoFile", false, "", 0, false)]
-            public Upload UploadImage { get; set; }
+			public ImageCropper UploadImage { get; set; }
 
-            [ContentProperty("Width", "umbracoWidth", false, "", 1, false)]
+			[ContentProperty("Width", "umbracoWidth", false, "", 1, false)]
             public Label Width { get; set; }
 
             [ContentProperty("Height", "umbracoHeight", false, "", 2, false)]
@@ -47,12 +47,12 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         public string ToHtmlString()
         {
             var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
-            return Image == null || Image.UploadImage == null ? string.Empty : "<img" + toAdd + " src='" + Image.UploadImage.Url + "' />";
+            return Image == null || Image.UploadImage == null ? string.Empty : "<img" + toAdd + " src='" + Image.UploadImage.OriginalImageUrl + "' />";
         }
 
         public override string ToString()
         {
-            return Image == null || Image.UploadImage == null ? string.Empty : Image.UploadImage.Url;
+            return Image == null || Image.UploadImage == null ? string.Empty : Image.UploadImage.OriginalImageUrl;
         }
     }
 }

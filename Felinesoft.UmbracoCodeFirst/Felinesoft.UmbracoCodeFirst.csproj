@@ -42,6 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Felinesoft.UmbracoCodeFirst.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TestSet1|AnyCPU'">
     <OutputPath>bin\TestSet1\</OutputPath>
@@ -399,6 +400,7 @@
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />
     <Compile Include="Core\Modules\DataType\Registration\EnumDataTypeRegistration.cs" />
     <Compile Include="Core\Modules\Dictionary\IDictionaryModule.cs" />
+    <Compile Include="DataTypes\BuiltIn\ListView_Media.cs" />
     <Compile Include="Dictionaries\DictionaryBase.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\IOnCopy.cs" />

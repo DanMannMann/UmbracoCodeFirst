@@ -165,9 +165,16 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             if (umbracoProperty == null)
             {
-                modified = true;
-                umbracoProperty = new PropertyType(dataType.Definition);
-                LogPropertySyncInfo(contentType, tab, property, "Creating new");
+				try
+				{
+					modified = true;
+					umbracoProperty = new PropertyType(dataType.Definition);
+					LogPropertySyncInfo(contentType, tab, property, "Creating new");
+				}
+				catch (Exception ex)
+				{
+
+				}
             }
             else if (umbracoProperty.DataTypeDefinitionId != dataType.Definition.Id)
             {

@@ -62,6 +62,10 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 				JsonConvert.PopulateObject(dbValue, this);
 				_underlying = JsonConvert.DeserializeObject<ImageCropDataSet>(dbValue); //This is useful as it has logic for generating the crop URLs
 				Effects.SetUnderlyingDataset(_underlying);
+				if (Crops == null)
+				{
+					Crops = new List<ImageCrop>();
+				}
 				Crops.ForEach(x => x.SetUnderlyingDataset(_underlying));
 				var crops = GetCropsFromProperties();
 				foreach (var crop in crops)

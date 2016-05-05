@@ -56,22 +56,4 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 5
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://tfs.felinesoft.com:8080/tfs/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Felinesoft.UmbracoCodeFirst\\Felinesoft.UmbracoCodeFirst.csproj
-		SccProjectName1 = Felinesoft.UmbracoCodeFirst
-		SccLocalPath1 = Felinesoft.UmbracoCodeFirst
-		SccProjectUniqueName2 = Felinesoft.UmbracoCodeFirst.Docs\\Felinesoft.UmbracoCodeFirst.Docs.shfbproj
-		SccProjectName2 = Felinesoft.UmbracoCodeFirst.Docs
-		SccLocalPath2 = Felinesoft.UmbracoCodeFirst.Docs
-		SccProjectUniqueName3 = Felinesoft.UmbracoCodeFirst.TestTarget\\Felinesoft.UmbracoCodeFirst.TestTarget.csproj
-		SccProjectName3 = Felinesoft.UmbracoCodeFirst.TestTarget
-		SccLocalPath3 = Felinesoft.UmbracoCodeFirst.TestTarget
-		SccProjectUniqueName4 = Felinesoft.UmbracoCodeFirst.QuizDemo\\Felinesoft.UmbracoCodeFirst.QuizDemo.csproj
-		SccProjectName4 = Felinesoft.UmbracoCodeFirst.QuizDemo
-		SccLocalPath4 = Felinesoft.UmbracoCodeFirst.QuizDemo
-	EndGlobalSection
 EndGlobal
