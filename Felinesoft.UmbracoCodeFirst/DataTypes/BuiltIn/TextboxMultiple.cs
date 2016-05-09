@@ -14,7 +14,7 @@ using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    [DataType("Umbraco.TextboxMultiple", "Textbox multiple")]
+    [DataType("Umbraco.TextboxMultiple", "Textarea")]
     [DoNotSyncDataType][BuiltInDataType]
     public class TextboxMultiple : IUmbracoNtextDataType
     {
