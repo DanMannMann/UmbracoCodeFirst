@@ -108,6 +108,10 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 		public void Initialise(PropertyInfo propertyTarget)
         {
             _targetType = propertyTarget.PropertyType;
+			if (_targetType.IsGenericType && _targetType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+			{
+				_targetType = _targetType.GenericTypeArguments.First();
+			}
             _basis = _targetType.GetCodeFirstAttribute<NodePickerConfigAttribute>();
             Init(propertyTarget.DeclaringType.Name + "." + propertyTarget.Name);
         }

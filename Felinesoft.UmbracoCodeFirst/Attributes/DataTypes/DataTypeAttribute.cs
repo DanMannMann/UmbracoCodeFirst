@@ -93,7 +93,7 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
                     var args = targetType.GetGenericArguments();
                     for (int i = 1; i <= args.Length; i++)
                     {
-                        var typeName = args[i - 1].GetCodeFirstAttribute<ContentTypeAttribute>().Name;
+                        var typeName = args[i - 1].GetCodeFirstAttribute<ContentTypeAttribute>()?.Name ?? args[i - 1].Name;
                         Name = Name.Replace("` " + i.ToString(), " - " + typeName);
                     }
                 }

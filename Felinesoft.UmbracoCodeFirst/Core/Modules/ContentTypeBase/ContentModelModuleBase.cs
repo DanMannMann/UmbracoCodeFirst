@@ -120,10 +120,13 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             {
                 if (registration.ClrType.Inherits(typeof(Tmodel)))
                 {
-                    //Redirect to the underlying type and make one of those instead
-                    if (!_contentTypeModule.TryGetContentType(typeof(Tmodel), out registration))
-                    {
-                        throw new CodeFirstException("Could not find content type registration for underlying type " + typeof(Tmodel).FullName);
+					if (typeof(Tmodel).GetCodeFirstAttribute<ContentTypeAttribute>(false) == null) //The base type is not an Umb content type, just create the full document and cast the result
+					{
+						
+					}
+                    else if (!_contentTypeModule.TryGetContentType(typeof(Tmodel), out registration)) //Redirect to the underlying type and make one of those instead
+					{
+						throw new CodeFirstException("Could not find content type registration for underlying type " + typeof(Tmodel).FullName);
                     }
                 }
                 else

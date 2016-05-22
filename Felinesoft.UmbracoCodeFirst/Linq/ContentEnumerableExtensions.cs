@@ -88,16 +88,30 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
                 throw new CodeFirstException("Failed to convert the matched document (ID:" + match.Id + ") to CLR type " + typeof(T).Name, ex);
             }
         }
-        #endregion
+		#endregion
 
-        #region Get Enumerable of Document From Published Content
-        public static IEnumerable<T> ContentOfType<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
+		#region Get Enumerable of Document From Published Content
+		public static IEnumerable<T> ContentOfTypeOrDescendedFromType<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
+		{
+			IEnumerable<IPublishedContent> match = input;
+
+			try
+			{
+				return match.Select(x => x.ConvertToModel()).Where(x => x is T).Cast<T>();
+			}
+			catch (Exception ex)
+			{
+				throw new CodeFirstException("Failed to convert one of the matched nodes to CLR type " + typeof(T).Name, ex);
+			}
+		}
+
+		public static IEnumerable<T> ContentOfType<T>(this IEnumerable<IPublishedContent> input) where T : CodeFirstContentBase
         {
             IEnumerable<IPublishedContent> match;
             try
             {
-                match = input.Where(y => y.DocumentTypeAlias == GetDocumentTypeAlias<T>());
-            }
+				match = input.Where(y => y.DocumentTypeAlias == GetDocumentTypeAlias<T>());
+			}
             catch (Exception ex)
             {
                 throw new CodeFirstException("No node of type " + typeof(T).Name + " was found in the collection", ex);
@@ -105,7 +119,7 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
 
             try
             {
-                return match.Select(x => (T)x.ConvertToModel());
+                return match.Select(x => x.ConvertToModel()).Where(x => x is T).Cast<T>();
             }
             catch (Exception ex)
             {
@@ -136,10 +150,15 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
             }
             return input.Parent.Children.Where(x => x != input).ContentOfType<T>();
         }
-        #endregion
+		#endregion
 
-        #region Get Enmumerable Of Document From Model
-        public static IEnumerable<T> ChildrenOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
+		#region Get Enmumerable Of Document From Model
+		public static IEnumerable<T> ChildrenOfTypeOrDescendedFromType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
+		{
+			return input.NodeDetails.PublishedContent.Children.ContentOfTypeOrDescendedFromType<T>();
+		}
+
+		public static IEnumerable<T> ChildrenOfType<T>(this CodeFirstContentBase input) where T : CodeFirstContentBase
         {
             return input.NodeDetails.PublishedContent.Children.ContentOfType<T>();
         }
@@ -241,12 +260,27 @@ namespace Felinesoft.UmbracoCodeFirst.Linq
         {
             return (T)input.NodeDetails.PublishedContent.NearestDescendant<T>().ConvertToModel();
         }
-        #endregion
+		#endregion
 
-        #region Doc Type Def
-        private static string GetDocumentTypeAlias<T>() where T : CodeFirstContentBase
+		#region Scalar
+		public static bool IsAncestorOf<T>(this CodeFirstContentBase input, T comparator) where T : CodeFirstContentBase
+		{
+			var path = comparator.NodeDetails.PublishedContent?.Path.Split(',').Select(x => int.Parse(x));
+			try
+			{
+				return path.Contains(input.NodeDetails.UmbracoId);
+			}
+			catch (NullReferenceException)
+			{
+				throw new CodeFirstException("All code-first LINQ methods can only be used against published content. One or more of the node arguments was constructed from IContent");
+			}
+		}
+		#endregion
+
+		#region Doc Type Def
+		private static string GetDocumentTypeAlias<T>() where T : CodeFirstContentBase
         {
-            var type = GetDocumentTypeRegistration<T>().Alias;
+            var type = GetDocumentTypeRegistration<T>()?.Alias;
             return type;
         }
 

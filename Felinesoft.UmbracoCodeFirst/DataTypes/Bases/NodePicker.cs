@@ -149,7 +149,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
                     throw new CodeFirstException("The type " + this.GetType().FullName + " does not specify a valid content type as its generic parameter");
                 }
 
-                typeAlias = target.GetGenericArguments().First().GetCodeFirstAttribute<ContentTypeAttribute>().Alias;
+                typeAlias = target.GetGenericArguments().First().GetCodeFirstAttribute<ContentTypeAttribute>()?.Alias ?? string.Empty;
             }
             catch (Exception e)
             {
