@@ -95,8 +95,11 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             IMember content;
             if (_modelModule.Value.TryConvertToContent(this, out content))
             {
-                //persist object into umbraco database
-                ApplicationContext.Current.Services.MemberService.Save(content, raiseEvents);
+				//Check if the member already exists
+				var brandNewMember = (NodeDetails.Content == null || NodeDetails.Content.Id <= 0) && (NodeDetails.PublishedContent == null || NodeDetails.PublishedContent.Id <= 0);
+
+				//persist object into umbraco database
+				ApplicationContext.Current.Services.MemberService.Save(content, raiseEvents);
 
                 //update the node details
                 NodeDetails = new MemberNodeDetails(content);

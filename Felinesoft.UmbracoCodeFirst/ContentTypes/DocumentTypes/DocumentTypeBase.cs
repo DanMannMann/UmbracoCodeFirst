@@ -46,6 +46,11 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
         /// <param name="raiseEvents">True to raise Umbraco content service events</param>
         public void Persist(int parentId = -1, int userId = 0, bool raiseEvents = false, bool publish = false)
         {
+			if (string.IsNullOrWhiteSpace(NodeDetails.Name))
+			{
+				throw new CodeFirstException("No name has been set for the node, unable to persist");
+			}
+
             IContent content;
             if (_modelModule.Value.TryConvertToContent(this, out content, parentId))
             {

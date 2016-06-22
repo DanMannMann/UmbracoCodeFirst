@@ -104,7 +104,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
             //Get the type alias and create the content
             var typeAlias = registration.Alias;
-            var node = ApplicationContext.Current.Services.MemberService.CreateMember(model.Username, model.Email, model.Name, typeAlias);
+            var node = ApplicationContext.Current.Services.MemberService.CreateMemberWithIdentity(model.Username, model.Email, model.Name, typeAlias);
             SetMemberSpecificProperties(model, node);
             MapModelToContent(node, model, registration);
             return node;
