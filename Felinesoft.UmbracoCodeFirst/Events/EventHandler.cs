@@ -5,6 +5,7 @@ using Felinesoft.UmbracoCodeFirst.ContentTypes;
 using Felinesoft.UmbracoCodeFirst.Core;
 using System.Web;
 using Umbraco.Core;
+using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
@@ -45,7 +46,7 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		public virtual bool OnPublish(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnPublish(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
