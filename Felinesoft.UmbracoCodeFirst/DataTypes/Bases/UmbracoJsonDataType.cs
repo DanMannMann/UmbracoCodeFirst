@@ -50,10 +50,19 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             };
         }
 
-        /// <summary>
-        /// Defines how null properties are serialised
-        /// </summary>
-        protected NullValueHandling NullHandling
+		/// <summary>
+		/// Constructs a new instance of <see cref="UmbracoJsonDataType"/>
+		/// </summary>
+		/// <param name="serializerSettings">Defines how (de)serialisation is done by Newtonsoft JSON</param>
+		protected UmbracoJsonDataType(JsonSerializerSettings serializerSettings)
+		{
+			_serialiserSettings = serializerSettings;
+		}
+
+		/// <summary>
+		/// Defines how null properties are serialised
+		/// </summary>
+		protected NullValueHandling NullHandling
         {
             get
             {

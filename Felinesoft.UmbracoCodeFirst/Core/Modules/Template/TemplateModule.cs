@@ -81,7 +81,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         private ITemplate ConfigureTemplate(Type docType, ref ITemplate defaultTemplate, TemplateAttribute attribute)
         {
-            var template = _fileService.GetTemplates().FirstOrDefault(x => x.Alias == attribute.TemplateAlias);
+            var template = _fileService.GetTemplates().FirstOrDefault(x => string.Equals(x.Alias, attribute.TemplateAlias, StringComparison.InvariantCultureIgnoreCase));
             if (template == null)
             {
                 template = CreateTemplate(attribute);
@@ -109,7 +109,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         private ITemplate CreateTemplate(TemplateAttribute attribute)
         {
-            var path = "~/Views/" + attribute.TemplateAlias + ".cshtml";
+            var path = "~/Views/" + attribute.TemplateAlias.ToPascalCase() + ".cshtml";
             var template = new Template(path, attribute.TemplateName, attribute.TemplateAlias);
             lock (_lock)
             {
