@@ -71,6 +71,46 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         }
         #endregion
 
+	 #region Media Type Alias Helpers
+        /// <summary>
+        /// Accesses the <see cref="MediaTypeAttribute"/> applied to a class to find
+        /// the media type alias for that class
+        /// </summary>
+        /// <param name="input">The media type instance to get the alias for</param>
+        /// <returns>the media type alias</returns>
+        /// <exception cref="CodeFirstException">Thrown if the specified type does not have a <see cref="MediaTypeAttribute"/> attribute.</exception>
+        public static string GetMediaTypeAlias(this MediaTypeBase input)
+        {
+            try
+            {
+                return input.GetType().GetCodeFirstAttribute<MediaTypeAttribute>().Alias;
+            }
+            catch (Exception e)
+            {
+                throw new CodeFirstException(input.GetType().Name, e);
+            }
+        }
+
+        /// <summary>
+        /// Accesses the <see cref="MediaTypeAttribute"/> applied to a class to find
+        /// the media type alias for that class
+        /// </summary>
+        /// <param name="input">The media type to get the alias for</param>
+        /// <returns>the media type alias</returns>
+        /// <exception cref="CodeFirstException">Thrown if the specified type does not have a <see cref="MediaTypeAttribute"/> attribute.</exception>
+        internal static string GetMediaTypeAlias(this Type input)
+        {
+            try
+            {
+                return input.GetCodeFirstAttribute<MediaTypeAttribute>().Alias;
+            }
+            catch (Exception e)
+            {
+                throw new Exception(input.GetType().Name, e);
+            }
+        }
+        #endregion
+
         #region Initialiser Sorting Extensions
         internal static IEnumerable<Type> SortByContentTypeInheritance(this IEnumerable<Type> input, Type baseType = null)
         {
