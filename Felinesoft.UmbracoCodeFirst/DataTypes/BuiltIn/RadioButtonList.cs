@@ -22,11 +22,16 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class RadioButtonList : SingleSelectDataType, IUmbracoIntegerDataType
     {
-        /// <summary>
-        /// Initialises the instance from the Umbraco prevalue ID
-        /// </summary>
-        /// <param name="dbValue">the Umbraco prevalue ID</param>
-        public void Initialise(int dbValue)
+		public static implicit operator RadioButtonList(string value)
+		{
+			return new RadioButtonList() { SelectedValue = value };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the Umbraco prevalue ID
+		/// </summary>
+		/// <param name="dbValue">the Umbraco prevalue ID</param>
+		public void Initialise(int dbValue)
         {
             var pval = PreValues.FirstOrDefault(x => x.Id == dbValue);
             if (pval == null)

@@ -22,10 +22,27 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class LegacyMediaPicker : MediaItem, IUmbracoIntegerDataType
     {
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(int dbValue)
+		public static implicit operator LegacyMediaPicker(int value)
+		{
+			return new LegacyMediaPicker() { MediaNodeId = value };
+		}
+
+		public static implicit operator LegacyMediaPicker(MediaTypeBase value)
+		{
+			try
+			{
+				return new LegacyMediaPicker() { MediaNodeId = value.NodeDetails.UmbracoId };
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Media Node Id (MediaTypeBase.NodeDetails.UmbracoId) must be set", ex);
+			}
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(int dbValue)
         {
             MediaNodeId = dbValue;
         }

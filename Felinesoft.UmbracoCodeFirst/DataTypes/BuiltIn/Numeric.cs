@@ -20,10 +20,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         public int Value { get; set; }
 
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(int dbValue)
+		public static implicit operator Numeric(int value)
+		{
+			return new Numeric() { Value = value };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(int dbValue)
         {
             Value = dbValue;
         }

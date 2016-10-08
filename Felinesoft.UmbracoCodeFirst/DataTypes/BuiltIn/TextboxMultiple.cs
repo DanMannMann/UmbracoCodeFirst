@@ -20,10 +20,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         public string Value { get; set; }
 
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(string dbValue)
+		public static implicit operator TextboxMultiple(string value)
+		{
+			return new TextboxMultiple() { Value = value };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(string dbValue)
         {
             Value = dbValue;
         }

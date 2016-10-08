@@ -15,7 +15,12 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class DropdownList : SingleSelectDataType, IUmbracoNtextDataType
     {
-        public void Initialise(string dbValue)
+		public static implicit operator DropdownList(string value)
+		{
+			return new DropdownList() { SelectedValue = value };
+		}
+
+		public void Initialise(string dbValue)
         {
             base.Initialise(dbValue);
         }

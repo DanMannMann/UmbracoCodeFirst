@@ -22,7 +22,12 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         private string _raw;
 
-        public string Value
+		public static implicit operator RichtextEditor(string value)
+		{
+			return new RichtextEditor() { Value = value };
+		}
+
+		public string Value
         {
             get
             {
@@ -52,7 +57,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         public string ToHtmlString()
         {
             var toAdd = DataTypeUtils.GetHtmlTagContentFromContextualAttributes(this);
-			return "<p" + toAdd + ">" + _raw + "</p>";
+			return "<div" + toAdd + ">" + _raw + "</div>";
         }
     }
 }

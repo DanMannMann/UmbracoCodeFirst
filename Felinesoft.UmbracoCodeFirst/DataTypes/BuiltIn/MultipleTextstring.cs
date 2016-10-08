@@ -13,7 +13,17 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         private List<string> _collection = new List<string>();
 
-        public void Initialise(string dbValue)
+		public static implicit operator MultipleTextstring(string[] value)
+		{
+			return new MultipleTextstring() { _collection = new List<string>(value) };
+		}
+
+		public static implicit operator MultipleTextstring(string value)
+		{
+			return new MultipleTextstring() { _collection = value.Split(',').ToList() };
+		}
+
+		public void Initialise(string dbValue)
         {
             _collection = dbValue.Split(new string[] { Environment.NewLine }, StringSplitOptions.None).ToList();
         }

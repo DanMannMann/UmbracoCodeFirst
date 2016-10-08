@@ -10,7 +10,14 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
     public class SingleDocumentPicker<T> : DocumentPicker<T>, IPickedItem<T>, IHtmlString where T : DocumentTypeBase, new()
     {
-        public string Url
+		public static implicit operator SingleDocumentPicker<T>(T value)
+		{
+			var val = new BuiltIn.SingleDocumentPicker<T>();
+			val.SetCollection(new T[] { value });
+			return val;
+		}
+
+		public string Url
         {
             get
             {

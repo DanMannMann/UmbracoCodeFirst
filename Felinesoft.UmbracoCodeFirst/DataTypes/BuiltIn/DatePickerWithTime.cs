@@ -18,6 +18,10 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class DatePickerWithTime : DatePicker
     {
+		public static implicit operator DatePickerWithTime(DateTime dateTime)
+		{
+			return new DatePickerWithTime() { Value = dateTime };
+		}
 
-    }
+	}
 }

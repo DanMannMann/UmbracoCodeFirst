@@ -70,10 +70,7 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             }
             set
             {
-                _serialiserSettings = new JsonSerializerSettings
-                {
-                    NullValueHandling = value
-                };
+				_serialiserSettings.NullValueHandling = value;
             }
         }
 

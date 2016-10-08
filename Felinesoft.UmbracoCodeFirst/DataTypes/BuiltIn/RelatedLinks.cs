@@ -21,7 +21,12 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class RelatedLinks : UmbracoJsonCollectionDataType<RelatedLink>
     {
-        public override void Initialise(string dbValue)
+		public static implicit operator RelatedLinks(RelatedLink[] values)
+		{
+			return new RelatedLinks() { Items = new List<RelatedLink>(values) };
+		}
+		
+		public override void Initialise(string dbValue)
         {
             base.Initialise(dbValue);
             foreach (var item in Items)

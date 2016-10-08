@@ -21,10 +21,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 
         public bool Value { get; set; }
 
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(int dbValue)
+		public static implicit operator TrueFalse(bool value)
+		{
+			return new TrueFalse() { Value = value };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(int dbValue)
         {
             if (dbValue > 0)
             {

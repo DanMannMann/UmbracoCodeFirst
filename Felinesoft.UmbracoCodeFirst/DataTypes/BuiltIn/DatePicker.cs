@@ -20,10 +20,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         public DateTime Value { get; set; }
 
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(DateTime dbValue)
+		public static implicit operator DatePicker(DateTime dateTime)
+		{
+			return new DatePicker() { Value = dateTime };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(DateTime dbValue)
         {
             Value = dbValue;
         }

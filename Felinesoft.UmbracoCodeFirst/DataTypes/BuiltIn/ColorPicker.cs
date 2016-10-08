@@ -22,10 +22,20 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         private Color _color = Color.Black;
 
-        /// <summary>
-        /// Gets the selected colour
-        /// </summary>
-        public Color Color
+		public static implicit operator ColorPicker(Color color)
+		{
+			return new ColorPicker() { Color = color };
+		}
+
+		public static implicit operator ColorPicker(string hex)
+		{
+			return new ColorPicker() { Color = ColorTranslator.FromHtml(hex.StartsWith("#") ? hex : "#" + hex) };
+		}
+
+		/// <summary>
+		/// Gets the selected colour
+		/// </summary>
+		public Color Color
         {
             get
             {

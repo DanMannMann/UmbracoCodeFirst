@@ -15,13 +15,20 @@ using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
 {
-    /// <summary>
-    /// A strongly-typed content picker which provides a strongly-typed model of the picked document.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
-    public class DocumentPicker<T> : NodePicker<T, DocumentNodeDetails>, IDocumentPicker, IPreValueFactory where T : DocumentTypeBase, new()
-    {
+	/// <summary>
+	/// A strongly-typed content picker which provides a strongly-typed model of the picked document.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	[DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
+	public class DocumentPicker<T> : NodePicker<T, DocumentNodeDetails>, IDocumentPicker, IPreValueFactory where T : DocumentTypeBase, new()
+	{
+		public static implicit operator DocumentPicker<T>(T[] values)
+		{
+			var val = new BuiltIn.DocumentPicker<T>();
+			val.SetCollection(values);
+			return val;
+		}
+
         public DocumentPicker() : base(NodeType.content) { }
 
         public override string ToHtmlString()

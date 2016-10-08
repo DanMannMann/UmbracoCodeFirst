@@ -19,10 +19,27 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class LegacyMemberPicker : MemberItem, IUmbracoIntegerDataType
     {
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(int dbValue)
+		public static implicit operator LegacyMemberPicker(int value)
+		{
+			return new LegacyMemberPicker() { MemberId = value };
+		}
+
+		public static implicit operator LegacyMemberPicker(MemberTypeBase value)
+		{
+			try
+			{
+				return new LegacyMemberPicker() { MemberId = value.NodeDetails.UmbracoId };
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Member Id (MemberTypeBase.NodeDetails.UmbracoId) must be set", ex);
+			}
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(int dbValue)
         {
             MemberId = dbValue;
         }

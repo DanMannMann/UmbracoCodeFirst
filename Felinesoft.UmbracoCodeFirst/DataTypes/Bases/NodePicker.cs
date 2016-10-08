@@ -91,11 +91,15 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
             var ids = dbValue.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x));
             foreach (var id in ids)
             {
-                var model = GetModelFromId(id);
-				if (model != null)
+				try
 				{
-					Add(model);
+					var model = GetModelFromId(id);
+					if (model != null)
+					{
+						Add(model);
+					}
 				}
+				catch { /*continue*/ }
             }
         }
 

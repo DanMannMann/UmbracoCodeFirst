@@ -20,10 +20,20 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     {
         public List<string> Values { get; set; }
 
-        /// <summary>
-        /// Initialises the instance from the db value
-        /// </summary>
-        public void Initialise(string dbValue)
+		public static implicit operator Tags(string[] value)
+		{
+			return new Tags() { Values = new List<string>(value) };
+		}
+
+		public static implicit operator Tags(string value)
+		{
+			return new Tags() { Values = value.Split(',').ToList() };
+		}
+
+		/// <summary>
+		/// Initialises the instance from the db value
+		/// </summary>
+		public void Initialise(string dbValue)
         {
             Values = dbValue.Split(',').ToList();
         }

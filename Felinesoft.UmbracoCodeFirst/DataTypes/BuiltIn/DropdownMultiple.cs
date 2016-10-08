@@ -21,6 +21,18 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class DropdownMultiple : MultiselectDataType
     {
+		public static implicit operator DropdownMultiple(string value)
+		{
+			var result = new DropdownMultiple();
+			result.Initialise(value);
+			return result;
+		}
 
-    }
+		public static implicit operator DropdownMultiple(string[] values)
+		{
+			var result = new DropdownMultiple();
+			result.Initialise(string.Join(",", values));
+			return result;
+		}
+	}
 }

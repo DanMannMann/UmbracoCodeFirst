@@ -18,6 +18,11 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class Label : IUmbracoNvarcharDataType
     {
+		public static implicit operator Label(string value)
+		{
+			return new Label() { Value = value };
+		} 
+
         public string Value { get; set; }
 
         /// <summary>

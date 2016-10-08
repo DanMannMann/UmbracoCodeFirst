@@ -10,7 +10,14 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
     public class SingleMediaPicker<T> : MediaPicker<T>, IPickedItem<T>, IHtmlString where T : MediaTypeBase, new()
     {
-        public string Url
+		public static implicit operator SingleMediaPicker<T>(T value)
+		{
+			var val = new BuiltIn.SingleMediaPicker<T>();
+			val.SetCollection(new T[] { value });
+			return val;
+		}
+
+		public string Url
         {
             get
             {

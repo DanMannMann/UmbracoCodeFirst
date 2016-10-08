@@ -19,10 +19,27 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
     [DoNotSyncDataType][BuiltInDataType]
     public class LegacyContentPicker : IUmbracoIntegerDataType, IHtmlString
     {
-        /// <summary>
-        /// The URL of the content
-        /// </summary>
-        public string Url { get; private set; }
+		public static implicit operator LegacyContentPicker(int value)
+		{
+			return new LegacyContentPicker() { Id = value };
+		}
+
+		public static implicit operator LegacyContentPicker(CodeFirstContentBase value)
+		{
+			try
+			{
+				return new LegacyContentPicker() { Id = value.NodeDetails.UmbracoId };
+			}
+			catch (Exception ex)
+			{
+				throw new InvalidOperationException("Node Id (CodeFirstContentBase.NodeDetails.UmbracoId) must be set", ex);
+			}
+		}
+
+		/// <summary>
+		/// The URL of the content
+		/// </summary>
+		public string Url { get; private set; }
 
         /// <summary>
         /// The ID of the content
