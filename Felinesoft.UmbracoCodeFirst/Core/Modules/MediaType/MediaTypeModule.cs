@@ -47,7 +47,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 return false;
             }
         }
-
         public bool TryGetMediaType(Type type, out MediaTypeRegistration registration)
         {
             ContentTypeRegistration reg;
@@ -62,15 +61,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 return false;
             }
         }
-
         public bool TryGetMediaType<T>(out MediaTypeRegistration registration) where T : MediaTypeBase
         {
             return TryGetMediaType(typeof(T), out registration);
         }
-        #endregion
+		public MediaTypeRegistration GetMediaType<T>() where T : MediaTypeBase
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == typeof(T)) as MediaTypeRegistration;
+		}
+		public MediaTypeRegistration GetMediaType(Type type)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == type) as MediaTypeRegistration;
+		}
+		public MediaTypeRegistration GetMediaType(string alias)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.Alias == alias) as MediaTypeRegistration;
+		}
+		#endregion
 
-        #region Create/Update Content Type overrides
-        public override void Initialise(IEnumerable<Type> types)
+		#region Create/Update Content Type overrides
+		public override void Initialise(IEnumerable<Type> types)
         {
             var inputTypes = new List<Type>(types);
             if (CodeFirstManager.Current.Features.UseBuiltInMediaTypes)

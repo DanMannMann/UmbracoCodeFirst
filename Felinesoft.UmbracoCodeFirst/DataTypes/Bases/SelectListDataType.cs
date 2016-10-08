@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using Felinesoft.UmbracoCodeFirst.Exceptions;
 using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using static Felinesoft.UmbracoCodeFirst.CodeFirstManager;
 
 namespace Felinesoft.UmbracoCodeFirst.DataTypes
 {
@@ -29,7 +30,9 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes
         {
             if (_preValues == null)
             {
-                _preValues = CodeFirstModelContext.GetContext(this).CurrentPreValues;
+				_preValues = CodeFirstModelContext.GetContext(this)?.CurrentPreValues 
+								?? 
+							 Current.Modules.PreValueCacheModule.Get(Current.Modules.DataTypeModule.GetDataType(GetType()));
                 _options = _preValues.Select(x => x.Value).ToList();
             }
         }

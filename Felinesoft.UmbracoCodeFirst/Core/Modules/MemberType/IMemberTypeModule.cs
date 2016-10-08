@@ -13,5 +13,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         bool TryGetMemberType(string alias, out MemberTypeRegistration registration);
         bool TryGetMemberType(Type type, out MemberTypeRegistration registration);
         bool TryGetMemberType<T>(out MemberTypeRegistration registration) where T : MemberTypeBase;
-    }
+		MemberTypeRegistration GetMemberType<T>() where T : MemberTypeBase;
+		MemberTypeRegistration GetMemberType(Type type);
+		MemberTypeRegistration GetMemberType(string alias);
+	}
 }

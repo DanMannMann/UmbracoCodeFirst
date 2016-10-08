@@ -48,7 +48,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 return false;
             }
         }
-
         public bool TryGetMemberType(Type type, out MemberTypeRegistration registration)
         {
             ContentTypeRegistration reg;
@@ -63,15 +62,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 return false;
             }
         }
-
         public bool TryGetMemberType<T>(out MemberTypeRegistration registration) where T : MemberTypeBase
         {
             return TryGetMemberType(typeof(T), out registration);
         }
-        #endregion
+		public MemberTypeRegistration GetMemberType<T>() where T : MemberTypeBase
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == typeof(T)) as MemberTypeRegistration;
+		}
+		public MemberTypeRegistration GetMemberType(Type type)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == type) as MemberTypeRegistration;
+		}
+		public MemberTypeRegistration GetMemberType(string alias)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.Alias == alias) as MemberTypeRegistration;
+		}
+		#endregion
 
-        #region Create/Update Content Type overrides
-        public override void Initialise(IEnumerable<Type> types)
+		#region Create/Update Content Type overrides
+		public override void Initialise(IEnumerable<Type> types)
         {
             base.Initialise(types.Where(x => x.GetCodeFirstAttribute<MemberTypeAttribute>() != null));
             InitialiseGroups(types.Where(x => x.GetCodeFirstAttribute<MemberGroupAttribute>() != null));

@@ -72,10 +72,22 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             return TryGetDocumentType(typeof(T), out registration);
         }
-        #endregion
+		public DocumentTypeRegistration GetDocumentType<T>() where T : DocumentTypeBase
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == typeof(T)) as DocumentTypeRegistration;
+		}
+		public DocumentTypeRegistration GetDocumentType(Type type)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.ClrType == type) as DocumentTypeRegistration;
+		}
+		public DocumentTypeRegistration GetDocumentType(string alias)
+		{
+			return ContentTypeRegister.Registrations.FirstOrDefault(x => x.Alias == alias) as DocumentTypeRegistration;
+		}
+		#endregion
 
-        #region IEntityTreeFilter
-        public override bool IsFilter(string treeAlias)
+		#region IEntityTreeFilter
+		public override bool IsFilter(string treeAlias)
         {
 			//old = nodeTypes, new = documentTypes
 			return treeAlias.Equals("documentTypes", StringComparison.InvariantCultureIgnoreCase) || treeAlias.Equals("nodeTypes", StringComparison.InvariantCultureIgnoreCase);
@@ -178,9 +190,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
         {
             return _service.GetContentTypeChildren(contentType.Id);
         }
-        #endregion
-
-    }
+		#endregion
+	}
 }
 
 namespace Felinesoft.UmbracoCodeFirst.Extensions
