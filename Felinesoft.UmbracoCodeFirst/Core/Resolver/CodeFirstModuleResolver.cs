@@ -452,6 +452,7 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
             resolver.AddDefaultMediaModelModule();
             resolver.AddDefaultMemberModelModule();
 			resolver.AddDefaultDictionaryModule();
-        }
+			resolver.AddDefaultSeedingModule();
+		}
     }
 }

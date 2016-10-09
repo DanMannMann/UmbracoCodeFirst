@@ -29,6 +29,13 @@ namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
         [JsonIgnore]
         private ImageCropDataSet _underlying = new ImageCropDataSet();
 
+		public static implicit operator ImageCropper(ImageCropDataSet cropData)
+		{
+			var result = new ImageCropper();
+			result.Initialise(JsonConvert.SerializeObject(cropData));
+			return result;
+		}
+
         public ImageCropper()
         {
             Effects = new CropEffects();

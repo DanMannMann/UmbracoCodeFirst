@@ -400,6 +400,15 @@
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />
     <Compile Include="Core\Modules\DataType\Registration\EnumDataTypeRegistration.cs" />
     <Compile Include="Core\Modules\Dictionary\IDictionaryModule.cs" />
+    <Compile Include="Seeding\DocumentSeed.cs" />
+    <Compile Include="Core\Modules\Seeding\ISeedingModule.cs" />
+    <Compile Include="Seeding\MediaSeed.cs" />
+    <Compile Include="Seeding\MemberSeed.cs" />
+    <Compile Include="Seeding\Seed.cs" />
+    <Compile Include="Attributes\SeedFactoryAttribute.cs" />
+    <Compile Include="Core\Modules\Seeding\SeedingModule.cs" />
+    <Compile Include="Core\Modules\Seeding\SeedingModuleFactory.cs" />
+    <Compile Include="Seeding\Seed_T.cs" />
     <Compile Include="DataTypes\BuiltIn\ListView_Media.cs" />
     <Compile Include="Dictionaries\DictionaryBase.cs" />
     <Compile Include="Events\EventHandler.cs" />
