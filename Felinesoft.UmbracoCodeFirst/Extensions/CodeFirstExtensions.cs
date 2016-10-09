@@ -71,7 +71,7 @@ namespace Felinesoft.UmbracoCodeFirst.Extensions
         }
         #endregion
 
-	 #region Media Type Alias Helpers
+		#region Media Type Alias Helpers
         /// <summary>
         /// Accesses the <see cref="MediaTypeAttribute"/> applied to a class to find
         /// the media type alias for that class

@@ -424,6 +424,7 @@
     <Compile Include="DataTypes\QuestionImage.cs" />
     <Compile Include="Dictionaries\QuizmasterDictionary.cs" />
     <Compile Include="DocTypes\Factoid.cs" />
+    <Compile Include="HomePageSeed.cs" />
     <Compile Include="MediaTypes\FactoidImageMedia.cs" />
     <Compile Include="DocTypes\Factoids.cs" />
     <Compile Include="DocTypes\HomePage.cs" />

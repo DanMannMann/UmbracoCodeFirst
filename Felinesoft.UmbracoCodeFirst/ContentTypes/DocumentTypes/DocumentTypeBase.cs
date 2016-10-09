@@ -57,7 +57,8 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
                 //persist object into umbraco database
                 if (publish)
                 {
-                    ApplicationContext.Current.Services.ContentService.SaveAndPublishWithStatus(content, userId, raiseEvents);
+					ApplicationContext.Current.Services.ContentService.Save(content, userId, raiseEvents);
+					ApplicationContext.Current.Services.ContentService.Publish(content, userId);
                 }
                 else
                 {

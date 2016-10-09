@@ -10,6 +10,8 @@ using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
 using System.Web;
 using System.Diagnostics;
+using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Felinesoft.UmbracoCodeFirst.Seeding;
 
 namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 {
@@ -22,20 +24,28 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 
 		protected override void ApplicationStarted(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
 		{
+			
+
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
 			CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
 			CodeFirstManager.Current.Initialise(GetType().Assembly);
 			var s = sw.ElapsedMilliseconds;
+
+			//Seed module explicit code
+			//ISeedingModule mod = null;
+			//mod.SeedDocuments(GetHomePageSeed());
+
+			//OLD SEED CODE
 			//Check if default homepage exists
-			if (applicationContext.Services.ContentService.GetRootContent().Count() == 0)
-			{
-				//Default homepage doesn't exist, add the seed content
-				AddSeedContent();
-				applicationContext.Services.ContentService.RePublishAll();
-				umbraco.library.RefreshContent();
-			}
+			//if (applicationContext.Services.ContentService.GetRootContent().Count() == 0)
+			//{
+			//	//Default homepage doesn't exist, add the seed content
+			//	AddSeedContent();
+			//	applicationContext.Services.ContentService.RePublishAll();
+			//	umbraco.library.RefreshContent();
+			//}
 			sw.Stop();
 		}
 
@@ -118,8 +128,8 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 			var factoid = new Factoid();
 			factoid.Details = new Factoid.FactoidDetailsTab();
 			factoid.Details.Image = _image;
-			factoid.Details.FactoidTitle = new DataTypes.BuiltIn.Textstring() { Value = title };
-			factoid.Details.FactoidText = new DataTypes.BuiltIn.Textstring() { Value = text };
+			factoid.Details.FactoidTitle = title; //new DataTypes.BuiltIn.Textstring() { Value = title };
+			factoid.Details.FactoidText = text; //new DataTypes.BuiltIn.Textstring() { Value = text };
 			factoid.NodeDetails.Name = factoid.Details.FactoidTitle.Value.Truncate(10);
 			factoid.Persist(_factoidFolder?.NodeDetails?.UmbracoId ?? -1, publish: true);
 			_factoids.Add(factoid);
@@ -293,8 +303,7 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 			var question = new Question();
 			question.QuestionDetails = new Question.QuestionTab();
 			question.QuestionDetails.QuestionText = new DataTypes.BuiltIn.Textstring() { Value = questionText };
-			question.QuestionDetails.Answers = new DataTypes.BuiltIn.MultipleTextstring()
-			{
+			question.QuestionDetails.Answers = new string[] {
 				answer1,
 				answer2,
 				answer3,
