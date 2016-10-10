@@ -52,7 +52,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 content = ConvertToContent(model, parentId);
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
                 content = null;
                 return false;

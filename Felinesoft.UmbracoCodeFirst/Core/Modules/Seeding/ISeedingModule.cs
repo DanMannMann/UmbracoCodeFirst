@@ -26,22 +26,5 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 	public interface ISeedFactory<out T> where T : Seed
 	{
 		T GetSeed();
-		int SortOrder { get; }
-	}
-
-	public class test : ISeedFactory<DocumentSeed>
-	{
-		public int SortOrder
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-
-		public DocumentSeed GetSeed()
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

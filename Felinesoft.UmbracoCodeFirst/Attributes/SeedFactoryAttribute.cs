@@ -20,13 +20,15 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 		private bool _init;
 		private bool _publishOnCreate;
 		private bool _raiseEventsOnCreate;
+		private int _sortOrder;
 		private int _userId;
 
-		public SeedFactoryAttribute(int userId = 0, bool publishOnCreate = false, bool raiseEventsOnCreate = false)
+		public SeedFactoryAttribute(int userId = 0, bool publishOnCreate = false, bool raiseEventsOnCreate = false, int sortOrder = 0)
 		{
 			_userId = userId;
 			_publishOnCreate = publishOnCreate;
 			_raiseEventsOnCreate = raiseEventsOnCreate;
+			_sortOrder = sortOrder;
 		}
 
 		public bool Initialised
@@ -50,6 +52,14 @@ namespace Felinesoft.UmbracoCodeFirst.Attributes
 			get
 			{
 				return _raiseEventsOnCreate;
+			}
+		}
+
+		public int SortOrder
+		{
+			get
+			{
+				return _sortOrder;
 			}
 		}
 

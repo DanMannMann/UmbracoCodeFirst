@@ -41,36 +41,42 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
         public void Initialise(IEnumerable<Type> classes)
         {
-			var tuples = new List<Tuple<int, SeedFactoryAttribute, Seed>>();
+			var dict = new Dictionary<SeedFactoryAttribute, Seed>();
 
 			foreach(var type in classes)
 			{
 				var factory = (ISeedFactory<Seed>)Activator.CreateInstance(type);
 				var attr = type.GetCodeFirstAttribute<SeedFactoryAttribute>();
-				tuples.Add(new Tuple<int, SeedFactoryAttribute, Seed>(factory.SortOrder, attr, factory.GetSeed()));
+				dict.Add(attr, factory.GetSeed());
 			}
 
 			using (new HttpContextFaker())
 			{
-				foreach (var tuple in tuples.OrderBy(x => x.Item1))
+				//Disable content events during seeding
+				var previous = CodeFirstManager.Current.Features.EnableContentEvents;
+				CodeFirstManager.Current.Features.EnableContentEvents = false;
+
+				foreach (var tuple in dict.OrderBy(x => x.Key.SortOrder))
 				{
-					if (tuple.Item3 is DocumentSeed)
+					if (tuple.Value is DocumentSeed)
 					{
-						SeedDocuments(tuple.Item3 as DocumentSeed, tuple.Item2.UserId, tuple.Item2.PublishOnCreate, tuple.Item2.RaiseEventsOnCreate);
+						SeedDocuments(tuple.Value as DocumentSeed, tuple.Key.UserId, tuple.Key.PublishOnCreate, tuple.Key.RaiseEventsOnCreate);
 					}
-					else if (tuple.Item3 is MediaSeed)
+					else if (tuple.Value is MediaSeed)
 					{
-						SeedMedia(tuple.Item3 as MediaSeed, tuple.Item2.UserId, tuple.Item2.RaiseEventsOnCreate);
+						SeedMedia(tuple.Value as MediaSeed, tuple.Key.UserId, tuple.Key.RaiseEventsOnCreate);
 					}
-					else if (tuple.Item3 is MemberSeed)
+					else if (tuple.Value is MemberSeed)
 					{
-						SeedMember(tuple.Item3 as MemberSeed, tuple.Item2.RaiseEventsOnCreate);
+						SeedMember(tuple.Value as MemberSeed, tuple.Key.RaiseEventsOnCreate);
 					}
 					else
 					{
-						throw new CodeFirstException($"Unknown seed type '{tuple.Item3.GetType().Name}'");
+						throw new CodeFirstException($"Unknown seed type '{tuple.Value.GetType().Name}'");
 					}
 				}
+
+				CodeFirstManager.Current.Features.EnableContentEvents = previous;
 			}
 		}
 
@@ -79,9 +85,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			SeedDocuments(root, null, userId, publishOnCreate, raiseEventsOnCreate);
 		}
 
-		private void SeedDocuments(DocumentSeed document, DocumentSeed parent, int userId, bool publishOnCreate, bool raiseEventsOnCreate)
+		private void SeedDocuments(DocumentSeed document, IContent parent, int userId, bool publishOnCreate, bool raiseEventsOnCreate)
 		{
-			var content = (parent?.Content?.NodeDetails?.Content?.Children().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase)) 
+			var content = (parent?.Children().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase)) 
 								?? 
 						  _contentService.GetRootContent().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase))).FirstOrDefault();
 			var contentExisted = content != null;
@@ -89,7 +95,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			if (!contentExisted)
 			{
 				document.Content.NodeDetails.Name = document.NodeName;
-				document.Content.Persist(parent?.Content?.NodeDetails?.UmbracoId ?? -1, userId, raiseEventsOnCreate, publishOnCreate);
+				document.Content.Persist(parent?.Id ?? -1, userId, raiseEventsOnCreate, publishOnCreate);
 				content = document.Content.NodeDetails.Content;
 			}
 			
@@ -97,7 +103,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			{
 				foreach(var child in document.Children)
 				{
-					SeedDocuments(child, document, userId, publishOnCreate, raiseEventsOnCreate);
+					SeedDocuments(child, content, userId, publishOnCreate, raiseEventsOnCreate);
 				}
 			}
 		}

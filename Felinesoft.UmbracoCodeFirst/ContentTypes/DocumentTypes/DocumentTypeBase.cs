@@ -54,15 +54,13 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
             IContent content;
             if (_modelModule.Value.TryConvertToContent(this, out content, parentId))
             {
-                //persist object into umbraco database
-                if (publish)
+				//persist object into umbraco database
+				ApplicationContext.Current.Services.ContentService.Save(content, userId, raiseEvents);
+
+				if (publish)
                 {
-					ApplicationContext.Current.Services.ContentService.Save(content, userId, raiseEvents);
+					//Publish the object
 					ApplicationContext.Current.Services.ContentService.Publish(content, userId);
-                }
-                else
-                {
-                    ApplicationContext.Current.Services.ContentService.Save(content, userId, raiseEvents);
                 }
 
                 //update the node details
