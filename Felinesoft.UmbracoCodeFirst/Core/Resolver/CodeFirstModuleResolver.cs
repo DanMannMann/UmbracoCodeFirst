@@ -28,7 +28,8 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
         private static readonly Type[] REQUIRED_MODULES = new Type[] { typeof(IDataTypeModule), typeof(IPropertyModule), typeof(IDocumentTypeModule), typeof(IMediaTypeModule), typeof(IMemberTypeModule), typeof(IDocumentModelModule), typeof(IMediaModelModule), typeof(IMemberModelModule), typeof(IPreValueCacheModule) };
         private bool _initialised;
 
-        public IDataTypeModule DataTypeModule
+		#region Standard Module Shortcuts
+		public IDataTypeModule DataTypeModule
         {
             get
             {
@@ -100,7 +101,16 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
 			}
 		}
 
-        public void RegisterModule<Tinterface>(IModuleFactory<Tinterface> moduleFactory) where Tinterface : ICodeFirstEntityModule
+		public ISeedingModule SeedingModule
+		{
+			get
+			{
+				return Resolve<ISeedingModule>();
+			}
+		}
+		#endregion
+
+		public void RegisterModule<Tinterface>(IModuleFactory<Tinterface> moduleFactory) where Tinterface : ICodeFirstEntityModule
         {
             FreezeCheck(false);
             if (_modules.ContainsKey(typeof(Tinterface)))
@@ -381,55 +391,6 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
                     }
                 }
                 return obj.GetHashCode();
-            }
-        }
-    }
-
-    internal sealed class CodeFirstStartupDatabaseFactory : IDatabaseFactory
-    {
-        internal string ConnectionString { get; set; }
-
-        //very important to have ThreadStatic:
-        // see: http://issues.umbraco.org/issue/U4-2172
-        [ThreadStatic]
-        private static volatile UmbracoDatabase _nonHttpInstance;
-        private string _providerName;
-
-        public UmbracoDatabase CreateDatabase()
-        {
-            if (_nonHttpInstance == null)
-            {
-                _nonHttpInstance = new UmbracoDatabase("umbracoDbDSN");
-            }
-            return _nonHttpInstance;
-        }
-
-        public void Dispose()
-        {
-            
-        }
-
-        /// <summary>
-        /// Returns the name of the dataprovider from the connectionstring setting in config
-        /// </summary>
-        internal string ProviderName
-        {
-            get
-            {
-                if (string.IsNullOrEmpty(_providerName) == false)
-                    return _providerName;
-
-                _providerName = "System.Data.SqlClient";
-                if (ConfigurationManager.ConnectionStrings["umbracoDbDSN"] != null)
-                {
-                    if (string.IsNullOrEmpty(ConfigurationManager.ConnectionStrings["umbracoDbDSN"].ProviderName) == false)
-                        _providerName = ConfigurationManager.ConnectionStrings["umbracoDbDSN"].ProviderName;
-                }
-                else
-                {
-                    throw new InvalidOperationException("Can't find a connection string with the name 'umbracoDbDSN'");
-                }
-                return _providerName;
             }
         }
     }

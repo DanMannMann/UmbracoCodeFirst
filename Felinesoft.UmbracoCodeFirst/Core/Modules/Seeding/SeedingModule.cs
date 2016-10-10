@@ -50,7 +50,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 				dict.Add(attr, factory.GetSeed());
 			}
 
-			using (new HttpContextFaker())
+			using (new HttpContextFaker(System.Web.HttpContext.Current)) //Will preserve the current context if there is one, otherwise it makes a fake one
 			{
 				//Disable content events during seeding
 				var previous = CodeFirstManager.Current.Features.EnableContentEvents;
@@ -60,11 +60,11 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 				{
 					if (tuple.Value is DocumentSeed)
 					{
-						SeedDocuments(tuple.Value as DocumentSeed, tuple.Key.UserId, tuple.Key.PublishOnCreate, tuple.Key.RaiseEventsOnCreate);
+						SeedDocuments(tuple.Value as DocumentSeed, null, tuple.Key.UserId, tuple.Key.PublishOnCreate, tuple.Key.RaiseEventsOnCreate);
 					}
 					else if (tuple.Value is MediaSeed)
 					{
-						SeedMedia(tuple.Value as MediaSeed, tuple.Key.UserId, tuple.Key.RaiseEventsOnCreate);
+						SeedMedia(tuple.Value as MediaSeed, null, tuple.Key.UserId, tuple.Key.RaiseEventsOnCreate);
 					}
 					else if (tuple.Value is MemberSeed)
 					{
@@ -80,12 +80,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			}
 		}
 
-		public void SeedDocuments(DocumentSeed root, int userId = 0, bool publishOnCreate = false, bool raiseEventsOnCreate = false)
-		{
-			SeedDocuments(root, null, userId, publishOnCreate, raiseEventsOnCreate);
-		}
-
-		private void SeedDocuments(DocumentSeed document, IContent parent, int userId, bool publishOnCreate, bool raiseEventsOnCreate)
+		public void SeedDocuments(DocumentSeed document, IContent parent = null, int userId = 0, bool publishOnCreate = false, bool raiseEventsOnCreate = false)
 		{
 			var content = (parent?.Children().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase)) 
 								?? 
@@ -108,14 +103,9 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			}
 		}
 
-		public void SeedMedia(MediaSeed root, int userId = 0, bool raiseEventsOnCreate = false)
+		public void SeedMedia(MediaSeed media, IMedia parent = null, int userId = 0, bool raiseEventsOnCreate = false)
 		{
-			SeedMedia(root, null, userId, raiseEventsOnCreate);
-		}
-
-		private void SeedMedia(MediaSeed media, MediaSeed parent, int userId, bool raiseEventsOnCreate)
-		{
-			var content = (parent?.Content?.NodeDetails?.Content?.Children().Where(x => string.Equals(x.Name, media.NodeName, StringComparison.InvariantCultureIgnoreCase))
+			var content = (parent?.Children().Where(x => string.Equals(x.Name, media.NodeName, StringComparison.InvariantCultureIgnoreCase))
 								??
 						  _mediaService.GetRootMedia().Where(x => string.Equals(x.Name, media.NodeName, StringComparison.InvariantCultureIgnoreCase))).FirstOrDefault();
 			var contentExisted = content == null;
@@ -123,7 +113,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			if (!contentExisted)
 			{
 				media.Content.NodeDetails.Name = media.NodeName;
-				media.Content.Persist(parent?.Content?.NodeDetails?.UmbracoId ?? -1, userId, raiseEventsOnCreate);
+				media.Content.Persist(parent?.Id ?? -1, userId, raiseEventsOnCreate);
 				content = media.Content.NodeDetails.Content;
 			}
 
@@ -131,7 +121,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			{
 				foreach (var child in media.Children)
 				{
-					SeedMedia(child, media, userId, raiseEventsOnCreate);
+					SeedMedia(child, content, userId, raiseEventsOnCreate);
 				}
 			}
 		}
