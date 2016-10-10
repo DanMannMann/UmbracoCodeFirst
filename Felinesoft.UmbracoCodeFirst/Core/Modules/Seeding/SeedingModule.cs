@@ -50,23 +50,26 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 				tuples.Add(new Tuple<int, SeedFactoryAttribute, Seed>(factory.SortOrder, attr, factory.GetSeed()));
 			}
 
-			foreach(var tuple in tuples.OrderBy(x => x.Item1))
+			using (new HttpContextFaker())
 			{
-				if (tuple.Item3 is DocumentSeed)
+				foreach (var tuple in tuples.OrderBy(x => x.Item1))
 				{
-					SeedDocuments(tuple.Item3 as DocumentSeed, tuple.Item2.UserId, tuple.Item2.PublishOnCreate, tuple.Item2.RaiseEventsOnCreate);
-				}
-				else if (tuple.Item3 is MediaSeed)
-				{
-					SeedMedia(tuple.Item3 as MediaSeed, tuple.Item2.UserId, tuple.Item2.RaiseEventsOnCreate);
-				}
-				else if (tuple.Item3 is MemberSeed)
-				{
-					SeedMember(tuple.Item3 as MemberSeed, tuple.Item2.RaiseEventsOnCreate);
-				}
-				else
-				{
-					throw new CodeFirstException($"Unknown seed type '{tuple.Item3.GetType().Name}'");
+					if (tuple.Item3 is DocumentSeed)
+					{
+						SeedDocuments(tuple.Item3 as DocumentSeed, tuple.Item2.UserId, tuple.Item2.PublishOnCreate, tuple.Item2.RaiseEventsOnCreate);
+					}
+					else if (tuple.Item3 is MediaSeed)
+					{
+						SeedMedia(tuple.Item3 as MediaSeed, tuple.Item2.UserId, tuple.Item2.RaiseEventsOnCreate);
+					}
+					else if (tuple.Item3 is MemberSeed)
+					{
+						SeedMember(tuple.Item3 as MemberSeed, tuple.Item2.RaiseEventsOnCreate);
+					}
+					else
+					{
+						throw new CodeFirstException($"Unknown seed type '{tuple.Item3.GetType().Name}'");
+					}
 				}
 			}
 		}
@@ -81,7 +84,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 			var content = (parent?.Content?.NodeDetails?.Content?.Children().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase)) 
 								?? 
 						  _contentService.GetRootContent().Where(x => string.Equals(x.Name, document.NodeName, StringComparison.InvariantCultureIgnoreCase))).FirstOrDefault();
-			var contentExisted = content == null;
+			var contentExisted = content != null;
 
 			if (!contentExisted)
 			{
