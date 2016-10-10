@@ -395,6 +395,7 @@
     <Compile Include="Core\CodeFirstProxyInterceptor.cs" />
     <Compile Include="Core\CodeFirstRegistration.cs" />
     <Compile Include="Core\Features.cs" />
+    <Compile Include="Core\HttpContextFaker.cs" />
     <Compile Include="Core\InitialisationMode.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\T4\TemplateDescription.cs" />
     <Compile Include="Core\Modules\ContentTypeBase\IContentModelModule.cs" />

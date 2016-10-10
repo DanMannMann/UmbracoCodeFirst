@@ -3,6 +3,7 @@ using System.Web;
 using Umbraco.Web;
 using Umbraco.Core;
 using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Umbraco.Core.Events;
 
 namespace Felinesoft.UmbracoCodeFirst.Events
 {
@@ -10,6 +11,6 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 
 	public interface IOnPublish<in T> : IOnPublishBase where T : CodeFirstContentBase
 	{
-		bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
+		bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
 }

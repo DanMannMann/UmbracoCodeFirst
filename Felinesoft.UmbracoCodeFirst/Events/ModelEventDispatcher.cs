@@ -10,6 +10,7 @@ using System;
 using System.Reflection;
 using System.Web;
 using Umbraco.Core;
+using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
@@ -173,13 +174,13 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		internal static bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnPublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnPublish<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnPublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublish<T>).OnPublish(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnPublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublish<T>).OnPublish(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;

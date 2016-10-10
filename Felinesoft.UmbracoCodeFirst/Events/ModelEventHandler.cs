@@ -122,6 +122,7 @@ namespace Felinesoft.UmbracoCodeFirst.Events
 				(instance as CodeFirstContentBase).NodeDetails = (ContentNodeDetails)typeof(Tnodedetails).GetConstructor(new Type[] { entity.GetType() }).Invoke(new object[] { entity });
 				if (e.CanCancel)
 				{
+					
 					e.Cancel |= !eventDispatcher.Invoke(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
 				}
 				else
