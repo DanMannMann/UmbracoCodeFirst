@@ -1,3 +1,5 @@
+>After many great years I've moved on from Felinesoft. This repository has been forked to https://github.com/sacredgeometry/UmbracoCodeFirst which is now where all active maintenance will happen.
+
 # Code-First for Umbraco
 
 Code-First for Umbraco allows Umbraco types (document types, data types etc) to be specified in code and automatically
