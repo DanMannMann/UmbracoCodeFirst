@@ -1,4 +1,6 @@
->After many great years I've moved on from Felinesoft. This repository has been forked to https://github.com/sacredgeometry/UmbracoCodeFirst which is now where all active maintenance will happen.
+>After many great years I've moved on from Felinesoft. ~~This repository has been forked to https://github.com/sacredgeometry/UmbracoCodeFirst which is now where all active maintenance will happen.~~
+
+Note: I have also also moved on to greener pastures (after slightly more years, it is a competition btw), so maintenence is probably halted unless I can convince my new company to adopt this library.
 
 # Code-First for Umbraco
 
