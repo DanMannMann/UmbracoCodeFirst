@@ -1,11 +1,11 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
+namespace Marsman.UmbracoCodeFirst.DataTypes.BuiltIn
 {
     [DataType(BuiltInPropertyEditorAliases.MultipleTextstring, BuiltInDataTypes.MultipleTextstring)]
     [BuiltInDataType]

@@ -1,14 +1,14 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.CodeFirst
+namespace Marsman.UmbracoCodeFirst.CodeFirst
 {
     /// <summary>
     /// Caches attributes when they are first loaded then dereferences them by decorated type and attribute type so that they must

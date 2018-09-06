@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     public interface IDataTypeRedirect
     {

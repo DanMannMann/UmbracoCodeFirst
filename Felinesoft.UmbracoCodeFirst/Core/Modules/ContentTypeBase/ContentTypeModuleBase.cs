@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,21 +8,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Core.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using Umbraco.Web.Models.Trees;
-using Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration;
-using Felinesoft.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
+using Marsman.UmbracoCodeFirst.Core.ClassFileGeneration;
+using Marsman.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
 using System.IO;
-using Felinesoft.UmbracoCodeFirst.Diagnostics;
+using Marsman.UmbracoCodeFirst.Diagnostics;
 using Umbraco.Core.Persistence;
 using Umbraco.Core.Persistence.DatabaseAnnotations;
 using System.Web;
 using Umbraco.Web;
 using System.Text.RegularExpressions;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public abstract class ContentTypeModuleBase : IContentTypeModuleBase, IEntityTreeFilter
     {

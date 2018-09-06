@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public interface IContentTypeModuleBase
     {

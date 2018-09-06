@@ -1,6 +1,6 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class PreValueCacheModule : IPreValueCacheModule
     {
@@ -81,7 +81,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class PreValueCacheModuleExtensions
     {

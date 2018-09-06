@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     /// <summary>
     /// A base class for code-first document types with strongly-typed child collections

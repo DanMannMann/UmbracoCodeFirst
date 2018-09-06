@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true)]
     public class InstancePreValueFileAttribute : PreValueFileAttribute, IDataTypeInstance

@@ -1,14 +1,14 @@
-﻿using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Core;
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.Converters
+namespace Marsman.UmbracoCodeFirst.Converters
 {
     /// <summary>
     /// A converter which can convert between a storage type of string and

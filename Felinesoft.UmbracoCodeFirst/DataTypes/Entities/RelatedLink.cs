@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public class RelatedLink : IHtmlString
     {

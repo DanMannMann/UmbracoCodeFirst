@@ -3,10 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
 
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]

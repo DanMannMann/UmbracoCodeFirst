@@ -1,10 +1,10 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.DataTypes;
 using System;
-using BuiltIn = Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+using BuiltIn = Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
+namespace Marsman.UmbracoCodeFirst.TestTarget.TypeSet2
 {
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.DateTime)]
     public class CustomDataType1 : IUmbracoDateDataType

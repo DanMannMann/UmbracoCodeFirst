@@ -1,5 +1,5 @@
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestFramework
 {
     public interface ICodeFirstTest
     {

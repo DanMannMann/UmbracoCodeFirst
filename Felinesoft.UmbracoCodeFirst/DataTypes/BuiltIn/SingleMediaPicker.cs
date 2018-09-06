@@ -1,11 +1,11 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
+namespace Marsman.UmbracoCodeFirst.DataTypes.BuiltIn
 {
     [DataType(propertyEditorAlias: BuiltInPropertyEditorAliases.MultiNodeTreePicker)]
     public class SingleMediaPicker<T> : MediaPicker<T>, IPickedItem<T>, IHtmlString where T : MediaTypeBase, new()

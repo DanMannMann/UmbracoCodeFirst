@@ -8,13 +8,13 @@ using System.Reflection;
 using System.ComponentModel;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     /// <summary>
     /// Convenience methods used when formatting and transforming Umbraco values to

@@ -1,5 +1,5 @@
 
-namespace Felinesoft.UmbracoCodeFirst
+namespace Marsman.UmbracoCodeFirst
 {
     public enum InitialisationMode
     {

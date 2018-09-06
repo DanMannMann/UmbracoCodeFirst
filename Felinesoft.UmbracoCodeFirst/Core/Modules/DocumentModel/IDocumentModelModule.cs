@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+﻿using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using Umbraco.Core.Models;
 using Umbraco.Web.Mvc;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public interface IDocumentModelModule : ICodeFirstEntityModule, IContentModelModule
     {

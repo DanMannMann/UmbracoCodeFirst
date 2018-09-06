@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Umbraco.Core;
 
-namespace Felinesoft.UmbracoCodeFirst
+namespace Marsman.UmbracoCodeFirst
 {
     public sealed class Features
     {

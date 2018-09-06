@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Core;
 using umbraco.cms.businesslogic.datatype;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Specifies that the decorated type is a code-first data type

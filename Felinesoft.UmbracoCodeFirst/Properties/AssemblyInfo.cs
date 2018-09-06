@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Felinesoft.UmbracoCodeFirst")]
+[assembly: AssemblyTitle("Marsman.UmbracoCodeFirst")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Felinesoft.UmbracoCodeFirst")]
+[assembly: AssemblyProduct("Marsman.UmbracoCodeFirst")]
 [assembly: AssemblyCopyright("Copyright ©Marsman  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

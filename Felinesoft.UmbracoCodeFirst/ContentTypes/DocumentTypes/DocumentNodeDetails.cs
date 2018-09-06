@@ -1,4 +1,4 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core;
+﻿using Marsman.UmbracoCodeFirst.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     /// <summary>
     /// Represents the details of an Umbraco content node

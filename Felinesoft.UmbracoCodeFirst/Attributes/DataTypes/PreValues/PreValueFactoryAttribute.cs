@@ -1,12 +1,12 @@
 ﻿
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class PreValueFactoryAttribute : CodeFirstAttribute

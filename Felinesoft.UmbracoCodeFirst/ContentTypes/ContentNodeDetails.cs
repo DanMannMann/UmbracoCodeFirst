@@ -1,6 +1,6 @@
 
 using Umbraco.Core.Models;
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     public abstract class ContentNodeDetails<T> : ContentNodeDetails where T : IContentBase
     {

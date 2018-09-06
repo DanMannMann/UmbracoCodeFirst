@@ -1,12 +1,12 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public interface IDataTypeModule : ICodeFirstEntityModule
     {

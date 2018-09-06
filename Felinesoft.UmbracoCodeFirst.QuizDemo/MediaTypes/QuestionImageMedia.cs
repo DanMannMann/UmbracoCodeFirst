@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.QuizDemo.DocTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.MediaTypes
 {
 
 	[MediaType(allowAtRoot: true)]

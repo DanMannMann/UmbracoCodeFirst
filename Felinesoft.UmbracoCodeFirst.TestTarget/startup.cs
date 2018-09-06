@@ -1,8 +1,8 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework;
-using Felinesoft.UmbracoCodeFirst.TestTarget.Tests;
-using Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+﻿using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.TestTarget.TestFramework;
+using Marsman.UmbracoCodeFirst.TestTarget.Tests;
+using Marsman.UmbracoCodeFirst.TestTarget.TypeSet3;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,7 +14,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget
+namespace Marsman.UmbracoCodeFirst.TestTarget
 {
     public class startup : ApplicationEventHandler
     {

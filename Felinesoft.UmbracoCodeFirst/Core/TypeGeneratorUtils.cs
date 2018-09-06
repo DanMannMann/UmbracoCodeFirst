@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Core.Models;
 using System.Configuration;
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using System.Reflection;
 
-using Felinesoft.UmbracoCodeFirst;
+using Marsman.UmbracoCodeFirst;
 using System.Text.RegularExpressions;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
     public static class TypeGeneratorUtils
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Converters
+namespace Marsman.UmbracoCodeFirst.Converters
 {
     public sealed class BoolTrueFalseConverter : DataTypeConverterBase<int, bool>
     {

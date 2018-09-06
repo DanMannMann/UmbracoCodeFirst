@@ -1,13 +1,13 @@
 ﻿using System;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     /// <summary>
     /// A base class for data types which select multiple values from a list of prevalues

@@ -1,18 +1,18 @@
-﻿using Felinesoft.UmbracoCodeFirst;
+﻿using Marsman.UmbracoCodeFirst;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using Umbraco.Core.Models;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Specifies that a property should be used as a document property on a document type.

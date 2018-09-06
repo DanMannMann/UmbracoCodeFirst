@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     internal class BuiltInMediaTypeAttribute : BuiltInTypeAttribute

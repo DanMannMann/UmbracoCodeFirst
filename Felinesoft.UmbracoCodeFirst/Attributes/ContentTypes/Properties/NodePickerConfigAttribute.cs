@@ -1,17 +1,17 @@
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Umbraco.Core.Models;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Web;
 using System.Web;
 using Umbraco.Web.Security;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, AllowMultiple = false)]
     public class NodePickerConfigAttribute : CodeFirstAttribute, IDataTypeInstance, IInitialisableAttribute, IInitialisablePropertyAttribute

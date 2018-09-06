@@ -4,6 +4,6 @@ using System.Linq;
 using System.Web;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestFramework
 {
 }

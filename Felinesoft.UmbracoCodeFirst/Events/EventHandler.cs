@@ -1,15 +1,15 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Core;
 using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.Events
+namespace Marsman.UmbracoCodeFirst.Events
 {
 	public abstract class EventHandlerBase<Tcontent> : IOnCreate<Tcontent>, IOnSave<Tcontent>, IOnDelete<Tcontent> where Tcontent : CodeFirstContentBase
 	{

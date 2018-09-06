@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     /// <summary>
     /// The instance names of Umbraco's out-of-the-box data types

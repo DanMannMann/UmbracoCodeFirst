@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class CssClassAttribute : HtmlTagContextualAttribute

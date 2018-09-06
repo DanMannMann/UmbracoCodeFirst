@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class ContentTypeRegister
     {

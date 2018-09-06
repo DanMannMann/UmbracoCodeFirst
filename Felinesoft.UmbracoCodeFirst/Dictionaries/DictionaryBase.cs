@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using umbraco.cms.businesslogic;
 using umbraco.cms.businesslogic.language;
 
-namespace Felinesoft.UmbracoCodeFirst.Dictionaries
+namespace Marsman.UmbracoCodeFirst.Dictionaries
 {
 	public abstract class DictionaryBase
 	{

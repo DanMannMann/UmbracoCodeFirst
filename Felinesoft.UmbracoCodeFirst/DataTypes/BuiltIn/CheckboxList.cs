@@ -1,18 +1,18 @@
-﻿using Felinesoft.UmbracoCodeFirst;
+﻿using Marsman.UmbracoCodeFirst;
 using System;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using Umbraco.Web;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Drawing;
 using System.Collections.ObjectModel;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn
+namespace Marsman.UmbracoCodeFirst.DataTypes.BuiltIn
 {
     /// <summary>
     /// Represents Umbraco's built-in checkbox list data type

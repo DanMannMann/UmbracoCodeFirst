@@ -1,8 +1,8 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class PropertyModule : IPropertyModule 
     {
@@ -300,7 +300,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     }
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class PropertyModuleExtensions
     {

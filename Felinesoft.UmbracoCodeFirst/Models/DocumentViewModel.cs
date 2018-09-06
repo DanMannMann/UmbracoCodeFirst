@@ -4,11 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Umbraco.Web.Models;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Views;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Views;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.Models
+namespace Marsman.UmbracoCodeFirst.Models
 {
     /// <summary>
     /// A model which combines a strongly-typed document with a custom view model, suitable for use with a view which inherits <see cref="CodeFirstDocumentView`2"/>

@@ -445,9 +445,9 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj">
+    <ProjectReference Include="..\Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj">
       <Project>{cd8cbbc5-9ebf-4b90-8a4e-7c8cd2789793}</Project>
-      <Name>Felinesoft.UmbracoCodeFirst</Name>
+      <Name>Marsman.UmbracoCodeFirst</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

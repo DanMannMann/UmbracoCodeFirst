@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Core;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Core;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     /// <summary>
     /// A data type base which allows the derived type to be serialised to and deserialised from JSON using JsonConvert

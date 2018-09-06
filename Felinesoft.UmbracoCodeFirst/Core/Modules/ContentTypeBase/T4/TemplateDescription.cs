@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
+namespace Marsman.UmbracoCodeFirst.Core.ClassFileGeneration
 {
     public sealed class TemplateDescription
     {

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public class ImageCropDefinition
     {

@@ -1,9 +1,9 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class ContentTypeCompositionRegistration : ContentTypeRegistration
     {

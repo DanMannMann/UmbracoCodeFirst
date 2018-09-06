@@ -1,14 +1,14 @@
-﻿using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Felinesoft.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Converters;
 
-namespace Felinesoft.UmbracoCodeFirst
+namespace Marsman.UmbracoCodeFirst
 {
     /// <summary>
     /// Represents the information needed to map an Umbraco select or multiselect data type to a .NET enum type

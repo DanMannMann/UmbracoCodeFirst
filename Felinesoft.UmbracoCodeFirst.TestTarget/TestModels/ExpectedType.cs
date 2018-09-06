@@ -1,6 +1,6 @@
 
 using System.Collections.Generic;
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestModels
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestModels
 {
     public class ExpectedType
     {

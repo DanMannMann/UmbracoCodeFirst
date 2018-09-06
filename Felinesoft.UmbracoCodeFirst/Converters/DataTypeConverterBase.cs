@@ -1,11 +1,11 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core;
+﻿using Marsman.UmbracoCodeFirst.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Converters
+namespace Marsman.UmbracoCodeFirst.Converters
 {
     public abstract class DataTypeConverterBase<Tdb, Tentity> : IDataTypeConverter<Tdb, Tentity>
     {

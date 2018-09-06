@@ -8,17 +8,17 @@ using System.Reflection;
 using System.ComponentModel;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using System.Collections.Concurrent;
-using Felinesoft.UmbracoCodeFirst.CodeFirst;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.CodeFirst;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Core;
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     /// <summary>
     /// Extensions to retrieve <see cref="CodeFirstAttribute"/>s applied to types

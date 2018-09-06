@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Diagnostics
+namespace Marsman.UmbracoCodeFirst.Diagnostics
 {
 
 }

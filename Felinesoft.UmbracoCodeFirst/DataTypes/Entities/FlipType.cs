@@ -1,5 +1,5 @@
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public enum FlipType
     {

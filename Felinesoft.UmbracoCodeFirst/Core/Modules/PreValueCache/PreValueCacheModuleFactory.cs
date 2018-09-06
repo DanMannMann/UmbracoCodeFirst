@@ -1,8 +1,8 @@
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using System;
 using Umbraco.Core;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class PreValueCacheModuleFactory : ModuleFactoryBase<IPreValueCacheModule, IDataTypeModule>
     {

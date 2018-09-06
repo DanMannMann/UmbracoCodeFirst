@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     /// <summary>
     /// Extensions to convert strings between proper, pascal and camel case

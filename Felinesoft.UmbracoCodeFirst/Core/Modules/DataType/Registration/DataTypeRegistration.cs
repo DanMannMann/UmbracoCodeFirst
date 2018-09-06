@@ -1,18 +1,18 @@
-﻿using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using Umbraco.Core.Models;
 using System.Collections.Concurrent;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.DataTypes;
 using Umbraco.Core.PropertyEditors;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Core;
 
-namespace Felinesoft.UmbracoCodeFirst
+namespace Marsman.UmbracoCodeFirst
 {
     /// <summary>
     /// Represents the information needed to map an Umbraco data type to a .NET property type

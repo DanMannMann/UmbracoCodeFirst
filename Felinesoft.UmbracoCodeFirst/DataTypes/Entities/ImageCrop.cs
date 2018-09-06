@@ -1,10 +1,10 @@
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 using Newtonsoft.Json;
 using System.Web;
 using Umbraco.Web.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public class ImageCrop : ImageCropData, IHtmlString
     {

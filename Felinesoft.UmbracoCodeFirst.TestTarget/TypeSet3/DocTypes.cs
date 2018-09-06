@@ -1,12 +1,12 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3
+namespace Marsman.UmbracoCodeFirst.TestTarget.TypeSet3
 {
     [DocumentType(alias: "master", allowAtRoot: true, iconColor: UmbracoIconColor.Blue, allowedChildren: new Type[] { typeof(Child1), typeof(Child2), typeof(GrandChild1) })]
     [Template(isDefault: true)]

@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
 	[AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
 	public class ItemAttribute : CodeFirstAttribute, IInitialisablePropertyAttribute

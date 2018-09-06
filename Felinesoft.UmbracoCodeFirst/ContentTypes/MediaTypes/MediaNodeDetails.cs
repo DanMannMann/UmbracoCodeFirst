@@ -1,6 +1,6 @@
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     /// <summary>
     /// Represents the details of an Umbraco content node

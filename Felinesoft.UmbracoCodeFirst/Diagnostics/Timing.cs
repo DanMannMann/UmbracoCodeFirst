@@ -1,6 +1,6 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 
-namespace Felinesoft.UmbracoCodeFirst.Diagnostics
+namespace Marsman.UmbracoCodeFirst.Diagnostics
 {
     public static class Timing
     {

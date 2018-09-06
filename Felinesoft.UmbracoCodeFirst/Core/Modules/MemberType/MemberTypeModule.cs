@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using System.Reflection;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Diagnostics;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Diagnostics;
 using Umbraco.Web.Models.Trees;
 using System.IO;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class MemberTypeModule : ContentTypeModuleBase, IMemberTypeModule, IClassFileGenerator
     {
@@ -291,7 +291,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     }
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class MemberTypeModuleExtensions
     {

@@ -1,16 +1,16 @@
 ﻿using System.Web;
 using System.Web.Mvc;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Web.Models;
-using Felinesoft.UmbracoCodeFirst.ViewHelpers;
+using Marsman.UmbracoCodeFirst.ViewHelpers;
 using System;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.Events;
-using Felinesoft.UmbracoCodeFirst.Dictionaries;
+using Marsman.UmbracoCodeFirst.Events;
+using Marsman.UmbracoCodeFirst.Dictionaries;
 
-namespace Felinesoft.UmbracoCodeFirst.Views
+namespace Marsman.UmbracoCodeFirst.Views
 {
     /// <summary>
     /// Extends the default Umbraco view, adding a strongly-typed document property and a DocumentHelper.

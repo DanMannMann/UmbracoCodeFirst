@@ -8,7 +8,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using System.Linq;
 
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     public abstract class CodeFirstContentBase 
     {

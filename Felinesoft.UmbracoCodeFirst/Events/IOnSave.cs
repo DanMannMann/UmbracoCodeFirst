@@ -5,9 +5,9 @@ using Umbraco.Core.Models;
 using System.Web;
 using Umbraco.Core;
 using Umbraco.Web;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.Events
+namespace Marsman.UmbracoCodeFirst.Events
 {
 	public interface IOnSaveBase { }
 

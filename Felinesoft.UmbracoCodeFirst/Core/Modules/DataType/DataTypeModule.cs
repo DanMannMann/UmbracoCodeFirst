@@ -1,6 +1,6 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Web.Models.Trees;
 using System.Threading;
 using Umbraco.Web;
-using Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Core.Modules.DataType.T4;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Converters;
 using Umbraco.Core;
 using System.Web;
 using System.IO;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class DataTypeModule : IDataTypeModule, IEntityTreeFilter, IClassFileGenerator
     {
@@ -775,7 +775,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
     }
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class DataTypeModuleExtensions
     {

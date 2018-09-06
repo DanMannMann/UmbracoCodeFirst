@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
+using Marsman.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
+namespace Marsman.UmbracoCodeFirst.Core.ClassFileGeneration
 {
     public sealed class ContentTypeDescription
     {

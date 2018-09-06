@@ -1,8 +1,8 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class MemberModelModuleFactory : ModuleFactoryBase<IMemberModelModule, IDataTypeModule, IMemberTypeModule>
     {

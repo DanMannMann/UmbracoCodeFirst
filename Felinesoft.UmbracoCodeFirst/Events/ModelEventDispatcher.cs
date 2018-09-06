@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Reflection;
 using System.Web;
@@ -14,7 +14,7 @@ using Umbraco.Core.Events;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.Events
+namespace Marsman.UmbracoCodeFirst.Events
 {
 	internal static class ModelEventDispatcher
 	{

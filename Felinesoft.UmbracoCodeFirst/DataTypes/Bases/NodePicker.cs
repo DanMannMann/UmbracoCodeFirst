@@ -1,15 +1,15 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public abstract class NodePicker<Tnode, Tnodedetails> : NodePicker, IUmbracoNtextDataType, ICollection<Tnode>, IEnumerable<Tnode>, IHtmlString, IPreValueFactory
         where Tnode : CodeFirstContentBase<Tnodedetails>

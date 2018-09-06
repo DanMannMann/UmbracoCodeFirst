@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
     internal class SyncLock<T>
     {

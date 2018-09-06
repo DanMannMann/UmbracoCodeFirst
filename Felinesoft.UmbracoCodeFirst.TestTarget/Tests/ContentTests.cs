@@ -1,13 +1,13 @@
-﻿using Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework;
+﻿using Marsman.UmbracoCodeFirst.TestTarget.TestFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using ts = Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet3;
-using Felinesoft.UmbracoCodeFirst.Linq;
+using ts = Marsman.UmbracoCodeFirst.TestTarget.TypeSet3;
+using Marsman.UmbracoCodeFirst.Linq;
 using Umbraco.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
+namespace Marsman.UmbracoCodeFirst.TestTarget.Tests
 {
     public class ContentTests : TestBase, ICodeFirstTest
     {

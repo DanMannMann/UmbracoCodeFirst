@@ -1,6 +1,6 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,19 +11,19 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Collections.Concurrent;
 using Umbraco.Web.Mvc;
 using System.Collections.ObjectModel;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Web.Models.Trees;
-using Felinesoft.UmbracoCodeFirst.Diagnostics;
+using Marsman.UmbracoCodeFirst.Diagnostics;
 using System.IO;
-using Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration;
-using Felinesoft.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
+using Marsman.UmbracoCodeFirst.Core.ClassFileGeneration;
+using Marsman.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class DocumentTypeModule : ContentTypeModuleBase, IDocumentTypeModule, IClassFileGenerator
     {
@@ -194,7 +194,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 	}
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class DocumentTypeModuleExtensions
     {

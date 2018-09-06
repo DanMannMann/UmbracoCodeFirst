@@ -1,11 +1,11 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Dictionaries;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Dictionaries;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	[Dictionary]
 	public class QuizmasterDictionary : DictionaryBase
@@ -19,7 +19,7 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
 		[Item(defaultValue: "That's the end of the quiz! Click to re-play.")]
 		public string NoMoreQuestions { get; set; }
 
-		[Item(defaultValue: "Copyright © 2015 Felinesoft Ltd")]
+		[Item(defaultValue: "Copyright © 2015 Marsman Ltd")]
 		public string CopyrightMessage { get; set; }
 
 		[Item(defaultValue: "Please choose the question set you would like to complete:")]

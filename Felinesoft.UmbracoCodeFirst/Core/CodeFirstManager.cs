@@ -4,32 +4,32 @@ using System.Linq;
 using System.Web;
 using System.Reflection;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using System.Web.Hosting;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.Membership;
 using System.Collections.ObjectModel;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Core.Services;
 using System.Text;
 using System.Globalization;
 using System.Collections.Concurrent;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Converters;
 using System.Configuration;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Web.Trees;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
-using Felinesoft.UmbracoCodeFirst.Diagnostics;
+using Marsman.UmbracoCodeFirst.Diagnostics;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Runtime.Serialization;
 
-namespace Felinesoft.UmbracoCodeFirst
+namespace Marsman.UmbracoCodeFirst
 {
     /// <summary>
     /// Manages the UmbracoCodeFirst core, allowing data type registration and content type and instance discovery and creation.
@@ -41,7 +41,7 @@ namespace Felinesoft.UmbracoCodeFirst
     ///       base.ApplicationStarted(umbracoApplication, applicationContext);
     ///       
     ///       //Initialise code-first using the types in the current assembly
-    ///       Felinesoft.UmbracoCodeFirst.CodeFirstManager.Current.Initialise(this.GetType().Assembly);
+    ///       Marsman.UmbracoCodeFirst.CodeFirstManager.Current.Initialise(this.GetType().Assembly);
     ///    }
     /// </code>
     /// </example>

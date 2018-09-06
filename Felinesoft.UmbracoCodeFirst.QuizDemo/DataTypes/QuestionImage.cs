@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	[DataType]
 	public class QuestionImage : ImageCropper, IHtmlString

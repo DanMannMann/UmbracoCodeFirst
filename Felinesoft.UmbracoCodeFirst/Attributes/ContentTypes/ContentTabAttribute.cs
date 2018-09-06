@@ -1,8 +1,8 @@
 ﻿
 using System;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Specifies that a property should be used as a document tab on a document type.

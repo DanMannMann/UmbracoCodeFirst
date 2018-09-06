@@ -1,8 +1,8 @@
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Linq;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class AltTextAttribute : HtmlTagContextualAttribute

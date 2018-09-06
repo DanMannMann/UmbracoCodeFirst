@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public abstract class UmbracoJsonCollectionDataType<T> : UmbracoJsonDataType, IEnumerable<T>, ICollection<T>
     {

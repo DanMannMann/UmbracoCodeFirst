@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     internal abstract class BuiltInTypeAttribute : Attribute { public abstract string BuiltInTypeName { get; } }
 }

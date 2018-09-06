@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Web.Models;
-using Felinesoft.UmbracoCodeFirst.ViewHelpers;
-using Felinesoft.UmbracoCodeFirst.Models;
-using Felinesoft.UmbracoCodeFirst.Views;
-using Felinesoft.UmbracoCodeFirst.Controllers;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.ViewHelpers;
+using Marsman.UmbracoCodeFirst.Models;
+using Marsman.UmbracoCodeFirst.Views;
+using Marsman.UmbracoCodeFirst.Controllers;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.Events;
-using Felinesoft.UmbracoCodeFirst.Dictionaries;
+using Marsman.UmbracoCodeFirst.Events;
+using Marsman.UmbracoCodeFirst.Dictionaries;
 
-namespace Felinesoft.UmbracoCodeFirst.Views
+namespace Marsman.UmbracoCodeFirst.Views
 {
     /// <summary>
     /// <para>

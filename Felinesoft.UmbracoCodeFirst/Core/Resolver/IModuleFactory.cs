@@ -1,4 +1,4 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public interface IModuleFactory
     {

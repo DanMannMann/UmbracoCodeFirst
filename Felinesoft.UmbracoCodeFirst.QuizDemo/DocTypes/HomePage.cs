@@ -1,12 +1,12 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Linq;
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Linq;
+using Marsman.UmbracoCodeFirst.Attributes;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	[DocumentType(allowedChildren: new Type[] { typeof(QuestionSet) }, allowAtRoot: true)]
 	[Template(true)]

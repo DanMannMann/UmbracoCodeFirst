@@ -1,19 +1,19 @@
 ﻿using System;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using Umbraco.Core.Models;
 using Umbraco.Core;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using static Felinesoft.UmbracoCodeFirst.CodeFirstManager;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using static Marsman.UmbracoCodeFirst.CodeFirstManager;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     /// <summary>
     /// A base class for data types which select values from a list of prevalues

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public interface IClassFileGenerator
     {

@@ -8,21 +8,21 @@ using System.Reflection;
 using System.ComponentModel;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.DataTypes;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using System.Linq.Expressions;
 using System.Web.WebPages;
-using Felinesoft.UmbracoCodeFirst.Dictionaries;
+using Marsman.UmbracoCodeFirst.Dictionaries;
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     /// <summary>
     /// Convenience extensions for retrieving and working with metadata

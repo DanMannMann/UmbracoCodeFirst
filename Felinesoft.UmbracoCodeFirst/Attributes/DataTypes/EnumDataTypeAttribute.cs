@@ -1,17 +1,17 @@
 ﻿
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Reflection;
-using Felinesoft.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Converters;
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Specifies that the decorated enum is a code-first enum data type

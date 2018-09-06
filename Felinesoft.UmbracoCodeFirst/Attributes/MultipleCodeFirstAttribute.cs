@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Base class for code-first attributes which can be applied multiply (see <see cref="CodeFirstAttribute"/> for singly-applied attributes)

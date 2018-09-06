@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Converters
+namespace Marsman.UmbracoCodeFirst.Converters
 {
     public sealed class PassThroughConverter<T> : DataTypeConverterBase<T, T>
     {

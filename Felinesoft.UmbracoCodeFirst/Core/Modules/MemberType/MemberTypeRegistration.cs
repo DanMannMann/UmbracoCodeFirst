@@ -1,8 +1,8 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Attributes;
 using System;
 using System.Collections.Generic;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class MemberTypeRegistration : ContentTypeRegistration
     {

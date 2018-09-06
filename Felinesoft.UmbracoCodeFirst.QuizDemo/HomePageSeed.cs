@@ -1,19 +1,19 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.QuizDemo.DocTypes;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
+using Marsman.UmbracoCodeFirst.QuizDemo.MediaTypes;
 using System.Web;
 using System.Diagnostics;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Seeding;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Seeding;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo
+namespace Marsman.UmbracoCodeFirst.QuizDemo
 {
 	[SeedFactory(publishOnCreate: true)]
 	public class HomePageSeed : ISeedFactory<DocumentSeed>

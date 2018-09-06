@@ -1,6 +1,6 @@
-﻿using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework;
-using Felinesoft.UmbracoCodeFirst.TestTarget.TestModels;
+﻿using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.TestTarget.TestFramework;
+using Marsman.UmbracoCodeFirst.TestTarget.TestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Web;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
+namespace Marsman.UmbracoCodeFirst.TestTarget.Tests
 {
     public class TypeSet3Tests : TestBase, ICodeFirstTest
     {

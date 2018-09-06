@@ -7,7 +7,7 @@
 //     the code is regenerated.
 // </auto-generated>
 // ------------------------------------------------------------------------------
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4
+namespace Marsman.UmbracoCodeFirst.Core.Modules.ContentTypeBase.T4
 {
     using System.Linq;
     using System.Text;

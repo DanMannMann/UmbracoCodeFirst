@@ -1,14 +1,14 @@
-﻿using Felinesoft.UmbracoCodeFirst.ContentTypes;
+﻿using Marsman.UmbracoCodeFirst.ContentTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Core;
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     /// <summary>
     /// Specifies that a class should be used as a media type by UmbracoCodeFirst.

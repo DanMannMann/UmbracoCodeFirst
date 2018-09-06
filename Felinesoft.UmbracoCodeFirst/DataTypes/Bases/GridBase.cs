@@ -1,8 +1,8 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using Felinesoft.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.Core;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.IO;
@@ -16,7 +16,7 @@ using Umbraco.Web;
 using System.Web.Mvc.Html;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     [DataType(propertyEditorAlias:"Umbraco.Grid")]
     [DoNotSyncDataType][BuiltInDataType]

@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+﻿using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using Umbraco.Core.Models;
 using Umbraco.Core.Publishing;
 using Umbraco.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.Events
+namespace Marsman.UmbracoCodeFirst.Events
 {
 	internal class ModelEventHandler<Tservice,Tentity,Tnodedetails> where Tentity : IContentBase where Tnodedetails : ContentNodeDetails
 	{

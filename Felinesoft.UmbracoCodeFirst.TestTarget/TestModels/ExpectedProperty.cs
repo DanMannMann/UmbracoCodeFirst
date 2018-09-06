@@ -1,5 +1,5 @@
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestModels
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestModels
 {
     public class ExpectedProperty
     {

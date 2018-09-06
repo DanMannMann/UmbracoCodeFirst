@@ -1,12 +1,12 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+﻿using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Converters
+namespace Marsman.UmbracoCodeFirst.Converters
 {
     /// <summary>
     /// A converter which can convert between a storage type of Tdb and

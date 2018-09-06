@@ -1,9 +1,9 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -14,13 +14,13 @@ using Umbraco.Web;
 using Umbraco.Core;
 using System.Web.Mvc;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System.Web;
 using Umbraco.Core.Services;
 using Umbraco.Core.Events;
-using Felinesoft.UmbracoCodeFirst.Events;
+using Marsman.UmbracoCodeFirst.Events;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class DocumentModelModule : ContentModelModuleBase<DocumentNodeDetails,IContentService,IContent>, IDocumentModelModule
     {
@@ -192,7 +192,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class DocumentModelModuleExtensions
     {

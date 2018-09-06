@@ -1,5 +1,5 @@
 
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     public enum DatabaseType
     {

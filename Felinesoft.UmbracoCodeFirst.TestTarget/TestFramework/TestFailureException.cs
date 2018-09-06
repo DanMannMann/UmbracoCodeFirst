@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestFramework
 {
     public class TestFailureException : Exception
     {

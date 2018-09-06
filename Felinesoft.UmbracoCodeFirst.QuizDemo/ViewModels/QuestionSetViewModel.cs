@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	public class QuestionSetViewModel
 	{

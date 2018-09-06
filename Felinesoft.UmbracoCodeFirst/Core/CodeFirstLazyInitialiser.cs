@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
     public sealed class CodeFirstLazyInitialiser
     {

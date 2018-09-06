@@ -8,19 +8,19 @@ using System.Reflection;
 using System.ComponentModel;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System.Text.RegularExpressions;
 using System.Globalization;
 
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using System.Web.Mvc;
 using Umbraco.Web.Mvc;
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.DataTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     /// <summary>
     /// Extensions used to allow conversion between Umbraco interfaces

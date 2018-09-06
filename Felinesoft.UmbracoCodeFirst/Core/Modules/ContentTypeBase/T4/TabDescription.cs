@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.ClassFileGeneration
+namespace Marsman.UmbracoCodeFirst.Core.ClassFileGeneration
 {
     public sealed class TabDescription
     {

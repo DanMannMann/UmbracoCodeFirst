@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using System.Web.Hosting;
 using Umbraco.Core;
 using Umbraco.Core.Models;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using System.Reflection;
 using Umbraco.Core.Services;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Exceptions;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class TemplateModule : ITemplateModule
     {
@@ -121,7 +121,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
                 else
                 {
                     //TODO get this from a file resource containing a default view
-                    var content = "@inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage<" + attribute.DecoratedTypeFullName + ">" + Environment.NewLine + Environment.NewLine;
+                    var content = "@inherits Marsman.UmbracoCodeFirst.Views.UmbracoDocumentViewPage<" + attribute.DecoratedTypeFullName + ">" + Environment.NewLine + Environment.NewLine;
                     template.Content = content;
                 }
 
@@ -133,7 +133,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
 
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class TemplateModuleExtensions
     {

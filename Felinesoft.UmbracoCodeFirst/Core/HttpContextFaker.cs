@@ -3,7 +3,7 @@ using System.IO;
 using System.Web;
 using System.Web.Hosting;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
 	/// <summary>
 	///     Holds the current HttpContext, replaces it with a fake one, then returns the original upon dispose

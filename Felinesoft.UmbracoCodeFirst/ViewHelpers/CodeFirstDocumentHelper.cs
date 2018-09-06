@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Felinesoft.UmbracoCodeFirst.ViewHelpers
+namespace Marsman.UmbracoCodeFirst.ViewHelpers
 {
     /// <summary>
     /// A specialised helper for use with the document model in code-first strongly-typed views

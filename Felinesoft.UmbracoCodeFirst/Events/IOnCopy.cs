@@ -2,9 +2,9 @@ using Umbraco.Core.Models;
 using System.Web;
 using Umbraco.Web;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.Events
+namespace Marsman.UmbracoCodeFirst.Events
 {
 	public interface IOnCopyBase { }
 

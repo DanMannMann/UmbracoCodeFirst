@@ -1,11 +1,11 @@
-using Felinesoft.UmbracoCodeFirst.TestTarget.TestModels;
+using Marsman.UmbracoCodeFirst.TestTarget.TestModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
+namespace Marsman.UmbracoCodeFirst.TestTarget.TestFramework
 {
     public class CompareByProperty<T> : IEqualityComparer<T> where T : class
     {
@@ -52,7 +52,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TestFramework
 
     public abstract class TestBase
     {
-        protected const string _namespacePrefix = "Felinesoft.UmbracoCodeFirst.TestTarget.";
+        protected const string _namespacePrefix = "Marsman.UmbracoCodeFirst.TestTarget.";
         protected IContentTypeService ContentTypeService;
         protected IDataTypeService DataTypeService;
 

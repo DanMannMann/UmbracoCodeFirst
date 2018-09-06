@@ -1,17 +1,17 @@
-﻿using Felinesoft.UmbracoCodeFirst.Exceptions;
+﻿using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
-using Felinesoft.UmbracoCodeFirst.Extensions;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Core.Modules;
 using Umbraco.Core;
 using Umbraco.Web;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.Linq
+namespace Marsman.UmbracoCodeFirst.Linq
 {
     public static class ContentEnumerableExtensions
     {

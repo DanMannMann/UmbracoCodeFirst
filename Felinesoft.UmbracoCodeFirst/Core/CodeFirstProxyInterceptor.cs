@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
     public sealed class CodeFirstProxyInterceptor : IInterceptor
     {

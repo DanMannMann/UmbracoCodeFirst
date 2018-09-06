@@ -1,7 +1,7 @@
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
-using Felinesoft.UmbracoCodeFirst.Diagnostics;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Diagnostics;
+using Marsman.UmbracoCodeFirst.Exceptions;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using umbraco;
 using Umbraco.Core;
 using Umbraco.Core.Persistence;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public sealed class CodeFirstModuleResolver : IEnumerable<ICodeFirstEntityModule>
     {
@@ -396,7 +396,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
     }
 }
 
-namespace Felinesoft.UmbracoCodeFirst.Extensions
+namespace Marsman.UmbracoCodeFirst.Extensions
 {
     public static class DefaultPluginExtensions
     {

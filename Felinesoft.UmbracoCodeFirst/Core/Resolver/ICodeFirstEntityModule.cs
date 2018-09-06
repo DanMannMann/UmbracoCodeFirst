@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public interface ICodeFirstEntityModule
     {

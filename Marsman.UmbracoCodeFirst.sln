@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Restore", "DB Restore", "{5F966450-5AFD-4F13-A87C-5CFDD0AF5FE9}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,9 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Felinesoft.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Marsman.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Felinesoft.UmbracoCodeFirst.QuizDemo", "Felinesoft.UmbracoCodeFirst.QuizDemo\Felinesoft.UmbracoCodeFirst.QuizDemo.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.QuizDemo", "Felinesoft.UmbracoCodeFirst.QuizDemo\Marsman.UmbracoCodeFirst.QuizDemo.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,5 +55,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {24A65014-813C-4B0F-BF9B-5099034D689E}
 	EndGlobalSection
 EndGlobal

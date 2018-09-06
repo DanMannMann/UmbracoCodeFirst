@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Exceptions
+namespace Marsman.UmbracoCodeFirst.Exceptions
 {
     /// <summary>
     /// A base type for exceptions relating to the creation, persistence and mapping of code-first data and document types

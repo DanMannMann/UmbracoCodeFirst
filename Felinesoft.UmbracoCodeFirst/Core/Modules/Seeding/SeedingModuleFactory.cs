@@ -1,10 +1,10 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using System;
 using Umbraco.Core;
 using Umbraco.Core.Services;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public class SeedingModuleFactory : ModuleFactoryBase<ISeedingModule, IDocumentModelModule, IMediaModelModule, IMemberModelModule>
     {

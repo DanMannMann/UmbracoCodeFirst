@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Umbraco.Web.Models.Trees;
 using Umbraco.Web.Trees;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public interface IEntityTreeFilter
     {

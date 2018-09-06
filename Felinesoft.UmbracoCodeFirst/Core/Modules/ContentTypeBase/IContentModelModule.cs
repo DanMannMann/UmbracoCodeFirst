@@ -1,6 +1,6 @@
 using Umbraco.Core.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
     public interface IContentModelModule
     {

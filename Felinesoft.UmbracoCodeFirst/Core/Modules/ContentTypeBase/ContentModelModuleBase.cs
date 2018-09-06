@@ -1,8 +1,8 @@
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Converters;
-using Felinesoft.UmbracoCodeFirst.Exceptions;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Converters;
+using Marsman.UmbracoCodeFirst.Exceptions;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
@@ -12,14 +12,14 @@ using Umbraco.Web;
 using Umbraco.Core;
 using System.Collections.Generic;
 using Marsman.Reflekt;
-using Felinesoft.UmbracoCodeFirst.Events;
+using Marsman.UmbracoCodeFirst.Events;
 using Umbraco.Core.Services;
-using Felinesoft.UmbracoCodeFirst.Core.Resolver;
+using Marsman.UmbracoCodeFirst.Core.Resolver;
 using Umbraco.Core.Events;
 using System.Web;
 using Umbraco.Core.Publishing;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules
+namespace Marsman.UmbracoCodeFirst.Core.Modules
 {
 	public enum SubscribeType
 	{

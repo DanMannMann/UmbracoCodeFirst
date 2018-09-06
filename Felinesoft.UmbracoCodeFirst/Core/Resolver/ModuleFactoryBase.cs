@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Umbraco.Core;
 using System.Linq;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public abstract class ModuleFactoryBase<Tinterface> : IModuleFactory<Tinterface> where Tinterface : ICodeFirstEntityModule
     {

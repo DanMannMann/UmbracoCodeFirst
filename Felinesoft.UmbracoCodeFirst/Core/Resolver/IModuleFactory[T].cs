@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Resolver
+namespace Marsman.UmbracoCodeFirst.Core.Resolver
 {
     public interface IModuleFactory<Tinterface> : IModuleFactory where Tinterface : ICodeFirstEntityModule
     {

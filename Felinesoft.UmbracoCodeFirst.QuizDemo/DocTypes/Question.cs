@@ -1,10 +1,10 @@
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Linq;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Linq;
+using Marsman.UmbracoCodeFirst.QuizDemo.MediaTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	[DocumentType(allowAtRoot: false)]
 	public class Question : DocumentTypeBase

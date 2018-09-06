@@ -1,6 +1,6 @@
 
 using System;
-namespace Felinesoft.UmbracoCodeFirst.Attributes
+namespace Marsman.UmbracoCodeFirst.Attributes
 {
     public abstract class ContentTypeAttribute : CodeFirstAttribute
     {

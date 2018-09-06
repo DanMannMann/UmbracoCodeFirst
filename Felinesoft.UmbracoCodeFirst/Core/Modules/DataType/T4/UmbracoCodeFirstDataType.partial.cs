@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Felinesoft.UmbracoCodeFirst.Core.Modules.DataType.T4
+namespace Marsman.UmbracoCodeFirst.Core.Modules.DataType.T4
 {
     public partial class UmbracoCodeFirstDataType
     {

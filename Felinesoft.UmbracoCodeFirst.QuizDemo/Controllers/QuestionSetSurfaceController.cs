@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using Felinesoft.UmbracoCodeFirst.Controllers;
-using Felinesoft.UmbracoCodeFirst.Core;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.Models;
+using Marsman.UmbracoCodeFirst.Controllers;
+using Marsman.UmbracoCodeFirst.Core;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.Models;
 using System;
 using System.Linq;
 using System.Web;
@@ -14,7 +14,7 @@ using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
 	public class QuestionSetSurfaceController : CodeFirstSurfaceController<QuestionSet>, Events.IOnLoad<QuestionSet, QuestionSetViewModel>, Events.IOnCreate<QuestionSet>
 	{

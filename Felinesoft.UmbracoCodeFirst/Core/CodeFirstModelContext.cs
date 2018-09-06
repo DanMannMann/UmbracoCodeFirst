@@ -1,5 +1,5 @@
-﻿using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+﻿using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,7 @@ using Umbraco.Core.Models;
 using Castle.DynamicProxy;
 using System.Reflection;
 
-namespace Felinesoft.UmbracoCodeFirst.Core
+namespace Marsman.UmbracoCodeFirst.Core
 {
 	public class ProxyBase : IHtmlString
 	{

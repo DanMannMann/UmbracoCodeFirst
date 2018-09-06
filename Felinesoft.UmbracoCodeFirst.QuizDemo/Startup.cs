@@ -1,19 +1,19 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.QuizDemo.DocTypes;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
-using Felinesoft.UmbracoCodeFirst.QuizDemo.MediaTypes;
+using Marsman.UmbracoCodeFirst.QuizDemo.MediaTypes;
 using System.Web;
 using System.Diagnostics;
-using Felinesoft.UmbracoCodeFirst.Core.Modules;
-using Felinesoft.UmbracoCodeFirst.Seeding;
+using Marsman.UmbracoCodeFirst.Core.Modules;
+using Marsman.UmbracoCodeFirst.Seeding;
 
-namespace Felinesoft.UmbracoCodeFirst.QuizDemo
+namespace Marsman.UmbracoCodeFirst.QuizDemo
 {
 	public class StartUp : ApplicationEventHandler
 	{
@@ -57,7 +57,7 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 			{
 				var homePage = new HomePage();
 				homePage.Content = new HomePage.ContentTab();
-				homePage.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Felinesoft Code-First quiz. This quiz tests your knowledge of Felinesoft Code-First for Umbraco." };
+				homePage.Content.WelcomeParagraph = new DataTypes.BuiltIn.RichtextEditor() { Value = "Welcome to the Marsman Code-First quiz. This quiz tests your knowledge of Marsman Code-First for Umbraco." };
 				homePage.NodeDetails.Name = "Code-First Quiz";
 				homePage.Persist(publish: true);
 

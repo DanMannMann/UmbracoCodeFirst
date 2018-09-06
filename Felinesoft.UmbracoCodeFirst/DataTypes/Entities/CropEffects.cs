@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Web.Mvc;
 using Umbraco.Web.Models;
 
-namespace Felinesoft.UmbracoCodeFirst.DataTypes
+namespace Marsman.UmbracoCodeFirst.DataTypes
 {
     public class CropEffects
     {

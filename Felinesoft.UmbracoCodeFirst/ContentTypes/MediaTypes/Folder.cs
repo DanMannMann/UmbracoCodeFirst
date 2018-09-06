@@ -1,15 +1,15 @@
-using Felinesoft.UmbracoCodeFirst;
-using Felinesoft.UmbracoCodeFirst.DataTypes;
-using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.Extensions;
+using Marsman.UmbracoCodeFirst;
+using Marsman.UmbracoCodeFirst.DataTypes;
+using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.Extensions;
 using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using System;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+using Marsman.UmbracoCodeFirst.ContentTypes;
 
-namespace Felinesoft.UmbracoCodeFirst.ContentTypes
+namespace Marsman.UmbracoCodeFirst.ContentTypes
 {
     [CodeFirstCommonBase]
     public abstract class MediaFolderBase : MediaTypeBase
@@ -17,7 +17,7 @@ namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 		public class ContentsTab : TabBase
 		{
 			[ContentProperty(@"Contents:", @"contents", false, @"", 0, false)]
-			public virtual Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ListView_Media Contents { get; set; }
+			public virtual Marsman.UmbracoCodeFirst.DataTypes.BuiltIn.ListView_Media Contents { get; set; }
 
 		}
 

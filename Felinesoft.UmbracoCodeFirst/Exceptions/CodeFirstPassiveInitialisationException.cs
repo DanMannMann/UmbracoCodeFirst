@@ -1,6 +1,6 @@
 using System;
 
-namespace Felinesoft.UmbracoCodeFirst.Exceptions
+namespace Marsman.UmbracoCodeFirst.Exceptions
 {
     [Serializable]
     public class CodeFirstPassiveInitialisationException : CodeFirstException

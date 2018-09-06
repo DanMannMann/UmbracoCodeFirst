@@ -1,12 +1,12 @@
-﻿using Felinesoft.UmbracoCodeFirst.Attributes;
-using Felinesoft.UmbracoCodeFirst.ContentTypes;
-using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
+﻿using Marsman.UmbracoCodeFirst.Attributes;
+using Marsman.UmbracoCodeFirst.ContentTypes;
+using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
+namespace Marsman.UmbracoCodeFirst.TestTarget.TypeSet2
 {
     [DocumentType(allowAtRoot: true)]
     [Template(isDefault: true)]
