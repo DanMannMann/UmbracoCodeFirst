@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Restore", "DB Restore", 
 		DB restore\Umbraco - uninitialised.sdf = DB restore\Umbraco - uninitialised.sdf
 	EndProjectSection
 EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Felinesoft.UmbracoCodeFirst.Docs", "Felinesoft.UmbracoCodeFirst.Docs\Felinesoft.UmbracoCodeFirst.Docs.shfbproj", "{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}"
+Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Marsman.UmbracoCodeFirst.Docs", "Felinesoft.UmbracoCodeFirst.Docs\Marsman.UmbracoCodeFirst.Docs.shfbproj", "{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FE9A47BE-F8A9-4454-A14D-449C380FC27C}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,6 +29,27 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Marsman.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.QuizDemo", "Felinesoft.UmbracoCodeFirst.QuizDemo\Marsman.UmbracoCodeFirst.QuizDemo.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Help", "Felinesoft.UmbracoCodeFirst.Docs\Help\", "{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_21100"
+		Debug.AspNetCompiler.PhysicalPath = "Felinesoft.UmbracoCodeFirst.Docs\Help\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_21100\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_21100"
+		Release.AspNetCompiler.PhysicalPath = "Felinesoft.UmbracoCodeFirst.Docs\Help\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_21100\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "21100"
+		SlnRelativePath = "Felinesoft.UmbracoCodeFirst.Docs\Help\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -52,6 +73,10 @@ Global
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

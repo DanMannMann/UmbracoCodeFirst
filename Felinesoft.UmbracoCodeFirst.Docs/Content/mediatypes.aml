@@ -31,17 +31,17 @@
         <list class="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaFolder</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.MediaFolder</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaFile</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.MediaFile</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.MediaImage</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.MediaImage</codeEntityReference>
             </para>
           </listItem>
         </list>
@@ -151,27 +151,27 @@
         <list class="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileExtensionPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.FileExtensionPropertyAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileSizePropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.FileSizePropertyAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.FileUploadPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.FileUploadPropertyAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageHeightPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ImageHeightPropertyAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageWidthPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ImageWidthPropertyAttribute</codeEntityReference>
             </para>
           </listItem>
         </list>

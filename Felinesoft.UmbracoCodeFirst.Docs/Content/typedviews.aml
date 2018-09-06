@@ -31,14 +31,14 @@
       <content>
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
-        <para>The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage`1</codeEntityReference> view base class
+        <para>The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Views.UmbracoDocumentViewPage`1</codeEntityReference> view base class
         is used with strongly-typed models. It inherits from UmbracoViewPage and provides everything you'd normally find in an Umbraco view, along with extra
         properties for the Document Model &amp; the Document Helper.
       </para>
         <para>To start using the view simply add the following line as the first line in your cshtml file, replacing any existing @model or @inherits declaration. T should
         be the Code-First type of the documents which use the view.</para>
         <code language="c#">
-          @inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage&lt;T&gt;
+          @inherits Marsman.UmbracoCodeFirst.Views.UmbracoDocumentViewPage&lt;T&gt;
         </code>
       </content>
     </section>
@@ -55,9 +55,9 @@
           output without accessing any properties or methods of the data type explicitly, as in the example below.
         </para>
         <code language="xml">
-          @inherits Felinesoft.UmbracoCodeFirst.Views.UmbracoDocumentViewPage&lt;Felinesoft.UmbracoCodeFirst.Demo.DocTypes.TestPage&gt;
-          @using Felinesoft.UmbracoCodeFirst.Demo.DocTypes;
-          @using Felinesoft.UmbracoCodeFirst.Linq;
+          @inherits Marsman.UmbracoCodeFirst.Views.UmbracoDocumentViewPage&lt;Marsman.UmbracoCodeFirst.Demo.DocTypes.TestPage&gt;
+          @using Marsman.UmbracoCodeFirst.Demo.DocTypes;
+          @using Marsman.UmbracoCodeFirst.Linq;
 
           @{
               Layout = "Layout.cshtml";

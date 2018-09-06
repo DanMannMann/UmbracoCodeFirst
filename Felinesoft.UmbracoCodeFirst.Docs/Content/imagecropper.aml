@@ -13,7 +13,7 @@
     <introduction>
       <para>Code-First has extensive support for Umbraco's powerful built-in image cropper. Crop sizes can be defined using helper attributes
       or by adding special crop properties to your custom image cropper data type. The built-in 
-      <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
+      <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
       data type wraps Umbraco's image cropper to provide fluent, strongly-typed access to the original image &amp; each crop, as well as
       to a variety of built-in effects which can be applied to the images.
     </para>
@@ -24,9 +24,9 @@
       <title>Adding the Built-in ImageCropper to a Media Type</title>
       <content>
         <para>
-          The default <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
+          The default <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>
           type can be used to add an image cropper to a media type (note: you can add it to any content type but it makes most sense on a media type).
-          The crop sizes can be defined using the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropAttribute</codeEntityReference>
+          The crop sizes can be defined using the <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ImageCropAttribute</codeEntityReference>
           on the property. This will cause a data type instance to be created specifically for that property, with a unique set of crop sizes. To use the same
           data type with the same crop configuration in multiple places <link xlink:href="#create">create a custom ImageCropper data type</link>.
         </para>
@@ -54,8 +54,8 @@
         </para>
         <para>
           The example below creates an image cropper data type named "Example Cropper" with three crop sizes named "Small", "Med" &amp; "Large".
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
-          &amp; <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> type are used together
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
+          &amp; <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> type are used together
           to specify the alias &amp; size of the crop. When the underlying ImageCropper is initialised during modelling it populates these properties
           with the relevant crops so they can be used directly in strongly-typed views.
         </para>

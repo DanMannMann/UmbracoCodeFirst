@@ -33,7 +33,7 @@
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-          The built-in data types in Umbraco are represented by classes in the <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace.
+          The built-in data types in Umbraco are represented by classes in the <codeEntityReference qualifyHint="false">N:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace.
           The example below shows how to use the built in "Approved Color" data type as a property in a document type.
         </para>
         <code language="c#">
@@ -63,7 +63,7 @@
         </para>
         <para>
           The example below defines a data type named "Approved Background Color" which uses the same editor, storage and converters as the
-          ColorPicker type but specifies a new list of allowed colors via <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>s.
+          ColorPicker type but specifies a new list of allowed colors via <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>s.
           See <link xlink:href ="f13fc6da-38dc-4585-b0f3-e701d17d03e1">Working with Pre-Values</link> for more information.
         </para>
         <code language="c#">
@@ -83,14 +83,14 @@
         <autoOutline /> -->
         <para>
           An instance of a data type can be created specifically for a certain property on a document type, by applying a 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeInstanceAttribute</codeEntityReference>
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DataTypeInstanceAttribute</codeEntityReference>
           to the property. <link xlink:href ="f13fc6da-38dc-4585-b0f3-e701d17d03e1#instance">Instance Pre-Value Attributes</link> can be applied to the property
           to specify pre-values for the unique instance.
         </para>
         <para>
           The example below defines a property named "Approved Background Color". A unique data type instance is created which uses the same editor, storage and converters as the
           ColorPicker type and is named "ColorPicker (CodeFirstExampleDocument.ApprovedBackgroundColor)". Pre-values can then be specified which are unique to this property.
-          The example specifies a new list of allowed colors via <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s.
+          The example specifies a new list of allowed colors via <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s.
           See <link xlink:href ="f13fc6da-38dc-4585-b0f3-e701d17d03e1">Working with Pre-Values</link> for more information.
         </para>
         <code language="c#">

@@ -31,7 +31,7 @@
       <content>
         <para>
           Code-first supports compositions, which can be created by adding a property
-          to a document type class whose property type is another document type, and then decorating that property with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentCompositionAttribute</codeEntityReference>.
+          to a document type class whose property type is another document type, and then decorating that property with a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentCompositionAttribute</codeEntityReference>.
         </para>
         <code language="c#">
           [DocumentType]

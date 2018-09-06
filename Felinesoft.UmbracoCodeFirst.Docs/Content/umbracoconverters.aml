@@ -35,7 +35,7 @@
         <autoOutline /> -->
         <para>
           PEVC data types can be used in the same way as "full" code-first data types, but the data type name must be specified in the 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>.
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>.
         </para>
         <code language="c#">
           [DocumentType]

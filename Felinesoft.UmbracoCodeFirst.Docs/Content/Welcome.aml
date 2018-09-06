@@ -80,7 +80,7 @@
       <title>Configuring your site to use Code-First</title>
       <content>
         <para>
-          Code-First generally requires only a single call to one of the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.CodeFirstManager</codeEntityReference>
+          Code-First generally requires only a single call to one of the <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.CodeFirstManager</codeEntityReference>
           Initialise overloads to get things up and running. You'll need to pass in all of your <link xlink:href="#types">code-first entities</link> in a single call, either by passing
           in a collection of the types or by passing in all of the assemblies where your types are contained.
         </para>
@@ -154,7 +154,7 @@
         <para>
           There are code-generation tools which can be used to generate class files for existing data, media &amp; document types in a site. They are useful for converting an
           existing site to use code-first, and were in fact used to generate most of the classes in the
-          <codeEntityReference qualifyHint="false">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace.
+          <codeEntityReference qualifyHint="false">N:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference> namespace.
         </para>
         <para>
           These tools are not yet documented or guaranteed stable, but do work fairly well.The tools are triggered by adding the following line of
@@ -169,7 +169,7 @@
           must manually populate the module resolver with the relevant modules and freeze the resolver before attempting to generate the types.
         </para>
         <code>
-          //extension method AddDefaultModules in namespace Felinesoft.UmbracoCodeFirst.Extensions
+          //extension method AddDefaultModules in namespace Marsman.UmbracoCodeFirst.Extensions
           CodeFirstManager.Current.Modules.AddDefaultModules();
           CodeFirstManager.Current.Modules.FreezeResolver();
           CodeFirstManager.Current.GenerateTypeFilesFromDatabase(@"E:\MyFolder", "My.Namespace");
@@ -203,31 +203,31 @@
         <list class="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference> can be applied to a
-              class to indicate that it is an Umbraco document type. Any class this attribute is applied to should inherit <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference> can be applied to a
+              class to indicate that it is an Umbraco document type. Any class this attribute is applied to should inherit <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
             </para>
           </listItem>
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference> can be applied to a property
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference> can be applied to a property
               on a Document Type class to indicate that the property represents an Umbraco tab. The type of the property should be a class which inherits
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>. That class can
-              contain properties decorated with <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>. That class can
+              contain properties decorated with <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference>
               which represent the properties on the tab.
             </para>
           </listItem>
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> can be applied to a property
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> can be applied to a property
               on a Document Type or Tab class to indicate that the property represents an Umbraco property.
             </para>
           </listItem>
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> can be applied to a class
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> can be applied to a class
               to indicate that the class represents a custom Umbraco data type. Any class this attribute is applied to should implement one of the 
               <link xlink:href="cb1301cc-cf88-4b2a-a662-3611bd2634e1" />
             </para>
@@ -235,7 +235,7 @@
 
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.CodeFirstManager</codeEntityReference> contains initialisation
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.CodeFirstManager</codeEntityReference> contains initialisation
               and registration methods for setting up and kicking off the code-first framework. For the vast majority of circumstances a simple call
               to Initialise in an ApplicationStarted event handler, passing in this.GetType().Assembly, will do everything you need.
             </para>

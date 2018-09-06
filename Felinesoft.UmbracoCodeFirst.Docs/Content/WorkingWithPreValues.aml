@@ -45,13 +45,13 @@
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>
           is useful for specifying simple, fixed lists of configuration items. The attribute allows an alias (key), value and optionally sort
           order to be specified for each pre-value. Multiple attributes can be applied to each data type class.
         </para>
         <para>
           The example below creates a data type named "How You Heard About Us". The property is a dropdown list with 5 items.
-          The items are specified using <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>s
+          The items are specified using <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.PreValueAttribute</codeEntityReference>s
         </para>
         <code language="c#">
           [DataType]
@@ -71,18 +71,18 @@
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IPreValueFactory</codeEntityReference> interface
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IPreValueFactory</codeEntityReference> interface
           is useful for specifying more complex pre-values, such as json objects, or when some runtime logic is needed to create the pre-values.
         </para>
         <para>
           The interface can be implemented directly on the data type class, in which case it is found and used automatically. The interface can
           also be implemented on a separate factory class, which can then be associated with the data type using a 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.PreValueFactoryAttribute</codeEntityReference>.
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.PreValueFactoryAttribute</codeEntityReference>.
           Only one pre-value factory can be specified for each data type.
         </para>
         <para>
           The example below creates a data type named "How You Heard About Us". The property is a dropdown list with 5 items.
-          The items are specified by a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IPreValueFactory</codeEntityReference> implemented
+          The items are specified by a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IPreValueFactory</codeEntityReference> implemented
           on a second class.
         </para>
         <code language="c#">
@@ -119,7 +119,7 @@
               itself. This is most useful when you want to use the generic type parameters of some instance of a generic data type to deduce the pre-values.
             </para>
             <para>
-              The example below shows the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.TypedContentPicker`1</codeEntityReference> implementation.
+              The example below shows the <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn.TypedContentPicker`1</codeEntityReference> implementation.
               This data type uses it's generic type parameter to infer a pre-value which defines what type of content node can be picked by the content picker. This ensures that the selected node
               will always be an instance of the document type specified in the generic type parameter, or null. This can only be accomplished in a truly generic manner if the factory interface
               is implemented on the generic type itself.
@@ -183,7 +183,7 @@
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.PreValueFileAttribute</codeEntityReference>
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.PreValueFileAttribute</codeEntityReference>
           allows a file path to be specified. An XML file containing the pre-value definitions can be placed at the specified path. The pre-values 
           will be loaded from the file and applied whenever Code-First is initialised.
         </para>
@@ -224,17 +224,17 @@
         <list class ="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueFactoryAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.InstancePreValueFactoryAttribute</codeEntityReference>
             </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueFileAttribute</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.InstancePreValueFileAttribute</codeEntityReference>
             </para>
           </listItem>
         </list>

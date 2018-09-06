@@ -30,7 +30,7 @@
         <!-- Uncomment this to create a sub-section outline
         <autoOutline /> -->
         <para>
-          Tabs can be defined by creating a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
+          Tabs can be defined by creating a class which inherits <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
           The tab class can contain properties declared using the same approach as <link xlink:href="ec9d7ac2-6ba0-4b8c-8d1b-c591cd949e82#properties">adding properties to document types</link>.
         </para>
         <code language="c#">
@@ -42,7 +42,7 @@
         </code>
         <para>
           To use the tab on a document type add a property to the document type class whose type is your tab class. Decorate the property with a
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>. The
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>. The
           following example creates a document type containing a single tab named "My Tab".
         </para>
         <code language="c#">

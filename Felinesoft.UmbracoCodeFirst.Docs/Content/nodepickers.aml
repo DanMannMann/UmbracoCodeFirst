@@ -144,7 +144,7 @@
       <content>      
         <para>
           Both multi- and single-pickers can be further configured using the 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.NodePickerConfigAttribute</codeEntityReference>,
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.NodePickerConfigAttribute</codeEntityReference>,
           which can be applied to either a node picker data type or a node picker property. The attribute can be used to control the minimum
           &amp; maximum number of pickable nodes, the start node for the picker tree &amp; any additional node types 
           which should also be allowed to be picked on top of the one specified in the generic parameter.

@@ -31,8 +31,8 @@
       <title>Creating a document type class</title>
       <content>
         <para>
-          To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
-          and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. The document type
+          To define a document type create a class which inherits <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
+          and decorate it with a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. The document type
           name, alias, allowed children, icon, list view and allow at root properties can be specified in the attribute. The name and alias will be inferred from the name of the class
           if none are specified in the attribute. All attribute arguments are optional.
         </para>
@@ -54,7 +54,7 @@
       <title>Adding properties to a document type</title>
       <content>
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> declares a property on
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> declares a property on
           the document type. The alias, name, sort order, mandatory flag and description can be set via the attribute. The alias and name will be inferred from the
           property name if none are specified. The data type will be inferred from the property type, provided that the type is registered in the code-first core.
           The dataType argument is only used with <link xlink:href="787d469d-06cb-4ba1-8b13-d889e1b88c72">Umbraco built-in converter syntax</link> and is otherwise ignored.

@@ -19,7 +19,7 @@
 
       <para>
         In Code-First data types are represented by classes which <link xlink:href="cb1301cc-cf88-4b2a-a662-3611bd2634e1">implement certain interfaces</link> and are decorated with
-        a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
+        a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
       </para>
     </introduction>
 
@@ -30,7 +30,7 @@
       <title>Creating a data type</title>
       <content>
         <para>
-          The <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> can be used to specify the name, property editor alias
+          The <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference> can be used to specify the name, property editor alias
           and database storage type for the data type. The name and data storage type can be inferred from the class name and the implemented interface and so usually needn't be specified.
           However it is not possible to correctly infer the property editor alias, so this has to be specified explicitly.
         </para>
@@ -140,7 +140,7 @@
         <para>
           It is possible to create a data type without implementing the data type interface. This is useful for keeping your code cleaner if you don't intend to use
           strongly-typed views or create/update content programmatically. In this case the database storage type can be specified using the
-          <codeEntityReference qualifyHint="false">P:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute.DbType</codeEntityReference> property of the
+          <codeEntityReference qualifyHint="false">P:Marsman.UmbracoCodeFirst.Attributes.DataTypeAttribute.DbType</codeEntityReference> property of the
           DataTypeAttribute applied to the class. You must also set useConverter to false in the attribute constructor - setting the converter to null is not
           sufficient, the code-first manager will attempt to construct a default converter unless explicitly told not to.
         </para>
@@ -159,12 +159,12 @@
       <content>
         <para>
           It is possible to implement your conversion logic on a separate class to your data type model. This can be done by creating a class which implements
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Converters.IDataTypeConverter</codeEntityReference>. Be aware that more runtime
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Converters.IDataTypeConverter</codeEntityReference>. Be aware that more runtime
           type resolution is needed for this approach so it isn't as safe at compile-time as implementing the converion logic on the data type itself.
         </para>
         <para>
           The best approach to implementing the conversion factory is to inherit the abstract 
-          <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Converters.DataTypeConverterBase`2</codeEntityReference> class, specifying 
+          <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Converters.DataTypeConverterBase`2</codeEntityReference> class, specifying 
           the output type of the property editor as Tdb and the target data type as Tentity.
         </para>
         <code>

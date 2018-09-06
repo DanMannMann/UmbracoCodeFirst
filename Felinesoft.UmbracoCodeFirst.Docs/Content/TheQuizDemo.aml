@@ -97,7 +97,7 @@
                 <para>Add the Code-First nuget package using the command
 				</para>
 				<code language="none">
-				  install-package FelinesoftCodeFirst
+				  install-package Marsman.UmbracoCodeFirst
 				</code>
               </content>
             </step>
@@ -149,17 +149,17 @@
 			</step>
 			<step>
 			  <content>
-				<para>Create a class which inherits from <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
-				 and decorate it with a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. Question will
+				<para>Create a class which inherits from <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.DocumentTypeBase</codeEntityReference>
+				 and decorate it with a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DocumentTypeAttribute</codeEntityReference>. Question will
 				 be a type which can only be created under a parent, so set its allowAtRoot property to false.
 			  </para>
 				<code language="csharp">
-				  using Felinesoft.UmbracoCodeFirst.ContentTypes;
-				  using Felinesoft.UmbracoCodeFirst.Attributes;
-				  using Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn;
-				  using Felinesoft.UmbracoCodeFirst.Linq;
+				  using Marsman.UmbracoCodeFirst.ContentTypes;
+				  using Marsman.UmbracoCodeFirst.Attributes;
+				  using Marsman.UmbracoCodeFirst.DataTypes.BuiltIn;
+				  using Marsman.UmbracoCodeFirst.Linq;
 
-				  namespace Felinesoft.UmbracoCodeFirst.QuizDemo.DocTypes
+				  namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 				  {
 					  [DocumentType(allowAtRoot: false)]
 					  public class Question : DocumentTypeBase
@@ -179,7 +179,7 @@
 			<step>
 			  <content>
 				<para>
-				  Create a nested class for each tab definition required, in this case QuestionTab and ExtrasTab. The tab classes should inherit <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
+				  Create a nested class for each tab definition required, in this case QuestionTab and ExtrasTab. The tab classes should inherit <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.ContentTypes.TabBase</codeEntityReference>.
 				</para>
 				<code language="csharp">
 				  	[DocumentType(allowAtRoot: false)]
@@ -204,7 +204,7 @@
 			  <content>
 				<para>
 				  Add a property to the Question class for each tab type, to declare that tab as a member of the Question document type. The tab properties should be decorated with a 
-				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>.
+				  <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentTabAttribute</codeEntityReference>.
 				</para>
 				<code language="csharp">
 				  	[DocumentType(allowAtRoot: false)]
@@ -244,7 +244,7 @@
 	  <content>
 		<para>
 		  Umbraco property types are represented by regular C# properties on the document type and tab classes. The type of the C# property denotes the Umbraco data type to use, the
-		  name of the property denotes the Umbraco property type name &amp; alias and the <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> 
+		  name of the property denotes the Umbraco property type name &amp; alias and the <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ContentPropertyAttribute</codeEntityReference> 
 		  can be used to specify all other Umbraco property type configuration.
 		</para>
 		<procedure>
@@ -255,7 +255,7 @@
 				<para>
 				  Create a C# property for each document type property required, placing the property either on the Question class (for generic properties) or on the relevant
 				  tab class (for any property on a tab). The built-in Umbraco data types
-				  are available in the namespace <codeEntityReference qualifyHint="true">N:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference>.
+				  are available in the namespace <codeEntityReference qualifyHint="true">N:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn</codeEntityReference>.
 				</para>
 				<code language="csharp">
 				  [DocumentType(allowAtRoot: false)]
@@ -296,7 +296,7 @@
 			<step>
 			  <content>
 				<para>
-				  Add any pre-values which are needed on the properties, using <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s
+				  Add any pre-values which are needed on the properties, using <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.InstancePreValueAttribute</codeEntityReference>s
 				</para>
 				<code language="csharp">
 				  [DocumentType(allowAtRoot: false)]
@@ -351,7 +351,7 @@
 				<para>
 				  The Extras tab has a property via which multiple other documents can be selected by content authors. This is created by
 				  adding a <link xlink:href="b3e13010-a239-4b6b-bc27-8711a5f00a6c">Node Picker Property</link> to the tab, and specifying options
-				  via a <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.NodePickerConfigAttribute</codeEntityReference>.
+				  via a <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.NodePickerConfigAttribute</codeEntityReference>.
 				</para>
 				<para>
 				  The Factoid type is another document type (shown in the code listing below). Using it as the generic argument to a DocumentPicker causes
@@ -400,8 +400,8 @@
 			  <content>
 				<para>
 				  The QuestionImage data type is an image cropper with custom crop sizes defined. Begin by creating a class named QuestionImage, which derives from
-				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>. Decorate the class with a
-				  <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
+				  <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.BuiltIn.ImageCropper</codeEntityReference>. Decorate the class with a
+				  <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.DataTypeAttribute</codeEntityReference>.
 				</para>
 				<code language="csharp">
 				  	[DataType]
@@ -415,8 +415,8 @@
 			<step>
 			  <content>
 				<para>
-				  Add properties of type <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> for each required
-				  crop size, and decorate each property with an <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
+				  Add properties of type <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.ImageCrop</codeEntityReference> for each required
+				  crop size, and decorate each property with an <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.Attributes.ImageCropPropertyAttribute</codeEntityReference>
 				  specifying the required width and height.
 				</para>
 								<code language="csharp">

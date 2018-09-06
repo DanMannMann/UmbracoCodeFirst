@@ -33,14 +33,14 @@
         <list class="bullet">
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoDateDataType</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IUmbracoDateDataType</codeEntityReference>
             </para>
             <para>Specifies that the data value should be stored as a DateTime2 type. Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.DateTime</codeEntityReference>
           </para>
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoIntegerDataType</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IUmbracoIntegerDataType</codeEntityReference>
             </para>
             <para>
               Specifies that the data value should be stored as a 32-bit integer type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.Int32</codeEntityReference>
@@ -48,7 +48,7 @@
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IUmbracoNtextDataType</codeEntityReference>
             </para>
             <para>
               Specifies that the data value should be stored as an Ntext type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.String</codeEntityReference>
@@ -56,7 +56,7 @@
           </listItem>
           <listItem>
             <para>
-              <codeEntityReference qualifyHint="false">T:Felinesoft.UmbracoCodeFirst.DataTypes.IUmbracoNvarcharDataType</codeEntityReference>
+              <codeEntityReference qualifyHint="false">T:Marsman.UmbracoCodeFirst.DataTypes.IUmbracoNvarcharDataType</codeEntityReference>
             </para>
             <para>
               Specifies that the data value should be stored as an Nvarchar(MAX) type.  Converter input &amp; output type is <codeEntityReference qualifyHint="true">T:System.String</codeEntityReference>
