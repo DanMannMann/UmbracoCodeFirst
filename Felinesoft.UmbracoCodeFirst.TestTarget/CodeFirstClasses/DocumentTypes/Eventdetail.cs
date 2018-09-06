@@ -63,7 +63,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.UrlPicker Infoctaurl { get; set; }
 
             [ContentProperty(@"All Programs", @"allPrograms", false, @"", 2, false)]
-            public TrueFalse Allprograms { get; set; }
+            public Checkbox Allprograms { get; set; }
 
         }
         public class GalleryTab : TabBase

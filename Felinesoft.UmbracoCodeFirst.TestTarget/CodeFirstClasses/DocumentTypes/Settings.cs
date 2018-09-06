@@ -26,7 +26,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public Tags Eventtypes { get; set; }
 
             [ContentProperty(@"Site is Global Template", @"siteIsGlobalTemplate", false, @"Tick this box if the site is a global template site ", 4, false)]
-            public TrueFalse Siteisglobaltemplate { get; set; }
+            public Checkbox Siteisglobaltemplate { get; set; }
 
             [ContentProperty(@"Event List Default Row Number", @"eventListDefaultRowNumber", false, @"Set up the number of row on event listing to display at once", 5, false)]
             public Numeric Eventlistdefaultrownumber { get; set; }

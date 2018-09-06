@@ -75,7 +75,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
     public class InheritingDataType1 : BuiltIn.Numeric { }
 
     [DataType]
-    public class InheritingDataType2 : BuiltIn.TrueFalse { }
+    public class InheritingDataType2 : BuiltIn.Checkbox { }
 
     [DataType]
     public class InheritingDataType3 : BuiltIn.DocumentPicker<Child1> { }

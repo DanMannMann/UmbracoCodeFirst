@@ -19,7 +19,7 @@ namespace LMI.BusinessLogic.CodeFirst
         public class SEOTab : TabBase
         {
             [ContentProperty(@"No Index", @"noIndex", true, @"", 0, false)]
-            public TrueFalse Noindex { get; set; }
+            public Checkbox Noindex { get; set; }
 
             [ContentProperty(@"Meta Title", @"metaTitle", true, @"", 2, false)]
             public Textstring Metatitle { get; set; }
@@ -40,7 +40,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.UrlPicker Canonicalurl { get; set; }
 
             [ContentProperty(@"Hide From Sitemap", @"hideFromSitemap", false, @"", 9, false)]
-            public TrueFalse Hidefromsitemap { get; set; }
+            public Checkbox Hidefromsitemap { get; set; }
 
         }
         public class ReferencesTab : TabBase
@@ -58,7 +58,7 @@ namespace LMI.BusinessLogic.CodeFirst
         public class OnDemandTab : TabBase
         {
             [ContentProperty(@"Is On Demand Page", @"isOnDemandPage", false, @"", 0, false)]
-            public TrueFalse Isondemandpage { get; set; }
+            public Checkbox Isondemandpage { get; set; }
 
             [ContentProperty(@"On Demand Login URL", @"onDemandLoginUrl", false, @"", 1, false)]
             public Textstring Ondemandloginurl { get; set; }
@@ -108,9 +108,9 @@ namespace LMI.BusinessLogic.CodeFirst
         public OnDemandTab OnDemand { get; set; }
 
         [ContentProperty(@"Hide Redirect Dialog", "hideRedirectDialog", false, @"", 0, false)]
-        public TrueFalse Hideredirectdialog { get; set; }
+        public Checkbox Hideredirectdialog { get; set; }
 
         [ContentProperty(@"Show Email Sign-Up", "showEmailSignUp", false, @"", 1, false)]
-        public TrueFalse Showemailsignup { get; set; }
+        public Checkbox Showemailsignup { get; set; }
     }
 }

@@ -13,7 +13,7 @@ using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
-    [MediaType("File", "File", null, "icon-document", false, false, "")]
+    [MediaType("File", "File", null, "icon-document", true, false, "")]
     [BuiltInMediaType]
     public class MediaFile : MediaFileBase
     {

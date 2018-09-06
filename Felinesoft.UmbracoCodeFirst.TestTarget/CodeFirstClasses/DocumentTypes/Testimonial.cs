@@ -48,7 +48,7 @@ namespace LMI.BusinessLogic.CodeFirst
         public class MenuTab : TabBase
         {
             [ContentProperty(@"Hide In Sub Nav", @"hideInSubNav", false, @"Hide this from sub navigation", 0, false)]
-            public TrueFalse Hideinsubnav { get; set; }
+            public Checkbox Hideinsubnav { get; set; }
 
         }
 

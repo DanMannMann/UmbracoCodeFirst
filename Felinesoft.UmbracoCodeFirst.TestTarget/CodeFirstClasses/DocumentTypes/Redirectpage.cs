@@ -20,9 +20,9 @@ namespace LMI.BusinessLogic.CodeFirst
         public LMI.BusinessLogic.CodeFirst.UrlPicker Redirectto { get; set; }
 
         [ContentProperty(@"Show In Flyout Menu", "showInFlyoutMenu", false, @"", 1, false)]
-        public TrueFalse Showinflyoutmenu { get; set; }
+        public Checkbox Showinflyoutmenu { get; set; }
 
         [ContentProperty(@"Hide In Sub Nav", "hideInSubNav", false, @"", 2, false)]
-        public TrueFalse Hideinsubnav { get; set; }
+        public Checkbox Hideinsubnav { get; set; }
     }
 }

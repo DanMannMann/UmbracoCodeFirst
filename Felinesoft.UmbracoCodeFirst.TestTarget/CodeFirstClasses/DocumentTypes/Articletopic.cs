@@ -75,7 +75,7 @@ namespace LMI.BusinessLogic.CodeFirst
         public class MenuTab : TabBase
         {
             [ContentProperty(@"Show in Flyout Menu", @"showInFlyoutMenu", false, @"", 0, false)]
-            public TrueFalse Showinflyoutmenu { get; set; }
+            public Checkbox Showinflyoutmenu { get; set; }
 
         }
 

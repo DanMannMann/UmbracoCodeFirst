@@ -54,7 +54,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public Textstring Classcta { get; set; }
 
             [ContentProperty(@"Hide in class grid", @"hideInClassGrid", false, @"", 9, false)]
-            public TrueFalse Hideinclassgrid { get; set; }
+            public Checkbox Hideinclassgrid { get; set; }
 
         }
         public class ClassListTab : TabBase

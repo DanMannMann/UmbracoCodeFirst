@@ -38,7 +38,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public DatePickerWithTime Publicationdate { get; set; }
 
             [ContentProperty(@"Family Friendly", @"familyFriendly", false, @"", 8, false)]
-            public TrueFalse Familyfriendly { get; set; }
+            public Checkbox Familyfriendly { get; set; }
 
             [ContentProperty(@"Tags", @"tags", false, @"", 9, false)]
             public Tags Tags { get; set; }

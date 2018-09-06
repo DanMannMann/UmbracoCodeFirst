@@ -522,7 +522,7 @@
     <Compile Include="DataTypes\BuiltIn\Tags.cs" />
     <Compile Include="DataTypes\BuiltIn\TextboxMultiple.cs" />
     <Compile Include="DataTypes\BuiltIn\Textstring.cs" />
-    <Compile Include="DataTypes\BuiltIn\Truefalse.cs" />
+    <Compile Include="DataTypes\BuiltIn\Checkbox.cs" />
     <Compile Include="DataTypes\BuiltIn\Upload.cs" />
     <Compile Include="DataTypes\PreValueFactories\FilePreValueFactory.cs" />
     <Compile Include="DataTypes\PreValueFactories\IPreValueFactory.cs" />

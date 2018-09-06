@@ -29,6 +29,7 @@ namespace Felinesoft.UmbracoCodeFirst.QuizDemo
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
 			CodeFirstManager.Current.Features.HideCodeFirstEntityTypesInTrees = true;
+			CodeFirstManager.Current.Features.UseBuiltInMediaTypes = true;
 			CodeFirstManager.Current.Features.UseConcurrentInitialisation = true; //note: this should be explicitly set to false in load-balanced/farm deployments due to a concurrency bug in Umbraco core (seen in 7.2.1)
 			CodeFirstManager.Current.Initialise(GetType().Assembly);
 			var s = sw.ElapsedMilliseconds;

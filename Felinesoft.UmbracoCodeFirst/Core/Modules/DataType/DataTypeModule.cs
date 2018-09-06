@@ -56,7 +56,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             if (CodeFirstManager.Current.Features.UseBuiltInPrimitiveDataTypes)
             {
                 RegisterNvarcharType<string, PassThroughConverter<string>>(BuiltInDataTypes.Textbox);
-                RegisterIntegerType<bool, BoolTrueFalseConverter>(BuiltInDataTypes.TrueFalse);
+                RegisterIntegerType<bool, BoolTrueFalseConverter>(BuiltInDataTypes.Checkbox);
                 RegisterIntegerType<int, PassThroughConverter<int>>(BuiltInDataTypes.Numeric);
                 RegisterDateTimeType<DateTime, PassThroughConverter<DateTime>>(BuiltInDataTypes.DatePickerWithTime);
             }
@@ -196,7 +196,7 @@ namespace Felinesoft.UmbracoCodeFirst.Core.Modules
             reg.ConverterType = typeof(Tconverter);
             reg.DbType = DatabaseType.Integer;
             reg.UmbracoDatabaseType = DataTypeDatabaseType.Integer;
-            reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
+			reg.Definition = _service.GetDataTypeDefinitionByName(dataTypeName);
             reg.PropertyEditorAlias = reg.Definition.PropertyEditorAlias;
             _registerController.Register(typeof(T), reg);
         }

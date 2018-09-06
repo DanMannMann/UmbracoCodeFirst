@@ -23,7 +23,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                     MasterTextstringTab = new DataTypes.BuiltIn.Textstring() { Value = "TEXTSTRINGS" }
                 },
                 MasterTextstringRenamedRoot = new DataTypes.BuiltIn.Textstring() { Value = "OTHERONES!!" },
-                MasterTrueFalseRoot = new DataTypes.BuiltIn.TrueFalse() { Value = true }
+                MasterTrueFalseRoot = new DataTypes.BuiltIn.Checkbox() { Value = true }
             };
             mas.NodeDetails.Name = "Master Test";
             mas.Persist(publish: true);
@@ -47,9 +47,9 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
             {
                 Child2NumericRoot = new DataTypes.BuiltIn.Numeric() { Value = 69 },
                 Child2TextstringRoot = new DataTypes.BuiltIn.Textstring() { Value = "STRIIIING" },
-                Child2TrueFalseRoot = new DataTypes.BuiltIn.TrueFalse() { Value = true },
+                Child2TrueFalseRoot = new DataTypes.BuiltIn.Checkbox() { Value = true },
                 MasterTextstringRenamedRoot = new DataTypes.BuiltIn.Textstring() { Value = "FAAAACE" },
-                MasterTrueFalseRoot = new DataTypes.BuiltIn.TrueFalse() { Value = false },
+                MasterTrueFalseRoot = new DataTypes.BuiltIn.Checkbox() { Value = false },
                 MasterTab = new ts.MasterTab()
                 {
                     MasterDatePickerTab = new DataTypes.BuiltIn.DatePicker() { Value = DateTime.Now },
@@ -60,7 +60,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 {
                     Child2DatePickerTab = new DataTypes.BuiltIn.DatePicker() { Value = DateTime.Now.AddDays(2) },
                     Child2RichtextEditorTab = new DataTypes.BuiltIn.RichtextEditor() { Value = "AAARRRSSSEE 2" },
-                    CommonTabBaseTrueFalse = new DataTypes.BuiltIn.TrueFalse() { Value = true },
+                    CommonTabBaseTrueFalse = new DataTypes.BuiltIn.Checkbox() { Value = true },
                     FolderPicker = new DataTypes.BuiltIn.SingleMediaPicker<ContentTypes.MediaFolder>()
                 },
                 Composition = new ts.Child2Composition()

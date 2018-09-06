@@ -13,7 +13,7 @@ using Felinesoft.UmbracoCodeFirst.Core;
 
 namespace Felinesoft.UmbracoCodeFirst.ContentTypes
 {
-    [MediaType("Image", "Image", null, "icon-picture", false, false, null)]
+    [MediaType("Image", "Image", null, "icon-picture", true, false, null)]
     [BuiltInMediaType]
     public class MediaImage : MediaImageBase
     {

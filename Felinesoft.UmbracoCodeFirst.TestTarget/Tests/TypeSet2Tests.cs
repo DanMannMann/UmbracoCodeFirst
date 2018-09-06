@@ -308,7 +308,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 Description = "",
                 DataType = new ExpectedDataType()
                 {
-                    DataTypeName = "True/false",
+                    DataTypeName = "Checkbox",
                     DbType = DataTypeDatabaseType.Integer,
                     PropertyEditorAlias = "Umbraco.TrueFalse"
                 },
@@ -346,7 +346,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.Tests
                 Alias = alias + "TrueFalseRoot",
                 DataType = new ExpectedDataType()
                 {
-                    DataTypeName = "True/false",
+                    DataTypeName = "Checkbox",
                     DbType = DataTypeDatabaseType.Integer,
                     PropertyEditorAlias = "Umbraco.TrueFalse"
                 },

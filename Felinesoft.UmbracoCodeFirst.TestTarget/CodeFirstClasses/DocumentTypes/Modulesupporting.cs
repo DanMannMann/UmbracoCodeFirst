@@ -29,7 +29,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.UrlPicker Buttonurl { get; set; }
 
             [ContentProperty(@"ShowImages", @"showImages", true, @"", 4, false)]
-            public TrueFalse Showimages { get; set; }
+            public Checkbox Showimages { get; set; }
 
             [ContentProperty(@"Footer Title", @"footerTitle", false, @"", 9, false)]
             public LMI.BusinessLogic.CodeFirst.SmallRichText Footertitle { get; set; }

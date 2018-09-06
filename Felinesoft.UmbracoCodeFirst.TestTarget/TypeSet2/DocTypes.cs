@@ -16,7 +16,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         public virtual Textstring MasterTextstringRoot { get; set; }
 
         [ContentProperty]
-        public virtual TrueFalse MasterTrueFalseRoot { get; set; }
+        public virtual Checkbox MasterTrueFalseRoot { get; set; }
 
         [ContentTab]
         public virtual MasterTab MasterTab { get; set; }
@@ -26,7 +26,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
     public class CommonTabBase : TabBase
     {
         [ContentProperty]
-        public virtual TrueFalse CommonTabBaseTrueFalse { get; set; }
+        public virtual Checkbox CommonTabBaseTrueFalse { get; set; }
     }
 
     public class MasterTab : TabBase
@@ -49,7 +49,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         public virtual Textstring Child1TextstringRoot { get; set; }
 
         [ContentProperty]
-        public virtual TrueFalse Child1TrueFalseRoot { get; set; }
+        public virtual Checkbox Child1TrueFalseRoot { get; set; }
 
         [ContentProperty]
         public virtual Numeric Child1NumericRoot { get; set; }
@@ -74,7 +74,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         public virtual Textstring Child2TextstringRoot { get; set; }
 
         [ContentProperty]
-        public virtual TrueFalse Child2TrueFalseRoot { get; set; }
+        public virtual Checkbox Child2TrueFalseRoot { get; set; }
 
         [ContentProperty]
         public virtual Numeric Child2NumericRoot { get; set; }
@@ -111,7 +111,7 @@ namespace Felinesoft.UmbracoCodeFirst.TestTarget.TypeSet2
         public virtual Textstring Grandchild1TextstringRoot { get; set; }
 
         [ContentProperty]
-        public virtual TrueFalse Grandchild1TrueFalseRoot { get; set; }
+        public virtual Checkbox Grandchild1TrueFalseRoot { get; set; }
 
         [ContentProperty]
         public virtual Numeric Grandchild1NumericRoot { get; set; }

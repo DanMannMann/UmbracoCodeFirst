@@ -57,7 +57,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LegacyMediaPicker Moduleimage_Tab1 { get; set; }
 
             [ContentProperty(@"Display Module", @"moduleDisplay_Tab1", false, @"Please check this if you would like this module to display.", 8, false)]
-            public TrueFalse Moduledisplay_Tab1 { get; set; }
+            public Checkbox Moduledisplay_Tab1 { get; set; }
 
             [ContentProperty(@"Module Video", @"moduleVideo_Tab1", false, @"", 9, false)]
             public LegacyMediaPicker Modulevideo_Tab1 { get; set; }
@@ -90,7 +90,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public Textstring Modulesubheading_Tab2 { get; set; }
 
             [ContentProperty(@"Display Module", @"moduleDisplay_Tab2", false, @"Please check this if you would like this module to display.", 8, false)]
-            public TrueFalse Moduledisplay_Tab2 { get; set; }
+            public Checkbox Moduledisplay_Tab2 { get; set; }
 
             [ContentProperty(@"Module Video", @"moduleVideo_Tab2", false, @"", 9, false)]
             public LegacyMediaPicker Modulevideo_Tab2 { get; set; }
@@ -123,7 +123,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public Textstring Modulesubheading_Tab3 { get; set; }
 
             [ContentProperty(@"Display Module", @"moduleDisplay_Tab3", false, @"Please check this if you would like this module to display.", 8, false)]
-            public TrueFalse Moduledisplay_Tab3 { get; set; }
+            public Checkbox Moduledisplay_Tab3 { get; set; }
 
             [ContentProperty(@"Module Video", @"moduleVideo_Tab3", false, @"", 9, false)]
             public LegacyMediaPicker Modulevideo_Tab3 { get; set; }
@@ -135,13 +135,13 @@ namespace LMI.BusinessLogic.CodeFirst
         public class SEOTab : TabBase
         {
             [ContentProperty(@"Allow Site To Be Indexed", @"allowSiteToBeIndexed", false, @"Allow site to be indexed by Google.", 0, false)]
-            public TrueFalse Allowsitetobeindexed { get; set; }
+            public Checkbox Allowsitetobeindexed { get; set; }
 
         }
         public class CookiesTab : TabBase
         {
             [ContentProperty(@"Enable Cookies Warning", @"enableCookiesWarning", false, @"", 0, false)]
-            public TrueFalse Enablecookieswarning { get; set; }
+            public Checkbox Enablecookieswarning { get; set; }
 
             [ContentProperty(@"Privacy Policy", @"privacyPolicy", false, @"To insert the Privacy Policy Url into the text below please use the {pp} syntax", 1, false)]
             public RichtextEditor Privacypolicy { get; set; }
@@ -176,6 +176,6 @@ namespace LMI.BusinessLogic.CodeFirst
         public Textstring Hreflanguagevalue { get; set; }
 
         [ContentProperty(@"Is Template Site", "isTemplateSite", false, @"", 1, false)]
-        public TrueFalse Istemplatesite { get; set; }
+        public Checkbox Istemplatesite { get; set; }
     }
 }

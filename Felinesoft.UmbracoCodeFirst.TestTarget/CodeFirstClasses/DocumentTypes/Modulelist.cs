@@ -23,7 +23,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public Textstring Modulesubheading { get; set; }
 
             [ContentProperty(@"Display Images", @"displayImages", false, @"", 2, false)]
-            public TrueFalse Displayimages { get; set; }
+            public Checkbox Displayimages { get; set; }
 
             [ContentProperty(@"List Image", @"listImage", false, @"Please provide an image for the sidebar if the list is set not to show images.", 3, false)]
             public LegacyMediaPicker Listimage { get; set; }

@@ -22,6 +22,6 @@ namespace LMI.BusinessLogic.CodeFirst
         public ContentTab Content { get; set; }
 
         [ContentProperty(@"Hide in Navigation", "umbracoNaviHide", false, @"", 0, false)]
-        public TrueFalse Umbraconavihide { get; set; }
+        public Checkbox Umbraconavihide { get; set; }
     }
 }

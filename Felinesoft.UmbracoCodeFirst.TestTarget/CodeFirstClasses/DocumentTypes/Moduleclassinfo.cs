@@ -62,10 +62,10 @@ namespace LMI.BusinessLogic.CodeFirst
         public class ModuleLayoutTab : TabBase
         {
             [ContentProperty(@"Hide Top Section", @"hideTopSection", false, @"", 0, false)]
-            public TrueFalse Hidetopsection { get; set; }
+            public Checkbox Hidetopsection { get; set; }
 
             [ContentProperty(@"Hide Bottom Section", @"hideBottomSection", false, @"", 1, false)]
-            public TrueFalse Hidebottomsection { get; set; }
+            public Checkbox Hidebottomsection { get; set; }
 
         }
 

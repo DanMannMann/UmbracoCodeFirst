@@ -50,7 +50,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.SpectrumColorPicker Domorecopytext1colour { get; set; }
 
             [ContentProperty(@"Open In New Window 1", @"openInNewWindow1", false, @"", 4, false)]
-            public TrueFalse Openinnewwindow1 { get; set; }
+            public Checkbox Openinnewwindow1 { get; set; }
 
         }
         public class Item2Tab : TabBase
@@ -71,7 +71,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.SpectrumColorPicker Domorecopytext2colour { get; set; }
 
             [ContentProperty(@"Open In New Window 2", @"openInNewWindow2", false, @"", 4, false)]
-            public TrueFalse Openinnewwindow2 { get; set; }
+            public Checkbox Openinnewwindow2 { get; set; }
 
         }
         public class Item3Tab : TabBase
@@ -92,7 +92,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.SpectrumColorPicker Domorecopytext3colour { get; set; }
 
             [ContentProperty(@"Open In New Window 3", @"openInNewWindow3", false, @"", 4, false)]
-            public TrueFalse Openinnewwindow3 { get; set; }
+            public Checkbox Openinnewwindow3 { get; set; }
 
         }
         public class Item4Tab : TabBase
@@ -113,7 +113,7 @@ namespace LMI.BusinessLogic.CodeFirst
             public LMI.BusinessLogic.CodeFirst.SpectrumColorPicker Domorecopytext4colour { get; set; }
 
             [ContentProperty(@"Open In New Window 4", @"openInNewWindow4", false, @"", 4, false)]
-            public TrueFalse Openinnewwindow4 { get; set; }
+            public Checkbox Openinnewwindow4 { get; set; }
 
         }
 

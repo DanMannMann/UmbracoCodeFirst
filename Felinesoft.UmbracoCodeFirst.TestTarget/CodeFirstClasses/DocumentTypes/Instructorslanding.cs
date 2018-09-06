@@ -18,13 +18,13 @@ namespace LMI.BusinessLogic.CodeFirst
         public class MenuTab : TabBase
         {
             [ContentProperty(@"Has Flyout Menu", @"hasFlyoutMenu", false, @"Tick this if this is a main menu link with flyout menu", 0, false)]
-            public TrueFalse Hasflyoutmenu { get; set; }
+            public Checkbox Hasflyoutmenu { get; set; }
 
             [ContentProperty(@"Show in Flyout Menu", @"showInFlyoutMenu", false, @"Tick this if you want this page to appear as a child in a flyout menu", 1, false)]
-            public TrueFalse Showinflyoutmenu { get; set; }
+            public Checkbox Showinflyoutmenu { get; set; }
 
             [ContentProperty(@"Hide In Sub Nav", @"hideInSubNav", false, @"Hide this from sub navigation", 2, false)]
-            public TrueFalse Hideinsubnav { get; set; }
+            public Checkbox Hideinsubnav { get; set; }
 
         }
 
