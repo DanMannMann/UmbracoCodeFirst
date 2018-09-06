@@ -7,8 +7,8 @@
     <ProjectGuid>{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Felinesoft.UmbracoCodeFirst</RootNamespace>
-    <AssemblyName>Felinesoft.UmbracoCodeFirst</AssemblyName>
+    <RootNamespace>Marsman.UmbracoCodeFirst</RootNamespace>
+    <AssemblyName>Marsman.UmbracoCodeFirst</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -30,7 +30,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Felinesoft.UmbracoCodeFirst.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Marsman.UmbracoCodeFirst.xml</DocumentationFile>
     <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
@@ -42,7 +42,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Felinesoft.UmbracoCodeFirst.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\Marsman.UmbracoCodeFirst.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'TestSet1|AnyCPU'">
     <OutputPath>bin\TestSet1\</OutputPath>

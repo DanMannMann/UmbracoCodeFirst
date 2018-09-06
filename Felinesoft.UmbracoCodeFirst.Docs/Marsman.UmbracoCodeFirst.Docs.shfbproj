@@ -135,10 +135,11 @@
     <Content Include="icons\Help.png" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="icons\marsman.png">
+    <Content Include="icons\marsman.png">
       <ImageId>marsman-logo-07-01-icon-a-64</ImageId>
       <AlternateText>marsman-logo-07-01-icon-a-64</AlternateText>
-    </Image>
+      <CopyToMedia>True</CopyToMedia>
+    </Content>
     <Image Include="Media\doctypes_sln.png">
       <ImageId>doctypes_sln</ImageId>
       <AlternateText>doctypes sln</AlternateText>
