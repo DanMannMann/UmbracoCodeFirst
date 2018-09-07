@@ -30,7 +30,7 @@ namespace Marsman.UmbracoCodeFirst.DataTypes
         {
             get
             {
-                return _underlying.GetCropUrl(Alias, true, _underlying.HasFocalPoint());
+                return _underlying.Src + _underlying.GetCropUrl(Alias, true, _underlying.HasFocalPoint());
             }
         }
 
