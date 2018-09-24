@@ -35,9 +35,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj" xmlns="" />
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\bin\Debug\Felinesoft.UmbracoCodeFirst.XML" />
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\bin\Debug\Felinesoft.UmbracoCodeFirst.dll" />
+      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>

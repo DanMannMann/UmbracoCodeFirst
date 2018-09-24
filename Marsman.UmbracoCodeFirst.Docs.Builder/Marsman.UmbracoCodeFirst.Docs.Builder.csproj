@@ -60,6 +60,6 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>ECHO Building SHFB help file via MSBuild
-msbuild /p:CleanIntermediates=True /p:Configuration=Release "$(SolutionDir)Marsman.UmbracoCodeFirst.Docs.shfbproj"</PostBuildEvent>
+msbuild /p:CleanIntermediates=True /p:Configuration=Release "$(SolutionDir)Felinesoft.UmbracoCodeFirst.Docs\Marsman.UmbracoCodeFirst.Docs.shfbproj"</PostBuildEvent>
   </PropertyGroup>
 </Project>
