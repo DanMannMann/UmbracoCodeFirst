@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.tfignore = .tfignore
 		Performance5.psess = Performance5.psess
+		UmbracoCodeFIrstDocs.pubxml = UmbracoCodeFIrstDocs.pubxml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Marsman.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
@@ -41,11 +42,6 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Help", "Felinesoft.UmbracoC
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "21100"
 		SlnRelativePath = "Felinesoft.UmbracoCodeFirst.Docs\Help\"
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.Docs.Builder", "Marsman.UmbracoCodeFirst.Docs.Builder\Marsman.UmbracoCodeFirst.Docs.Builder.csproj", "{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793} = {CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}
 	EndProjectSection
 EndProject
 Global
@@ -76,9 +72,6 @@ Global
 		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Help|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Help|Any CPU.ActiveCfg = Release|Any CPU
-		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

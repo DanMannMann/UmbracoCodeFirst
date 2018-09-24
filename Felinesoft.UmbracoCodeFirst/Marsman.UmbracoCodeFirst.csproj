@@ -112,7 +112,7 @@
       <Version>2.2.29</Version>
     </PackageReference>
     <PackageReference Include="UmbracoCms.Core">
-      <Version>7.12.3</Version>
+      <Version>7.4.3</Version>
     </PackageReference>
 	<PackageReference Include="EWSoftware.SHFB">
 	  <Version>2018.7.8.1</Version>
