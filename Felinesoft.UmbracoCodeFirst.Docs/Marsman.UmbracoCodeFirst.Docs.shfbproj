@@ -15,7 +15,7 @@
     <!-- SHFB properties -->
     <FrameworkVersion>.NET Framework 4.5.1</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
-	<ComponentPath Condition=" '$(SHFBROOT)' == '' ">$(UserProfile)\.nuget\packages\</ComponentPath>
+    <ComponentPath Condition=" '$(SHFBROOT)' == '' ">$(UserProfile)\.nuget\packages\</ComponentPath>
     <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(UserProfile)\.nuget\packages\EWSoftware.SHFB\2018.7.8.1\Tools\</SHFBROOT>
     <HtmlHelpName>Marsman.UmbracoCodeFirst.Docs</HtmlHelpName>
     <Language>en-US</Language>
