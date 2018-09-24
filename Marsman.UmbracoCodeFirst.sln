@@ -18,14 +18,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Performance5.psess = Performance5.psess
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{C9F85A99-CD6D-499D-B208-322BED2FD320}"
-	ProjectSection(SolutionItems) = preProject
-		nuget.config = nuget.config
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.TestTarget", "Felinesoft.UmbracoCodeFirst.TestTarget\Marsman.UmbracoCodeFirst.TestTarget.csproj", "{685F6555-B42D-442B-8D58-D1F05C41E914}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.QuizDemo", "Felinesoft.UmbracoCodeFirst.QuizDemo\Marsman.UmbracoCodeFirst.QuizDemo.csproj", "{773F48C5-7000-47FE-8B4B-D7606B09A512}"
