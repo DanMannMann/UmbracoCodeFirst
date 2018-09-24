@@ -15,6 +15,8 @@
     <!-- SHFB properties -->
     <FrameworkVersion>.NET Framework 4.5.1</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
+	<ComponentPath Condition=" '$(SHFBROOT)' == '' ">$(UserProfile)\.nuget\packages\</ComponentPath>
+    <SHFBROOT Condition=" '$(SHFBROOT)' == '' ">$(UserProfile)\.nuget\packages\EWSoftware.SHFB\2018.7.8.1\Tools\</SHFBROOT>
     <HtmlHelpName>Marsman.UmbracoCodeFirst.Docs</HtmlHelpName>
     <Language>en-US</Language>
     <TransformComponentArguments>
@@ -35,9 +37,7 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\Felinesoft.UmbracoCodeFirst.csproj" xmlns="" />
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\bin\Debug\Felinesoft.UmbracoCodeFirst.XML" />
-      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\bin\Debug\Felinesoft.UmbracoCodeFirst.dll" />
+      <DocumentationSource sourceFile="..\Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>
@@ -71,6 +71,7 @@
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <VisibleItems>InheritedMembers, Protected, ProtectedInternalAsProtected, EditorBrowsableNever, NonBrowsable</VisibleItems>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

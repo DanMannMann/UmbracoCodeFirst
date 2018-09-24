@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<id>Marsman.UmbracoCodeFirst</id>
-	<version>2.5.0.3</version>
+	<version>2.5.0.4</version>
 	<title>Marsman Umbraco Code-First</title>
     <authors>Marsman</authors>
     <owners>Marsman</owners>
@@ -112,8 +112,16 @@
       <Version>2.2.29</Version>
     </PackageReference>
     <PackageReference Include="UmbracoCms.Core">
-      <Version>7.12.3</Version>
+      <Version>7.4.3</Version>
     </PackageReference>
+	<PackageReference Include="EWSoftware.SHFB">
+	  <Version>2018.7.8.1</Version>
+	  <PrivateAssets>all</PrivateAssets>
+	</PackageReference>
+	<PackageReference Include="EWSoftware.SHFB.NETFramework">
+	  <Version>4.7.2</Version>
+	  <PrivateAssets>all</PrivateAssets>
+	</PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
