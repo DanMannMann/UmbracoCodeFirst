@@ -87,7 +87,7 @@
       <title>Installing Code-First</title>
       <content>
 		<para>
-		  Start with an empty MVC4 project with Umbraco installed. Code-First supports Umbraco 7.2.1+. From that point follow this simple procedure to install Code-First.
+		  Start with an empty MVC4 project with Umbraco installed. Code-First supports Umbraco 7.4.3+. From that point follow this simple procedure to install Code-First.
 		</para>
         <procedure>
           <title>Steps</title>
