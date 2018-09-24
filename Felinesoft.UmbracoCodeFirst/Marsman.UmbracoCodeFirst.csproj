@@ -114,6 +114,14 @@
     <PackageReference Include="UmbracoCms.Core">
       <Version>7.12.3</Version>
     </PackageReference>
+	<PackageReference Include="EWSoftware.SHFB">
+	  <Version>2018.7.8.1</Version>
+	  <PrivateAssets>all</PrivateAssets>
+	</PackageReference>
+	<PackageReference Include="EWSoftware.SHFB.NETFramework">
+	  <Version>4.7.2</Version>
+	  <PrivateAssets>all</PrivateAssets>
+	</PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
