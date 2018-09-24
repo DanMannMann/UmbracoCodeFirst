@@ -28,8 +28,5 @@
     <PackageReference Include="EWSoftware.SHFB" Version="2018.7.8.1" />
     <PackageReference Include="EWSoftware.SHFB.NETFramework" Version="4.7.2" />
   </ItemGroup>
-  <PropertyGroup>
-    <PostBuildEvent>ECHO Building SHFB help file via MSBuild
-"C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\MSBuild\15.0\Bin\msbuild.exe" /p:CleanIntermediates=True /p:Configuration=Release "$(SolutionDir)Felinesoft.UmbracoCodeFirst.Docs\Marsman.UmbracoCodeFirst.Docs.shfbproj"</PostBuildEvent>
-  </PropertyGroup>
+  <PropertyGroup />
 </Project>
