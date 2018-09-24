@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marsman.UmbracoCodeFirst", "Felinesoft.UmbracoCodeFirst\Marsman.UmbracoCodeFirst.csproj", "{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB Restore", "DB Restore", "{5F966450-5AFD-4F13-A87C-5CFDD0AF5FE9}"
 	ProjectSection(SolutionItems) = preProject
@@ -43,32 +43,42 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Help", "Felinesoft.UmbracoC
 		SlnRelativePath = "Felinesoft.UmbracoCodeFirst.Docs\Help\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marsman.UmbracoCodeFirst.Docs.Builder", "Marsman.UmbracoCodeFirst.Docs.Builder\Marsman.UmbracoCodeFirst.Docs.Builder.csproj", "{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793} = {CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Help|Any CPU = Help|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Help|Any CPU.ActiveCfg = Release|Any CPU
+		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Help|Any CPU.Build.0 = Release|Any CPU
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD8CBBC5-9EBF-4B90-8A4E-7C8CD2789793}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Help|Any CPU.ActiveCfg = Release|Any CPU
 		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F8FF346-A3A4-4485-9243-D0DF0C0E28A8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{685F6555-B42D-442B-8D58-D1F05C41E914}.Help|Any CPU.ActiveCfg = Debug|Any CPU
 		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{685F6555-B42D-442B-8D58-D1F05C41E914}.Release|Any CPU.Build.0 = Release|Any CPU
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Help|Any CPU.ActiveCfg = Debug|Any CPU
 		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{773F48C5-7000-47FE-8B4B-D7606B09A512}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Help|Any CPU.ActiveCfg = Debug|Any CPU
 		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E2E9033-1E8C-4E5B-8B19-6225D9A21DC3}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Help|Any CPU.ActiveCfg = Release|Any CPU
+		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Help|Any CPU.Build.0 = Release|Any CPU
+		{3986B226-CDEC-4EF7-A095-BC7D0016D6D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
