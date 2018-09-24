@@ -10,7 +10,8 @@ namespace Marsman.UmbracoCodeFirst.Docs.Builder
 	{
 		static void Main(string[] args)
 		{
-			// This project is used to install the SHFB nuget package and build the Docs project on the build server.
+			// This project is used to install the SHFB nuget package so that the build server can build the Docs project.
+			// It's never built and doesn't do anything.
 		}
 	}
 }
