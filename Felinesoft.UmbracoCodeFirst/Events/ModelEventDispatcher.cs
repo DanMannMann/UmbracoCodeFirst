@@ -23,7 +23,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 			return type.Implements<Tinterface>() || type.GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<Tinterface>() == true;
 		}
 
-		private static bool OnEvent(string eventName, object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		private static bool OnEvent(string eventName, object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (model.GetType().Inherits<CodeFirstContentBase>())
 			{
@@ -40,7 +40,8 @@ namespace Marsman.UmbracoCodeFirst.Events
 					contentInstance,
 					httpContext,
 					umbContext,
-					appContext
+					appContext,
+					e
 				});
 			}
 			else
@@ -49,19 +50,19 @@ namespace Marsman.UmbracoCodeFirst.Events
 			}
 		}
 
-		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnCreate", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnCreate", model, contentInstance, httpContext, umbContext, appContext, e);
         }
 
-		internal static bool OnSaveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnSaveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnSave", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnSave", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
-		internal static bool OnDeleteObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnDeleteObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnDelete", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnDelete", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
 		internal static void OnLoadObject(object model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
@@ -91,84 +92,84 @@ namespace Marsman.UmbracoCodeFirst.Events
 			}
 		}
 
-		internal static bool OnUnpublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnUnpublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnUnpublish", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnUnpublish", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
-		internal static bool OnPublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnPublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnPublish", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnPublish", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
-		internal static bool OnCopyObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnCopyObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnCopy", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnCopy", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
-		internal static bool OnMoveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnMoveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
-			return OnEvent("OnMove", model, contentInstance, httpContext, umbContext, appContext);
+			return OnEvent("OnMove", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 	}
 
 	internal static class ModelEventDispatcher<T> where T : CodeFirstContentBase
 	{
-		internal static bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCreate<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCreate<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCreate<T>).OnCreate(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCreate<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCreate<T>).OnCreate(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;
 		}
 
-		internal static bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnSave<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnSave<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnSave<T>).OnSave(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnSave<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnSave<T>).OnSave(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;
 		}
 
-		internal static bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnDelete<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnDelete<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDelete<T>).OnDelete(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnDelete<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDelete<T>).OnDelete(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;
 		}
 
-		internal static bool OnCopy(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnCopy(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCopy<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCopy<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopy<T>).OnCopy(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCopy<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopy<T>).OnCopy(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;
 		}
 
-		internal static bool OnMove(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnMove(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnMove<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnMove<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMove<T>).OnMove(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnMove<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMove<T>).OnMove(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;
@@ -186,13 +187,13 @@ namespace Marsman.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		internal static bool OnUnpublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		internal static bool OnUnpublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
 			{
 				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnUnpublish<T>>() == true)
 				{
-					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnUnpublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublish<T>).OnUnpublish(model, contentInstance, httpContext, umbContext, appContext);
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnUnpublish<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublish<T>).OnUnpublish(model, contentInstance, httpContext, umbContext, appContext, e);
 				}
 			}
 			return true;

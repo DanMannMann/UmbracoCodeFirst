@@ -6,6 +6,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Marsman.UmbracoCodeFirst.ContentTypes;
+using Umbraco.Core.Events;
 
 namespace Marsman.UmbracoCodeFirst.Events
 {
@@ -13,6 +14,6 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public interface IOnDelete<in T> : IOnDeleteBase where T : CodeFirstContentBase
 	{
-		bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
+		bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
 }

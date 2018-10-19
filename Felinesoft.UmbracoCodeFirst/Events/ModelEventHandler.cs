@@ -114,7 +114,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 			_unpublishEventSubscriber?.Invoke(Service_UnPublishing, SubscribeType.Unsubscribe);
 		}
 
-		private void HandleEvent(Dictionary<string, ContentTypeRegistration> eventList, Tentity entity, CancellableEventArgs e, Func<object, IContentBase, HttpContextBase, UmbracoContext, ApplicationContext, bool> eventDispatcher)
+		private void HandleEvent(Dictionary<string, ContentTypeRegistration> eventList, Tentity entity, CancellableEventArgs e, Func<object, IContentBase, HttpContextBase, UmbracoContext, ApplicationContext, CancellableEventArgs, bool> eventDispatcher)
 		{
 			if (eventList.ContainsKey(_getAliasFromContentInstance.Invoke(entity)) && CodeFirstManager.Current.Features.EnableContentEvents)
 			{
@@ -123,11 +123,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 				if (e.CanCancel)
 				{
 					
-					e.Cancel |= !eventDispatcher.Invoke(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+					e.Cancel |= !eventDispatcher.Invoke(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current, e);
 				}
 				else
 				{
-					eventDispatcher.Invoke(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current);
+					eventDispatcher.Invoke(instance, entity, new HttpContextWrapper(HttpContext.Current), UmbracoContext.Current, ApplicationContext.Current, e);
 				}
 				_mapModelToContent.Invoke(entity, (instance as CodeFirstContentBase<Tnodedetails>), eventList[_getAliasFromContentInstance.Invoke(entity)]);
 			}

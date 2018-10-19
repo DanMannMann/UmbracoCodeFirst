@@ -6,6 +6,7 @@ using System.Web;
 using Umbraco.Core;
 using Umbraco.Web;
 using Marsman.UmbracoCodeFirst.ContentTypes;
+using Umbraco.Core.Events;
 
 namespace Marsman.UmbracoCodeFirst.Events
 {
@@ -13,6 +14,6 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public interface IOnSave<in T> : IOnSaveBase where T : CodeFirstContentBase
 	{
-		bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
+		bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
 }

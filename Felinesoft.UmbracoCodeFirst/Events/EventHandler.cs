@@ -13,17 +13,17 @@ namespace Marsman.UmbracoCodeFirst.Events
 {
 	public abstract class EventHandlerBase<Tcontent> : IOnCreate<Tcontent>, IOnSave<Tcontent>, IOnDelete<Tcontent> where Tcontent : CodeFirstContentBase
 	{
-		public virtual bool OnCreate(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnCreate(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
 
-		public virtual bool OnDelete(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnDelete(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
 
-		public virtual bool OnSave(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnSave(Tcontent model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
@@ -33,7 +33,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public abstract class MediaEventHandler<Tmedia> : EventHandlerBase<Tmedia>, IOnMove<Tmedia> where Tmedia : MediaTypeBase
 	{
-		public virtual bool OnMove(Tmedia model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnMove(Tmedia model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
@@ -41,7 +41,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public abstract class DocumentEventHandler<Tdocument> : EventHandlerBase<Tdocument>, IOnPublish<Tdocument>, IOnUnpublish<Tdocument>, IOnCopy<Tdocument>, IOnMove<Tdocument>, IOnLoad<Tdocument> where Tdocument : DocumentTypeBase
 	{
-		public virtual bool OnMove(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnMove(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
@@ -51,12 +51,12 @@ namespace Marsman.UmbracoCodeFirst.Events
 			return true;
 		}
 
-		public virtual bool OnUnpublish(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnUnpublish(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}
 
-		public virtual bool OnCopy(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public virtual bool OnCopy(Tdocument model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return true;
 		}

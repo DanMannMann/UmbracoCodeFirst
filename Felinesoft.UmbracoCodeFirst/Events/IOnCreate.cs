@@ -11,6 +11,7 @@ using Marsman.UmbracoCodeFirst.Attributes;
 using System.Reflection;
 using Marsman.UmbracoCodeFirst.Exceptions;
 using Marsman.UmbracoCodeFirst.Core;
+using Umbraco.Core.Events;
 
 namespace Marsman.UmbracoCodeFirst.Events
 {
@@ -18,7 +19,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public interface IOnCreate<in T> : IOnCreateBase where T : CodeFirstContentBase
 	{
-		bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext);
+		bool OnCreate(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
 
 }

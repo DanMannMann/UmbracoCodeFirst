@@ -13,6 +13,7 @@ using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.Models;
+using Umbraco.Core.Events;
 
 namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 {
@@ -130,7 +131,7 @@ namespace Marsman.UmbracoCodeFirst.QuizDemo.DocTypes
 		/// An event raised whenever an instance of the QuestionSet document type is created. The method
 		/// sets some default values on the document instance.
 		/// </summary>
-		public bool OnCreate(QuestionSet model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext)
+		public bool OnCreate(QuestionSet model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			model.Content.WelcomeParagraph = new RichtextEditor() { Value = "Welcome to the new question set" };
 			model.NodeDetails.Name = "New question set";
