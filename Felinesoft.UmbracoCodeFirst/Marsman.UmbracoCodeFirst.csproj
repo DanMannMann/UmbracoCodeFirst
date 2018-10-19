@@ -2,7 +2,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	<id>Marsman.UmbracoCodeFirst</id>
-	<version>2.6.1.0</version>
+	<version>2.6.1.1</version>
 	<title>Marsman Umbraco Code-First</title>
     <authors>Marsman</authors>
     <owners>Marsman</owners>

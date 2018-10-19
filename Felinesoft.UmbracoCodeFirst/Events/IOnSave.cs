@@ -19,7 +19,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public interface IOnSavedBase { }
 
-	public interface IOnSaved<in T> : IOnSaveBase where T : CodeFirstContentBase
+	public interface IOnSaved<in T> : IOnSavedBase where T : CodeFirstContentBase
 	{
 		bool OnSaved(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}

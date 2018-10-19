@@ -16,7 +16,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 
 	public interface IOnPublishedBase { }
 
-	public interface IOnPublished<in T> : IOnPublishBase where T : CodeFirstContentBase
+	public interface IOnPublished<in T> : IOnPublishedBase where T : CodeFirstContentBase
 	{
 		bool OnPublished(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}

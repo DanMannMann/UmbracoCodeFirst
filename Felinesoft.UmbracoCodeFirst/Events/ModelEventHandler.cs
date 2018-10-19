@@ -25,12 +25,12 @@ namespace Marsman.UmbracoCodeFirst.Events
 		private Dictionary<string, ContentTypeRegistration> _onPublish = new Dictionary<string, ContentTypeRegistration>();
 		private Dictionary<string, ContentTypeRegistration> _onUnpublish = new Dictionary<string, ContentTypeRegistration>();
 
-		private Dictionary<string, ContentTypeRegistration> _onSaved;
-		private Dictionary<string, ContentTypeRegistration> _onDeleted;
-		private Dictionary<string, ContentTypeRegistration> _onPublished;
-		private Dictionary<string, ContentTypeRegistration> _onUnpublished;
-		private Dictionary<string, ContentTypeRegistration> _onCopied;
-		private Dictionary<string, ContentTypeRegistration> _onMoved;
+		private Dictionary<string, ContentTypeRegistration> _onSaved = new Dictionary<string, ContentTypeRegistration>();
+		private Dictionary<string, ContentTypeRegistration> _onDeleted = new Dictionary<string, ContentTypeRegistration>();
+		private Dictionary<string, ContentTypeRegistration> _onPublished = new Dictionary<string, ContentTypeRegistration>();
+		private Dictionary<string, ContentTypeRegistration> _onUnpublished = new Dictionary<string, ContentTypeRegistration>();
+		private Dictionary<string, ContentTypeRegistration> _onCopied = new Dictionary<string, ContentTypeRegistration>();
+		private Dictionary<string, ContentTypeRegistration> _onMoved = new Dictionary<string, ContentTypeRegistration>();
 
 		private Func<IContentBase, ContentTypeRegistration, object> _createInstance;
 		private Func<Tentity, string> _getAliasFromContentInstance;
