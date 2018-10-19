@@ -38,7 +38,15 @@ namespace Marsman.UmbracoCodeFirst.Core.Modules
 				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Moving += x; } else { ContentService.Moving -= x; } }, //moving
 				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Copying += x; } else { ContentService.Copying -= x; } }, //copying
 				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Publishing += x; } else { ContentService.Publishing -= x; } }, //publishing
-				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.UnPublishing += x; } else { ContentService.UnPublishing -= x; } }) //unpublishing
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.UnPublishing += x; } else { ContentService.UnPublishing -= x; } }, //unpublishing
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Trashed += x; } else { ContentService.Trashed -= x; } }, //trashed
+				  (x, type) => { }, //deleting
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Saved += x; } else { ContentService.Saved -= x; } }, //saved
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Moved += x; } else { ContentService.Moved -= x; } }, //moved
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Copied += x; } else { ContentService.Copied -= x; } }, //copied
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.Published += x; } else { ContentService.Published -= x; } }, //published
+				  (x, type) => { if (type == SubscribeType.Subscribe) { ContentService.UnPublished += x; } else { ContentService.UnPublished -= x; } } //unpublished
+				  ) 
         {
             _dataTypeModule = dataTypeModule;
             _documentTypeModule = documentTypeModule;

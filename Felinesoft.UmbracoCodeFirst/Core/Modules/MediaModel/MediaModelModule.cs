@@ -33,7 +33,14 @@ namespace Marsman.UmbracoCodeFirst.Core.Modules
 				  (x, type) => { if (type == SubscribeType.Subscribe) { MediaService.Moving += x; } else { MediaService.Moving -= x; } }, //moving
 				  (x, type) => { }, //copying
 				  (x, type) => { }, //publishing
-				  (x, type) => { }) //unpublishing
+				  (x, type) => { }, //unpublishing
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MediaService.Trashed += x; } else { MediaService.Trashed -= x; } }, //trashed
+				  (x, type) => { }, //deleting
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MediaService.Saved += x; } else { MediaService.Saved -= x; } }, //saved
+				  (x, type) => { if (type == SubscribeType.Subscribe) { MediaService.Moved += x; } else { MediaService.Moved -= x; } }, //moved
+				  (x, type) => { }, //copied
+				  (x, type) => { }, //published
+				  (x, type) => { }) //unpublished
 		{
             _dataTypeModule = dataTypeModule;
             _mediaTypeModule = mediaTypeModule;

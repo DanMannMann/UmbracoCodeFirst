@@ -13,4 +13,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 	{
 		bool OnMove(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
+
+	public interface IOnMovedBase { }
+
+	public interface IOnMoved<in T> : IOnMoveBase where T : CodeFirstContentBase
+	{
+		bool OnMoved(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
+	}
 }

@@ -50,6 +50,41 @@ namespace Marsman.UmbracoCodeFirst.Events
 			}
 		}
 
+		internal static bool OnCreatedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnCreated", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnSavedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnSaved", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnDeletedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnDeleted", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnUnpublishedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnUnpublished", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnPublishedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnPublished", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnCopiedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnCopied", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnMovedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnMoved", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
 		internal static bool OnCreateObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return OnEvent("OnCreate", model, contentInstance, httpContext, umbContext, appContext, e);
@@ -63,6 +98,26 @@ namespace Marsman.UmbracoCodeFirst.Events
 		internal static bool OnDeleteObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return OnEvent("OnDelete", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnUnpublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnUnpublish", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnPublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnPublish", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnCopyObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnCopy", model, contentInstance, httpContext, umbContext, appContext, e);
+		}
+
+		internal static bool OnMoveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			return OnEvent("OnMove", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 
 		internal static void OnLoadObject(object model, IPublishedContent contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CodeFirstModelContext modelContext)
@@ -90,26 +145,6 @@ namespace Marsman.UmbracoCodeFirst.Events
 			{
 				throw new CodeFirstException("Not a valid model type");
 			}
-		}
-
-		internal static bool OnUnpublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
-		{
-			return OnEvent("OnUnpublish", model, contentInstance, httpContext, umbContext, appContext, e);
-		}
-
-		internal static bool OnPublishObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
-		{
-			return OnEvent("OnPublish", model, contentInstance, httpContext, umbContext, appContext, e);
-		}
-
-		internal static bool OnCopyObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
-		{
-			return OnEvent("OnCopy", model, contentInstance, httpContext, umbContext, appContext, e);
-		}
-
-		internal static bool OnMoveObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
-		{
-			return OnEvent("OnMove", model, contentInstance, httpContext, umbContext, appContext, e);
 		}
 	}
 

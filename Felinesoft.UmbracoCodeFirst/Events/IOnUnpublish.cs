@@ -13,4 +13,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 	{
 		bool OnUnpublish(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
+
+	public interface IOnUnpublishedBase { }
+
+	public interface IOnUnpublished<in T> : IOnUnpublishedBase where T : CodeFirstContentBase
+	{
+		bool OnUnpublished(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
+	}
 }

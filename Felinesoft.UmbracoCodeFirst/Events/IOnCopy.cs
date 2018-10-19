@@ -13,4 +13,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 	{
 		bool OnCopy(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
+
+	public interface IOnCopiedBase { }
+
+	public interface IOnCopied<in T> : IOnCopyBase where T : CodeFirstContentBase
+	{
+		bool OnCopied(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
+	}
 }

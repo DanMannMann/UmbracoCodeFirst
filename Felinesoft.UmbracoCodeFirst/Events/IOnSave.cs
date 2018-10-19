@@ -16,4 +16,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 	{
 		bool OnSave(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
+
+	public interface IOnSavedBase { }
+
+	public interface IOnSaved<in T> : IOnSaveBase where T : CodeFirstContentBase
+	{
+		bool OnSaved(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
+	}
 }

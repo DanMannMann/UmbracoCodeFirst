@@ -45,7 +45,14 @@ namespace Marsman.UmbracoCodeFirst.Core.Modules
 									  Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> moveEventSubscriber,
 									  Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> copyEventSubscriber,
 									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> publishEventSubscriber,
-									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishEventSubscriber)
+									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishEventSubscriber,
+									  Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> trashedEventSubscriber,
+									  Action<TypedEventHandler<Tservice, DeleteEventArgs<Tentity>>, SubscribeType> deletedEventSubscriber,
+									  Action<TypedEventHandler<Tservice, SaveEventArgs<Tentity>>, SubscribeType> savedEventSubscriber,
+									  Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> movedEventSubscriber,
+									  Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> copiedEventSubscriber,
+									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> publishedEventSubscriber,
+									  Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishedEventSubscriber)
         {
             _dataTypeModule = dataTypeModule;
             _contentTypeModule = contentTypeModule;
@@ -60,6 +67,13 @@ namespace Marsman.UmbracoCodeFirst.Core.Modules
 				copyEventSubscriber,
 				publishEventSubscriber,
 				unpublishEventSubscriber,
+				trashedEventSubscriber,
+				deletedEventSubscriber,
+				savedEventSubscriber,
+				movedEventSubscriber,
+				copiedEventSubscriber,
+				publishedEventSubscriber,
+				unpublishedEventSubscriber,
 				(x, y) => CreateInstanceFromContent(x, y),
 				aliasGetter,
 				(x, y, z) => MapModelToContent(x, y, z)

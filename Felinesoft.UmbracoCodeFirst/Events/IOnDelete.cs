@@ -16,4 +16,11 @@ namespace Marsman.UmbracoCodeFirst.Events
 	{
 		bool OnDelete(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
 	}
+
+	public interface IOnDeletedBase { }
+
+	public interface IOnDeleted<in T> : IOnDeleteBase where T : CodeFirstContentBase
+	{
+		bool OnDeleted(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e);
+	}
 }

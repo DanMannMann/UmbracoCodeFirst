@@ -24,6 +24,14 @@ namespace Marsman.UmbracoCodeFirst.Events
 		private Dictionary<string, ContentTypeRegistration> _onCopy = new Dictionary<string, ContentTypeRegistration>();
 		private Dictionary<string, ContentTypeRegistration> _onPublish = new Dictionary<string, ContentTypeRegistration>();
 		private Dictionary<string, ContentTypeRegistration> _onUnpublish = new Dictionary<string, ContentTypeRegistration>();
+
+		private Dictionary<string, ContentTypeRegistration> _onSaved;
+		private Dictionary<string, ContentTypeRegistration> _onDeleted;
+		private Dictionary<string, ContentTypeRegistration> _onPublished;
+		private Dictionary<string, ContentTypeRegistration> _onUnpublished;
+		private Dictionary<string, ContentTypeRegistration> _onCopied;
+		private Dictionary<string, ContentTypeRegistration> _onMoved;
+
 		private Func<IContentBase, ContentTypeRegistration, object> _createInstance;
 		private Func<Tentity, string> _getAliasFromContentInstance;
 		private Action<Tentity, CodeFirstContentBase<Tnodedetails>, ContentTypeRegistration> _mapModelToContent;
@@ -36,6 +44,13 @@ namespace Marsman.UmbracoCodeFirst.Events
 		private Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> _copyEventSubscriber;
 		private Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> _publishEventSubscriber;
 		private Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> _unpublishEventSubscriber;
+		private Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> _trashedEventSubscriber;
+		private Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> _unpublishedEventSubscriber;
+		private Action<TypedEventHandler<Tservice, DeleteEventArgs<Tentity>>, SubscribeType> _deletedEventSubscriber;
+		private Action<TypedEventHandler<Tservice, SaveEventArgs<Tentity>>, SubscribeType> _savedEventSubscriber;
+		private Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> _movedEventSubscriber;
+		private Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> _copiedEventSubscriber;
+		private Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> _publishedEventSubscriber;
 		#endregion
 
 		internal ModelEventHandler(
@@ -48,7 +63,14 @@ namespace Marsman.UmbracoCodeFirst.Events
 						    	 Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> copyEventSubscriber,
 								 Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> publishEventSubscriber,
 								 Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishEventSubscriber,
-                                 Func<IContentBase, ContentTypeRegistration, object> createInstance, 
+								 Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> trashedEventSubscriber,
+								 Action<TypedEventHandler<Tservice, DeleteEventArgs<Tentity>>, SubscribeType> deletedEventSubscriber,
+						 		 Action<TypedEventHandler<Tservice, SaveEventArgs<Tentity>>, SubscribeType> savedEventSubscriber,
+						 		 Action<TypedEventHandler<Tservice, MoveEventArgs<Tentity>>, SubscribeType> movedEventSubscriber,
+								 Action<TypedEventHandler<Tservice, CopyEventArgs<Tentity>>, SubscribeType> copiedEventSubscriber,
+								 Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> publishedEventSubscriber,
+								 Action<TypedEventHandler<IPublishingStrategy, PublishEventArgs<Tentity>>, SubscribeType> unpublishedEventSubscriber,
+								 Func<IContentBase, ContentTypeRegistration, object> createInstance, 
 								 Func<Tentity, string> getAliasFromContentInstance,
 								 Action<Tentity, CodeFirstContentBase<Tnodedetails>, ContentTypeRegistration> mapModelToContent)
 		{
@@ -65,7 +87,15 @@ namespace Marsman.UmbracoCodeFirst.Events
 			_copyEventSubscriber = copyEventSubscriber;
 			_publishEventSubscriber = publishEventSubscriber;
 			_unpublishEventSubscriber = unpublishEventSubscriber;
-        }
+
+			_trashedEventSubscriber = trashedEventSubscriber;
+			_deletedEventSubscriber = deletedEventSubscriber;
+			_savedEventSubscriber = savedEventSubscriber;
+			_movedEventSubscriber = movedEventSubscriber;
+			_copiedEventSubscriber = copiedEventSubscriber;
+			_publishedEventSubscriber = publishedEventSubscriber;
+			_unpublishedEventSubscriber = unpublishedEventSubscriber;
+		}
 
 		internal void Initialise(IEnumerable<Type> types)
 		{
@@ -78,6 +108,13 @@ namespace Marsman.UmbracoCodeFirst.Events
 				RegisterEvents<IOnCopyBase>(type, _onCopy);
 				RegisterEvents<IOnPublishBase>(type, _onPublish);
 				RegisterEvents<IOnUnpublishBase>(type, _onUnpublish);
+
+				RegisterEvents<IOnSavedBase>(type, _onSaved);
+				RegisterEvents<IOnDeletedBase>(type, _onDeleted);
+				RegisterEvents<IOnMovedBase>(type, _onMoved);
+				RegisterEvents<IOnCopiedBase>(type, _onCopied);
+				RegisterEvents<IOnPublishedBase>(type, _onPublished);
+				RegisterEvents<IOnUnpublishedBase>(type, _onUnpublished);
 			}
 
 			_trashEventSubscriber?.Invoke(Service_Trashing, SubscribeType.Subscribe);
@@ -88,6 +125,14 @@ namespace Marsman.UmbracoCodeFirst.Events
 			_copyEventSubscriber?.Invoke(Service_Copying, SubscribeType.Subscribe);
 			_publishEventSubscriber?.Invoke(Service_Publishing, SubscribeType.Subscribe);
 			_unpublishEventSubscriber?.Invoke(Service_UnPublishing, SubscribeType.Subscribe);
+
+			_trashedEventSubscriber?.Invoke(Service_Trashed, SubscribeType.Subscribe);
+			_savedEventSubscriber?.Invoke(Service_Saved, SubscribeType.Subscribe);
+			_deletedEventSubscriber?.Invoke(Service_Deleted, SubscribeType.Subscribe);
+			_movedEventSubscriber?.Invoke(Service_Moved, SubscribeType.Subscribe);
+			_copiedEventSubscriber?.Invoke(Service_Copied, SubscribeType.Subscribe);
+			_publishedEventSubscriber?.Invoke(Service_Published, SubscribeType.Subscribe);
+			_unpublishedEventSubscriber?.Invoke(Service_UnPublished, SubscribeType.Subscribe);
 		}
 
 		private void RegisterEvents<Tevent>(Type type, Dictionary<string, ContentTypeRegistration> register)
@@ -112,6 +157,14 @@ namespace Marsman.UmbracoCodeFirst.Events
 			_copyEventSubscriber?.Invoke(Service_Copying, SubscribeType.Unsubscribe);
 			_publishEventSubscriber?.Invoke(Service_Publishing, SubscribeType.Unsubscribe);
 			_unpublishEventSubscriber?.Invoke(Service_UnPublishing, SubscribeType.Unsubscribe);
+
+			_trashedEventSubscriber?.Invoke(Service_Trashed, SubscribeType.Unsubscribe);
+			_savedEventSubscriber?.Invoke(Service_Saved, SubscribeType.Unsubscribe);
+			_deletedEventSubscriber?.Invoke(Service_Deleted, SubscribeType.Unsubscribe);
+			_movedEventSubscriber?.Invoke(Service_Moved, SubscribeType.Unsubscribe);
+			_copiedEventSubscriber?.Invoke(Service_Copied, SubscribeType.Unsubscribe);
+			_publishedEventSubscriber?.Invoke(Service_Published, SubscribeType.Unsubscribe);
+			_unpublishedEventSubscriber?.Invoke(Service_UnPublished, SubscribeType.Unsubscribe);
 		}
 
 		private void HandleEvent(Dictionary<string, ContentTypeRegistration> eventList, Tentity entity, CancellableEventArgs e, Func<object, IContentBase, HttpContextBase, UmbracoContext, ApplicationContext, CancellableEventArgs, bool> eventDispatcher)
@@ -134,6 +187,104 @@ namespace Marsman.UmbracoCodeFirst.Events
 		}
 
 		#region Event Handlers
+
+
+		private void Service_UnPublished(IPublishingStrategy sender, PublishEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onUnpublished)
+				{
+					foreach (var entity in e.PublishedEntities)
+					{
+						HandleEvent(_onUnpublished, entity, e, ModelEventDispatcher.OnUnpublishedObject);
+					}
+				}
+			}
+		}
+
+		private void Service_Published(IPublishingStrategy sender, PublishEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onPublished)
+				{
+					foreach (var entity in e.PublishedEntities)
+					{
+						HandleEvent(_onPublished, entity, e, ModelEventDispatcher.OnPublishObject);
+					}
+				}
+			}
+		}
+
+		private void Service_Copied(Tservice sender, CopyEventArgs<Tentity> e)
+		{
+
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onCopied)
+				{
+					HandleEvent(_onCopied, e.Copy, e, ModelEventDispatcher.OnCopiedObject);
+				}
+			}
+		}
+
+		private void Service_Moved(Tservice sender, MoveEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onMoved)
+				{
+					foreach (var entity in e.MoveInfoCollection.Select(x => x.Entity))
+					{
+						HandleEvent(_onMoved, entity, e, ModelEventDispatcher.OnMovedObject);
+					}
+				}
+			}
+		}
+
+		private void Service_Deleted(Tservice sender, DeleteEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onDeleted)
+				{
+					foreach (var entity in e.DeletedEntities)
+					{
+						HandleEvent(_onDeleted, entity, e, ModelEventDispatcher.OnDeleteObject);
+					}
+				}
+			}
+		}
+
+		private void Service_Saved(Tservice sender, SaveEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onSaved)
+				{
+					foreach (var entity in e.SavedEntities)
+					{
+						HandleEvent(_onSaved, entity, e, ModelEventDispatcher.OnSavedObject);
+					}
+				}
+			}
+		}
+
+		private void Service_Trashed(Tservice sender, MoveEventArgs<Tentity> e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				lock (_onDeleted)
+				{
+					foreach (var entity in e.MoveInfoCollection.Select(x => x.Entity))
+					{
+						HandleEvent(_onDeleted, entity, e, ModelEventDispatcher.OnDeletedObject);
+					}
+				}
+			}
+		}
+
 		private void Service_Saving(Tservice sender, SaveEventArgs<Tentity> e)
 		{
 			if (CodeFirstManager.Current.Features.EnableContentEvents)
