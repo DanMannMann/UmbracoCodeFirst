@@ -211,7 +211,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 				{
 					foreach (var entity in e.PublishedEntities)
 					{
-						HandleEvent(_onPublished, entity, e, ModelEventDispatcher.OnPublishObject);
+						HandleEvent(_onPublished, entity, e, ModelEventDispatcher.OnPublishedObject);
 					}
 				}
 			}
@@ -251,7 +251,7 @@ namespace Marsman.UmbracoCodeFirst.Events
 				{
 					foreach (var entity in e.DeletedEntities)
 					{
-						HandleEvent(_onDeleted, entity, e, ModelEventDispatcher.OnDeleteObject);
+						HandleEvent(_onDeleted, entity, e, ModelEventDispatcher.OnDeletedObject);
 					}
 				}
 			}

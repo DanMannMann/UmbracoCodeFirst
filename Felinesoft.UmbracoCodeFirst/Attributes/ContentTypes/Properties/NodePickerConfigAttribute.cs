@@ -108,7 +108,11 @@ namespace Marsman.UmbracoCodeFirst.Attributes
 		public void Initialise(PropertyInfo propertyTarget)
         {
             _targetType = propertyTarget.PropertyType;
-			if (_targetType.IsGenericType && _targetType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+			if (_targetType.IsGenericType && _targetType.Inherits<DataTypes.NodePicker>())
+			{
+				_targetType = _targetType.GetGenericArguments().First();
+			}
+			else if (_targetType.IsGenericType && _targetType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
 			{
 				_targetType = _targetType.GenericTypeArguments.First();
 			}

@@ -50,11 +50,6 @@ namespace Marsman.UmbracoCodeFirst.Events
 			}
 		}
 
-		internal static bool OnCreatedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
-		{
-			return OnEvent("OnCreated", model, contentInstance, httpContext, umbContext, appContext, e);
-		}
-
 		internal static bool OnSavedObject(object model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
 		{
 			return OnEvent("OnSaved", model, contentInstance, httpContext, umbContext, appContext, e);
