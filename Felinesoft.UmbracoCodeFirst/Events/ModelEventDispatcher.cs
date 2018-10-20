@@ -260,5 +260,79 @@ namespace Marsman.UmbracoCodeFirst.Events
 				}
 			}
 		}
+
+
+
+		internal static bool OnSaved(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnSaved<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnSaved<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnSaved<T>).OnSaved(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnDeleted(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnDeleted<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnDeleted<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnDeleted<T>).OnDeleted(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnCopied(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnCopied<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnCopied<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnCopied<T>).OnCopied(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnMoved(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnMoved<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnMoved<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnMoved<T>).OnMoved(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnPublished(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnPublished<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnPublished<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnPublished<T>).OnPublished(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
+
+		internal static bool OnUnpublished(T model, IContentBase contentInstance, HttpContextBase httpContext, UmbracoContext umbContext, ApplicationContext appContext, CancellableEventArgs e)
+		{
+			if (CodeFirstManager.Current.Features.EnableContentEvents)
+			{
+				if (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>()?.EventHandlerType?.Implements<IOnUnpublished<T>>() == true)
+				{
+					return (typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().ContentIsSelfHandling ? model as IOnUnpublished<T> : typeof(T).GetCodeFirstAttribute<EventHandlerAttribute>().EventHandler as IOnUnpublished<T>).OnUnpublished(model, contentInstance, httpContext, umbContext, appContext, e);
+				}
+			}
+			return true;
+		}
 	}
 }
